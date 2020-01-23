@@ -1,4 +1,15 @@
 - hosts: all
+  gather_facts: false
+  strategy: free
+  tasks:
+  - name: wait for machine and ssh
+    wait_for_connection:
+      timeout: 900
+      sleep: 10
+    retries: 20
+    
+
+- hosts: all
   become: yes
   strategy: free
   roles:
