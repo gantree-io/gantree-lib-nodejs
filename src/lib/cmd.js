@@ -6,6 +6,7 @@ module.exports = {
   exec: async (command, options={}) => {
     return new Promise((resolve, reject) => {
       const items = command.split(' ');
+      console.log(`spawn: ${command}, ${JSON.stringify(options)}`);
       const child = spawn(items[0], items.slice(1), options);
       if(options.detached) {
         child.unref();
@@ -30,6 +31,7 @@ module.exports = {
 
       child.stderr.on('data', (data) => {
         output = Buffer.concat([output, data]);
+        console.log(`Verb: ${options.verbose}`);
         if (options.verbose) {
           console.log(data.toString());
         }
@@ -37,7 +39,7 @@ module.exports = {
 
       child.on('close', (code) => {
         if (code !== 0 && !match) {
-          console.error(`Command execution failed with code: ${code}`);
+          console.log(`command: ${command} failed with code: ${code}`);
           reject(new Error(code));
         }
         else {
