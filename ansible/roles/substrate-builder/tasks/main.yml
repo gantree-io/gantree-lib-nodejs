@@ -1,0 +1,45 @@
+---
+# tasks file for substrate-builder
+- name: install curl
+  apt:
+    name: curl
+    update_cache: yes
+
+- name: install python3
+  apt:
+    name: python3
+
+# taken from https://getsubstrate.io
+- name: install substrate apt requirements for ubuntu
+  apt:
+    pkg:
+    - cmake
+    - pkg-config
+    - libssl-dev
+    - git
+    - gcc
+    - build-essential
+    - clang
+    - libclang-dev
+
+- name: setup rustup
+  include_role:
+    name: ansible-rustup
+  vars:
+    rustup_user: ryan_miller
+
+# this is not needed if we're explicitly calling rustup
+#- name: reboot
+#  reboot:
+#    reboot_timeout: 3600
+
+# explicitly calling rustup because .bashrc doesn't get run
+# over ssh in non-interactive mode, so rustup is not on path :S
+- name: configure rustup
+  shell: |
+    ~/.cargo/bin/rustup default stable
+    ~/.cargo/bin/rustup update nightly
+    ~/.cargo/bin/rustup target add wasm32-unknown-unknown --toolchain nightly
+  become: yes
+  become_user: ryan_miller
+

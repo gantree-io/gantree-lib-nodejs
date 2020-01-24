@@ -7,12 +7,12 @@
       timeout: 900
       sleep: 10
     retries: 20
-    
 
 - hosts: all
   become: yes
   strategy: free
   roles:
+  - substrate-builder
   - { role: node-exporter, when: "node_exporter_enabled|default(false)|bool == true" }
   - vpnpeer-setup
   - polkadot-common
