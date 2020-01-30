@@ -1,0 +1,8 @@
+---
+- name: install python3
+  apt:
+    name: python3
+
+- name: install python3-pip
+  apt:
+    name: python3-pip
