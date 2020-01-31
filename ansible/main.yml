@@ -14,13 +14,11 @@
   roles:
   - substrate-builder
   - { role: node-exporter, when: "node_exporter_enabled|default(false)|bool == true" }
-  - vpnpeer-setup
   - polkadot-common
 
 - hosts: all
   become: yes
   roles:
-  - vpnpeer
   - common
 
 - hosts: public

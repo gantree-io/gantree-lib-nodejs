@@ -3,9 +3,7 @@
 {{ this.ipAddress }}
 
 [validator-{{@index}}:vars]
-ansible_user={{ this.sshUser }}
-vpnpeer_address={{ this.vpnAddress }}
-vpnpeer_cidr_suffix=24
+ansible_user={{ this.sshUser }
 telemetryUrl={{ ../validatorTelemetryUrl }}
 loggingFilter='{{{ ../validatorLoggingFilter }}}'
 
@@ -23,8 +21,6 @@ validator-{{@index}}
 
 [public-{{@index}}:vars]
 ansible_user={{ this.sshUser }}
-vpnpeer_address={{ this.vpnAddress }}
-vpnpeer_cidr_suffix=24
 telemetryUrl={{ ../publicTelemetryUrl }}
 loggingFilter='{{{ ../publicLoggingFilter }}}'
 

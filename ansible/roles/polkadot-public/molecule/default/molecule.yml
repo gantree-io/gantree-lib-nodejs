@@ -22,10 +22,8 @@ provisioner:
 
     host_vars:
       validator-node:
-        vpnpeer_address: 10.0.0.1
         p2p_peer_id: peerid1
       public-node:
-        vpnpeer_address: 10.0.0.2
         p2p_peer_id: peerid2
 verifier:
   name: testinfra

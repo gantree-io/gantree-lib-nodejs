@@ -22,11 +22,11 @@ class Terraform {
 
   async sync() {
     this._initializeTerraform();
-    try {
-      await this._initState();
-    } catch(e) {
-      console.log(`Allowed error creating state backend: ${e.message}`);
-    }
+    // try {
+    //   await this._initState();
+    // } catch(e) {
+    //   console.log(`Allowed error creating state backend: ${e.message}`);
+    // }
 
     const sshKeys = ssh.keys();
 
@@ -81,11 +81,12 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter);
-      const backendConfig = this._backendConfig(type, counter);
+      // const backendConfig = this._backendConfig(type, counter);
       const nodeName = this._nodeName(type, counter);
       createPromises.push(new Promise(async (resolve) => {
         const options = { cwd };
-        await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+        // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+        await this._cmd(`init -var state_project=${this.config.state.project}`, options);
 
         this._createVarsFile(cwd, nodes[counter], sshKey, nodeName);
 
@@ -102,10 +103,11 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
-      const backendConfig = this._backendConfig(type, counter);
+      // const backendConfig = this._backendConfig(type, counter);
       destroyPromises.push(new Promise(async (resolve) => {
         const options = { cwd };
-        await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+        // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+        await this._cmd(`init -var state_project=${this.config.state.project}`, options);
 
         await this._cmd('destroy -lock=false -auto-approve', options);
 
@@ -120,14 +122,14 @@ class Terraform {
     return cmd.exec(`terraform ${command}`, actualOptions);
   }
 
-  async _initState(){
-    const cwd = this._terraformNodeDirPath('remote-state');
-    const options = { cwd };
+  // async _initState(){
+  //   const cwd = this._terraformNodeDirPath('remote-state');
+  //   const options = { cwd };
 
-    await this._cmd(`init -var state_project=${this.config.state.project}`, options);
-    const bucketName = this._bucketName()
-    return this._cmd(`apply -var state_project=${this.config.state.project} -var name=${bucketName} -auto-approve`, options);
-  }
+  //   await this._cmd(`init -var state_project=${this.config.state.project}`, options);
+  //   const bucketName = this._bucketName()
+  //   return this._cmd(`apply -var state_project=${this.config.state.project} -var name=${bucketName} -auto-approve`, options);
+  // }
 
   _createVarsFile(cwd, node, sshKey, nodeName) {
     const data = {
@@ -152,7 +154,7 @@ class Terraform {
     fs.removeSync(this.terraformFilesPath);
     fs.ensureDirSync(this.terraformFilesPath);
 
-    this._copyTerraformFiles('remote-state', 0, 'remote-state');
+    // this._copyTerraformFiles('remote-state', 0, 'remote-state');
     for (let counter = 0; counter < this.config.validators.nodes.length; counter++) {
       this._copyTerraformFiles('validator', counter, this.config.validators.nodes[counter].provider);
     }

@@ -69,15 +69,15 @@ class Ansible {
     } else {
       data.nodeExporterEnabled = false;
     }
-    if (this.config.polkadotRestart && this.config.polkadotRestart.enabled) {
-      data.polkadotRestartEnabled = true;
-      data.polkadotRestartMinute = this.config.polkadotRestart.minute || '*';
-      data.polkadotRestartHour = this.config.polkadotRestart.hour || '*';
-      data.polkadotRestartDay = this.config.polkadotRestart.day || '*';
-      data.polkadotRestartMonth = this.config.polkadotRestart.month || '*';
-      data.polkadotRestartWeekDay = this.config.polkadotRestart.weekDay || '*';
+    if (this.config.nodeRestart && this.config.nodeRestart.enabled) {
+      data.nodeRestartEnabled = true;
+      data.nodeRestartMinute = this.config.nodeRestart.minute || '*';
+      data.nodeRestartHour = this.config.nodeRestart.hour || '*';
+      data.nodeRestartDay = this.config.nodeRestart.day || '*';
+      data.nodeRestartMonth = this.config.nodeRestart.month || '*';
+      data.nodeRestartWeekDay = this.config.nodeRestart.weekDay || '*';
     } else {
-      data.polkadotRestartEnabled = false;
+      data.nodeRestartEnabled = false;
     }
 
     tpl.create(origin, target, data);
