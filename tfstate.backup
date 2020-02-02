@@ -1,0 +1,544 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.20",
+  "serial": 457,
+  "lineage": "dc6c4097-beb5-d35b-500b-b175ffa7bb8d",
+  "outputs": {
+    "ip_address": {
+      "value": [
+        "18.185.238.184"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string"
+        ]
+      ]
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "ubuntu",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "architecture": "x86_64",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/sda1",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "0",
+                  "snapshot_id": "snap-0ce94def453a46677",
+                  "volume_size": "8",
+                  "volume_type": "gp2"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              },
+              {
+                "device_name": "/dev/sdb",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral0"
+              },
+              {
+                "device_name": "/dev/sdc",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral1"
+              }
+            ],
+            "creation_date": "2020-01-15T00:31:14.000Z",
+            "description": "Canonical, Ubuntu, 18.04 LTS, amd64 bionic image build on 2020-01-12",
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "name",
+                "values": [
+                  "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+                ]
+              },
+              {
+                "name": "virtualization-type",
+                "values": [
+                  "hvm"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-0b418580298265d5c",
+            "image_id": "ami-0b418580298265d5c",
+            "image_location": "099720109477/ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20200112",
+            "image_owner_alias": null,
+            "image_type": "machine",
+            "kernel_id": null,
+            "most_recent": true,
+            "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20200112",
+            "name_regex": null,
+            "owner_id": "099720109477",
+            "owners": [
+              "099720109477"
+            ],
+            "platform": null,
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": null,
+            "root_device_name": "/dev/sda1",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-0ce94def453a46677",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "virtualization_type": "hvm"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "main-validator0",
+      "each": "list",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-0b418580298265d5c",
+            "arn": "arn:aws:ec2:eu-central-1:340462514730:instance/i-089ce1703e64f7098",
+            "associate_public_ip_address": true,
+            "availability_zone": "eu-central-1a",
+            "cpu_core_count": 1,
+            "cpu_threads_per_core": 2,
+            "credit_specification": [],
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "host_id": null,
+            "iam_instance_profile": "",
+            "id": "i-089ce1703e64f7098",
+            "instance_initiated_shutdown_behavior": null,
+            "instance_state": "running",
+            "instance_type": "m4.large",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "validator0",
+            "monitoring": false,
+            "network_interface": [],
+            "network_interface_id": null,
+            "password_data": "",
+            "placement_group": "",
+            "primary_network_interface_id": "eni-0b6be54f7480088b7",
+            "private_dns": "ip-172-26-40-81.eu-central-1.compute.internal",
+            "private_ip": "172.26.40.81",
+            "public_dns": "ec2-18-185-238-184.eu-central-1.compute.amazonaws.com",
+            "public_ip": "18.185.238.184",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "encrypted": false,
+                "iops": 1200,
+                "kms_key_id": "",
+                "volume_id": "vol-04f53c5ec9505dcc9",
+                "volume_size": 400,
+                "volume_type": "gp2"
+              }
+            ],
+            "security_groups": [],
+            "source_dest_check": true,
+            "subnet_id": "subnet-077ead2546f1aa5d4",
+            "tags": {
+              "Name": "validator0-0"
+            },
+            "tenancy": "default",
+            "timeouts": null,
+            "user_data": null,
+            "user_data_base64": null,
+            "volume_tags": {},
+            "vpc_security_group_ids": [
+              "sg-02ca863efada83f5d"
+            ]
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "aws_security_group.main-validator0",
+            "aws_subnet.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_internet_gateway",
+      "name": "main-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "igw-0ea514e2f56ea61fe",
+            "owner_id": "340462514730",
+            "tags": {
+              "Name": "validator0"
+            },
+            "vpc_id": "vpc-0145fc992a3360499"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_key_pair",
+      "name": "key-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "fingerprint": "39:bc:d0:80:c0:c4:69:13:3f:c3:3c:50:76:9f:3c:a8",
+            "id": "validator0",
+            "key_name": "validator0",
+            "key_name_prefix": null,
+            "key_pair_id": "key-02109e4895fbce789",
+            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDojC2JLtc2uLBywK9dW81dXkxIR5CrhhvTOEn41yM3vDA0bXW59QvRhKsCU1+tvWjDhmdqA9FJcYGLKC7icXvF99vXS5TBk8BW3UEPqBCNv48z9WEMfgTgfM6L2eNivlrWlvYirwZBLC9ZTfKLYF+eRT/bGBKJfNkq3EOpARTJpk4MQeMb7H3isam6lLZk2tcLR6ftUGA/PSikLx3PYgV9LLi0cs8xLsAh1M8YOI+lmPqx26KOB8jJKZ+mQts6F7KfvgrvkdU5zHu5S1Rjhw2AHZ+dExD7fOqOgYkGz58PMKFedBEn7rP0P9POMuJ1BOb3xRN1mdC2k+eS+CtfYdN",
+            "tags": {}
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "main-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "rtb-0b783884b2c8a7ac6",
+            "owner_id": "340462514730",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "cidr_block": "0.0.0.0/0",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-0ea514e2f56ea61fe",
+                "instance_id": "",
+                "ipv6_cidr_block": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Name": "validator0"
+            },
+            "vpc_id": "vpc-0145fc992a3360499"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_internet_gateway.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "main-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": null,
+            "id": "rtbassoc-04f1b9187197a67e9",
+            "route_table_id": "rtb-0b783884b2c8a7ac6",
+            "subnet_id": "subnet-077ead2546f1aa5d4"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_internet_gateway.main-validator0",
+            "aws_route_table.main-validator0",
+            "aws_subnet.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "main-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:340462514730:security-group/sg-02ca863efada83f5d",
+            "description": "Managed by Terraform",
+            "egress": [],
+            "id": "sg-02ca863efada83f5d",
+            "ingress": [],
+            "name": "externalssh",
+            "name_prefix": null,
+            "owner_id": "340462514730",
+            "revoke_rules_on_delete": false,
+            "tags": null,
+            "timeouts": null,
+            "vpc_id": "vpc-0145fc992a3360499"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "allow_all-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "description": null,
+            "from_port": 0,
+            "id": "sgrule-2366968186",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "-1",
+            "security_group_id": "sg-02ca863efada83f5d",
+            "self": false,
+            "source_security_group_id": null,
+            "to_port": 0,
+            "type": "egress"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "aws_security_group.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "externalssh-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "description": null,
+            "from_port": 22,
+            "id": "sgrule-2870863015",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "tcp",
+            "security_group_id": "sg-02ca863efada83f5d",
+            "self": false,
+            "source_security_group_id": null,
+            "to_port": 22,
+            "type": "ingress"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "aws_security_group.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "node-exporter-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "description": null,
+            "from_port": 9100,
+            "id": "sgrule-3665140480",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "tcp",
+            "security_group_id": "sg-02ca863efada83f5d",
+            "self": false,
+            "source_security_group_id": null,
+            "to_port": 9100,
+            "type": "ingress"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "aws_security_group.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "p2p-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "description": null,
+            "from_port": 30333,
+            "id": "sgrule-1119131757",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "tcp",
+            "security_group_id": "sg-02ca863efada83f5d",
+            "self": false,
+            "source_security_group_id": null,
+            "to_port": 30333,
+            "type": "ingress"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "aws_security_group.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "vpn-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "description": null,
+            "from_port": 51820,
+            "id": "sgrule-2148667901",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "udp",
+            "security_group_id": "sg-02ca863efada83f5d",
+            "self": false,
+            "source_security_group_id": null,
+            "to_port": 51820,
+            "type": "ingress"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "aws_security_group.main-validator0",
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "main-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:340462514730:subnet/subnet-077ead2546f1aa5d4",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "eu-central-1a",
+            "availability_zone_id": "euc1-az2",
+            "cidr_block": "172.26.32.0/19",
+            "id": "subnet-077ead2546f1aa5d4",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "map_public_ip_on_launch": true,
+            "owner_id": "340462514730",
+            "tags": null,
+            "timeouts": null,
+            "vpc_id": "vpc-0145fc992a3360499"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_vpc.main-validator0"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main-validator0",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:340462514730:vpc/vpc-0145fc992a3360499",
+            "assign_generated_ipv6_cidr_block": false,
+            "cidr_block": "172.26.0.0/16",
+            "default_network_acl_id": "acl-02405f0297f41fd5f",
+            "default_route_table_id": "rtb-03ea084d531b145af",
+            "default_security_group_id": "sg-008edae123616515c",
+            "dhcp_options_id": "dopt-42fb3b28",
+            "enable_classiclink": null,
+            "enable_classiclink_dns_support": null,
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "id": "vpc-0145fc992a3360499",
+            "instance_tenancy": "default",
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "main_route_table_id": "rtb-03ea084d531b145af",
+            "owner_id": "340462514730",
+            "tags": {
+              "Name": "validator0"
+            }
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ]
+}

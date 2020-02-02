@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs-extra')
 
 const cmd = require('../cmd');
 const { Project } = require('../project');
@@ -21,9 +22,10 @@ class Ansible {
 
   async sync() {
     const inventoryPath = this._writeInventory();
+    console.log({inventoryPath})
     //return this._cmd(`all -b -m ping -i ${inventoryFileName}`, this.options);
     //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`);
-    return this._cmd(`main.yml -f 30 -i ${inventoryPath}`);
+    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`);
   }
 
   async clean() {
@@ -39,24 +41,26 @@ class Ansible {
     const origin = path.resolve(__dirname, '..', '..', '..', 'tpl', 'ansible_inventory');
     const project = new Project(this.config);
     const buildDir = path.join(project.path(), 'ansible');
+    fs.ensureDirSync(buildDir, {recursive: true})
     const target = path.join(buildDir, inventoryFileName);
     const validators = this._genTplNodes(this.config.validators);
-    const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
+    console.log({origin, project, buildDir, target, validators})
+    // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
     const data = {
       project: this.config.project,
 
-      polkadotBinaryUrl: this.config.polkadotBinary.url,
-      polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
-      polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',
+      // polkadotBinaryUrl: this.config.polkadotBinary.url,
+      // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
+      // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',
 
       validators,
-      publicNodes,
+      // publicNodes,
 
       validatorTelemetryUrl: this.config.validators.telemetryUrl,
-      publicTelemetryUrl: this.config.publicNodes.telemetryUrl,
+      // publicTelemetryUrl: this.config.publicNodes.telemetryUrl,
 
       validatorLoggingFilter: this.config.validators.loggingFilter,
-      publicLoggingFilter: this.config.publicNodes.loggingFilter,
+      // publicLoggingFilter: this.config.publicNodes.loggingFilter,
 
       buildDir,
     };
@@ -80,6 +84,7 @@ class Ansible {
       data.nodeRestartEnabled = false;
     }
 
+    console.log({origin, target, data})
     tpl.create(origin, target, data);
 
     return target;
@@ -87,16 +92,16 @@ class Ansible {
 
   _genTplNodes(nodeSet, offset=0) {
     const output = [];
-    const vpnAddressBase = '10.0.0';
-    let counter = offset;
+    // const vpnAddressBase = '10.0.0';
+    // let counter = offset;
 
     nodeSet.nodes.forEach((node) => {
       node.ipAddresses.forEach((ipAddress) => {
-        counter++;
+        // counter++;
         const item = {
           ipAddress,
           sshUser: node.sshUser,
-          vpnAddress: `${vpnAddressBase}.${counter}`
+          // vpnAddress: `${vpnAddressBase}.${counter}`
         };
         output.push(item);
       });

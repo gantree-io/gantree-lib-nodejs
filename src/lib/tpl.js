@@ -13,9 +13,14 @@ module.exports = {
     const template = Handlebars.compile(sourceTpl);
     const contents = template(data);
 
-    const targetDir = path.dirname(target);
-    fs.mkdirSync(targetDir, {recursive: true});
+    // console.log({data})
 
+    // const targetDir = path.dirname(target);
+    // console.log({source, target});
+    // fs.rmdirSync(targetDir, {recursive: true});
+    // fs.mkdirSync(targetDir, {recursive: true});
+
+    // console.log(targetDir)
     fs.writeFileSync(target, contents);
   }
 }

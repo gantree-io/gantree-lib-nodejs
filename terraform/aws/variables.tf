@@ -1,7 +1,3 @@
-variable "state_project" {
-  default = "my_project"
-}
-
 variable "project_id" {
   default = "my_project"
 }

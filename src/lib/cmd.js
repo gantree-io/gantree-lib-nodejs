@@ -1,13 +1,26 @@
 const { Buffer } = require('buffer');
-const { spawn } = require('child_process');
+const { exec } = require('child_process');
 
 
 module.exports = {
   exec: async (command, options={}) => {
     return new Promise((resolve, reject) => {
-      const items = command.split(' ');
-      console.log(`spawn: ${command}, ${JSON.stringify(options)}`);
-      const child = spawn(items[0], items.slice(1), options);
+
+      console.log({command})
+
+      // ansible main.yml -f 30
+      /*
+        this.options = {
+          cwd: this.ansiblePath,
+          verbose: true
+        };
+      */
+      // const items = command.split(' ');
+      // const items = command.match(/\w+|"[^"]+"/g)
+      // console.log({items})
+      console.log(`exec: ${command}, ${JSON.stringify(options)}`);
+      // const child = exec(items[0], items.slice(1), options);
+      const child = exec(command, options);
       if(options.detached) {
         child.unref();
         resolve(child.pid);
@@ -23,14 +36,14 @@ module.exports = {
           resolve();
           return;
         }
-        output = Buffer.concat([output, data]);
+        output = Buffer.concat([output, Buffer.from(data)]);
         if (options.verbose) {
           console.log(data.toString());
         }
       });
 
       child.stderr.on('data', (data) => {
-        output = Buffer.concat([output, data]);
+        output = Buffer.concat([output, Buffer.from(data)]);
         console.log(`Verb: ${options.verbose}`);
         if (options.verbose) {
           console.log(data.toString());

@@ -1,6 +1,6 @@
 ---
 # tasks file for substrate-keygen
-- import_tasks: install-curl.yaml
+- import_tasks: install-subkey.yaml
   tags:
-    - substrate-builder
-    - substrate-builder:install-curl
+    - substrate-keygen
+    - substrate-keygen:install-subkey

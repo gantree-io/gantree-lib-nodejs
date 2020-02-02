@@ -1,9 +1,7 @@
 #!/bin/bash
 
-export SSH_ID_RSA_PUBLIC={public_node_ssh_key}
 export SSH_ID_RSA_VALIDATOR={validator_node_ssh_key}
 
-ssh-add {public_node_ssh_key}
 ssh-add {validator_node_ssh_key}
 
 export GOOGLE_APPLICATION_CREDENTIALS={google_credential_file}

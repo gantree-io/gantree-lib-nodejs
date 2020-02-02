@@ -21,7 +21,9 @@ class Terraform {
   }
 
   async sync() {
+    console.log('Initialising Terraform')
     this._initializeTerraform();
+    // console.log('init')
     // try {
     //   await this._initState();
     // } catch(e) {
@@ -29,6 +31,8 @@ class Terraform {
     // }
 
     const sshKeys = ssh.keys();
+
+    // console.log({sshKeys})
 
     let validatorSyncPromises = [];
     try {
@@ -38,11 +42,11 @@ class Terraform {
     }
 
     let publicNodeSyncPromises = [];
-    try {
-      publicNodeSyncPromises = await this._create('publicNode', sshKeys.publicNodePublicKey, this.config.publicNodes.nodes);
-    } catch(e) {
-      console.log(`Could not get publicNodes sync promises: ${e.message}`);
-    }
+    // try {
+    //   publicNodeSyncPromises = await this._create('publicNode', sshKeys.publicNodePublicKey, this.config.publicNodes.nodes);
+    // } catch(e) {
+    //   console.log(`Could not get publicNodes sync promises: ${e.message}`);
+    // }
     const syncPromises = validatorSyncPromises.concat(publicNodeSyncPromises)
 
     return Promise.all(syncPromises);
@@ -58,11 +62,11 @@ class Terraform {
     }
 
     let publicNodesCleanPromises = []
-    try {
-      publicNodesCleanPromises = await this._destroy('publicNode', this.config.publicNodes.nodes);
-    } catch(e) {
-      console.log(`Could not get publicNodes clean promises: ${e.message}`);
-    }
+    // try {
+    //   publicNodesCleanPromises = await this._destroy('publicNode', this.config.publicNodes.nodes);
+    // } catch(e) {
+    //   console.log(`Could not get publicNodes clean promises: ${e.message}`);
+    // }
 
     const cleanPromises = validatorCleanPromises.concat(publicNodesCleanPromises);
 
@@ -86,7 +90,7 @@ class Terraform {
       createPromises.push(new Promise(async (resolve) => {
         const options = { cwd };
         // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
-        await this._cmd(`init -var state_project=${this.config.state.project}`, options);
+        await this._cmd(`init`, options);
 
         this._createVarsFile(cwd, nodes[counter], sshKey, nodeName);
 
@@ -103,11 +107,12 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
+      console.log({cwd})
       // const backendConfig = this._backendConfig(type, counter);
       destroyPromises.push(new Promise(async (resolve) => {
         const options = { cwd };
         // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
-        await this._cmd(`init -var state_project=${this.config.state.project}`, options);
+        await this._cmd(`init`, options);
 
         await this._cmd('destroy -lock=false -auto-approve', options);
 
@@ -133,7 +138,7 @@ class Terraform {
 
   _createVarsFile(cwd, node, sshKey, nodeName) {
     const data = {
-      stateProject: this.config.state.project,
+      dir: path.resolve(__dirname),
       publicKey: sshKey,
       sshUser: node.sshUser,
       machineType: node.machineType,
@@ -147,6 +152,7 @@ class Terraform {
     const source = path.join(__dirname, '..', '..', '..', 'tpl', 'tfvars');
     const target = path.join(cwd, 'terraform.tfvars');
 
+    // console.log({source, target, data})
     tpl.create(source, target, data);
   }
 
@@ -154,29 +160,40 @@ class Terraform {
     fs.removeSync(this.terraformFilesPath);
     fs.ensureDirSync(this.terraformFilesPath);
 
+    // console.log(this.terraformFilesPath)
+
     // this._copyTerraformFiles('remote-state', 0, 'remote-state');
+    // console.log(this.config.validators)
     for (let counter = 0; counter < this.config.validators.nodes.length; counter++) {
+      // console.log(counter)
       this._copyTerraformFiles('validator', counter, this.config.validators.nodes[counter].provider);
     }
 
-    for (let counter = 0; counter < this.config.publicNodes.nodes.length; counter++) {
-      this._copyTerraformFiles('publicNode', counter, this.config.publicNodes.nodes[counter].provider);
-    }
+
+    // for (let counter = 0; counter < this.config.publicNodes.nodes.length; counter++) {
+    //   this._copyTerraformFiles('publicNode', counter, this.config.publicNodes.nodes[counter].provider);
+    // }
   }
 
   _copyTerraformFiles(type, counter, provider) {
     const targetDirPath = this._terraformNodeDirPath(type, counter);
     const originDirPath = path.join(this.terraformOriginPath, provider);
+    // console.log({targetDirPath, originDirPath})
+    // fs.mkdirSync(targetDirPath, {recursive: true})
     fs.ensureDirSync(targetDirPath);
+    // console.log('yee')
 
     const name = this._nodeName(type, counter);
 
     fs.readdirSync(originDirPath).forEach((item) => {
+      // console.log({item})
       const origin = path.join(originDirPath, item);
       const target = path.join(targetDirPath, item);
       const data = {
+        dir: path.resolve(path.join(__dirname, '..', '..', '..')),
         name
       };
+      console.log({origin, target, data})
       tpl.create(origin, target, data);
     });
   }
@@ -186,16 +203,16 @@ class Terraform {
     return path.join(this.terraformFilesPath, dirName);
   }
 
-  _backendConfig(type, counter) {
-    const bucket = this._bucketName();
-    const prefix = this._nodeName(type, counter);
+  // _backendConfig(type, counter) {
+  //   const bucket = this._bucketName();
+  //   const prefix = this._nodeName(type, counter);
 
-    return { bucket, prefix };
-  }
+  //   return { bucket, prefix };
+  // }
 
-  _bucketName() {
-    return `${this.config.project}-sv-tf-state`
-  }
+  // _bucketName() {
+  //   return `${this.config.project}-sv-tf-state`
+  // }
 
   _nodeName(type, counter) {
     const name = `${type}${counter}`;
