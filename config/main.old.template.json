@@ -47,7 +47,7 @@
         "count": 1,
         "location": "<azure-server-location>",
         "sshUser": "<whatever-azure-ssh-username-you-want>"
-      },      
+      },
       {
         "provider": "gcp",
         "machineType": "n1-standard-2",
