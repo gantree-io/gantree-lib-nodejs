@@ -3,6 +3,7 @@
   pip:
     executable: pip3
     name: pollock
+    version: '0.1.1'
     extra_args: -i https://test.pypi.org/simple/
   become: yes
   become_user: gropius_user
