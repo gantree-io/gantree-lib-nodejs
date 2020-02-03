@@ -2,5 +2,5 @@
 # http://docs.ansible.com/galaxy.html#installing-multiple-roles-from-a-file
 # Install with: `ansible-galaxy install -r requirements.yml`
 
-- name: ansible-rustup
-  src: https://github.com/rozifus/ansible-rustup
+- name: ansible-role-cargo
+  src: https://github.com/rozifus/ansible-role-cargo.git
