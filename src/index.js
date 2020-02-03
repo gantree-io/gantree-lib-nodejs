@@ -3,8 +3,8 @@
 const path = require('path');
 const process = require('process');
 const program = require('commander');
-require('dotenv').config({path: path.resolve(process.cwd(), '.env')});
-require('dotenv').config({path: path.resolve(process.cwd(), 'config/.env')});
+require('dotenv').config({ path: path.resolve(process.cwd(), '.env') });
+require('dotenv').config({ path: path.resolve(process.cwd(), 'config/.env') });
 
 const clean = require('./lib/actions/clean');
 const sync = require('./lib/actions/sync');
@@ -30,6 +30,6 @@ program
 program.allowUnknownOption(false);
 
 const parsed = program.parse(process.argv);
-if (! parsed || !(parsed.args && parsed.args.length > 0 && (typeof (parsed.args[0] === 'object')))) {
+if (!parsed || !(parsed.args && parsed.args.length > 0 && (typeof (parsed.args[0] === 'object')))) {
   program.outputHelp();
 }
