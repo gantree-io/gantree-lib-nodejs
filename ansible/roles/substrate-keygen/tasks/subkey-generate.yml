@@ -1,14 +1,16 @@
 
 
-# OLD VALIDATOR CODE --------------------
+
+
+# ORIGINAL CODE --------------------
 - name: check if keys already exist
   shell: |
     set -o pipefail
-    if [ -d /home/polkadot/.local/share/polkadot/chains/{{ polkadot_network_id }}/keystore ]; then
-      ls /home/polkadot/.local/share/polkadot/chains/{{ polkadot_network_id }}/keystore -1U | wc -l
+    if [ -d /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
+      ls /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
     else
-      mkdir -p /home/polkadot/.local/share/polkadot/chains/{{ polkadot_network_id }}/
-      chown -R polkadot:polkadot /home/polkadot/.local/share/polkadot
+      mkdir -p /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/
+      chown -R gropius_user:substrate /home/gropius_user/.local/share/substrate
       echo 0
     fi
   args:
@@ -33,7 +35,7 @@
 
     hexprefix=$(echo -n {{ item }} | xxd -p)
 
-    cd /home/polkadot/.local/share/polkadot/chains/{{ polkadot_network_id }}/keystore
+    cd /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore
 
     inspect_result=$(cat ./${hexprefix}* | xargs /usr/local/bin/subkey --${crypto} inspect)
 
@@ -55,13 +57,13 @@
 - name: write session info to disk on remote host
   template:
     src: session.yaml.j2
-    dest: /home/polkadot/session.{{ polkadot_network_id }}.yaml
+    dest: /home/gropius_user/session.{{ substrate_network_id }}.yaml
     mode: 0666
   when: keystore_files.stdout != "0"
 
 - name: retrieve session info
   fetch:
-    src: '/home/polkadot/session.{{ polkadot_network_id }}.yaml'
-    dest: '{{ build_dir }}/session/{{ inventory_hostname }}.{{ polkadot_network_id }}.yaml'
+    src: '/home/gropius_user/session.{{ substrate_network_id }}.yaml'
+    dest: '{{ build_dir }}/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
     flat: yes
   when: keystore_files.stdout != "0"
