@@ -12,9 +12,9 @@
   become: yes
   strategy: free
   roles:
+  - substrate-common
   - substrate-builder
   - { role: node-exporter, when: "node_exporter_enabled|default(false)|bool == true" }
-  - substrate-common
 
 - hosts: all
   become: yes

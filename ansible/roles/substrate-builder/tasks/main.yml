@@ -1,7 +1,7 @@
 ---
 # tasks file for substrate-builder
 - import_tasks: install-curl.yml
-- import_tasks: install-python3.yml
+- import_tasks: install-python.yml
 - import_tasks: install-pollock.yml
 - import_tasks: install-substrate-deps.yml
 - import_tasks: setup-rustup.yml
