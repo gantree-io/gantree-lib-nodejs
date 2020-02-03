@@ -20,4 +20,3 @@
     ~/.cargo/bin/rustup target add wasm32-unknown-unknown --toolchain nightly
   become: yes
   become_user: ryan_miller
-

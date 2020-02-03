@@ -1,7 +1,8 @@
 ---
 - name: install pollock
-  shell: |
-    pip3 install -i https://test.pypi.org/simple/ pollock
+  pip:
+    executable: pip3
+    name: pollock
+    extra_args: -i https://test.pypi.org/simple/
   become: yes
   become_user: ryan_miller
-
