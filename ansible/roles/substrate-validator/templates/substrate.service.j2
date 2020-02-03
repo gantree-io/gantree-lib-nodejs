@@ -2,7 +2,7 @@
 Description=Substrate Node
 
 [Service]
-User=substrate
+User=gropius_user
 Group=substrate
 ExecStart=/usr/local/bin/substrate \
          --name {{ project|default('project') }}-sv-validator-{{ groups['validator'].index(inventory_hostname) }} \

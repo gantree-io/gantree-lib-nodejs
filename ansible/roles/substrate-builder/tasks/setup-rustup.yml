@@ -3,7 +3,7 @@
   include_role:
     name: ansible-rustup
   vars:
-    rustup_user: ryan_miller
+    rustup_user: gropius_user
 
 # this is not needed if we're explicitly calling rustup
 #- name: reboot
@@ -19,5 +19,5 @@
     ~/.cargo/bin/rustup update nightly
     ~/.cargo/bin/rustup target add wasm32-unknown-unknown --toolchain nightly
   become: yes
-  become_user: ryan_miller
+  become_user: gropius_user
 
