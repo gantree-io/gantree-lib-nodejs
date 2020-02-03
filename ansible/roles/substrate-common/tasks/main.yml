@@ -5,9 +5,9 @@
     name: substrate
     state: present
 
-- name: add substrate user
+- name: add gropius_user user
   user:
-    name: substrate
+    name: gropius_user
     group: substrate
     append: yes
 

@@ -15,7 +15,7 @@
 
     if [ -f /usr/local/bin/substrate-new ]; then
       cp /usr/local/bin/substrate-new /usr/local/bin/substrate
-      chown substrate:substrate /usr/local/bin/substrate
+      chown gropius_user:substrate /usr/local/bin/substrate
       chmod a+x /usr/local/bin/substrate
     fi
     systemctl daemon-reload
@@ -27,11 +27,11 @@
 - name: check if keys already exist
   shell: |
     set -o pipefail
-    if [ -d /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
-      ls /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
+    if [ -d /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
+      ls /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
     else
-      mkdir -p /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/
-      chown -R substrate:substrate /home/substrate/.local/share/substrate
+      mkdir -p /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/
+      chown -R gropius_user:substrate /home/gropius_user/.local/share/substrate
       echo 0
     fi
   args:
@@ -57,5 +57,5 @@
 - name: save rotateKeys output
   copy:
     content: "{{ rotate_keys.json }}"
-    dest: /home/substrate/rotate_keys.log
+    dest: /home/gropius_user/rotate_keys.log
   when: keystore_files.stdout == "0"
