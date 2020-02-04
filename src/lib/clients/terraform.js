@@ -21,7 +21,7 @@ class Terraform {
   }
 
   async sync() {
-    console.log('Initialising Terraform')
+    console.log('[Gropius] Initialising Terraform')
     this._initializeTerraform();
     // console.log('init')
     // try {
@@ -37,8 +37,8 @@ class Terraform {
     let validatorSyncPromises = [];
     try {
       validatorSyncPromises = await this._create('validator', sshKeys.validatorPublicKey, this.config.validators.nodes);
-    } catch(e) {
-      console.log(`Could not get validator sync promises: ${e.message}`);
+    } catch (e) {
+      console.log(`[Gropius] Could not get validator sync promises: ${e.message}`);
     }
 
     let publicNodeSyncPromises = [];
@@ -56,9 +56,9 @@ class Terraform {
     this._initializeTerraform();
     let validatorCleanPromises = [];
     try {
-      validatorCleanPromises = await this._destroy('validator',this.config.validators.nodes);
-    } catch(e) {
-      console.log(`Could not get validator clean promises: ${e.message}`);
+      validatorCleanPromises = await this._destroy('validator', this.config.validators.nodes);
+    } catch (e) {
+      console.log(`[Gropius] Could not get validator clean promises: ${e.message}`);
     }
 
     let publicNodesCleanPromises = []
@@ -107,7 +107,7 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
-      console.log({cwd})
+      console.log({ cwd })
       // const backendConfig = this._backendConfig(type, counter);
       destroyPromises.push(new Promise(async (resolve) => {
         const options = { cwd };
@@ -193,12 +193,12 @@ class Terraform {
         dir: path.resolve(path.join(__dirname, '..', '..', '..')),
         name
       };
-      console.log({origin, target, data})
+      console.log({ origin, target, data })
       tpl.create(origin, target, data);
     });
   }
 
-  _terraformNodeDirPath(type, counter=0) {
+  _terraformNodeDirPath(type, counter = 0) {
     const dirName = this._nodeName(type, counter);
     return path.join(this.terraformFilesPath, dirName);
   }

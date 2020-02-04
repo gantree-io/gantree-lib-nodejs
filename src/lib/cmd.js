@@ -3,10 +3,10 @@ const { exec } = require('child_process');
 
 
 module.exports = {
-  exec: async (command, options={}) => {
+  exec: async (command, options = {}) => {
     return new Promise((resolve, reject) => {
 
-      console.log({command})
+      console.log({ command })
 
       // ansible main.yml -f 30
       /*
@@ -18,10 +18,10 @@ module.exports = {
       // const items = command.split(' ');
       // const items = command.match(/\w+|"[^"]+"/g)
       // console.log({items})
-      console.log(`exec: ${command}, ${JSON.stringify(options)}`);
+      console.log(`[Gropius] exec: ${command}, ${JSON.stringify(options)}`);
       // const child = exec(items[0], items.slice(1), options);
       const child = exec(command, options);
-      if(options.detached) {
+      if (options.detached) {
         child.unref();
         resolve(child.pid);
         return;
@@ -44,7 +44,7 @@ module.exports = {
 
       child.stderr.on('data', (data) => {
         output = Buffer.concat([output, Buffer.from(data)]);
-        console.log(`Verb: ${options.verbose}`);
+        console.log(`[Gropius] Verb: ${options.verbose}`);
         if (options.verbose) {
           console.log(data.toString());
         }
@@ -52,7 +52,7 @@ module.exports = {
 
       child.on('close', (code) => {
         if (code !== 0 && !match) {
-          console.log(`command: ${command} failed with code: ${code}`);
+          console.log(`[Gropius] command: ${command} failed with code: ${code}`);
           reject(new Error(code));
         }
         else {
