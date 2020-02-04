@@ -14,7 +14,10 @@
   roles:
   - substrate-common
   - substrate-builder
-  - { role: node-exporter, when: "node_exporter_enabled|default(false)|bool == true" }
+  - role: node-exporter
+    when: "node_exporter_enabled|default(false)|bool == true"
+  - role: substrate-build-node
+    when: "'master-validator' in group_names"
 
 - hosts: all
   become: yes

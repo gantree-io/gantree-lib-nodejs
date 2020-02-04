@@ -17,21 +17,47 @@
     cp /tmp/gropius/node-src/target/release/node-template /usr/local/bin/node-template
   changed_when: false
 
-- name: create chainspec directory
+- name: create remote chainspec directory
   file:
     path: /tmp/gropius/spec
     state: directory
 
-- name: get chain spec
+- name: generate chain spec
   shell: |
     node-template build-spec > ./customSpec.json
   args:
     chdir: /tmp/gropius/spec/
   changed_when: false
 
-- name: get chain spec
+- name: create local chainspec directory
+  local_action:
+    module: file
+    path: /tmp/gropius_host/spec
+    state: directory
+
+- name: download chain spec
+  fetch:
+    src: /tmp/gropius/spec/customSpec.json
+    dest: /tmp/gropius_host/spec/customSpec.json
+    flat: true
+
+# TODO(ryan): inject keys in to spec
+
+- name: copy chainspec back to master validator
+  copy:
+    src: /tmp/gropius_host/spec/customSpec.json
+    dest: /tmp/gropius/spec/customSpec.json
+
+- name: generate raw chain spec
   shell: |
     node-template build-spec --chain ./customSpec.json --raw > ./customSpecRaw.raw
   args:
     chdir: /tmp/gropius/spec/
   changed_when: false
+
+- name: download raw chain spec
+  fetch:
+    src: /tmp/gropius/spec/customSpecRaw.raw
+    dest: /tmp/gropius_host/spec/customSpecRaw.raw
+    flat: true
+
