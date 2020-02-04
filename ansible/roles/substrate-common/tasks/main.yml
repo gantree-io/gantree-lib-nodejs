@@ -9,7 +9,7 @@
   user:
     name: gropius_user
     group: substrate
-    append: yes
+    append: true
 
 # - name: save networkState
 #   uri:
@@ -23,6 +23,6 @@
 #   retries: 5
 #   delay: 5
 
-- name: set peer id as fact
-  set_fact:
-    p2p_peer_id: "{{ network_state.json.result.peerId }}"
+# - name: set peer id as fact
+#   set_fact:
+#     p2p_peer_id: "{{ network_state.json.result.peerId }}"
