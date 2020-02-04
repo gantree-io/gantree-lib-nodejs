@@ -1,0 +1,12 @@
+---
+# tasks file for gropius-env
+- name: create substrate group
+  group:
+    name: substrate
+    state: present
+
+- name: add substrate user
+  user:
+    name: substrate
+    group: substrate
+    append: true

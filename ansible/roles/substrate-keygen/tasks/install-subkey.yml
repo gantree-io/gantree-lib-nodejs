@@ -1,3 +1,4 @@
+---
 - name: download subkey binary
   get_url:
     url: '{{ subkey_binary_url | quote }}'

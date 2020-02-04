@@ -1,0 +1,9 @@
+---
+# tasks file for master-validator
+- name: provision for building node
+  include_role:
+    name: substrate-builder
+
+- name: build the node
+  include_role:
+    name: substrate-build-node

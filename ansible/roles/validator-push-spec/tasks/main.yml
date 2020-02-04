@@ -1,0 +1,15 @@
+---
+- name: ensure remote spec directory exists
+  file:
+    path: /tmp/gropius/spec
+    state: directory
+
+- name: copy raw-chainspec to validator
+  copy:
+    src: /tmp/gropius_host/spec/customSpecRaw.raw
+    dest: /tmp/gropius/spec/customSpecRaw.raw
+
+- name: copy node binary to validator
+  copy:
+    src: /tmp/gropius_host/bin/node-template
+    dest: /usr/local/bin/node-template

@@ -1,7 +1,7 @@
 ---
 - name: setup cargo and rustup
   include_role:
-    name: ansbile-role-cargo
+    name: ansible-role-cargo
 
 - name: configure rustup
   shell: |

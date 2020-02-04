@@ -1,0 +1,5 @@
+---
+- name: copy node binary to validator
+  copy:
+    src: /tmp/gropius_host/bin/node-template
+    dest: /usr/local/bin/node-template

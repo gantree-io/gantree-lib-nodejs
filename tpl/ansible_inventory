@@ -9,6 +9,20 @@ loggingFilter='{{{ ../validatorLoggingFilter }}}'
 
 {{/each}}
 
+[master-validator]
+{{#each validators }}
+{{#unless @index}}
+validator{{@index}}
+{{/if}}
+{{/each}}
+
+[slave-validator]
+{{#each validators }}
+{{#if @index}}
+validator{{@index}}
+{{/if}}
+{{/each}}
+
 [validator:children]
 {{#each validators }}
 validator-{{@index}}
