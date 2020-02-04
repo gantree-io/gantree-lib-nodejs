@@ -1,8 +1,4 @@
-
-
-
-
-# ORIGINAL CODE --------------------
+---
 - name: check if keys already exist
   shell: |
     set -o pipefail
@@ -57,13 +53,25 @@
 - name: write session info to disk on remote host
   template:
     src: session.yaml.j2
+    # TODO(ryan): re-add this
     dest: /home/gropius_user/session.{{ substrate_network_id }}.yaml
+    #dest: /home/gropius_user/session.yaml
     mode: 0666
   when: keystore_files.stdout != "0"
 
+- name: ensure host session directory
+  local_action:
+    module: file
+    path: /tmp/gropius_host/session
+    state: directory
+  become: no
+
 - name: retrieve session info
   fetch:
+    # TODO(ryan): re-add this
     src: '/home/gropius_user/session.{{ substrate_network_id }}.yaml'
-    dest: '{{ build_dir }}/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
+    dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
+    #src: '/home/gropius_user/session.yaml'
+    #dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.yaml'
     flat: yes
   when: keystore_files.stdout != "0"

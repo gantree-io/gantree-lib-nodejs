@@ -9,27 +9,45 @@
     retries: 20
 
 - hosts: all
+  roles: gropius-env
   become: yes
+
+- hosts: master-validator
+  roles:
+  - substrate-build-node
+  become: yes
+
+- hosts: all
+  strategy: free
+  roles:
+  - validator-push-bin
+  become: yes
+
+- hosts: master-validator
+  roles:
+  - substrate-build-spec
+  become: yes
+
+- hosts: all
+  roles:
+  - validator-push-spec
+  become: yes
+
+- hosts: all
   strategy: free
   roles:
   - substrate-common
   - role: node-exporter
     when: "node_exporter_enabled|default(false)|bool == true"
-  - role: master-validator
-    when: "'master-validator' in group_names"
+  become: yes
 
 - hosts: all
-  become: yes
-  roles:
-    - validator-push
-
-- hosts: all
-  become: yes
   roles:
   - common
+  become: yes
 
 - hosts: validator
-  become: yes
   roles:
   - substrate-validator
   - substrate-validator-session-info
+  become: yes

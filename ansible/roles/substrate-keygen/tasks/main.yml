@@ -1,11 +1,4 @@
 ---
 # tasks file for substrate-keygen
-- import_tasks: install-subkey.yaml
-  tags:
-    - substrate-keygen
-    - substrate-keygen:install-subkey
-
-- import_tasks: subkey-generate.yaml
-  tags:
-    - substrate-keygen
-    - substrate-keygen:subkey-generate
+- import_tasks: install-subkey.yml
+- import_tasks: subkey-generate.yml

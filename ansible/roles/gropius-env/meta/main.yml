@@ -1,15 +1,21 @@
 ---
 galaxy_info:
-  author: >
-    (Ryan Miller) ryan.miller@flexdapps.com
-  description: build the node
-  company: FlexDapps
+  author: your name
+  description: your description
+  company: your company (optional)
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
   # issue_tracker_url: http://example.com/issue/tracker
 
-  license: Apache
+  # Some suggested licenses:
+  # - BSD (default)
+  # - MIT
+  # - GPLv2
+  # - GPLv3
+  # - Apache
+  # - CC-BY
+  license: license (GPLv2, CC-BY, etc)
 
   min_ansible_version: 1.2
 
@@ -27,10 +33,17 @@ galaxy_info:
   #
   # platforms is a list of platforms, and each platform has a name and a list of versions.
   #
-  platforms:
-  - name: Ubuntu
-    versions:
-      - bionic
+  # platforms:
+  # - name: Fedora
+  #   versions:
+  #   - all
+  #   - 25
+  # - name: SomePlatform
+  #   versions:
+  #   - all
+  #   - 1.0
+  #   - 7
+  #   - 99.99
 
   galaxy_tags: []
   # List tags for your role here, one per line. A tag is a keyword that describes
@@ -40,6 +53,6 @@ galaxy_info:
   # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
   #       Maximum 20 tags per role.
 
-dependencies: [ ]
+dependencies: []
 # List your role dependencies here, one per line. Be sure to remove the '[]' above,
 # if you add dependencies to this list.
