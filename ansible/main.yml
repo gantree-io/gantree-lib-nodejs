@@ -13,11 +13,15 @@
   strategy: free
   roles:
   - substrate-common
-  - substrate-builder
   - role: node-exporter
     when: "node_exporter_enabled|default(false)|bool == true"
-  - role: substrate-build-node
+  - role: master-validator
     when: "'master-validator' in group_names"
+
+- hosts: all
+  become: yes
+  roles:
+    - validator-push
 
 - hosts: all
   become: yes

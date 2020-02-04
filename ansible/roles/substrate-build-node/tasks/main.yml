@@ -61,3 +61,14 @@
     dest: /tmp/gropius_host/spec/customSpecRaw.raw
     flat: true
 
+- name: create local bin directory
+  local_action:
+    module: file
+    path: /tmp/gropius_host/bin
+    state: directory
+
+- name: download node bin
+  fetch:
+    src: /tmp/gropius/node-src/target/release/node-template
+    dest: /tmp/gropius_host/bin/node-template
+    flat: true
