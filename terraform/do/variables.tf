@@ -1,3 +1,3 @@
-variable "public_key" {
+variable "digitalocean_pub_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1V1uZljqfj0TQ9FkNFzSN/J78Zy7bm3acbBt4G/yizhSB7F6SwvGcZvCB98jgZ8zsBLTANXjJufTYmTkEUWLaSis2TrVtuAP6MrrHBeE4zsrGf25CTgt5GtG+QOkBzJ6dBIBCiJlz9x0lvaWLjgBBfJSCduxvyshsRVd7+9l1/HxVgnJhdmrZ2v5z3RY6USsN/YMS8wrhts8yjfDNdG6zue3oGow8wsNWTo/1V8J44wdyNu1IXqWN4JsceG+phpurMHWFb+oBizl4YgmO6fmeB7BlYHM9uIuILPDSkwvkWXL0MWnDitxzrKfEcDVSM/9lKVVnF1kOoO1BOUoT6DuD devops@flexdapps.com"
 }
