@@ -13,7 +13,7 @@ loggingFilter='{{{ ../validatorLoggingFilter }}}'
 {{#each validators }}
 {{#unless @index}}
 validator{{@index}}
-{{/if}}
+{{/unless}}
 {{/each}}
 
 [slave-validator]
