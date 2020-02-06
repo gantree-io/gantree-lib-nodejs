@@ -8,6 +8,7 @@ require('dotenv').config({ path: path.resolve(process.cwd(), 'config/.env') });
 
 const clean = require('./lib/actions/clean');
 const sync = require('./lib/actions/sync');
+const inject = require('./lib/actions/inject');
 const version = require('./lib/version');
 
 
@@ -26,6 +27,12 @@ program
   .option('-c, --config [path]', 'Path to config file.', './config/main.json')
   .action(clean.do);
 
+program
+  .command('inject')
+  .description('Injects keys into chainspec (non-raw).')
+  .option('-c, --chainspec [path]', 'Path to chainspec file.', "./chainspec")
+  .option('-v, --validatorspec [path]', 'Path to validatorspec file.', "./validatorspec")
+  .action(inject.do);
 
 program.allowUnknownOption(false);
 

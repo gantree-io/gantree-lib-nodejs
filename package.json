@@ -9,6 +9,7 @@
     "test": "mocha --reporter spec --recursive",
     "sync": "node . sync",
     "clean": "node . clean",
+    "inject": "node . inject",
     "lint": "eslint .",
     "pretest": "yarn lint"
   },
