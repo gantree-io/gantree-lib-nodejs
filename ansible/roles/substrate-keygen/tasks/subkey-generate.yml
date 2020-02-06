@@ -14,10 +14,6 @@
   register: keystore_files
   changed_when: False
 
-- name: echo keystore files
-  debug:
-    var: keystore_files
-
 - name: install xxd
   apt:
     name: vim-common
@@ -47,10 +43,11 @@
     executable: /bin/bash
   register: session
   loop:
+    - aura
     - gran
-    - babe
-    - imon
-    - para
+    # - babe
+    # - imon
+    # - para
   when: keystore_files.stdout != "0"
   changed_when: False
 
