@@ -10,6 +10,7 @@
     "sync": "node . sync",
     "clean": "node . clean",
     "inject": "node . inject",
+    "key-combine": "node . key-combine",
     "lint": "eslint .",
     "pretest": "yarn lint"
   },

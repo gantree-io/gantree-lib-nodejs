@@ -9,6 +9,7 @@ require('dotenv').config({ path: path.resolve(process.cwd(), 'config/.env') });
 const clean = require('./lib/actions/clean');
 const sync = require('./lib/actions/sync');
 const inject = require('./lib/actions/inject');
+const keyCombine = require('./lib/actions/key-combine');
 const version = require('./lib/version');
 
 
@@ -33,6 +34,13 @@ program
   .option('-c, --chainspec [path]', 'Path to chainspec file.', "./chainspec")
   .option('-v, --validatorspec [path]', 'Path to validatorspec file.', "./validatorspec")
   .action(inject.do);
+
+program
+  .command('key-combine')
+  .description('Combines multiple validator key yaml into a single validator key json file.')
+  .option('-d, --directory [path]', 'Path to session directory.', "/tmp/gropius_host/session")
+  .action(keyCombine.do);
+
 
 program.allowUnknownOption(false);
 
