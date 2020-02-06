@@ -5,3 +5,7 @@ ansible/**/__pycache__
 config/main.json
 yarn-error.log
 .env
+
+# local terraform state
+tfstate
+tfstate.backup
