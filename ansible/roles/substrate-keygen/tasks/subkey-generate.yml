@@ -2,17 +2,21 @@
 - name: check if keys already exist
   shell: |
     set -o pipefail
-    if [ -d /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
-      ls /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
+    if [ -d /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore ]; then
+      ls /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore -1U | wc -l
     else
-      mkdir -p /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/
-      chown -R substrate:substrate /home/substrate/.local/share/substrate
+      mkdir -p /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/
+      chown -R substrate:substrate /home/substrate/.local/share/{{ substrate_bin_name }}
       echo 0
     fi
   args:
     executable: /bin/bash
   register: keystore_files
   changed_when: False
+
+- name: echo keystore files
+  debug:
+    var: keystore_files
 
 - name: install xxd
   apt:
@@ -31,7 +35,7 @@
 
     hexprefix=$(echo -n {{ item }} | xxd -p)
 
-    cd /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore
+    cd /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore
 
     inspect_result=$(cat ./${hexprefix}* | xargs /usr/local/bin/subkey --${crypto} inspect)
 

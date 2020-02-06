@@ -1,5 +1,16 @@
 ---
-# tasks file for substrate-validator
+# tasks file for validator service
+- name: create substrate group
+  group:
+    name: substrate
+    state: present
+
+- name: add substrate user
+  user:
+    name: substrate
+    group: substrate
+    append: true
+
 - name: install systemd
   apt:
     name: systemd
@@ -11,18 +22,6 @@
     owner: root
     group: root
     mode: 0644
-
-# tasks file for gropius-env
-- name: create substrate group
-  group:
-    name: substrate
-    state: present
-
-- name: add substrate user
-  user:
-    name: substrate
-    group: substrate
-    append: true
 
 - name: configure and stop substrate service in systemd
   systemd:
@@ -52,11 +51,11 @@
 - name: check if keys already exist
   shell: |
     set -o pipefail
-    if [ -d /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
-      ls /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
+    if [ -d /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ chain }}/keystore ]; then
+      ls /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ chain }}/keystore -1U | wc -l
     else
-      mkdir -p /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/
-      chown -R gropius_user:substrate /home/gropius_user/.local/share/substrate
+      mkdir -p /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ chain }}/
+      chown -R subsrate:substrate /home/substrate/.local/share/{{ substrate_bin_name }}
       echo 0
     fi
   args:
@@ -82,5 +81,5 @@
 - name: save rotateKeys output
   copy:
     content: "{{ rotate_keys.json }}"
-    dest: /tmp/gropius/rotate_keys.log
+    dest: /home/substrate/rotate_keys.log
   when: keystore_files.stdout == "0"
