@@ -22,10 +22,14 @@ class Ansible {
 
   async sync() {
     const inventoryPath = this._writeInventory();
-    console.log({inventoryPath})
+    console.log({ inventoryPath })
     //return this._cmd(`all -b -m ping -i ${inventoryFileName}`, this.options);
     //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`);
-    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`);
+
+    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`); // COMMENTED OUT TEMPORARILY
+    // NO ANSIBLE FOR THE MOMENT, DO NOT COMMIT
+    const chalk = require('chalk');
+    console.log(chalk.red("[WARNING!!!]: skipping ansible, uncomment line 29 of ansible.js!!!"))
   }
 
   async clean() {
@@ -41,10 +45,10 @@ class Ansible {
     const origin = path.resolve(__dirname, '..', '..', '..', 'tpl', 'ansible_inventory');
     const project = new Project(this.config);
     const buildDir = path.join(project.path(), 'ansible');
-    fs.ensureDirSync(buildDir, {recursive: true})
+    fs.ensureDirSync(buildDir, { recursive: true })
     const target = path.join(buildDir, inventoryFileName);
     const validators = this._genTplNodes(this.config.validators);
-    console.log({origin, project, buildDir, target, validators})
+    console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
     const data = {
       project: this.config.project,
@@ -84,27 +88,39 @@ class Ansible {
       data.nodeRestartEnabled = false;
     }
 
-    console.log({origin, target, data})
+    console.log({ origin, target, data })
     tpl.create(origin, target, data);
 
     return target;
   }
 
-  _genTplNodes(nodeSet, offset=0) {
+  _genTplNodes(nodeSet, offset = 0) {
     const output = [];
     // const vpnAddressBase = '10.0.0';
     // let counter = offset;
 
     nodeSet.nodes.forEach((node) => {
-      node.ipAddresses.forEach((ipAddress) => {
-        // counter++;
+      console.log(`node.ipAddresses ${node.ipAddresses}`)
+      console.log(typeof (node.ipAddresses))
+      if (typeof (node.ipAddresses) == 'string') {
+        const ipAddress = node.ipAddresses
         const item = {
           ipAddress,
           sshUser: node.sshUser,
           // vpnAddress: `${vpnAddressBase}.${counter}`
         };
         output.push(item);
-      });
+      } else {
+        node.ipAddresses.forEach((ipAddress) => {
+          // counter++;
+          const item = {
+            ipAddress,
+            sshUser: node.sshUser,
+            // vpnAddress: `${vpnAddressBase}.${counter}`
+          };
+          output.push(item);
+        });
+      }
     });
     return output;
   }

@@ -17,7 +17,7 @@
                 "count": 1,
                 "location": "nyc3",
                 "zone": "nyc3",
-                "sshUser": "ubuntu"
+                "sshUser": "root"
             }
         ]
     }
