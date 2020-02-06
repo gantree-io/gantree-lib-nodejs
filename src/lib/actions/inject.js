@@ -6,24 +6,40 @@ module.exports = {
     do: async (cmd) => {
         // console.log(cmd)
 
-        if (cmd.file && cmd.sr25519 && cmd.ed25519) {
+        if (cmd.chainspec && cmd.validatorspec) {
 
             // We will need to generate at least 2 keys from each type. Every node will need to have its own keys.
 
-            console.log(cmd.file)
-            console.log(cmd.sr25519)
-            console.log(cmd.ed25519)
+            console.log(`chainspec filepath: ${cmd.chainspec}`)
+            console.log(`validatorspec filepath: ${cmd.validatorspec}`)
 
-            let chainspec = require(cmd.file)
-            console.log(chainspec)
+            let chainspec = require(cmd.chainspec)
+            let validatorspec = require(cmd.validatorspec)
 
-            console.log("---- NODE #0 ----")
+            // console.log(chainspec)
+            // console.log(validatorspec)
+
+            console.log("---- NODE #0 | CHAINSPEC ----")
             console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
             console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
             console.log(`sr25519: ${chainspec.genesis.runtime.balances.balances[0][0]}`)
             console.log(`sr25519: ${chainspec.genesis.runtime.sudo.key}`)
             console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0][0]}`)
-            console.log("-----------------")
+            console.log("-----------------------------")
+
+            chainspec.genesis.runtime.aura.authorities = [] // addresses related to block production
+            chainspec.genesis.runtime.indices.ids = [] // addresses of all validators and normal nodes
+            chainspec.genesis.runtime.balances.balances = [] // addresses of all validators and normal nodes + their balances
+            chainspec.genesis.runtime.sudo.key = '' // 'master node' of sorts, only a single address string
+            chainspec.genesis.runtime.grandpa.authorities = [] // addresses related to block finalisation + vote weights
+
+
+            console.log("---- NODE #0 | VALIDATORSPEC ----")
+            console.log(`sr25519: ${validatorspec.validator_public_keys[0].sr25519}`)
+            console.log(`ed25519: ${validatorspec.validator_public_keys[0].ed25519}`)
+            console.log("---------------------------------")
+
+            // chainspec.genesis.runtime.aura.authorities[0] = "asd"
 
         }
 

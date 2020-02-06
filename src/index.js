@@ -30,9 +30,8 @@ program
 program
   .command('inject')
   .description('Injects keys into chainspec (non-raw).')
-  .option('-f, --file [path]', 'Path to chainspec file.', "./chainspec")
-  .option('-S, --sr25519 [path]', 'Path to sr25519 key', "./sr25519_key")
-  .option('-E, --ed25519 [path]', 'Path to ed25519 key', "./ed25519_key")
+  .option('-c, --chainspec [path]', 'Path to chainspec file.', "./chainspec")
+  .option('-v, --validatorspec [path]', 'Path to validatorspec file.', "./validatorspec")
   .action(inject.do);
 
 program.allowUnknownOption(false);
