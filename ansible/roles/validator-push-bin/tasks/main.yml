@@ -3,3 +3,4 @@
   copy:
     src: /tmp/gropius_host/bin/node-template
     dest: /usr/local/bin/node-template
+    mode: '0755'
