@@ -2,7 +2,7 @@
 galaxy_info:
   author: >
     (Ryan Miller) ryan.miller@flexdapps.com
-  description: test all roles
+  description: test multi-validator setup
   company: FlexDapps
 
   # If the issue tracker for your role is not on github, uncomment the

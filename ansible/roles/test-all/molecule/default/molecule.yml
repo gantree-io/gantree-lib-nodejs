@@ -8,8 +8,29 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
-    image: ubuntu:bionic
+  - name: validator0
+    image: jrei/systemd-ubuntu:18.04
+    groups:
+      - master-validator
+      - validator
+    privileged: true
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/sbin/init"
+    network_mode: host
+    environment:
+      container: docker
+  - name: validator1
+    image: jrei/systemd-ubuntu:18.04
+    groups:
+      - validator
+    privileged: true
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/sbin/init"
+    network_mode: host
+    environment:
+      container: docker
 provisioner:
   name: ansible
   lint:
