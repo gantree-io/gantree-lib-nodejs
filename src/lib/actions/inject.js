@@ -27,16 +27,31 @@ module.exports = {
             console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0][0]}`)
             console.log("-----------------------------")
 
+            console.log("REMOVING ALL VALIDATOR/NODE PUBLIC ADDRESSES...")
             chainspec.genesis.runtime.aura.authorities = [] // addresses related to block production
             chainspec.genesis.runtime.indices.ids = [] // addresses of all validators and normal nodes
             chainspec.genesis.runtime.balances.balances = [] // addresses of all validators and normal nodes + their balances
-            chainspec.genesis.runtime.sudo.key = '' // 'master node' of sorts, only a single address string
+            chainspec.genesis.runtime.sudo.key = undefined // 'master node' of sorts, only a single address string
             chainspec.genesis.runtime.grandpa.authorities = [] // addresses related to block finalisation + vote weights
 
+            console.log("---- NODE #0 | CHAINSPEC ----")
+            console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
+            console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
+            console.log(`sr25519: ${chainspec.genesis.runtime.balances.balances[0]}`)
+            console.log(`sr25519: ${chainspec.genesis.runtime.sudo.key}`)
+            console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0]}`)
+            console.log("-----------------------------")
+
+            console.log("---- NODE #0 | MODDED RUNTIME OBJ ----")
+            console.log(chainspec.genesis.runtime)
+            console.log("----------------------------------")
 
             console.log("---- NODE #0 | VALIDATORSPEC ----")
-            console.log(`sr25519: ${validatorspec.validator_public_keys[0].sr25519}`)
-            console.log(`ed25519: ${validatorspec.validator_public_keys[0].ed25519}`)
+            const validator0 = validatorspec.validators[0]
+            console.log(`sr25519: ${validator0.sr25519}`)
+            console.log(`ed25519: ${validator0.ed25519}`)
+            console.log(`grandpa | vote weight: ${validator0.pallet_options.grandpa.vote_weight}`)
+            console.log(`balances | balance: ${validator0.pallet_options.balances.balance}`)
             console.log("---------------------------------")
 
             // chainspec.genesis.runtime.aura.authorities[0] = "asd"
