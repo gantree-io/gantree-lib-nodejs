@@ -23,4 +23,3 @@
 - name: substrate-keygen
   include_role:
     name: substrate-keygen
-

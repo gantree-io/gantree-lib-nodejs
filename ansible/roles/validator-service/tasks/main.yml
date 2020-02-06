@@ -1,0 +1,86 @@
+---
+# tasks file for substrate-validator
+- name: install systemd
+  apt:
+    name: systemd
+
+- name: create substrate service file
+  template:
+    src: substrate.service.j2
+    dest: /etc/systemd/system/substrate.service
+    owner: root
+    group: root
+    mode: 0644
+
+# tasks file for gropius-env
+- name: create substrate group
+  group:
+    name: substrate
+    state: present
+
+- name: add substrate user
+  user:
+    name: substrate
+    group: substrate
+    append: true
+
+- name: configure and stop substrate service in systemd
+  systemd:
+    name: substrate
+    enabled: yes
+    daemon_reload: yes
+    state: stopped
+
+- name: copy new substrate binary if needed
+  shell: |
+    set -o pipefail
+
+    if [ -f /usr/local/bin/substrate-new ]; then
+      cp /usr/local/bin/substrate-new /usr/local/bin/{{ substrate_bin_name }}
+      chown gropius_user:substrate /usr/local/bin/{{ substrate_bin_name }}
+      chmod a+x /usr/local/bin/{{ substrate_bin_name }}
+    fi
+  args:
+    executable: /bin/bash
+  changed_when: False
+
+- name: start substrate
+  systemd:
+    name: substrate
+    state: started
+
+- name: check if keys already exist
+  shell: |
+    set -o pipefail
+    if [ -d /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
+      ls /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
+    else
+      mkdir -p /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/
+      chown -R gropius_user:substrate /home/gropius_user/.local/share/substrate
+      echo 0
+    fi
+  args:
+    executable: /bin/bash
+  register: keystore_files
+  changed_when: False
+
+- name: initialize server keys
+  uri:
+    url: http://127.0.0.1:9933
+    method: "POST"
+    body_format: json
+    body: |
+      { "jsonrpc":"2.0", "method":"author_rotateKeys", "params":[], "id":1 }
+  when: keystore_files.stdout == "0"
+  register: rotate_keys
+
+- name: show rotateKeys output
+  debug:
+    var: rotate_keys
+  when: keystore_files.stdout == "0"
+
+- name: save rotateKeys output
+  copy:
+    content: "{{ rotate_keys.json }}"
+    dest: /tmp/gropius/rotate_keys.log
+  when: keystore_files.stdout == "0"

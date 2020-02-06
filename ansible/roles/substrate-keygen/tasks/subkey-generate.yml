@@ -2,11 +2,11 @@
 - name: check if keys already exist
   shell: |
     set -o pipefail
-    if [ -d /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
-      ls /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
+    if [ -d /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore ]; then
+      ls /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore -1U | wc -l
     else
-      mkdir -p /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/
-      chown -R gropius_user:substrate /home/gropius_user/.local/share/substrate
+      mkdir -p /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/
+      chown -R substrate:substrate /home/substrate/.local/share/substrate
       echo 0
     fi
   args:
@@ -31,7 +31,7 @@
 
     hexprefix=$(echo -n {{ item }} | xxd -p)
 
-    cd /home/gropius_user/.local/share/substrate/chains/{{ substrate_network_id }}/keystore
+    cd /home/substrate/.local/share/substrate/chains/{{ substrate_network_id }}/keystore
 
     inspect_result=$(cat ./${hexprefix}* | xargs /usr/local/bin/subkey --${crypto} inspect)
 
@@ -54,7 +54,7 @@
   template:
     src: session.yaml.j2
     # TODO(ryan): re-add this
-    dest: /home/gropius_user/session.{{ substrate_network_id }}.yaml
+    dest: /home/substrate/session.{{ substrate_network_id }}.yaml
     #dest: /home/gropius_user/session.yaml
     mode: 0666
   when: keystore_files.stdout != "0"
@@ -69,7 +69,7 @@
 - name: retrieve session info
   fetch:
     # TODO(ryan): re-add this
-    src: '/home/gropius_user/session.{{ substrate_network_id }}.yaml'
+    src: '/home/substrate/session.{{ substrate_network_id }}.yaml'
     dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
     #src: '/home/gropius_user/session.yaml'
     #dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.yaml'
