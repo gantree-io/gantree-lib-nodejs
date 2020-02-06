@@ -1,0 +1,12 @@
+{
+    "validator_public_keys": [
+        {
+            "sr25519": "node-#0-sr-address",
+            "ed25519": "node-#0-ed-address"
+        },
+        {
+            "sr25519": "node-#1-sr-address",
+            "ed25519": "node-#1-ed-address"
+        }
+    ]
+}
