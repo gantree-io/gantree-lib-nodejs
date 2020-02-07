@@ -1,2 +1,4 @@
 ---
 # defaults file for gropius-env
+substrate_user: substrate
+substrate_group: substrate

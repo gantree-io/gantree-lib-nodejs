@@ -3,24 +3,24 @@
   git:
     repo: https://github.com/substrate-developer-hub/substrate-node-template
     version: '8b6fe66'
-    dest: /tmp/gropius/node-src
+    dest: "{{ gropius_path }}/node-src"
 
 - name: compile-node
   shell: |
     cargo build --release
   args:
-    chdir: /tmp/gropius/node-src/
+    chdir: "{{ gropius_path }}/node-src/"
   changed_when: false
 
 - name: create host bin directory
   local_action:
     module: file
-    path: /tmp/gropius_host/bin
+    path: "{{ gropius_control_path }}/bin"
     state: directory
   become: no
 
 - name: download node bin to host
   fetch:
-    src: /tmp/gropius/node-src/target/release/node-template
-    dest: /tmp/gropius_host/bin/node-template
+    src: "{{ gropius_path }}/node-src/target/release/node-template"
+    dest: "{{ gropius_control_path }}/bin/node-template"
     flat: true

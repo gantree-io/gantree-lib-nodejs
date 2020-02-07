@@ -1,2 +1,4 @@
 ---
 # defaults file for substrate-build-node
+gropius_control_path: /tmp/gropius_host
+gropius_path: /tmp/gropius

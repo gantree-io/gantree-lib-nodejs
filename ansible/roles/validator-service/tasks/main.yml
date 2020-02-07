@@ -1,14 +1,14 @@
 ---
 # tasks file for validator service
-- name: create substrate group
+- name: "create group: {{ substrate_group }}"
   group:
-    name: substrate
+    name: "{{ substrate_group }}"
     state: present
 
-- name: add substrate user
+- name: "add user: {{ substrate_user }} to group: {{ substrate_group }}"
   user:
-    name: substrate
-    group: substrate
+    name: "{{ substrate_user }}"
+    group: "{{ substrate_group }}"
     append: true
 
 - name: install systemd
@@ -36,7 +36,7 @@
 
     if [ -f /usr/local/bin/substrate-new ]; then
       cp /usr/local/bin/substrate-new /usr/local/bin/{{ substrate_bin_name }}
-      chown gropius_user:substrate /usr/local/bin/{{ substrate_bin_name }}
+      chown {{ substrate_user }}:{{ substrate_group }} /usr/local/bin/{{ substrate_bin_name }}
       chmod a+x /usr/local/bin/{{ substrate_bin_name }}
     fi
   args:
@@ -55,7 +55,7 @@
       ls /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ chain }}/keystore -1U | wc -l
     else
       mkdir -p /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ chain }}/
-      chown -R subsrate:substrate /home/substrate/.local/share/{{ substrate_bin_name }}
+      chown -R {{ substrate_user }}:{{ substrate_user }} /home/substrate/.local/share/{{ substrate_bin_name }}
       echo 0
     fi
   args:

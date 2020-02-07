@@ -1,2 +1,4 @@
 ---
 # defaults file for validator-push-spec
+gropius_control_path: /tmp/gropius_host
+substrate_bin_name: node-template

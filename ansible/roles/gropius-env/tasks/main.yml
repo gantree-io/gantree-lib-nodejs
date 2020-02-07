@@ -1,12 +1,12 @@
 ---
 # tasks file for gropius-env
-- name: create substrate group
+- name: "create group: {{ substrate_group }}"
   group:
-    name: substrate
+    name: "{{ substrate_group }}"
     state: present
 
-- name: add substrate user
+- name: "add user {{ substrate_user }}"
   user:
-    name: substrate
-    group: substrate
+    name: "{{ substrate_user }}"
+    group: "{{ substrate_group }}"
     append: true

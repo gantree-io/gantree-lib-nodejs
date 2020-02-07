@@ -1,45 +1,45 @@
 ---
 - name: create remote chainspec directory
   file:
-    path: /tmp/gropius/spec
+    path: "{{ gropius_path }}/spec"
     state: directory
 
 - name: generate chain spec
   shell: |
     node-template build-spec > ./customSpec.json
   args:
-    chdir: /tmp/gropius/spec/
+    chdir: "{{ gropius_path }}/spec/"
   changed_when: false
 
 - name: create local chainspec directory
   local_action:
     module: file
-    path: /tmp/gropius_host/spec
+    path: "{{ gropius_control_path }}/spec"
     state: directory
   become: no
 
 - name: download chain spec
   fetch:
-    src: /tmp/gropius/spec/customSpec.json
-    dest: /tmp/gropius_host/spec/customSpec.json
+    src: "{{ gropius_path }}/spec/customSpec.json"
+    dest: "{{ gropius_control_path }}/spec/customSpec.json"
     flat: true
 
 # TODO(ryan): inject keys in to spec
 
 - name: copy chainspec back to generator
   copy:
-    src: /tmp/gropius_host/spec/customSpec.json
-    dest: /tmp/gropius/spec/customSpec.json
+    src: "{{ gropius_control_path }}/spec/customSpec.json"
+    dest: "{{ gropius_path }}/spec/customSpec.json"
 
 - name: generate raw chain spec
   shell: |
     node-template build-spec --chain ./customSpec.json --raw > ./customSpecRaw.raw
   args:
-    chdir: /tmp/gropius/spec/
+    chdir: "{{ gropius_path }}/spec/"
   changed_when: false
 
 - name: download raw chain spec
   fetch:
-    src: /tmp/gropius/spec/customSpecRaw.raw
-    dest: /tmp/gropius_host/spec/customSpecRaw.raw
+    src: "{{ gropius_path }}/spec/customSpecRaw.raw"
+    dest: "{{ gropius_control_path }}/spec/customSpecRaw.raw"
     flat: true

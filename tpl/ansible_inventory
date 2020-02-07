@@ -30,6 +30,8 @@ validator-{{@index}}
 
 [all:vars]
 project={{ project }}
+substrate_user=substrate
+substrate_group=substrate
 ansible_ssh_common_args='-o StrictHostKeyChecking=no -o ConnectTimeout=25 -o ControlMaster=no -o UserKnownHostsFile=/dev/null'
 build_dir={{ buildDir }}
 node_exporter_enabled='{{ nodeExporterEnabled }}'
