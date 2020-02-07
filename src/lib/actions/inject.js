@@ -16,11 +16,11 @@ function check_required_files() {
     let files_missing = false
 
     if (!fs.existsSync(GENERIC_CHAINSPEC_PATH)) {
-        console.error(chalk.red(`${GEN_CHAINSPEC_FILENAME} missing at path: ${GENERIC_CHAINSPEC_PATH}`))
+        console.error(chalk.red(`[Gropius] ${GEN_CHAINSPEC_FILENAME} missing at path: ${GENERIC_CHAINSPEC_PATH}`))
         files_missing = true
     }
     if (!fs.existsSync(VALIDATORSPEC_PATH)) {
-        console.error(chalk.red(`${VALIDATORSPEC_FILENAME} missing at path: ${VALIDATORSPEC_PATH}`))
+        console.error(chalk.red(`[Gropius] ${VALIDATORSPEC_FILENAME} missing at path: ${VALIDATORSPEC_PATH}`))
         files_missing = true
     }
 
@@ -37,13 +37,6 @@ module.exports = {
         let chainspec = require(GENERIC_CHAINSPEC_PATH)
         const validatorspec = require(VALIDATORSPEC_PATH)
 
-        // console.log(chainspec)
-        // console.log(validatorspec)
-
-        // console.log("---- NODE #0 | ORIGINAL RUNTIME OBJ ----")
-        // console.log(chainspec.genesis.runtime)
-        // console.log("----------------------------------")
-
         // console.log("---- NODE #0 | CHAINSPEC ----")
         // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
         // console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
@@ -59,18 +52,7 @@ module.exports = {
         chainspec.genesis.runtime.sudo.key = undefined // 'master node' of sorts, only a single address string
         chainspec.genesis.runtime.grandpa.authorities = [] // addresses related to block finalisation + vote weights
 
-        // console.log("---- NODE #0 | CHAINSPEC ----")
-        // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
-        // console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
-        // console.log(`sr25519: ${chainspec.genesis.runtime.balances.balances[0]}`)
-        // console.log(`sr25519: ${chainspec.genesis.runtime.sudo.key}`)
-        // console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0]}`)
-        // console.log("-----------------------------")
-
-        // console.log("---- NODE #0 | MODDED RUNTIME OBJ ----")
-        // console.log(chainspec.genesis.runtime)
-        // console.log("----------------------------------")
-
+        // inject values into chainspec in memory
         for (let i = 0; i < validatorspec.validators.length; i++) {
             const validator_n = validatorspec.validators[i]
             let runtime_obj = chainspec.genesis.runtime
@@ -104,27 +86,8 @@ module.exports = {
 
         }
 
-        // console.log("---- NODE #0 | INJECTED RUNTIME OBJ ----")
-        // console.log(chainspec.genesis.runtime)
-        // console.log(chainspec.genesis.runtime.grandpa)
-        // console.log(chainspec.genesis.runtime.balances)
-        // console.log("----------------------------------")
-
         chainspec_str = JSON.stringify(chainspec, null, "    ")
         console.info(chainspec_str)
-
-        // } else {
-        //     console.error("missing chainspec or validatorspec arguments")
-        //     process.exit(-1)
-        // }
-
-        // const spec = require('./chainspec.json')
-        // const { validators } = spec
-        // validators.push(myNewValidatorKey)
-        // spec.validators = validators
-        // fs.writeFileSync('./modifiedSpec.json', spec)
-
-        // const cfg = config.read(cmd.config);
 
         // console.log(chalk.yellow('[Gropius] Syncing platform...'));
         // const platform = new Platform(cfg);
