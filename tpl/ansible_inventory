@@ -9,25 +9,24 @@ loggingFilter='{{{ ../validatorLoggingFilter }}}'
 
 {{/each}}
 
-[master-validator]
+[bin-builder]
 {{#each validators }}
 {{#unless @index}}
 validator-{{@index}}
 {{/unless}}
 {{/each}}
 
-[slave-validator]
+[spec-builder]
 {{#each validators }}
-{{#if @index}}
+{{#unless @index}}
 validator-{{@index}}
-{{/if}}
+{{/unless}}
 {{/each}}
 
 [validator:children]
 {{#each validators }}
 validator-{{@index}}
 {{/each}}
-
 
 [all:vars]
 project={{ project }}
