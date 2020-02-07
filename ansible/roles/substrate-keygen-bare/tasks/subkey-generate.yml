@@ -1,0 +1,90 @@
+---
+- name: check if keys already exist
+  shell: |
+    set -o pipefail
+    if [ -d /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore ]; then
+      ls /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore -1U | wc -l
+    else
+      mkdir -p /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/
+      chown -R substrate:substrate /home/substrate/.local/share/{{ substrate_bin_name }}
+      echo 0
+    fi
+  args:
+    executable: /bin/bash
+  register: keystore_files
+  changed_when: False
+
+- name: install xxd
+  apt:
+    name: vim-common
+    update_cache: yes
+
+- name: generate mnemonic
+  shell: |
+    set -o pipefail
+
+    inspect_result=$(xargs /usr/local/bin/subkey --ed25519 generate)
+
+    mnemonic=$(echo -n "${inspect_result}" | grep "Secret phrase" | cut -d'`' -f2)
+
+    echo ${mnemonic}
+  args:
+    executable: /bin/bash
+  register: mnemonic
+  when: keystore_files.stdout != "0"
+
+- name: write mnemonic to disk on remote host
+  template:
+    src: mnemonic
+    dest: /home/substrate/mnemonic
+    mode: 0666
+  when: keystore_files.stdout != "0"
+
+- name: save session info
+  shell: |
+    set -o pipefail
+    crypto="{{ item }}"
+
+    inspect_result=$(cat /home/substrate/mnemonic | xargs --null /usr/local/bin/subkey --${crypto} inspect)
+
+    public_key=$(echo -n "${inspect_result}" | grep "Public key" | cut -d':' -f2 | tr -d '[:space:]')
+    address=$(echo -n "${inspect_result}" | grep "Address" | cut -d':' -f2 | tr -d '[:space:]')
+
+    printf '%b\n' "{{ item }}:\n  address: '${address}'\n  public_key: '${public_key}'"
+  args:
+    executable: /bin/bash
+  register: session
+  loop:
+    - ed25519
+    - sr25519
+  when: keystore_files.stdout != "0"
+  changed_when: False
+
+- debug:
+    var: session
+
+- name: write session info to disk on remote host
+  template:
+    src: session.yaml.j2
+    # TODO(ryan): re-add this
+    dest: /home/substrate/session.{{ substrate_network_id }}.yaml
+    #dest: /home/gropius_user/session.yaml
+    mode: 0666
+  when: keystore_files.stdout != "0"
+
+- name: ensure host session directory
+  local_action:
+    module: file
+    path: /tmp/gropius_host/session
+    state: directory
+  become: no
+
+- name: retrieve session info
+  fetch:
+    # TODO(ryan): re-add this
+    src: '/home/substrate/session.{{ substrate_network_id }}.yaml'
+    dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
+    #src: '/home/gropius_user/session.yaml'
+    #dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.yaml'
+    flat: yes
+  when: keystore_files.stdout != "0"
