@@ -31,8 +31,6 @@ program
 program
   .command('inject')
   .description('Injects keys into chainspec (non-raw).')
-  .option('-c, --chainspec [path]', 'Path to chainspec file.', "./chainspec")
-  .option('-v, --validatorspec [path]', 'Path to validatorspec file.', "./validatorspec")
   .action(inject.do);
 
 program

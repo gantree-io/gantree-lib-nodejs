@@ -12,7 +12,7 @@
   roles: gropius-env
   become: yes
 
-- hosts: master-validator
+- hosts: bin-builder
   roles:
   - substrate-build-node
   become: yes
@@ -23,7 +23,7 @@
   - validator-push-bin
   become: yes
 
-- hosts: master-validator
+- hosts: spec-builder
   roles:
   - substrate-build-spec
   become: yes
