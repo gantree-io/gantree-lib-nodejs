@@ -2,15 +2,15 @@
 Description=Substrate Node
 
 [Service]
-User=substrate
-Group=substrate
+User={{ substrate_user }}
+Group={{ substrate_group }}
 ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
          --name {{ project|default('project') }}-sv-validator-{{ groups['validator'].index(inventory_hostname) }} \
          --validator \
          {% if hostvars[inventory_hostname].loggingFilter is defined and hostvars[inventory_hostname].loggingFilter|length %}
          -l{{ hostvars[inventory_hostname].loggingFilter }} \
          {% endif %}
-         --chain={{ chain }} \
+         --chain={{ substrate_chain }} \
          {% if hostvars[inventory_hostname].telemetryUrl is defined and hostvars[inventory_hostname].telemetryUrl|length %}
          --telemetry-url '{{ hostvars[inventory_hostname].telemetryUrl }} 1'
          {% else %}

@@ -1,6 +1,2 @@
 ---
 # vars file for test-all
-gropius_path: /tmp/gropius2
-gropius_control_path: /tmp/gropius_host2
-substrate_user: substrateu
-substrate_group: substrateg

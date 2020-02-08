@@ -11,7 +11,7 @@ platforms:
   - name: validator0
     image: jrei/systemd-ubuntu:18.04
     groups:
-      - master-validator
+      - builder_bin
       - validator
     privileged: true
     volumes:
@@ -33,6 +33,21 @@ platforms:
       container: docker
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        substrate_chain: dev
+        substrate_bin_name: molecule-sub-bin
+        gropius_control_working: /tmp/gropius-control
+        gropius_root: ../../../
+      builder_bin:
+        gropius_working: /tmp/gropius-build-bin
+      builder_spec:
+        gropius_working: /tmp/gropius-build-spec
+      validator:
+        gropius_working: /tmp/gropius-validator
+        substrate_user: subuser
+        substrate_group: subgroup
   lint:
     name: ansible-lint
 verifier:

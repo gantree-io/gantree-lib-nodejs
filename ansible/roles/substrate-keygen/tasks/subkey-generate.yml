@@ -61,8 +61,8 @@
   when: keystore_files.stdout != "0"
 
 - name: ensure host session directory
-  local_action:
-    module: file
+  delegate_to: localhost
+  file:
     path: /tmp/gropius_host/session
     state: directory
   become: no

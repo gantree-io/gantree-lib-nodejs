@@ -1,7 +1,0 @@
----
-# defaults file for validator-service
-chain: dev
-substrate_bin_name: node-template
-substrate_network_id: molecule-test-network
-substrate_group: substrate
-substrate_user: substrate
