@@ -10,13 +10,14 @@ module.exports = {
 
         const files = fs.readdirSync(cmd.directory);
         files.forEach(filename => {
-            const filepath = path.join(cmd.directory, filename);
+            try {
+                const filepath = path.join(cmd.directory, filename);
 
-            const data = yaml.safeLoad(fs.readFileSync(filepath));
-            validators.push({
-                sr25519: data.aura.public_key,
-                ed25519: data.gran.public_key
-            });
+                const data = yaml.safeLoad(fs.readFileSync(filepath));
+                validators.push(data);
+            } catch (e) {
+                console.warn(`Warning: key-combine failed for ${filename}`);
+            }
         })
 
         const output = { validators };

@@ -31,6 +31,8 @@ program
 program
   .command('inject')
   .description('Injects keys into chainspec (non-raw).')
+  .option('-s, --spec [path]', 'Path to spec file.', '/tmp/gropius_host/spec/chainSpec.json')
+  .option('-v, --validators [path]', 'Path to validators file.', '/tmp/gropius_host/spec/validators.json')
   .action(inject.do);
 
 program

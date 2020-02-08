@@ -36,10 +36,11 @@ provisioner:
   inventory:
     group_vars:
       all:
+        substrate_network_id: molcule-sub-network
         substrate_chain: dev
         substrate_bin_name: molecule-sub-bin
         gropius_control_working: /tmp/gropius-control
-        gropius_root: ../../../
+        gropius_root: ../../../../../
       builder_bin:
         gropius_working: /tmp/gropius-build-bin
       builder_spec:

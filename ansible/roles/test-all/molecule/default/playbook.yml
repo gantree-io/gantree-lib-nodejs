@@ -9,23 +9,31 @@
       sleep: 2
     retries: 3
 
-- hosts: validator
-  roles:
-  - gropius-env
-  become: yes
+#- hosts: validator
+#  roles:
+#  - gropius-env
+#  become: yes
+
+#- hosts: builder_bin
+#  roles:
+#  - substrate-build-node
+#  become: yes
+
+#- hosts: validator
+#  strategy: free
+#  roles:
+#  - validator-push-bin
+#  become: yes
+
+#- hosts: validator
+#  roles:
+#  - substrate-keygen-bare
 
 - hosts: builder_bin
   roles:
-  - substrate-build-node
-  become: yes
+  - substrate-build-spec
 
-- hosts: validator
-  strategy: free
-  roles:
-  - validator-push-bin
-  become: yes
-
-- hosts: validator
-  roles:
-  - validator-service
-  - substrate-keygen
+#- hosts: validator
+#  roles:
+#  - substrate-keygen
+#  - validator-service

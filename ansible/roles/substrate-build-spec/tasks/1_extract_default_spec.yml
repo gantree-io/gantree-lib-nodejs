@@ -1,0 +1,25 @@
+---
+- name: create remote chainspec directory
+  file:
+    path: "{{ gropius_working }}/spec"
+    state: directory
+
+- name: generate chain spec
+  shell: |
+    {{ substrate_bin_name }} build-spec > ./chainSpec.json
+  args:
+    chdir: "{{ gropius_working }}/spec/"
+  changed_when: false
+
+- name: create local chainspec directory
+  delegate_to: localhost
+  file:
+    path: "{{ gropius_control_working }}/spec"
+    state: directory
+  become: no
+
+- name: download chain spec
+  fetch:
+    src: "{{ gropius_working }}/spec/chainSpec.json"
+    dest: "{{ gropius_control_working }}/spec/chainSpec.json"
+    flat: true

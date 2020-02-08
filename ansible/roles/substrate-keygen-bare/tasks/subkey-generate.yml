@@ -1,23 +1,13 @@
 ---
-- name: check if keys already exist
-  shell: |
-    set -o pipefail
-    if [ -d /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore ]; then
-      ls /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore -1U | wc -l
-    else
-      mkdir -p /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/
-      chown -R substrate:substrate /home/substrate/.local/share/{{ substrate_bin_name }}
-      echo 0
-    fi
-  args:
-    executable: /bin/bash
-  register: keystore_files
-  changed_when: False
-
 - name: install xxd
   apt:
     name: vim-common
     update_cache: yes
+
+- name: check for mnemonic
+  stat:
+    path: /home/{{ substrate_user }}/mnemonic
+  register: mnemonic_check
 
 - name: generate mnemonic
   shell: |
@@ -31,21 +21,29 @@
   args:
     executable: /bin/bash
   register: mnemonic
-  when: keystore_files.stdout != "0"
+  when: mnemonic_check.stat.exists == False
 
 - name: write mnemonic to disk on remote host
-  template:
-    src: mnemonic
-    dest: /home/substrate/mnemonic
-    mode: 0666
-  when: keystore_files.stdout != "0"
+  delegate_to: localhost
+  copy:
+    content: "{{ mnemonic.stdout }}"
+    dest: "{{ gropius_control_working }}/spec/combo.json"
+  become: no
+
+# TODO(ryan): remove this task
+#- name: write mnemonic to disk on remote host
+#  template:
+#    src: mnemonic
+#    dest: /home/{{ substrate_user }}/mnemonic
+#    mode: 0666
+#  when: mnemonic_check.stat.exists == False
 
 - name: save session info
   shell: |
     set -o pipefail
     crypto="{{ item }}"
 
-    inspect_result=$(cat /home/substrate/mnemonic | xargs --null /usr/local/bin/subkey --${crypto} inspect)
+    inspect_result=$(cat /home/{{ substrate_user }}/mnemonic | xargs --null /usr/local/bin/subkey --${crypto} inspect)
 
     public_key=$(echo -n "${inspect_result}" | grep "Public key" | cut -d':' -f2 | tr -d '[:space:]')
     address=$(echo -n "${inspect_result}" | grep "Address" | cut -d':' -f2 | tr -d '[:space:]')
@@ -57,7 +55,6 @@
   loop:
     - ed25519
     - sr25519
-  when: keystore_files.stdout != "0"
   changed_when: False
 
 - debug:
@@ -66,25 +63,19 @@
 - name: write session info to disk on remote host
   template:
     src: session.yaml.j2
-    # TODO(ryan): re-add this
-    dest: /home/substrate/session.{{ substrate_network_id }}.yaml
-    #dest: /home/gropius_user/session.yaml
+    dest: /home/{{ substrate_user }}/session.{{ substrate_network_id }}.yaml
     mode: 0666
-  when: keystore_files.stdout != "0"
 
 - name: ensure host session directory
-  local_action:
-    module: file
-    path: /tmp/gropius_host/session
+  delegate_to: localhost
+  file:
+    path: "{{ gropius_control_working }}/session"
     state: directory
   become: no
 
 - name: retrieve session info
   fetch:
-    # TODO(ryan): re-add this
-    src: '/home/substrate/session.{{ substrate_network_id }}.yaml'
-    dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
-    #src: '/home/gropius_user/session.yaml'
-    #dest: '/tmp/gropius_host/session/{{ inventory_hostname }}.yaml'
+    src: '/home/{{ substrate_user }}/session.{{ substrate_network_id }}.yaml'
+    dest: '{{ gropius_control_working }}/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
     flat: yes
-  when: keystore_files.stdout != "0"
+  retries: 2

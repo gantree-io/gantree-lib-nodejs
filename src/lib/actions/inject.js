@@ -31,11 +31,13 @@ module.exports = {
     do: async (cmd) => {
         // console.log(cmd)
         // if (cmd.chainspec && cmd.validatorspec) {
+        const chainspec = fs.readdirSync(cmd.specfile);
+        const validatorspec = fs.readdirSync(cmd.validatorsfile);
 
-        check_required_files()
+        // check_required_files()
 
-        let chainspec = require(GENERIC_CHAINSPEC_PATH)
-        const validatorspec = require(VALIDATORSPEC_PATH)
+        // let chainspec = require(GENERIC_CHAINSPEC_PATH)
+        // const validatorspec = require(VALIDATORSPEC_PATH)
 
         // console.log("---- NODE #0 | CHAINSPEC ----")
         // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
