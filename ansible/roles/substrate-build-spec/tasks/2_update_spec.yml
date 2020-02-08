@@ -32,9 +32,12 @@
   become: no
   changed_when: false
 
-- name: write combine
+- debug:
+    var: inject_result
+
+- name: write inject
   delegate_to: localhost
   copy:
     content: "{{ inject_result.stdout }}"
-    dest: "{{ gropius_control_working }}/session/combo.json"
+    dest: "{{ gropius_control_working }}/spec/chainSpecInjected.json"
   become: no

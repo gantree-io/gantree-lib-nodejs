@@ -20,6 +20,6 @@
   include_role:
     name: validator-push-spec
 
-- name: substrate-keygen
+- name: substrate-keygen-bare
   include_role:
-    name: substrate-keygen
+    name: substrate-keygen-bare

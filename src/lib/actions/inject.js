@@ -4,6 +4,8 @@ const chalk = require('chalk');
 const process = require('process');
 const os = require('os');
 const fs = require('fs');
+const JSONbig = require('json-bigint')
+const BigNumber = require('bignumber.js');
 
 const GEN_CHAINSPEC_FILENAME = `generic_chainspec.json`
 const VALIDATORSPEC_FILENAME = `validatorspec.json`
@@ -35,9 +37,8 @@ module.exports = {
     do: async (cmd) => {
         // console.log(cmd)
         // if (cmd.chainspec && cmd.validatorspec) {
-        const chainspec = JSON.parse(fs.readFileSync(cmd.spec, 'utf-8'));
-        const validatorspec = JSON.parse(fs.readFileSync(cmd.validators, 'utf-8'));
-        console.log(validatorspec)
+        const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'));
+        const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'));
 
         // check_required_files()
 
@@ -77,7 +78,7 @@ module.exports = {
             const balance = validator_n.pallet_options &&
                 validator_n.pallet_options.balances &&
                 validator_n.pallet_options.balances.balance ||
-                BigInt("1152921504606846976");
+                BigNumber("1152921504606846976");
             runtime_obj.balances.balances.push(
                 [validator_n.sr25519.address, balance]
             )
@@ -96,7 +97,7 @@ module.exports = {
 
         }
 
-        chainspec_str = JSON.stringify(chainspec, bigintHandler, "    ")
+        chainspec_str = JSONbig.stringify(chainspec, null, "    ")
         process.stdout.write(chainspec_str);
         //console.info(chainspec_str)
 

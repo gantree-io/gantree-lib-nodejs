@@ -1,12 +1,12 @@
 ---
 - name: copy chainspec back to generator
   copy:
-    src: "{{ gropius_control_working }}/spec/chainSpec.json"
-    dest: "{{ gropius_working }}/spec/chainSpec.json"
+    src: "{{ gropius_control_working }}/spec/chainSpecInjected.json"
+    dest: "{{ gropius_working }}/spec/chainSpecInjected.json"
 
 - name: generate raw chain spec
   shell: |
-    {{ substrate_bin_name }} build-spec --chain ./chainSpec.json --raw > ./chainSpecRaw.raw
+    {{ substrate_bin_name }} build-spec --chain ./chainSpecInjected.json --raw > ./chainSpecRaw.raw
   args:
     chdir: "{{ gropius_working }}/spec/"
   changed_when: false
