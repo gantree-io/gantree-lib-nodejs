@@ -27,12 +27,17 @@ function check_required_files() {
     if (files_missing == true) { process.exit(-1) }
 }
 
+const bigintHandler = (key, value) => {
+    return typeof value == 'bigint' ? value.toString() : value;
+}
+
 module.exports = {
     do: async (cmd) => {
         // console.log(cmd)
         // if (cmd.chainspec && cmd.validatorspec) {
-        const chainspec = fs.readdirSync(cmd.specfile);
-        const validatorspec = fs.readdirSync(cmd.validatorsfile);
+        const chainspec = JSON.parse(fs.readFileSync(cmd.spec, 'utf-8'));
+        const validatorspec = JSON.parse(fs.readFileSync(cmd.validators, 'utf-8'));
+        console.log(validatorspec)
 
         // check_required_files()
 
@@ -66,30 +71,34 @@ module.exports = {
             // console.log(`balances | balance: ${validator_n.pallet_options.balances.balance}`)
             // console.log("---------------------------------")
 
-            runtime_obj.aura.authorities.push(validator_n.sr25519)
-            runtime_obj.indices.ids.push(validator_n.sr25519)
+            runtime_obj.aura.authorities.push(validator_n.sr25519.address)
+            runtime_obj.indices.ids.push(validator_n.sr25519.address)
+
+            const balance = validator_n.pallet_options &&
+                validator_n.pallet_options.balances &&
+                validator_n.pallet_options.balances.balance ||
+                BigInt("1152921504606846976");
             runtime_obj.balances.balances.push(
-                [
-                    validator_n.sr25519,
-                    validator_n.pallet_options.balances.balance
-                ]
+                [validator_n.sr25519.address, balance]
             )
 
             if (i == 0) {
-                runtime_obj.sudo.key = validator_n.sr25519
+                runtime_obj.sudo.key = validator_n.sr25519.address
             }
 
+            const weight = validator_n.pallet_options &&
+                validator_n.pallet_options.grandpa &&
+                validator_n.pallet_options.grandpa ||
+                1;
             runtime_obj.grandpa.authorities.push(
-                [
-                    validator_n.ed25519,
-                    validator_n.pallet_options.grandpa.vote_weight
-                ]
+                [validator_n.ed25519.address, weight]
             )
 
         }
 
-        chainspec_str = JSON.stringify(chainspec, null, "    ")
-        console.info(chainspec_str)
+        chainspec_str = JSON.stringify(chainspec, bigintHandler, "    ")
+        process.stdout.write(chainspec_str);
+        //console.info(chainspec_str)
 
         // console.log(chalk.yellow('[Gropius] Syncing platform...'));
         // const platform = new Platform(cfg);

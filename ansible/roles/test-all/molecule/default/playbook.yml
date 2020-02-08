@@ -25,9 +25,9 @@
 #  - validator-push-bin
 #  become: yes
 
-#- hosts: validator
-#  roles:
-#  - substrate-keygen-bare
+- hosts: validator
+  roles:
+  - substrate-keygen-bare
 
 - hosts: builder_bin
   roles:
