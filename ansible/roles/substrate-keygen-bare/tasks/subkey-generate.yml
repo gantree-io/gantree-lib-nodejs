@@ -24,19 +24,11 @@
   when: mnemonic_check.stat.exists == False
 
 - name: write mnemonic to disk on remote host
-  delegate_to: localhost
   copy:
     content: "{{ mnemonic.stdout }}"
-    dest: "{{ gropius_control_working }}/spec/combo.json"
+    dest: /home/{{ substrate_user }}/mnemonic
   become: no
-
-# TODO(ryan): remove this task
-#- name: write mnemonic to disk on remote host
-#  template:
-#    src: mnemonic
-#    dest: /home/{{ substrate_user }}/mnemonic
-#    mode: 0666
-#  when: mnemonic_check.stat.exists == False
+  when: mnemonic_check.stat.exists == False
 
 - name: save session info
   shell: |
