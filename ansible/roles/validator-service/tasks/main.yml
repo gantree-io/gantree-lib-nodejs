@@ -1,14 +1,14 @@
 ---
 # tasks file for validator service
-- name: "create group: {{ substrate_group }}"
+- name: 'create group: {{ substrate_group }}'
   group:
-    name: "{{ substrate_group }}"
+    name: '{{ substrate_group }}'
     state: present
 
-- name: "add user: {{ substrate_user }} to group: {{ substrate_group }}"
+- name: 'add user: {{ substrate_user }} to group: {{ substrate_group }}'
   user:
-    name: "{{ substrate_user }}"
-    group: "{{ substrate_group }}"
+    name: '{{ substrate_user }}'
+    group: '{{ substrate_group }}'
     append: true
 
 - name: install systemd
@@ -66,7 +66,7 @@
 - name: initialize server keys
   uri:
     url: http://127.0.0.1:9933
-    method: "POST"
+    method: 'POST'
     body_format: json
     body: |
       { "jsonrpc":"2.0", "method":"author_rotateKeys", "params":[], "id":1 }
@@ -80,6 +80,6 @@
 
 - name: save rotateKeys output
   copy:
-    content: "{{ rotate_keys.json }}"
+    content: '{{ rotate_keys.json }}'
     dest: /home/substrate/rotate_keys.log
   when: keystore_files.stdout == "0"
