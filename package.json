@@ -1,10 +1,10 @@
 {
-  "name": "polkadot-secure-validator",
-  "version": "0.14.4",
+  "name": "gantree-cli",
+  "version": "0.15.0",
   "main": "src/index.js",
-  "repository": "https://github.com/w3f/polkadot-secure-validator",
-  "author": "Federico Gimenez <federico@web3.foundation>",
-  "license": "GPL-3.0",
+  "repository": "https://bitbucket.org/flexdapps/gantree-gropius",
+  "author": "Flex Dapps",
+  "license": "Apache-2.0",
   "scripts": {
     "test": "mocha --reporter spec --recursive",
     "sync": "node . sync",
@@ -15,7 +15,7 @@
     "pretest": "yarn lint"
   },
   "bin": {
-    "polkadot-secure-validator": "src/index.js"
+    "gantree-cli": "src/index.js"
   },
   "files": [
     "/ansible",
