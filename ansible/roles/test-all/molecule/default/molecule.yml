@@ -36,6 +36,8 @@ provisioner:
   inventory:
     group_vars:
       all:
+        substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
+        substrate_repository_version: '8b6fe66'
         substrate_network_id: molcule-sub-network
         substrate_chain: dev
         substrate_bin_name: molecule-sub-bin

@@ -1,8 +1,8 @@
 ---
 - name: download node source
   git:
-    repo: https://github.com/substrate-developer-hub/substrate-node-template
-    version: '8b6fe66'
+    repo: "{{ substrate_repository }}"
+    version: "{{ substrate_repostiory_version }}"
     dest: "{{ gropius_working }}/node-src"
 
 - name: compile-node
