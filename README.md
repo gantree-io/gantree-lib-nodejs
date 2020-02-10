@@ -1,3 +1,4 @@
+<!-- If you are seeing this, you may be reading an embedded version of this readme.md on BitBucket. If you see any other statements with arrows like this one, feel free to ignore them. BitBucket doesn't support comments like these. -->
 <!-- markdownlint-disable MD001 MD041 -->
 ![Platform: Linux,Mac](https://img.shields.io/badge/Platform-%20Linux%20%7C%20Mac-blue.svg)
 <!-- markdownlint-enable MD001 MD041 -->
@@ -12,9 +13,8 @@ In the past, setting up and managing blockchain networks required an understandi
 
 With the assistance of funding from the [Web3 Foundation](https://web3.foundation/), Flex Dapps is building a suite of technologies which will enable both power users and those less versed to create and manage substrate-powered parachain networks via rapid spin-up and tear-down of self-managed or cloud-hosted machines.
 
-## How to use
+## Requirements
 
-[todo]
 <!-- This repo has code for creating a complete implementation of the approach
 described [here](https://hackmd.io/QSJlqjZpQBihEU_ojmtR8g) from scratch, including
 both layers described in [Workflow](#workflow). This can be done on a host with
@@ -36,7 +36,19 @@ In order to use Gropius-CLI, the following dependencies are required:
 [terraform-install]: https://www.terraform.io/downloads.html
 [ansible-install]: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
+### NodeJS Requirements
+
+In order to install the required node packages, run the following
+
+```bash
+git clone https://bitbucket.org/flexdapps/gantree-gropius
+cd gantree-gropius
+yarn
+```
+
 ### Environment Requirements
+
+#### Provider Credentials
 
 For security reasons, credentials for infrastructure providers must be exported as environment variables.
 
@@ -48,13 +60,15 @@ For security reasons, credentials for infrastructure providers must be exported 
 
 **note:** you only need credentials for providers you wish to use
 
-You need two additional environment variables to allow ansible to connect to the
-created instances:
+#### SSH Credentials
 
-| EXPORT NAME            | DESCRIPTION                                                   |
-| ---------------------- | ------------------------------------------------------------- |
-| `SSH_ID_RSA_PUBLIC`    | path to private SSH key you want to use for the public nodes. |
-| `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators.   |
+You need two additional environment variables to allow ansible to connect to created instances:
+
+| EXPORT NAME            | DESCRIPTION                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators. |
+
+<!-- | `SSH_ID_RSA_PUBLIC`    | path to private SSH key you want to use for the public nodes. | -->
 
 You must generate these keys yourself and add them to your ssh-agent.
 
@@ -65,14 +79,18 @@ $ ssh-keygen -f <path>
 $ ssh-add <path>
 ``` -->
 
-### Configuration Examples
+### Configuration
+
+Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
+
+#### Configuration Examples
 
 Examples of provider definitions
 
 * [AWS Example](config/main.sample_aws.json)
 * [DigitalOcean Example](config/main.sample_do.json)
 
-Multiple providers can be used in configuration.
+**note:** multiple providers can be used in a single configuration.
 
 **note:** the more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
 
@@ -81,6 +99,8 @@ Multiple providers can be used in configuration.
 ***TEXT BELOW THIS LINE STILL REQUIRES UPDATING AND IS LIKELY OUTDATED***
 
 ---
+
+## Usage
 
 ### Syncronization
 
@@ -105,7 +125,7 @@ changes when the actual infrastructure state doesn't match the desired state.
 
 You can remove all the created infrastructure with:
 
-```
+```bash
 $ yarn clean -c config/main.json
 ```
 
