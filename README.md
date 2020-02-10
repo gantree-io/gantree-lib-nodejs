@@ -1,75 +1,92 @@
-[![CircleCI](https://circleci.com/gh/w3f/polkadot-secure-validator.svg?style=svg)](https://circleci.com/gh/w3f/polkadot-secure-validator)
+<!-- markdownlint-disable MD001 MD041 -->
+![Platform: Linux,Mac](https://img.shields.io/badge/Platform-%20Linux%20%7C%20Mac-blue.svg)
+<!-- markdownlint-enable MD001 MD041 -->
 
-# Polkadot Secure Validator Setup
+# Gantree CLI
 
-This repo describes a potential setup for a Polkadot validator that aims to prevent
-some types of potential attacks.
+## About
+
+Substrate is built on the core belief that the future will be multichain.
+
+In the past, setting up and managing blockchain networks required an understanding of a multitude of concepts which may have inhibited end users from experimenting with them.
+
+With the assistance of funding from the [Web3 Foundation](https://web3.foundation/), Flex Dapps is building a suite of technologies which will enable both power users and those less versed to create and manage substrate-powered parachain networks via rapid spin-up and tear-down of self-managed or cloud-hosted machines.
 
 ## How to use
 
-This repo has code for creating a complete implementation of the approach
+[todo]
+<!-- This repo has code for creating a complete implementation of the approach
 described [here](https://hackmd.io/QSJlqjZpQBihEU_ojmtR8g) from scratch, including
 both layers described in [Workflow](#workflow). This can be done on a host with
-NodeJS, Yarn and Git installed with:
+NodeJS, Yarn and Git installed with: -->
 
-### Prerequisites
+### Software Requirements
 
-Before using polkadot-secure-validator you need to have installed:
+In order to use Gropius-CLI, the following dependencies are required:
 
-* NodeJS (we recommend using [nvm](https://github.com/nvm-sh/nvm))
+| REQUIREMENT                    | VERSION   | NOTES                                          |
+| ------------------------------ | --------- | ---------------------------------------------- |
+| NodeJS                         | >=10.18.1 | Recommended install method: [nvm](nvm-install) |
+| [Yarn](yarn-install)           | >=1.21.1  | Install with `npm install -g yarn`             |
+| [Terraform](terraform-install) | >=0.12    | Snap package will be likely too old            |
+| [Ansible](ansible-install)     | >=2.8     | Recommended install method: pip                |
 
-* [Yarn](https://yarnpkg.com/lang/en/docs/install)
+[nvm-install]: https://github.com/nvm-sh/nvm
+[yarn-install]: https://yarnpkg.com/lang/en/docs/install
+[terraform-install]: https://www.terraform.io/downloads.html
+[ansible-install]: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-* [Terraform](https://www.terraform.io/downloads.html) (the snap package available via your package manager will not work)
+### Environment Requirements
 
-* [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (v2.8+, available through pip)
+For security reasons, credentials for infrastructure providers must be exported as environment variables.
 
-You will need credentials as environment variables for all the infrastructure providers
-used in the platform creation phase. The tool now supports AWS, Azure, GCP and packet,
-these are the required variables:
+| PROVIDER     | EXPORTS REQUIRED                                | NOTES                                                                                                                                                       |
+| ------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AWS          | `AWS_ACCESS_KEY_ID`</br>`AWS_SECRET_ACCESS_KEY` | IAM account with EC2 and VPC write access.                                                                                                                  |
+| GCP          | `GOOGLE_APPLICATION_CREDENTIALS`                | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
+| DigitalOcean | ?                                               | ?                                                                                                                                                           |
 
-* AWS: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` of an IAM account with EC2
-and VPC write access.
-* Azure: `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_SUBSCRIPTION_ID`,
-`ARM_TENANT_ID`, `TF_VAR_client_id` (same as `ARM_CLIENT_ID`),
-`TF_VAR_client_secret` (same as `ARM_CLIENT_SECRET`). All these credentials
-should correspond to a service principal with at least a `Contributor` role,
-see [here](https://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
-for details or [create an issue](https://github.com/w3f/polkadot-secure-validator/issues/new) for
-finer grained access control.
-* GCP: `GOOGLE_APPLICATION_CREDENTIALS` (path to json file with credentials of
-the service account you want to use; this service account needs to have write
-access to compute and network resources).
-* PACKET: `TF_VAR_auth_token`.
-
-The tool allows you to specify which providers to use, so you don't need to have
-accounts in all of them, see [here](https://github.com/w3f/polkadot-secure-validator/blob/master/config/main.sample.json)
-for an example of how to define the providers. You could use, for instance,
-packet for the validators and GCP for the public nodes. Keep in mind that, the
-more distributed your public nodes, the fewer opportunities to be affected by
-potential incidents in the respective cloud providers.
+**note:** you only need credentials for providers you wish to use
 
 You need two additional environment variables to allow ansible to connect to the
-created machines:
+created instances:
 
-* `SSH_ID_RSA_PUBLIC`: path to private SSH key you want to use for the public
-nodes.
+| EXPORT NAME            | DESCRIPTION                                                   |
+| ---------------------- | ------------------------------------------------------------- |
+| `SSH_ID_RSA_PUBLIC`    | path to private SSH key you want to use for the public nodes. |
+| `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators.   |
 
-* `SSH_ID_RSA_VALIDATOR`: path to private SSH key you want to use for the
-validators.
+You must generate these keys yourself and add them to your ssh-agent.
 
-You can easily create and add them to your ssh-agent as follows:
+<!-- You can easily create and add them to your ssh-agent as follows:
 
 ```bash
 $ ssh-keygen -f <path>
 $ ssh-add <path>
-```
+``` -->
+
+### Configuration Examples
+
+Examples of provider definitions
+
+* [AWS Example](config/main.sample_aws.json)
+* [DigitalOcean Example](config/main.sample_do.json)
+
+Multiple providers can be used in configuration.
+
+**note:** the more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
+
+---
+
+***TEXT BELOW THIS LINE STILL REQUIRES UPDATING AND IS LIKELY OUTDATED***
+
+---
 
 ### Syncronization
 
-```
-$ git clone https://github.com/w3f/secure-validator
-$ cd secure-validator
+```bash
+$ git clone https://bitbucket.org/flexdapps/gantree-gropius
+$ cd gantree-gropius
 $ yarn
 $ cp config/main.template.json config/main.json
 # now you should complete and customize config/main.json, using main.sample.json as a reference
