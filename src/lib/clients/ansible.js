@@ -53,6 +53,8 @@ class Ansible {
     const data = {
       project: this.config.project,
 
+      substrate_repository: this.config.repository.url,
+      substrate_repository_version: this.config.repository.version,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',

@@ -1,31 +1,35 @@
 {{#each validators }}
-[validator-{{@index}}]
+[validator{{@index}}]
 {{ this.ipAddress }}
 
-[validator-{{@index}}:vars]
+[validator{{@index}}:vars]
 ansible_user={{ this.sshUser }}
 telemetryUrl={{ ../validatorTelemetryUrl }}
 loggingFilter='{{{ ../validatorLoggingFilter }}}'
 
 {{/each}}
 
-[bin-builder]
+[builder_bin]
 {{#each validators }}
 {{#unless @index}}
-validator-{{@index}}
+validator{{@index}}
 {{/unless}}
 {{/each}}
 
-[spec-builder]
+[builder_bin:vars]
+substrate_repository={{ substrate_repository }}
+substrate_repository_version={{ substrate_repository_version }}
+
+[builder_spec]
 {{#each validators }}
 {{#unless @index}}
-validator-{{@index}}
+validator{{@index}}
 {{/unless}}
 {{/each}}
 
 [validator:children]
 {{#each validators }}
-validator-{{@index}}
+validator{{@index}}
 {{/each}}
 
 [all:vars]
