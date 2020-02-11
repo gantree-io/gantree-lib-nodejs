@@ -1,11 +1,21 @@
+# nodejs
 node_modules
-build/*
+
+# yarn
+yarn-error.log
+
+# ansible
 ansible/inventory
 ansible/**/__pycache__
+
+# gropius
 config/main.json
-yarn-error.log
+setup_env_vars.sh
+
+# unknown
+build/*
 .env
 
-# local terraform state
+# terraform
 tfstate
 tfstate.backup
