@@ -1,16 +1,20 @@
 node_modules
 build/*
 ansible/inventory
+ansible/inventory.sample
 ansible/roles/mock-*
 ansible/roles/__dep__
 ansible/**/__pycache__
 config/main.json
 config
+keys
 samples
 scripts
 yarn-error.log
 .env
 .vscode
+.eslintrc.json
+.npmrc-auth
 *-workspace
 
 # local terraform state

@@ -1,6 +1,6 @@
 {
   "name": "@flexdapps/gantree-cli",
-  "version": "0.15.3",
+  "version": "0.15.0-alpha",
   "main": "src/index.js",
   "repository": "https://bitbucket.org/flexdapps/gantree-gropius",
   "author": "Flex Dapps",
@@ -17,12 +17,6 @@
   "bin": {
     "gantree-cli": "src/index.js"
   },
-  "files": [
-    "/ansible",
-    "/src",
-    "/terraform",
-    "/tpl"
-  ],
   "dependencies": {
     "bignumber.js": "^9.0.0",
     "chalk": "^2.4.2",
