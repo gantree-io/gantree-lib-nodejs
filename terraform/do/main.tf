@@ -46,8 +46,8 @@ resource "digitalocean_firewall" "web" {
   }
 
   outbound_rule {
-    protocol = "tcp"
-    # port_range            = "53" # couldn't access apt
+    protocol              = "tcp"
+    port_range            = "53"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
