@@ -3,11 +3,11 @@ data "digitalocean_ssh_key" "default" {
 }
 
 resource "digitalocean_droplet" "web" {
-  count    = 2
+  count    = var.node_count
   name     = "{{name}}-${count.index}"
-  size     = "s-16vcpu-64gb"
+  size     = var.machine_type
   image    = "ubuntu-18-04-x64"
-  region   = "nyc3"
+  region   = var.zone
   ssh_keys = [data.digitalocean_ssh_key.default.id]
 }
 
