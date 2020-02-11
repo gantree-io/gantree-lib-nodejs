@@ -1,0 +1,18 @@
+node_modules
+build/*
+ansible/inventory
+ansible/roles/mock-*
+ansible/roles/__dep__
+ansible/**/__pycache__
+config/main.json
+config
+samples
+scripts
+yarn-error.log
+.env
+.vscode
+*-workspace
+
+# local terraform state
+tfstate
+tfstate.backup
