@@ -1,6 +1,6 @@
 {
-  "name": "gantree-cli",
-  "version": "0.15.0",
+  "name": "@flexdapps/gantree-cli",
+  "version": "0.15.3",
   "main": "src/index.js",
   "repository": "https://bitbucket.org/flexdapps/gantree-gropius",
   "author": "Flex Dapps",
@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "fs-extra": "^8.1.0",
     "handlebars": "^4.3.0",
+    "js-yaml": "^3.13.1",
     "json-bigint": "^0.3.0",
     "node-forge": "^0.9.0",
     "ospath": "^1.2.2"
