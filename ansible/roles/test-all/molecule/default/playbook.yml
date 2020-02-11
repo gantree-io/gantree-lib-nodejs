@@ -1,34 +1,37 @@
-# ---
-# - hosts: all
-#   gather_facts: false
-#   strategy: free
-#   tasks:
-#     - name: wait for machine and ssh
-#       wait_for_connection:
-#         timeout: 5
-#         sleep: 2
-#       retries: 3
+---
+- hosts: all
+  gather_facts: false
+  strategy: free
+  tasks:
+  - name: wait for machine and ssh
+    wait_for_connection:
+      timeout: 5
+      sleep: 2
+    retries: 3
 
-# # TODO(ryan): check this is actually needed
-# - hosts: validator
-#   roles:
-#     - gropius-env
-#   become: yes
+- hosts: validator
+  roles:
+    - gropius-env
+  become: yes
 
-# - hosts: builder_bin
-#   roles:
-#     - substrate-build-node
-#   become: yes
+- hosts: builder_bin
+  roles:
+    - substrate-build-node
+  become: yes
 
-# - hosts: validator
-#   strategy: free
-#   roles:
-#     - validator-push-bin
-#   become: yes
+- hosts: validator
+  strategy: free
+  roles:
+    - validator-push-bin
+  become: yes
 
-# - hosts: validator
-#   roles:
-#     - substrate-keygen-bare
+- hosts: localhost
+  roles:
+    - host-prep
+
+- hosts: validator
+  roles:
+    - substrate-keygen-bare
 
 - hosts: builder_bin
   roles:

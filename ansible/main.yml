@@ -26,6 +26,10 @@
     - validator-push-bin
   become: yes
 
+- hosts: localhost
+  roles:
+    - host-prep
+
 - hosts: validator
   roles:
     - substrate-keygen-bare
