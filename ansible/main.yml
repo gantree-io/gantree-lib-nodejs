@@ -10,7 +10,7 @@
       retries: 3
 
 # TODO(ryan): check this is actually needed
-- hosts: validator
+- hosts: all
   roles:
     - gropius-env
   become: yes
