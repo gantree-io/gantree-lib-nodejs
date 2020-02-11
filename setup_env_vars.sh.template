@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# --------------------------
+# NOTE:
+# TEMPLATE REQUIRES UPDATING
+# --------------------------
+
 export SSH_ID_RSA_VALIDATOR={validator_node_ssh_key}
 
 ssh-add {validator_node_ssh_key}
