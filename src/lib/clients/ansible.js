@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra')
+const chalk = require('chalk')
+const process = require('process')
 
 const cmd = require('../cmd');
 const { Project } = require('../project');
@@ -41,6 +43,31 @@ class Ansible {
     return cmd.exec(`ansible-playbook ${command}`, actualOptions);
   }
 
+  _check_required_fields_met() {
+    let fields_missing = []
+
+    if (this.config.project == undefined) { fields_missing.push("1st level key: 'project' [str]") }
+    if (this.config.repository == undefined) {
+      fields_missing.push("1st level key: repository [obj]")
+    } else {
+      if (this.config.repository.url == undefined) {
+        fields_missing.push("2nd level key: repository > url [str]")
+      }
+      if (this.config.repository.version == undefined) {
+        fields_missing.push("2nd level key: repository > version [str]")
+      }
+    }
+    if (this.config.validators == undefined) { fields_missing.push("1nd level key: validators [obj]") }
+
+    if (fields_missing.length > 0) {
+      console.log(chalk.red("[Gropius] missing required values in config!:"))
+      for (let i = 0; i < fields_missing.length; i++) {
+        console.log(chalk.red(`-- missing field: ${fields_missing[i]}`))
+      }
+      process.exit(-1)
+    }
+  }
+
   _writeInventory() {
     const origin = path.resolve(__dirname, '..', '..', '..', 'tpl', 'ansible_inventory');
     const project = new Project(this.config);
@@ -50,6 +77,9 @@ class Ansible {
     const validators = this._genTplNodes(this.config.validators);
     console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
+
+    this._check_required_fields_met()
+
     const data = {
       project: this.config.project,
 
