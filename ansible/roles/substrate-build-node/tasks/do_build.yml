@@ -1,26 +1,26 @@
 ---
 - name: download node source
   git:
-    repo: "{{ substrate_repository }}"
-    version: "{{ substrate_repostiory_version }}"
-    dest: "{{ gropius_working }}/node-src"
+    repo: '{{ substrate_repository }}'
+    version: '{{ substrate_repository_version }}'
+    dest: '{{ gropius_working }}/node-src'
 
 - name: compile-node
   shell: |
     cargo build --release
   args:
-    chdir: "{{ gropius_working }}/node-src/"
+    chdir: '{{ gropius_working }}/node-src/'
   changed_when: false
 
 - name: create host bin directory
   delegate_to: localhost
   file:
-    path: "{{ gropius_control_working }}/bin"
+    path: '{{ gropius_control_working }}/bin'
     state: directory
   become: no
 
 - name: download node bin to host
   fetch:
-    src: "{{ gropius_working }}/node-src/target/release/node-template"
-    dest: "{{ gropius_control_working }}/bin/{{ substrate_bin_name }}"
+    src: '{{ gropius_working }}/node-src/target/release/node-template'
+    dest: '{{ gropius_control_working }}/bin/{{ substrate_bin_name }}'
     flat: true

@@ -9,7 +9,7 @@ loggingFilter='{{{ ../validatorLoggingFilter }}}'
 
 {{/each}}
 
-[builder_bin]
+[builder_bin:children]
 {{#each validators }}
 {{#unless @index}}
 validator{{@index}}
@@ -17,26 +17,33 @@ validator{{@index}}
 {{/each}}
 
 [builder_bin:vars]
-substrate_repository={{ substrate_repository }}
-substrate_repository_version={{ substrate_repository_version }}
+gropius_working='/tmp/gropius-build-bin'
 
-[builder_spec]
+[builder_spec:children]
 {{#each validators }}
 {{#unless @index}}
 validator{{@index}}
 {{/unless}}
 {{/each}}
 
+[builder_spec:vars]
+gropius_working='/home/subuser/tmp/gropius-build-spec'
+
 [validator:children]
 {{#each validators }}
 validator{{@index}}
 {{/each}}
 
+[validator:vars]
+gropius_working=/home/subuser/tmp/gropius-validator
+substrate_user=subuser
+substrate_group=subgroup
+
 [all:vars]
 project={{ project }}
-substrate_user=substrate
-substrate_group=substrate
-ansible_ssh_common_args='-o StrictHostKeyChecking=no -o ConnectTimeout=25 -o ControlMaster=no -o UserKnownHostsFile=/dev/null'
+substrate_user=subuser
+substrate_group=subgroup
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
 build_dir={{ buildDir }}
 node_exporter_enabled='{{ nodeExporterEnabled }}'
 node_exporter_user='{{ nodeExporterUsername }}'
@@ -49,3 +56,11 @@ substrate_restart_hour='{{ substrateRestartHour }}'
 substrate_restart_day='{{ substrateRestartDay }}'
 substrate_restart_month='{{ substrateRestartMonth }}'
 substrate_restart_weekday='{{ substrateRestartWeekDay }}'
+substrate_network_id='local_testnet'
+substrate_repository='https://github.com/substrate-developer-hub/substrate-node-template'
+substrate_repository_version='8b6fe66'
+substrate_chain='/home/subuser/tmp/gropius-validator/spec/chainSpecRaw.raw'
+substrate_bin_name='node-template'
+gropius_control_working='/tmp/gropius-control'
+gropius_root='/Users/bae/Documents/flexdapps/w3f/gantree/workspace/polkadot-secure-validator/'
+

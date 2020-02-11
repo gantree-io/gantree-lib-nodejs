@@ -1,53 +1,109 @@
+---
 - hosts: all
   gather_facts: false
   strategy: free
   tasks:
-  - name: wait for machine and ssh
-    wait_for_connection:
-      timeout: 900
-      sleep: 10
-    retries: 20
+    - name: wait for machine and ssh
+      wait_for_connection:
+        timeout: 5
+        sleep: 2
+      retries: 3
 
-- hosts: all
-  roles: gropius-env
-  become: yes
-
-- hosts: bin-builder
+# TODO(ryan): check this is actually needed
+- hosts: validator
   roles:
-  - substrate-build-node
+    - gropius-env
   become: yes
 
-- hosts: all
+- hosts: builder_bin
+  roles:
+    - substrate-build-node
+  become: yes
+
+- hosts: validator
   strategy: free
   roles:
-  - validator-push-bin
-  become: yes
-
-- hosts: spec-builder
-  roles:
-  - substrate-build-spec
-  become: yes
-
-- hosts: all
-  roles:
-  - validator-push-spec
-  become: yes
-
-- hosts: all
-  strategy: free
-  roles:
-  - substrate-common
-  - role: node-exporter
-    when: "node_exporter_enabled|default(false)|bool == true"
-  become: yes
-
-- hosts: all
-  roles:
-  - common
+    - validator-push-bin
   become: yes
 
 - hosts: validator
   roles:
-  - substrate-validator
-  - substrate-validator-session-info
-  become: yes
+    - substrate-keygen-bare
+
+- hosts: builder_bin
+  roles:
+    - substrate-build-spec
+
+- hosts: builder_bin
+  roles:
+    - control-correct-bootnode
+
+- hosts: validator
+  roles:
+    - validator-push-spec
+
+- hosts: validator
+  roles:
+    - validator-service
+
+- hosts: validator
+  roles:
+    - validator-key-insert
+
+- hosts: validator
+  roles:
+    - validator-service-restart
+# - hosts: all
+#   gather_facts: false
+#   strategy: free
+#   tasks:
+#   - name: wait for machine and ssh
+#     wait_for_connection:
+#       timeout: 900
+#       sleep: 10
+#     retries: 20
+
+# - hosts: all
+#   roles: gropius-env
+#   become: yes
+
+# - hosts: bin-builder
+#   roles:
+#   - substrate-build-node
+#   become: yes
+
+# - hosts: all
+#   strategy: free
+#   roles:
+#   - validator-push-bin
+#   become: yes
+
+# - hosts: spec-builder
+#   roles:
+#   - substrate-build-spec
+#   become: yes
+
+# - hosts: all
+#   roles:
+#   - validator-push-spec
+#   become: yes
+
+# - hosts: all
+#   strategy: free
+#   roles:
+#   - substrate-common
+#   - role: node-exporter
+#     when: "node_exporter_enabled|default(false)|bool == true"
+#   become: yes
+
+# - hosts: all
+#   roles:
+#   - common
+#   become: yes
+
+# - hosts: validator
+#   roles:
+#   - substrate-validator
+#   - substrate-validator-session-info
+#   become: yes
+

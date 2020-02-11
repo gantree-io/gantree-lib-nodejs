@@ -15,8 +15,8 @@ platforms:
       - validator
     privileged: true
     volumes:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    command: "/sbin/init"
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    command: '/sbin/init'
     network_mode: host
     environment:
       container: docker
@@ -26,8 +26,8 @@ platforms:
       - validator
     privileged: true
     volumes:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    command: "/sbin/init"
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    command: '/sbin/init'
     network_mode: host
     environment:
       container: docker
@@ -38,17 +38,17 @@ provisioner:
       all:
         substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
         substrate_repository_version: '8b6fe66'
-        substrate_network_id: molcule-sub-network
-        substrate_chain: dev
-        substrate_bin_name: molecule-sub-bin
-        gropius_control_working: /tmp/gropius-control
+        substrate_network_id: local_testnet
+        substrate_chain: /home/subuser/tmp/gropius-validator/spec/chainSpecRaw.raw
+        substrate_bin_name: node-template
+        gropius_control_working: /home/subuser/tmp/gropius-control
         gropius_root: ../../../../../
       builder_bin:
-        gropius_working: /tmp/gropius-build-bin
+        gropius_working: /home/subuser/tmp/gropius-build-bin
       builder_spec:
-        gropius_working: /tmp/gropius-build-spec
+        gropius_working: /home/subuser/tmp/gropius-build-spec
       validator:
-        gropius_working: /tmp/gropius-validator
+        gropius_working: /home/subuser/tmp/gropius-validator
         substrate_user: subuser
         substrate_group: subgroup
   lint:
