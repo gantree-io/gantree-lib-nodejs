@@ -1,18 +1,20 @@
 data "digitalocean_ssh_key" "default" {
-  name = "Denver-VM-Gantree_digitalocean"
+  name = "gantree-digitalocean"
 }
 
 resource "digitalocean_droplet" "web" {
-  name   = "web-1"
-  size   = "s-1vcpu-1gb"
-  image  = "ubuntu-18-04-x64"
-  region = "nyc3"
+  count    = 2
+  name     = "{{name}}-${count.index}"
+  size     = "s-16vcpu-64gb"
+  image    = "ubuntu-18-04-x64"
+  region   = "nyc3"
+  ssh_keys = [data.digitalocean_ssh_key.default.id]
 }
 
 resource "digitalocean_firewall" "web" {
   name = "only-22-80-and-443"
 
-  droplet_ids = [digitalocean_droplet.web.id]
+  droplet_ids = "${digitalocean_droplet.web.*.id}"
 
   inbound_rule {
     protocol         = "tcp"
@@ -33,6 +35,12 @@ resource "digitalocean_firewall" "web" {
   }
 
   inbound_rule {
+    protocol         = "tcp"
+    port_range       = "30333"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  inbound_rule {
     protocol         = "icmp"
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
@@ -40,6 +48,24 @@ resource "digitalocean_firewall" "web" {
   outbound_rule {
     protocol              = "tcp"
     port_range            = "53"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "80"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "443"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "30333"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 

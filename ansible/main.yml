@@ -5,7 +5,7 @@
   tasks:
     - name: wait for machine and ssh
       wait_for_connection:
-        timeout: 5
+        timeout: 120
         sleep: 2
       retries: 3
 

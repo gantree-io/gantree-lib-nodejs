@@ -18,7 +18,7 @@
             {
                 "provider": "aws",
                 "machineType": "m4.large",
-                "count": 1,
+                "count": 2,
                 "location": "eu-central-1",
                 "zone": "eu-central-1a",
                 "sshUser": "ubuntu"
