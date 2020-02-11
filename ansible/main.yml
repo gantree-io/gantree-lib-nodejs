@@ -9,7 +9,6 @@
         sleep: 2
       retries: 3
 
-# TODO(ryan): check this is actually needed
 - hosts: all
   roles:
     - gropius-env
