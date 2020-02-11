@@ -41,7 +41,7 @@ provisioner:
         substrate_network_id: local_testnet
         substrate_chain: /home/subuser/tmp/gropius-validator/spec/chainSpecRaw.raw
         substrate_bin_name: node-template
-        gropius_control_working: /home/subuser/tmp/gropius-control
+        gropius_control_working: /tmp/gropius-control
         gropius_root: ../../../../../
       builder_bin:
         gropius_working: /home/subuser/tmp/gropius-build-bin
