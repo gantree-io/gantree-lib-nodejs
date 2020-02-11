@@ -45,27 +45,33 @@ resource "digitalocean_firewall" "web" {
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
-  outbound_rule {
-    protocol              = "tcp"
-    port_range            = "53"
-    destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
+  # outbound_rule {
+  #   protocol              = "tcp"
+  #   port_range            = "53" # tcp/udp
+  #   destination_addresses = ["0.0.0.0/0", "::/0"]
+  # }
+
+  # outbound_rule {
+  #   protocol              = "tcp"
+  #   port_range            = "80" # routed HTTP
+  #   destination_addresses = ["0.0.0.0/0", "::/0"]
+  # }
+
+  # outbound_rule {
+  #   protocol              = "tcp"
+  #   port_range            = "443" # routed HTTPS
+  #   destination_addresses = ["0.0.0.0/0", "::/0"]
+  # }
+
+  # outbound_rule {
+  #   protocol              = "tcp"
+  #   port_range            = "30333" # default substrate port
+  #   destination_addresses = ["0.0.0.0/0", "::/0"]
+  # }
 
   outbound_rule {
     protocol              = "tcp"
-    port_range            = "80"
-    destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-    protocol              = "tcp"
-    port_range            = "443"
-    destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-    protocol              = "tcp"
-    port_range            = "30333"
+    port_range            = "1-65535" # note: allow any ports for TCP, likely requires future hardening. Bad security.
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
