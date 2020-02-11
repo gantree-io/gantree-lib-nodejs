@@ -1,0 +1,32 @@
+---
+- name: get bootnode public ip
+  ipify_facts:
+  register: bootnode_ip
+
+- name: replace bootnode loopback ip with public ip
+  delegate_to: localhost
+  shell: |
+    sed -i -e s/127.0.0.1/{{ bootnode_ip.ansible_facts.ipify_public_ip }}/g {{gropius_control_working}}/spec/chainSpecRaw.raw
+  args:
+    executable: /bin/bash
+# - name: replace bootnode loopback ip with public ip
+#   delegate_to: localhost
+#   shell: |
+#     remote_ip={{ hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}
+#     sed -i -e s/127.0.0.1/${remote_ip}/g {{gropius_control_working}}/spec/chainSpecRaw.raw
+#   args:
+#     executable: /bin/bash
+# replace:
+#   backup: yes
+#   regexp: /127/g
+#   replace: hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2]
+#   path: '{{ gropius_control_working }}/spec/chainSpecRaw.raw'
+# tasks:
+# - debug: var=hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2]
+
+# - name: replace bootnode loopback ip with public ip
+#   delegate_to: localhost
+#   shell: |
+#     echo {{ hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2] }} >> /home/subuser/yeet
+#   args:
+#     executable: /bin/bash

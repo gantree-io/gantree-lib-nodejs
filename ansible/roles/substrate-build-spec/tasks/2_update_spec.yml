@@ -4,7 +4,7 @@
   delegate_to: localhost
   command: node . key-combine -d {{ gropius_control_working}}/session
   args:
-    chdir: "{{ gropius_root }}"
+    chdir: '{{ gropius_root }}'
   register: combine_result
   become: no
   changed_when: false
@@ -12,32 +12,29 @@
 - name: ensure host spec directory
   delegate_to: localhost
   file:
-    path: "{{ gropius_control_working }}/spec"
+    path: '{{ gropius_control_working }}/spec'
     state: directory
   become: no
 
 - name: write combine
   delegate_to: localhost
   copy:
-    content: "{{ combine_result.stdout }}"
-    dest: "{{ gropius_control_working }}/spec/validators.json"
+    content: '{{ combine_result.stdout }}'
+    dest: '{{ gropius_control_working }}/spec/validators.json'
   become: no
 
 - name: do inject
   delegate_to: localhost
   command: node . inject -s {{ gropius_control_working }}/spec/chainSpec.json -v {{ gropius_control_working}}/spec/validators.json
   args:
-    chdir: "{{ gropius_root }}"
+    chdir: '{{ gropius_root }}'
   register: inject_result
   become: no
   changed_when: false
 
-- debug:
-    var: inject_result
-
 - name: write inject
   delegate_to: localhost
   copy:
-    content: "{{ inject_result.stdout }}"
-    dest: "{{ gropius_control_working }}/spec/chainSpecInjected.json"
+    content: '{{ inject_result.stdout }}'
+    dest: '{{ gropius_control_working }}/spec/chainSpecInjected.json'
   become: no

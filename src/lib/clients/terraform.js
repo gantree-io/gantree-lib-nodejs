@@ -1,28 +1,33 @@
-const fs = require('fs-extra');
-const path = require('path');
+const fs = require('fs-extra')
+const path = require('path')
 
-const cmd = require('../cmd');
-const { Project } = require('../project');
-const ssh = require('../ssh');
-const tpl = require('../tpl');
-
+const cmd = require('../cmd')
+const { Project } = require('../project')
+const ssh = require('../ssh')
+const tpl = require('../tpl')
 
 class Terraform {
   constructor(cfg) {
-    this.config = JSON.parse(JSON.stringify(cfg));
+    this.config = JSON.parse(JSON.stringify(cfg))
 
-    const project = new Project(cfg);
-    this.terraformOriginPath = path.join(__dirname, '..', '..', '..', 'terraform');
-    this.terraformFilesPath = path.join(project.path(), 'terraform');
+    const project = new Project(cfg)
+    this.terraformOriginPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'terraform'
+    )
+    this.terraformFilesPath = path.join(project.path(), 'terraform')
 
     this.options = {
       verbose: true
-    };
+    }
   }
 
   async sync() {
     console.log('[Gropius] Initialising Terraform')
-    this._initializeTerraform();
+    this._initializeTerraform()
     // console.log('init')
     // try {
     //   await this._initState();
@@ -30,18 +35,24 @@ class Terraform {
     //   console.log(`Allowed error creating state backend: ${e.message}`);
     // }
 
-    const sshKeys = ssh.keys();
+    const sshKeys = ssh.keys()
 
     // console.log({sshKeys})
 
-    let validatorSyncPromises = [];
+    let validatorSyncPromises = []
     try {
-      validatorSyncPromises = await this._create('validator', sshKeys.validatorPublicKey, this.config.validators.nodes);
+      validatorSyncPromises = await this._create(
+        'validator',
+        sshKeys.validatorPublicKey,
+        this.config.validators.nodes
+      )
     } catch (e) {
-      console.log(`[Gropius] Could not get validator sync promises: ${e.message}`);
+      console.log(
+        `[Gropius] Could not get validator sync promises: ${e.message}`
+      )
     }
 
-    let publicNodeSyncPromises = [];
+    let publicNodeSyncPromises = []
     // try {
     //   publicNodeSyncPromises = await this._create('publicNode', sshKeys.publicNodePublicKey, this.config.publicNodes.nodes);
     // } catch(e) {
@@ -49,16 +60,21 @@ class Terraform {
     // }
     const syncPromises = validatorSyncPromises.concat(publicNodeSyncPromises)
 
-    return Promise.all(syncPromises);
+    return Promise.all(syncPromises)
   }
 
   async clean() {
-    this._initializeTerraform();
-    let validatorCleanPromises = [];
+    this._initializeTerraform()
+    let validatorCleanPromises = []
     try {
-      validatorCleanPromises = await this._destroy('validator', this.config.validators.nodes);
+      validatorCleanPromises = await this._destroy(
+        'validator',
+        this.config.validators.nodes
+      )
     } catch (e) {
-      console.log(`[Gropius] Could not get validator clean promises: ${e.message}`);
+      console.log(
+        `[Gropius] Could not get validator clean promises: ${e.message}`
+      )
     }
 
     let publicNodesCleanPromises = []
@@ -68,63 +84,72 @@ class Terraform {
     //   console.log(`Could not get publicNodes clean promises: ${e.message}`);
     // }
 
-    const cleanPromises = validatorCleanPromises.concat(publicNodesCleanPromises);
+    const cleanPromises = validatorCleanPromises.concat(
+      publicNodesCleanPromises
+    )
 
-    return Promise.all(cleanPromises);
+    return Promise.all(cleanPromises)
   }
 
   nodeOutput(type, counter, outputField) {
-    const cwd = this._terraformNodeDirPath(type, counter);
-    const options = { cwd };
+    const cwd = this._terraformNodeDirPath(type, counter)
+    const options = { cwd }
 
-    return this._cmd(`output -json ${outputField}`, options);
+    return this._cmd(`output -json ${outputField}`, options)
   }
 
   async _create(type, sshKey, nodes) {
-    const createPromises = [];
+    const createPromises = []
+
+    console.log({ nodes })
 
     for (let counter = 0; counter < nodes.length; counter++) {
-      const cwd = this._terraformNodeDirPath(type, counter);
+      console.log({ counter })
+      const cwd = this._terraformNodeDirPath(type, counter)
       // const backendConfig = this._backendConfig(type, counter);
-      const nodeName = this._nodeName(type, counter);
-      createPromises.push(new Promise(async (resolve) => {
-        const options = { cwd };
-        // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
-        await this._cmd(`init`, options);
+      const nodeName = this._nodeName(type, counter)
+      createPromises.push(
+        new Promise(async resolve => {
+          const options = { cwd }
+          // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+          await this._cmd(`init`, options)
 
-        this._createVarsFile(cwd, nodes[counter], sshKey, nodeName);
+          this._createVarsFile(cwd, nodes[counter], sshKey, nodeName)
 
-        await this._cmd(`apply -auto-approve`, options);
+          await this._cmd(`apply -auto-approve`, options)
 
-        resolve(true);
-      }));
+          resolve(true)
+        })
+      )
     }
-    return createPromises;
+    return createPromises
   }
 
   async _destroy(type, nodes) {
-    const destroyPromises = [];
+    const destroyPromises = []
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
       console.log({ cwd })
       // const backendConfig = this._backendConfig(type, counter);
-      destroyPromises.push(new Promise(async (resolve) => {
-        const options = { cwd };
-        // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
-        await this._cmd(`init`, options);
+      destroyPromises.push(
+        new Promise(async resolve => {
+          const options = { cwd }
+          // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+          await this._cmd(`init`, options)
 
-        await this._cmd('destroy -lock=false -auto-approve', options);
+          await this._cmd('destroy -lock=false -auto-approve', options)
 
-        resolve(true);
-      }));
+          resolve(true)
+        })
+      )
     }
-    return destroyPromises;
+    return destroyPromises
   }
 
   async _cmd(command, options = {}) {
-    const actualOptions = Object.assign({}, this.options, options);
-    return cmd.exec(`terraform ${command}`, actualOptions);
+    const actualOptions = Object.assign({}, this.options, options)
+    return cmd.exec(`terraform ${command}`, actualOptions)
   }
 
   // async _initState(){
@@ -149,26 +174,32 @@ class Terraform {
       name: nodeName
     }
 
-    const source = path.join(__dirname, '..', '..', '..', 'tpl', 'tfvars');
-    const target = path.join(cwd, 'terraform.tfvars');
+    const source = path.join(__dirname, '..', '..', '..', 'tpl', 'tfvars')
+    const target = path.join(cwd, 'terraform.tfvars')
 
-    // console.log({source, target, data})
-    tpl.create(source, target, data);
+    tpl.create(source, target, data)
   }
 
   _initializeTerraform() {
-    fs.removeSync(this.terraformFilesPath);
-    fs.ensureDirSync(this.terraformFilesPath);
+    fs.removeSync(this.terraformFilesPath)
+    fs.ensureDirSync(this.terraformFilesPath)
 
     // console.log(this.terraformFilesPath)
 
     // this._copyTerraformFiles('remote-state', 0, 'remote-state');
     // console.log(this.config.validators)
-    for (let counter = 0; counter < this.config.validators.nodes.length; counter++) {
+    for (
+      let counter = 0;
+      counter < this.config.validators.nodes.length;
+      counter++
+    ) {
       // console.log(counter)
-      this._copyTerraformFiles('validator', counter, this.config.validators.nodes[counter].provider);
+      this._copyTerraformFiles(
+        'validator',
+        counter,
+        this.config.validators.nodes[counter].provider
+      )
     }
-
 
     // for (let counter = 0; counter < this.config.publicNodes.nodes.length; counter++) {
     //   this._copyTerraformFiles('publicNode', counter, this.config.publicNodes.nodes[counter].provider);
@@ -176,31 +207,31 @@ class Terraform {
   }
 
   _copyTerraformFiles(type, counter, provider) {
-    const targetDirPath = this._terraformNodeDirPath(type, counter);
-    const originDirPath = path.join(this.terraformOriginPath, provider);
+    const targetDirPath = this._terraformNodeDirPath(type, counter)
+    const originDirPath = path.join(this.terraformOriginPath, provider)
     // console.log({targetDirPath, originDirPath})
     // fs.mkdirSync(targetDirPath, {recursive: true})
-    fs.ensureDirSync(targetDirPath);
+    fs.ensureDirSync(targetDirPath)
     // console.log('yee')
 
-    const name = this._nodeName(type, counter);
+    const name = this._nodeName(type, counter)
 
-    fs.readdirSync(originDirPath).forEach((item) => {
-      // console.log({item})
-      const origin = path.join(originDirPath, item);
-      const target = path.join(targetDirPath, item);
+    fs.readdirSync(originDirPath).forEach(item => {
+      console.log({ item })
+      const origin = path.join(originDirPath, item)
+      const target = path.join(targetDirPath, item)
       const data = {
         dir: path.resolve(path.join(__dirname, '..', '..', '..')),
         name
-      };
+      }
       console.log({ origin, target, data })
-      tpl.create(origin, target, data);
-    });
+      tpl.create(origin, target, data)
+    })
   }
 
   _terraformNodeDirPath(type, counter = 0) {
-    const dirName = this._nodeName(type, counter);
-    return path.join(this.terraformFilesPath, dirName);
+    const dirName = this._nodeName(type, counter)
+    return path.join(this.terraformFilesPath, dirName)
   }
 
   // _backendConfig(type, counter) {
@@ -215,8 +246,8 @@ class Terraform {
   // }
 
   _nodeName(type, counter) {
-    const name = `${type}${counter}`;
-    return name.toLowerCase();
+    const name = `${type}${counter}`
+    return name.toLowerCase()
   }
 }
 

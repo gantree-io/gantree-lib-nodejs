@@ -9,31 +9,46 @@
       sleep: 2
     retries: 3
 
-# TODO(ryan): check this is actually needed
 - hosts: validator
   roles:
-  - gropius-env
+    - gropius-env
   become: yes
 
 - hosts: builder_bin
   roles:
-  - substrate-build-node
+    - substrate-build-node
   become: yes
 
 - hosts: validator
   strategy: free
   roles:
-  - validator-push-bin
+    - validator-push-bin
   become: yes
+
+- hosts: localhost
+  roles:
+    - host-prep
 
 - hosts: validator
   roles:
-  - substrate-keygen-bare
+    - substrate-keygen-bare
 
 - hosts: builder_bin
   roles:
-  - substrate-build-spec
+    - substrate-build-spec
 
-#- hosts: validator
-#  roles:
-#  - validator-service
+- hosts: validator
+  roles:
+    - validator-push-spec
+
+- hosts: validator
+  roles:
+    - validator-service
+
+- hosts: validator
+  roles:
+    - validator-key-insert
+
+- hosts: validator
+  roles:
+    - validator-service-restart

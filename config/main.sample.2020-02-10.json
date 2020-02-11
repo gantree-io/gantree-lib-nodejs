@@ -1,8 +1,8 @@
 {
     "project": "gantree",
-    "polkadotBinary": {
-        "url": "https://github.com/w3f/polkadot/releases/download/v0.7.9/polkadot",
-        "checksum": "sha256:27fab857c21204374204ec6de4aa36cc39da43a18a373582fa886b7eaf783fdb"
+    "repository": {
+        "url": "https://github.com/substrate-developer-hub/substrate-node-template",
+        "version": "8b6fe66"
     },
     "nodeExporter": {
         "enabled": true,
@@ -16,12 +16,12 @@
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
         "nodes": [
             {
-                "provider": "aws",
-                "machineType": "m4.large",
-                "count": 2,
-                "location": "eu-central-1",
-                "zone": "eu-central-1a",
-                "sshUser": "ubuntu"
+                "provider": "do",
+                "machineType": "s-1vcpu-1gb",
+                "count": 1,
+                "location": "nyc3",
+                "zone": "nyc3",
+                "sshUser": "root"
             }
         ]
     }

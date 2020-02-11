@@ -1,10 +1,12 @@
 ---
 - name: ensure remote spec directory exists
+  become: yes
   file:
-    path: {{ gropius_path }}/spec
+    path: '{{ gropius_working }}/spec'
     state: directory
 
 - name: copy raw-chainspec to validator
+  become: yes
   copy:
-    src: {{ gropius_control_working }}/spec/customSpecRaw.raw
-    dest: {{ gropius_path }}/spec/customSpecRaw.raw
+    src: '{{ gropius_control_working }}/spec/chainSpecRaw.raw'
+    dest: '{{ gropius_working }}/spec/chainSpecRaw.raw'

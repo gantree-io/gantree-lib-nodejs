@@ -54,3 +54,4 @@ substrate_restart_hour='10'
 substrate_restart_day='1'
 substrate_restart_month='*'
 substrate_restart_weekday='*'
+
