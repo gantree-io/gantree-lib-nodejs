@@ -17,13 +17,13 @@ program.version(version.show())
 program
   .command('sync')
   .description('Synchronizes the infrastructure.')
-  .option('-c, --config [path]', 'Path to config file.', './config/main.json')
+  .option('-c, --config [config] (required)', 'Path to config file.')
   .action(sync.do)
 
 program
   .command('clean')
   .description('Removes all the resources.')
-  .option('-c, --config [path]', 'Path to config file.', './config/main.json')
+  .option('-c, --config [config] (required)', 'Path to config file.')
   .action(clean.do)
 
 program
