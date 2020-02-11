@@ -19,7 +19,7 @@ module.exports = {
       console.log(chalk.red(`[Gropius] Could not sync platform: ${e.message}`));
       process.exit(-1);
     }
-    console.log(chalk.green('[Gropius] Done'));
+    console.log(chalk.green('[Gropius] Done syncing platform (terraform)'));
 
     console.log(chalk.yellow('[Gropius] Syncing application...'));
     const app = new Application(cfg, platformResult);
@@ -29,6 +29,6 @@ module.exports = {
       console.log(chalk.red(`[Gropius] Could not sync application: ${e.message}`));
       process.exit(-1);
     }
-    console.log(chalk.green('[Gropius] Done'));
+    console.log(chalk.green('[Gropius] Done syncing application (ansible)'));
   }
 }
