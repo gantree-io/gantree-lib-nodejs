@@ -1,5 +1,5 @@
 data "digitalocean_ssh_key" "default" {
-  name = "Denver-VM-Gantree_digitalocean"
+  name = "gantree-digitalocean"
 }
 
 resource "digitalocean_droplet" "web" {
