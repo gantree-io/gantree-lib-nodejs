@@ -9,7 +9,8 @@
     retries: 20
 
 - hosts: all
-  roles: gropius-env
+  roles:
+  - gropius-env
   become: yes
 
 - hosts: bin-builder
