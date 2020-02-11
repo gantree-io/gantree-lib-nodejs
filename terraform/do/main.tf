@@ -7,9 +7,6 @@ resource "digitalocean_droplet" "web" {
   size   = "s-1vcpu-1gb"
   image  = "ubuntu-18-04-x64"
   region = "nyc3"
-  # name   = var.name
-  # size   = var.machine_type
-  # region = var.zone
 }
 
 resource "digitalocean_firewall" "web" {
@@ -41,7 +38,7 @@ resource "digitalocean_firewall" "web" {
   }
 
   outbound_rule {
-    protocol              = "tcp"
+    protocol = "tcp"
     # port_range            = "53" # couldn't access apt
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
