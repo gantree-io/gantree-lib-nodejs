@@ -56,7 +56,7 @@ For security reasons, credentials for infrastructure providers must be exported 
 | ------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AWS          | `AWS_ACCESS_KEY_ID`</br>`AWS_SECRET_ACCESS_KEY` | IAM account with EC2 and VPC write access.                                                                                                                  |
 | GCP          | `GOOGLE_APPLICATION_CREDENTIALS`                | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
-| DigitalOcean | ?                                               | ?                                                                                                                                                           |
+| DigitalOcean | `DIGITALOCEAN_TOKEN`                            | ***[todo]***                                                                                                                                                |
 
 **note:** you only need credentials for providers you wish to use
 
@@ -79,9 +79,11 @@ $ ssh-keygen -f <path>
 $ ssh-add <path>
 ``` -->
 
-### Configuration
+### Configuration Requirements
 
 Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
+
+Using one of the examples below, create a configuration file to represent your desired infrastructure.
 
 #### Configuration Examples
 
@@ -94,23 +96,29 @@ Examples of provider definitions
 
 **note:** the more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
 
+## Usage
+
+### Syncronization
+
+Before trying to run sync, ensure:
+
+* All requirements are met.
+  * You've installed all required
+    * Software dependencies
+    * NodeJS packages
+  * All relevant environment variables are exported.
+  * You've nagivated to the root of the cloned repo.
+
+To synchronise your configuration with digital infrastructure, run the following:
+
 ---
 
 ***TEXT BELOW THIS LINE STILL REQUIRES UPDATING AND IS LIKELY OUTDATED***
 
 ---
 
-## Usage
-
-### Syncronization
-
 ```bash
-$ git clone https://bitbucket.org/flexdapps/gantree-gropius
-$ cd gantree-gropius
-$ yarn
-$ cp config/main.template.json config/main.json
-# now you should complete and customize config/main.json, using main.sample.json as a reference
-$ yarn sync -c config/main.json
+$ yarn sync -c <PATH_TO_CONFIG>/main.json
 ```
 
 You can also just provision a set of previously created machines with the ansible code
