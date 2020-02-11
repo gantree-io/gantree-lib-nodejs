@@ -1,0 +1,52 @@
+- name: install curl
+  become: yes
+  apt:
+    name: curl
+
+- name: grab keys
+  shell: |
+    if [ {{ item }} = gran ]; then
+      crypto="ed25519"
+    else
+      crypto="sr25519"
+    fi
+    inspect_result=$(cat /home/{{ substrate_user }}/mnemonic | xargs --null /usr/local/bin/subkey --${crypto} inspect)
+    public_key=$(echo -n "${inspect_result}" | grep "Public key" | cut -d':' -f2 | tr -d '[:space:]')
+    mnemonic=$(cat /home/{{ substrate_user }}/mnemonic)
+
+    printf "${public_key}"
+    printf "${mnemonic}"
+
+    curl http://localhost:9933 -H "Content-Type:application/json" -d \
+      "{ \
+        \"jsonrpc\":\"2.0\", \
+        \"id\":1, \
+        \"method\":\"author_insertKey\", \
+        \"params\": [ \
+          \"{{ item }}\", \
+          \"${mnemonic}\", \
+          \"${public_key}\" \
+        ] \
+      }"
+  args:
+    executable: /bin/bash
+  loop:
+    - aura
+    - gran
+    - babe
+    - imol
+    - para
+  register: keys
+
+- name: debug keys
+  debug:
+    var: keys
+# - name: intialise validator keys
+#   uri:
+#     url: http://localhost:9933
+#     method: 'POST'
+#     body_format: json
+#     bash: |
+#       { "jsonrpc":"2.0", "method":"author_insertKey", "params":["{{ item }}", "{{}}", ""], "id":1 }
+#   loop: '{{ keys.results }}'
+#   register: rotate_keys

@@ -1,5 +1,6 @@
 ---
 - name: download subkey binary
+  become: yes
   get_url:
     url: '{{ subkey_binary_url | quote }}'
     checksum: '{{ subkey_binary_checksum | quote }}'

@@ -1,21 +1,12 @@
 ---
 # tasks file for validator service
-- name: "create group: {{ substrate_group }}"
-  group:
-    name: "{{ substrate_group }}"
-    state: present
-
-- name: "add user: {{ substrate_user }} to group: {{ substrate_group }}"
-  user:
-    name: "{{ substrate_user }}"
-    group: "{{ substrate_group }}"
-    append: true
-
 - name: install systemd
+  become: yes
   apt:
     name: systemd
 
 - name: create substrate service file
+  become: yes
   template:
     src: substrate.service.j2
     dest: /etc/systemd/system/substrate.service
@@ -24,62 +15,15 @@
     mode: 0644
 
 - name: configure and stop substrate service in systemd
+  become: yes
   systemd:
     name: substrate
     enabled: yes
     daemon_reload: yes
     state: stopped
 
-- name: copy new substrate binary if needed
-  shell: |
-    set -o pipefail
-
-    if [ -f /usr/local/bin/substrate-new ]; then
-      cp /usr/local/bin/substrate-new /usr/local/bin/{{ substrate_bin_name }}
-      chown {{ substrate_user }}:{{ substrate_group }} /usr/local/bin/{{ substrate_bin_name }}
-      chmod a+x /usr/local/bin/{{ substrate_bin_name }}
-    fi
-  args:
-    executable: /bin/bash
-  changed_when: False
-
 - name: start substrate
+  become: yes
   systemd:
     name: substrate
     state: started
-
-- name: check if keys already exist
-  shell: |
-    set -o pipefail
-    if [ -d /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore ]; then
-      ls /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/keystore -1U | wc -l
-    else
-      mkdir -p /home/substrate/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_chain }}/
-      chown -R {{ substrate_user }}:{{ substrate_user }} /home/substrate/.local/share/{{ substrate_bin_name }}
-      echo 0
-    fi
-  args:
-    executable: /bin/bash
-  register: keystore_files
-  changed_when: False
-
-- name: initialize server keys
-  uri:
-    url: http://127.0.0.1:9933
-    method: "POST"
-    body_format: json
-    body: |
-      { "jsonrpc":"2.0", "method":"author_rotateKeys", "params":[], "id":1 }
-  when: keystore_files.stdout == "0"
-  register: rotate_keys
-
-- name: show rotateKeys output
-  debug:
-    var: rotate_keys
-  when: keystore_files.stdout == "0"
-
-- name: save rotateKeys output
-  copy:
-    content: "{{ rotate_keys.json }}"
-    dest: /home/substrate/rotate_keys.log
-  when: keystore_files.stdout == "0"
