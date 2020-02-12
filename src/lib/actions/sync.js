@@ -1,39 +1,40 @@
-const chalk = require('chalk');
-const process = require('process');
+const chalk = require('chalk')
+const process = require('process')
 
-const config = require('../config.js');
-const { Platform } = require('../platform.js');
-const { Application } = require('../application.js');
-
+const config = require('../config.js')
+const { Platform } = require('../platform.js')
+const { Application } = require('../application.js')
 
 module.exports = {
-  do: async (cmd) => {
+  do: async cmd => {
     if (!cmd.config) {
-      console.info('--config required.');
-      process.exit(1);
-    };
-
-    const cfg = config.read(cmd.config);
-
-    console.log(chalk.yellow('[Gantree] Syncing platform...'));
-    const platform = new Platform(cfg);
-    let platformResult;
-    try {
-      platformResult = await platform.sync();
-    } catch (e) {
-      console.log(chalk.red(`[Gantree] Could not sync platform: ${e.message}`));
-      process.exit(-1);
+      console.info('--config required.')
+      process.exit(1)
     }
-    console.log(chalk.green('[Gantree] Done syncing platform (terraform)'));
 
-    console.log(chalk.yellow('[Gantree] Syncing application...'));
-    const app = new Application(cfg, platformResult);
+    const cfg = config.read(cmd.config)
+
+    console.log(chalk.yellow('[Gantree] Syncing platform...'))
+    const platform = new Platform(cfg)
+    let platformResult
     try {
-      await app.sync();
+      platformResult = await platform.sync()
     } catch (e) {
-      console.log(chalk.red(`[Gantree] Could not sync application: ${e.message}`));
-      process.exit(-1);
+      console.log(chalk.red(`[Gantree] Could not sync platform: ${e.message}`))
+      process.exit(-1)
     }
-    console.log(chalk.green('[Gantree] Done syncing application (ansible)'));
+    console.log(chalk.green('[Gantree] Done syncing platform (terraform)'))
+
+    console.log(chalk.yellow('[Gantree] Syncing application...'))
+    const app = new Application(cfg, platformResult)
+    try {
+      await app.sync()
+    } catch (e) {
+      console.log(
+        chalk.red(`[Gantree] Could not sync application: ${e.message}`)
+      )
+      process.exit(-1)
+    }
+    console.log(chalk.green('[Gantree] Done syncing application (ansible)'))
   }
 }

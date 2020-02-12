@@ -4,7 +4,7 @@ resource "google_compute_firewall" "ssh-p2p-{{ name }}" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "30333"]
+    ports    = ["22", "30333", "80", "443"]
   }
 
   source_ranges = ["0.0.0.0/0"]
@@ -72,7 +72,7 @@ resource "google_compute_instance" "main-{{ name }}" {
     }
   }
 
-  depends_on = ["google_compute_firewall.ssh-p2p-{{ name }}", "google_compute_firewall.vpn-{{ name }}"]
+  depends_on = [google_compute_firewall.ssh-p2p-{{ name }}]
 
   service_account {
     scopes = ["compute-ro"]

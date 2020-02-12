@@ -1,4 +1,5 @@
 terraform {
-  backend "gcs" {
+  backend "local" {
+    path = "{{ dir }}/tfstate"
   }
 }

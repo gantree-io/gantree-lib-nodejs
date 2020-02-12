@@ -10,7 +10,9 @@ ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
          {% if hostvars[inventory_hostname].loggingFilter is defined and hostvars[inventory_hostname].loggingFilter|length %}
          -l{{ hostvars[inventory_hostname].loggingFilter }} \
          {% endif %}
+         {% if substrate_use_default_spec is undefined or substrate_use_default_spec == 'false' %}
          --chain={{ substrate_chain }} \
+         {% endif %}
          --no-telemetry
 
 Restart=always

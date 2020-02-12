@@ -11,9 +11,8 @@
 
 - hosts: all
   roles:
-    - gropius-env
+    - role: gropius-env
   become: yes
-
 - hosts: builder_bin
   roles:
     - substrate-build-node
@@ -35,15 +34,18 @@
 
 - hosts: builder_bin
   roles:
-    - substrate-build-spec
+    - role: substrate-build-spec
+      when: 'substrate_use_default_spec|default(false)|bool == false'
 
 - hosts: builder_bin
   roles:
-    - control-correct-bootnode
+    - role: control-correct-bootnode
+      when: 'substrate_use_default_spec|default(false)|bool == false'
 
 - hosts: validator
   roles:
-    - validator-push-spec
+    - role: validator-push-spec
+      when: 'substrate_use_default_spec|default(false)|bool == false'
 
 - hosts: validator
   roles:
