@@ -30,7 +30,7 @@ validator{{@index}}
 gropius_working='/home/subuser/tmp/gropius-build-spec'
 
 [bootnode:children]
-{{#each validator}}
+{{#each validators }}
 {{#unless @index}}
 validator{{@index}}
 {{/unless}}
