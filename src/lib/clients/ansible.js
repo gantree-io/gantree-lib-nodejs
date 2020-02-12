@@ -47,21 +47,25 @@ class Ansible {
   _check_required_fields_met() {
     let fields_missing = []
 
-    if (this.config.project == undefined) { fields_missing.push("1st level key: 'project' [str]") }
+    if (this.config.project == undefined) {
+      fields_missing.push("1st level key: 'project' [str]")
+    }
     if (this.config.repository == undefined) {
-      fields_missing.push("1st level key: repository [obj]")
+      fields_missing.push('1st level key: repository [obj]')
     } else {
       if (this.config.repository.url == undefined) {
-        fields_missing.push("2nd level key: repository > url [str]")
+        fields_missing.push('2nd level key: repository > url [str]')
       }
       if (this.config.repository.version == undefined) {
-        fields_missing.push("2nd level key: repository > version [str]")
+        fields_missing.push('2nd level key: repository > version [str]')
       }
     }
-    if (this.config.validators == undefined) { fields_missing.push("1nd level key: validators [obj]") }
+    if (this.config.validators == undefined) {
+      fields_missing.push('1nd level key: validators [obj]')
+    }
 
     if (fields_missing.length > 0) {
-      console.log(chalk.red("[Gantree] missing required values in config!:"))
+      console.log(chalk.red('[Gantree] missing required values in config!:'))
       for (let i = 0; i < fields_missing.length; i++) {
         console.log(chalk.red(`-- missing field: ${fields_missing[i]}`))
       }
@@ -94,7 +98,7 @@ class Ansible {
       substrateRepository: this.config.repository.url,
       substrateRepositoryVersion: this.config.repository.version,
       substrateBinaryName: this.config.repository.binaryName,
-      substrateUseDefaultSpec: this.config.repository.useDefaultSpec,
+      substrateUseDefaultSpec: this.config.repository.useDefaultSpec || false,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',
