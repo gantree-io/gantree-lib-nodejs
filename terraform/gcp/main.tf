@@ -11,6 +11,19 @@ resource "google_compute_firewall" "ssh-p2p-{{ name }}" {
   target_tags   = ["{{ name }}"]
 }
 
+resource "google_compute_firewall" "allow-all-outbound-tcp-{{ name }}" {
+  name    = "allow-all-outbound-tcp-{{ name }}"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+  }
+
+  direction     = "EGRESS"
+  source_ranges = ["0.0.0.0/0"] # note: allow all outbound TCP, likely requires future hardening. Poor security.
+  target_tags   = ["{{ name }}"]
+}
+
 resource "google_compute_firewall" "vpn-{{ name }}" {
   name    = "vpn-{{ name }}"
   network = "default"
