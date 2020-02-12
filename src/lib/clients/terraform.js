@@ -139,6 +139,16 @@ class Terraform {
       let provider_n = nodes[i].provider
       if (provider_n in supported_providers) {
         console.log(chalk.green(`[Gantree] COMPATIBLE PROVIDER: ${provider_n}`))
+        const required_env_vars = supported_providers[provider_n]
+        for (let i = 0; i < required_env_vars.length; i++) {
+          const required_env_var = required_env_vars[i]
+          if (required_env_var in process.env) {
+            console.log(chalk.green(`[Gantree] Require env var found: ${required_env_var}`))
+          } else {
+            console.log(chalk.red(`[Gantree] Require env var not found!: ${required_env_var}`))
+            process.exit(-1)
+          }
+        }
       } else {
         console.log(chalk.red(`[Gantree] INCOMPATIBLE PROVIDER: ${provider_n}`))
         process.exit(-1)
