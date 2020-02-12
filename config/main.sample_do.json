@@ -13,12 +13,12 @@
         "nodes": [
             {
                 "provider": "do",
-                "machineType": "s-1vcpu-1gb",
-                "count": 1,
+                "machineType": "s-16vcpu-64gb",
+                "count": 2,
                 "location": "nyc3",
                 "zone": "nyc3",
                 "sshUser": "root"
-            }
+            },
         ]
     }
 }

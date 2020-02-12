@@ -1,34 +1,35 @@
-const chalk = require('chalk');
-const process = require('process');
+const chalk = require('chalk')
+const process = require('process')
 
-const config = require('../config.js');
-const { Platform } = require('../platform.js');
-const { Application } = require('../application.js');
-
+const config = require('../config.js')
+const { Platform } = require('../platform.js')
+const { Application } = require('../application.js')
 
 module.exports = {
-  do: async (cmd) => {
-    const cfg = config.read(cmd.config);
+  do: async cmd => {
+    const cfg = config.read(cmd.config)
 
-    console.log(chalk.yellow('[Gropius] Syncing platform...'));
-    const platform = new Platform(cfg);
-    let platformResult;
+    console.log(chalk.yellow('[Gropius] Syncing platform...'))
+    const platform = new Platform(cfg)
+    let platformResult
     try {
-      platformResult = await platform.sync();
+      platformResult = await platform.sync()
     } catch (e) {
-      console.log(chalk.red(`[Gropius] Could not sync platform: ${e.message}`));
-      process.exit(-1);
+      console.log(chalk.red(`[Gropius] Could not sync platform: ${e.message}`))
+      process.exit(-1)
     }
-    console.log(chalk.green('[Gropius] Done'));
+    console.log(chalk.green('[Gropius] Done'))
 
-    console.log(chalk.yellow('[Gropius] Syncing application...'));
-    const app = new Application(cfg, platformResult);
+    console.log(chalk.yellow('[Gropius] Syncing application...'))
+    const app = new Application(cfg, platformResult)
     try {
-      await app.sync();
+      await app.sync()
     } catch (e) {
-      console.log(chalk.red(`[Gropius] Could not sync application: ${e.message}`));
-      process.exit(-1);
+      console.log(
+        chalk.red(`[Gropius] Could not sync application: ${e.message}`)
+      )
+      process.exit(-1)
     }
-    console.log(chalk.green('[Gropius] Done'));
+    console.log(chalk.green('[Gropius] Done'))
   }
 }

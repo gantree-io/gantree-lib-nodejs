@@ -5,7 +5,7 @@ data "digitalocean_ssh_key" "default" {
 resource "digitalocean_droplet" "web" {
   count    = 2
   name     = "{{name}}-${count.index}"
-  size     = "s-16vcpu-64gb"
+  size     = "c-16"
   image    = "ubuntu-18-04-x64"
   region   = "nyc3"
   ssh_keys = [data.digitalocean_ssh_key.default.id]

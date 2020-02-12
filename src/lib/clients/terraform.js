@@ -116,6 +116,9 @@ class Terraform {
 
           this._createVarsFile(cwd, nodes[counter], sshKey, nodeName)
 
+          console.log({ options })
+
+          cmd.exec(`pwd`)
           await this._cmd(`apply -auto-approve`, options)
 
           resolve(true)

@@ -21,6 +21,6 @@
 
 - name: download node bin to host
   fetch:
-    src: '{{ gropius_working }}/node-src/target/release/node-template'
+    src: '{{ gropius_working }}/node-src/target/release/{{ substrate_bin_name }}'
     dest: '{{ gropius_control_working }}/bin/{{ substrate_bin_name }}'
     flat: true
