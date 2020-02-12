@@ -6,7 +6,8 @@
 - name: replace bootnode loopback ip with public ip
   delegate_to: localhost
   shell: |
-    sed -i -e s/127.0.0.1/{{ bootnode_ip.ansible_facts.ipify_public_ip }}/g {{gropius_control_working}}/spec/chainSpecRaw.raw
+    sed -i -e s/127.0.0.1/{{ bootnode_ip.ansible_facts.ipify_public_ip }}/g {{gantree_control_working}}/spec/chainSpecRaw.raw
   args:
     executable: /bin/bash
+  when: (not is_docker is defined) or (not is_docker == true)
 

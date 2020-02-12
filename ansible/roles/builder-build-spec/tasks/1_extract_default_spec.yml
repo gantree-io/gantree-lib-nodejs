@@ -3,14 +3,14 @@
 - name: create remote chainspec directory
   become: yes
   file:
-    path: '{{ gropius_working }}/spec'
+    path: '{{ gantree_working }}/spec'
     state: directory
 
 - name: generate chain spec
   shell: |
     {{ substrate_bin_name }} build-spec --node-key-file /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_network_id }}/network/secret_ed25519 > ./chainSpec.json
   args:
-    chdir: '{{ gropius_working }}/spec/'
+    chdir: '{{ gantree_working }}/spec/'
   changed_when: false
   become: yes
 
@@ -26,12 +26,12 @@
 - name: create local chainspec directory
   delegate_to: localhost
   file:
-    path: '{{ gropius_control_working }}/spec'
+    path: '{{ gantree_control_working }}/spec'
     state: directory
   become: no
 
 - name: download chain spec
   fetch:
-    src: '{{ gropius_working }}/spec/chainSpec.json'
-    dest: '{{ gropius_control_working }}/spec/chainSpec.json'
+    src: '{{ gantree_working }}/spec/chainSpec.json'
+    dest: '{{ gantree_control_working }}/spec/chainSpec.json'
     flat: true

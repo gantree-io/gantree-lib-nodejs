@@ -32,12 +32,12 @@ program
   .option(
     '-s, --spec [path]',
     'Path to spec file.',
-    '/tmp/gropius_host/spec/chainSpec.json'
+    '/tmp/gantree_host/spec/chainSpec.json'
   )
   .option(
     '-v, --validators [path]',
     'Path to validators file.',
-    '/tmp/gropius_host/spec/validators.json'
+    '/tmp/gantree_host/spec/validators.json'
   )
   .action(inject.do)
 
@@ -49,7 +49,7 @@ program
   .option(
     '-d, --directory [path]',
     'Path to session directory.',
-    '/tmp/gropius_host/session'
+    '/tmp/gantree_host/session'
   )
   .action(keyCombine.do)
 

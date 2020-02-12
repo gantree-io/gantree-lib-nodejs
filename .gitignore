@@ -8,7 +8,7 @@ yarn-error.log
 ansible/inventory
 ansible/**/__pycache__
 
-# gropius
+# gantree
 config/main.json
 setup_env_vars.sh
 
