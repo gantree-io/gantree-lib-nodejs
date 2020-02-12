@@ -1,16 +1,5 @@
 {
     "project": "gantree",
-    "polkadotBinary": {
-        "url": "https://github.com/w3f/polkadot/releases/download/v0.7.9/polkadot",
-        "checksum": "sha256:27fab857c21204374204ec6de4aa36cc39da43a18a373582fa886b7eaf783fdb"
-    },
-    "nodeExporter": {
-        "enabled": true,
-        "binary": {
-            "url": "https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz",
-            "checksum": "sha256:b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
-        }
-    },
     "validators": {
         "telemetryUrl": "wss://my.private.telemetry.endpoint",
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
