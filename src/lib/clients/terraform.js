@@ -5,6 +5,7 @@ const cmd = require('../cmd')
 const { Project } = require('../project')
 const ssh = require('../ssh')
 const tpl = require('../tpl')
+const chalk = require('chalk')
 
 class Terraform {
   constructor(cfg) {
