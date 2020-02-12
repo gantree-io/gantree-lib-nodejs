@@ -31,12 +31,12 @@ function check_files_exist(cmd) {
 
 function check_chainspec_valid(chainspec) {
     if (chainspec.genesis == undefined) {
-        console.log(chalk.red("[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."))
+        console.error(chalk.red("[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."))
         process.exit(-1)
     } else {
         if (chainspec.genesis.runtime == undefined) {
             if (chainspec.genesis.raw == undefined) {
-                console.warn(chalk.red("[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"))
+                console.error(chalk.red("[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"))
                 process.exit(-1)
             } else {
                 // console.log(chalk.red("[Gantree] Inject function does not accept raw chainspecs"))
