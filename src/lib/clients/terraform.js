@@ -35,6 +35,8 @@ class Terraform {
     //   console.log(`Allowed error creating state backend: ${e.message}`);
     // }
 
+    this._check_environment_variables(this.config.validators.nodes)
+
     const sshKeys = ssh.keys()
 
     // console.log({sshKeys})
@@ -123,6 +125,20 @@ class Terraform {
       )
     }
     return createPromises
+  }
+
+  async _check_environment_variables(nodes) {
+    const supported_providers = {
+      "do": ["DIGITALOCEAN_TOKEN"]
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i].provider in supported_providers) {
+        console.log(chalk.green("[Gantree] COMPATIBLE PROVIDER"))
+      } else {
+        console.log(chalk.red("[Gantree] INCOMPATIBLE PROVIDER"))
+        process.exit(-1)
+      }
+    }
   }
 
   async _destroy(type, nodes) {
