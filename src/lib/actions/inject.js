@@ -1,11 +1,11 @@
 // "We will need to generate at least 2 keys from each type. Every node will need to have its own keys."
 
-const chalk = require('chalk');
-const process = require('process');
-const os = require('os');
-const fs = require('fs');
+const chalk = require('chalk')
+const process = require('process')
+const os = require('os')
+const fs = require('fs')
 const JSONbig = require('json-bigint')
-const BigNumber = require('bignumber.js');
+const BigNumber = require('bignumber.js')
 
 const GEN_CHAINSPEC_FILENAME = `generic_chainspec.json`
 const VALIDATORSPEC_FILENAME = `validatorspec.json`
@@ -13,143 +13,167 @@ const VALIDATORSPEC_FILENAME = `validatorspec.json`
 const GENERIC_CHAINSPEC_PATH = `${os.homedir()}/.gantree/${GEN_CHAINSPEC_FILENAME}`
 const VALIDATORSPEC_PATH = `${os.homedir()}/.gantree/${VALIDATORSPEC_FILENAME}`
 
-function check_files_exist(cmd) {
+function check_required_files() {
+  let files_missing = false
 
-    let files_missing = false
+  if (!fs.existsSync(GENERIC_CHAINSPEC_PATH)) {
+    console.error(
+      chalk.red(
+        `[Gantree] ${GEN_CHAINSPEC_FILENAME} missing at path: ${GENERIC_CHAINSPEC_PATH}`
+      )
+    )
+    files_missing = true
+  }
+  if (!fs.existsSync(VALIDATORSPEC_PATH)) {
+    console.error(
+      chalk.red(
+        `[Gantree] ${VALIDATORSPEC_FILENAME} missing at path: ${VALIDATORSPEC_PATH}`
+      )
+    )
+    files_missing = true
+  }
 
-    if (!fs.existsSync(cmd.spec)) {
-        console.error(chalk.red(`[Gantree] No chainspec file found at path: ${cmd.spec}`))
-        files_missing = true
-    }
-    if (!fs.existsSync(cmd.validators)) {
-        console.error(chalk.red(`[Gantree] No validatorspec file found at path: ${cmd.validators}`))
-        files_missing = true
-    }
-
-    if (files_missing == true) { process.exit(-1) }
+  if (files_missing == true) {
+    process.exit(-1)
+  }
 }
 
 function check_chainspec_valid(chainspec) {
-    if (chainspec.genesis == undefined) {
-        console.log(chalk.red("[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."))
+  if (chainspec.genesis == undefined) {
+    console.log(
+      chalk.red(
+        "[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
+      )
+    )
+    process.exit(-1)
+  } else {
+    if (chainspec.genesis.runtime == undefined) {
+      if (chainspec.genesis.raw == undefined) {
+        console.warn(
+          chalk.red(
+            "[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"
+          )
+        )
         process.exit(-1)
-    } else {
-        if (chainspec.genesis.runtime == undefined) {
-            if (chainspec.genesis.raw == undefined) {
-                console.warn(chalk.red("[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"))
-                process.exit(-1)
-            } else {
-                // console.log(chalk.red("[Gantree] Inject function does not accept raw chainspecs"))
-                console.warn(chalk.yellow("[Gantree] ----------------"))
-                console.warn(chalk.yellow("[Gantree] WARNING: raw chainspec used as input"))
-                console.warn(chalk.yellow("[Gantree] This is highly discouraged"))
-                console.warn(chalk.yellow("[Gantree] Function output will be raw instead of non-raw"))
-                console.warn(chalk.yellow("[Gantree] ----------------"))
-                chainspec_str = JSONbig.stringify(chainspec, null, "    ")
-                process.stdout.write(chainspec_str)
-                process.exit()
-            }
-        }
+      } else {
+        // console.log(chalk.red("[Gantree] Inject function does not accept raw chainspecs"))
+        console.warn(chalk.yellow('[Gantree] ----------------'))
+        console.warn(
+          chalk.yellow('[Gantree] WARNING: raw chainspec used as input')
+        )
+        console.warn(chalk.yellow('[Gantree] This is highly discouraged'))
+        console.warn(
+          chalk.yellow(
+            '[Gantree] Function output will be raw instead of non-raw'
+          )
+        )
+        console.warn(chalk.yellow('[Gantree] ----------------'))
+        chainspec_str = JSONbig.stringify(chainspec, null, '    ')
+        process.stdout.write(chainspec_str)
+        process.exit()
+      }
     }
+  }
 }
 
 const bigintHandler = (key, value) => {
-    return typeof value == 'bigint' ? value.toString() : value;
+  return typeof value == 'bigint' ? value.toString() : value
 }
 
 module.exports = {
-    do: async (cmd) => {
+  do: async cmd => {
+    check_files_exist(cmd)
 
-        check_files_exist(cmd)
+    const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'))
+    const validatorspec = JSONbig.parse(
+      fs.readFileSync(cmd.validators, 'utf-8')
+    )
 
-        const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'));
-        const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'));
+    check_chainspec_valid(chainspec)
 
-        check_chainspec_valid(chainspec)
+    let runtime_obj = chainspec.genesis.runtime
 
-        let runtime_obj = chainspec.genesis.runtime
-
-        if (runtime_obj.aura !== undefined) {
-            runtime_obj.aura.authorities = [] // addresses related to block production
-        }
-        if (runtime_obj.indices !== undefined) {
-            runtime_obj.indices.ids = [] // addresses of all validators and normal nodes
-        }
-        if (runtime_obj.balances !== undefined) {
-            runtime_obj.balances.balances = [] // addresses of all validators and normal nodes + their balances
-        }
-        if (runtime_obj.sudo !== undefined) {
-            runtime_obj.sudo.key = undefined // 'master node' of sorts, only a single address string
-        }
-        if (runtime_obj.grandpa !== undefined) {
-            runtime_obj.grandpa.authorities = [] // addresses related to block finalisation + vote weights
-        }
-
-        // console.log("---- NODE #0 | CHAINSPEC ----")
-        // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
-        // console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
-        // console.log(`sr25519: ${chainspec.genesis.runtime.balances.balances[0][0]}`)
-        // console.log(`sr25519: ${chainspec.genesis.runtime.sudo.key}`)
-        // console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0][0]}`)
-        // console.log("-----------------------------")
-
-        // console.log("REMOVING ALL VALIDATOR/NODE PUBLIC ADDRESSES...")
-
-        // inject values into chainspec in memory
-        for (let i = 0; i < validatorspec.validators.length; i++) {
-            const validator_n = validatorspec.validators[i]
-
-            // console.log(`---- NODE #${i} | VALIDATORSPEC ----`)
-            // console.log(`sr25519: ${validator_n.sr25519}`)
-            // console.log(`ed25519: ${validator_n.ed25519}`)
-            // console.log(`grandpa | vote weight: ${validator_n.pallet_options.grandpa.vote_weight}`)
-            // console.log(`balances | balance: ${validator_n.pallet_options.balances.balance}`)
-            // console.log("---------------------------------")
-
-            runtime_obj.aura.authorities.push(validator_n.sr25519.address)
-            runtime_obj.indices.ids.push(validator_n.sr25519.address)
-
-            const balance = validator_n.pallet_options &&
-                validator_n.pallet_options.balances &&
-                validator_n.pallet_options.balances.balance ||
-                BigNumber("1152921504606846976");
-            runtime_obj.balances.balances.push(
-                [validator_n.sr25519.address, balance]
-            )
-
-            if (i == 0) {
-                if (runtime_obj.sudo != undefined) {
-                    runtime_obj.sudo.key = validator_n.sr25519.address
-                }
-            }
-
-            const weight = validator_n.pallet_options &&
-                validator_n.pallet_options.grandpa &&
-                validator_n.pallet_options.grandpa ||
-                1;
-            runtime_obj.grandpa.authorities.push(
-                [validator_n.ed25519.address, weight]
-            )
-
-        }
-
-        chainspec_str = JSONbig.stringify(chainspec, null, "    ")
-        process.stdout.write(chainspec_str);
-        //console.info(chainspec_str)
-
-        // console.log(chalk.yellow('[Gantree] Syncing platform...'));
-        // const platform = new Platform(cfg);
-        // let platformResult;
-        // console.log(chalk.green('[Gantree] Done'));
-
-        // console.log(chalk.yellow('[Gantree] Syncing application...'));
-        // const app = new Application(cfg, platformResult);
-        // try {
-        //     await app.sync();
-        // } catch (e) {
-        //     console.log(chalk.red(`[Gantree] Could not sync application: ${e.message}`));
-        //     process.exit(-1);
-        // }
-        // console.log(chalk.green('[Gantree] Done'));
+    if (runtime_obj.aura !== undefined) {
+      runtime_obj.aura.authorities = [] // addresses related to block production
     }
+    if (runtime_obj.indices !== undefined) {
+      runtime_obj.indices.ids = [] // addresses of all validators and normal nodes
+    }
+    if (runtime_obj.balances !== undefined) {
+      runtime_obj.balances.balances = [] // addresses of all validators and normal nodes + their balances
+    }
+    if (runtime_obj.sudo !== undefined) {
+      runtime_obj.sudo.key = undefined // 'master node' of sorts, only a single address string
+    }
+    if (runtime_obj.grandpa !== undefined) {
+      runtime_obj.grandpa.authorities = [] // addresses related to block finalisation + vote weights
+    }
+
+    // console.log("---- NODE #0 | CHAINSPEC ----")
+    // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
+    // console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
+    // console.log(`sr25519: ${chainspec.genesis.runtime.balances.balances[0][0]}`)
+    // console.log(`sr25519: ${chainspec.genesis.runtime.sudo.key}`)
+    // console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0][0]}`)
+    // console.log("-----------------------------")
+
+    // console.log("REMOVING ALL VALIDATOR/NODE PUBLIC ADDRESSES...")
+
+    // inject values into chainspec in memory
+    for (let i = 0; i < validatorspec.validators.length; i++) {
+      const validator_n = validatorspec.validators[i]
+
+      // console.log(`---- NODE #${i} | VALIDATORSPEC ----`)
+      // console.log(`sr25519: ${validator_n.sr25519}`)
+      // console.log(`ed25519: ${validator_n.ed25519}`)
+      // console.log(`grandpa | vote weight: ${validator_n.pallet_options.grandpa.vote_weight}`)
+      // console.log(`balances | balance: ${validator_n.pallet_options.balances.balance}`)
+      // console.log("---------------------------------")
+
+      runtime_obj.aura.authorities.push(validator_n.sr25519.address)
+      runtime_obj.indices.ids.push(validator_n.sr25519.address)
+
+      const balance =
+        (validator_n.pallet_options &&
+          validator_n.pallet_options.balances &&
+          validator_n.pallet_options.balances.balance) ||
+        BigNumber('1152921504606846976')
+      runtime_obj.balances.balances.push([validator_n.sr25519.address, balance])
+
+      if (i == 0) {
+        if (runtime_obj.sudo != undefined) {
+          runtime_obj.sudo.key = validator_n.sr25519.address
+        }
+      }
+
+      const weight =
+        (validator_n.pallet_options &&
+          validator_n.pallet_options.grandpa &&
+          validator_n.pallet_options.grandpa) ||
+        1
+      runtime_obj.grandpa.authorities.push([
+        validator_n.ed25519.address,
+        weight
+      ])
+    }
+
+    chainspec_str = JSONbig.stringify(chainspec, null, '    ')
+    process.stdout.write(chainspec_str)
+    //console.info(chainspec_str)
+
+    // console.log(chalk.yellow('[Gantree] Syncing platform...'));
+    // const platform = new Platform(cfg);
+    // let platformResult;
+    // console.log(chalk.green('[Gantree] Done'));
+
+    // console.log(chalk.yellow('[Gantree] Syncing application...'));
+    // const app = new Application(cfg, platformResult);
+    // try {
+    //     await app.sync();
+    // } catch (e) {
+    //     console.log(chalk.red(`[Gantree] Could not sync application: ${e.message}`));
+    //     process.exit(-1);
+    // }
+    // console.log(chalk.green('[Gantree] Done'));
+  }
 }
