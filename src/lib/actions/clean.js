@@ -7,6 +7,11 @@ const { Platform } = require('../platform.js');
 
 module.exports = {
   do: async (cmd) => {
+    if (!cmd.config) {
+      console.info('--config required.');
+      process.exit(1);
+    };
+
     const cfg = config.read(cmd.config);
 
     console.log(chalk.yellow('[Gropius] Cleaning platform...'));

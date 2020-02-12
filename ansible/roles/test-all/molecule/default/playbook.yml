@@ -37,6 +37,10 @@
   roles:
     - substrate-build-spec
 
+- hosts: builder_bin
+  roles:
+    - control-correct-bootnode
+
 - hosts: validator
   roles:
     - validator-push-spec
