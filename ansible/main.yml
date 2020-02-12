@@ -19,7 +19,7 @@
     - builder-build-bin
   become: yes
 
-- hosts: validator
+- hosts: validator:builder_spec
   strategy: free
   roles:
     - validator-push-bin
@@ -30,15 +30,16 @@
     - control-prepare
 
 - hosts: validator
+  serial: 1 # NOTE(ryan): to avoid weird collision on pulling the keys to host
   roles:
     - validator-gen-keys
 
-- hosts: builder_bin
+- hosts: builder_spec
   roles:
     - role: builder-build-spec
       when: 'substrate_use_default_spec|default(false)|bool == false'
 
-- hosts: bootnode # NOTE: currently only supports 1
+- hosts: bootnode # NOTE(ryan): currently only supports 1
   roles:
     - role: bootnode-collect-ip
       when: 'substrate_use_default_spec|default(false)|bool == false'

@@ -2,20 +2,20 @@
 - name: copy chainspec back to generator
   become: yes
   copy:
-    src: '{{ gropius_control_working }}/spec/chainSpecInjected.json'
-    dest: '{{ gropius_working }}/spec/chainSpecInjected.json'
+    src: '{{ gantree_control_working }}/spec/chainSpecInjected.json'
+    dest: '{{ gantree_working }}/spec/chainSpecInjected.json'
 
 - name: generate raw chain spec
   shell: |
     {{ substrate_bin_name }} build-spec --chain ./chainSpecInjected.json --raw > ./chainSpecRaw.raw
   args:
-    chdir: '{{ gropius_working }}/spec/'
+    chdir: '{{ gantree_working }}/spec/'
   changed_when: false
   become: yes
 
 - name: download raw chain spec
   become: yes
   fetch:
-    src: '{{ gropius_working }}/spec/chainSpecRaw.raw'
-    dest: '{{ gropius_control_working }}/spec/chainSpecRaw.raw'
+    src: '{{ gantree_working }}/spec/chainSpecRaw.raw'
+    dest: '{{ gantree_control_working }}/spec/chainSpecRaw.raw'
     flat: true

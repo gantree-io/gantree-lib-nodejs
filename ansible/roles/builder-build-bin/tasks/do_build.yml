@@ -3,24 +3,24 @@
   git:
     repo: '{{ substrate_repository }}'
     version: '{{ substrate_repository_version }}'
-    dest: '{{ gropius_working }}/node-src'
+    dest: '{{ gantree_working }}/node-src'
 
 - name: compile-node
   shell: |
     cargo build --release
   args:
-    chdir: '{{ gropius_working }}/node-src/'
+    chdir: '{{ gantree_working }}/node-src/'
   changed_when: false
 
 - name: create host bin directory
   delegate_to: localhost
   file:
-    path: '{{ gropius_control_working }}/bin'
+    path: '{{ gantree_control_working }}/bin'
     state: directory
   become: no
 
 - name: download node bin to host
   fetch:
-    src: '{{ gropius_working }}/node-src/target/release/{{ substrate_bin_name }}'
-    dest: '{{ gropius_control_working }}/bin/{{ substrate_bin_name }}'
+    src: '{{ gantree_working }}/node-src/target/release/{{ substrate_bin_name }}'
+    dest: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
     flat: true

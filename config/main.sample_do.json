@@ -14,7 +14,7 @@
                 "count": 2,
                 "zone": "nyc3",
                 "sshUser": "root"
-            },
+            }
         ]
     }
 }

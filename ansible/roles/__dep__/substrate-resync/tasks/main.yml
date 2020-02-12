@@ -8,7 +8,7 @@
     set -o pipefail
     /usr/local/bin/substrate purge-chain -y
   become: yes
-  become_user: gropius_user
+  become_user: gantree_user
   args:
     executable: /bin/bash
   changed_when: False
