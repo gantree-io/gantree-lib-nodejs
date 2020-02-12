@@ -11,8 +11,9 @@
 
 - hosts: all
   roles:
-    - role: gropius-env
+    - gropius-env
   become: yes
+
 - hosts: builder_bin
   roles:
     - substrate-build-node
