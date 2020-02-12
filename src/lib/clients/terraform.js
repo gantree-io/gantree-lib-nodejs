@@ -133,10 +133,11 @@ class Terraform {
       "do": ["DIGITALOCEAN_TOKEN"]
     }
     for (let i = 0; i < nodes.length; i++) {
-      if (nodes[i].provider in supported_providers) {
-        console.log(chalk.green("[Gantree] COMPATIBLE PROVIDER"))
+      let provider_n = nodes[i].provider
+      if (provider_n in supported_providers) {
+        console.log(chalk.green(`[Gantree] COMPATIBLE PROVIDER: ${provider_n}`))
       } else {
-        console.log(chalk.red("[Gantree] INCOMPATIBLE PROVIDER"))
+        console.log(chalk.red(`[Gantree] INCOMPATIBLE PROVIDER: ${provider_n}`))
         process.exit(-1)
       }
     }
