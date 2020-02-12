@@ -13,20 +13,44 @@ const VALIDATORSPEC_FILENAME = `validatorspec.json`
 const GENERIC_CHAINSPEC_PATH = `${os.homedir()}/.gantree/${GEN_CHAINSPEC_FILENAME}`
 const VALIDATORSPEC_PATH = `${os.homedir()}/.gantree/${VALIDATORSPEC_FILENAME}`
 
-function check_required_files() {
+function check_files_exist(cmd) {
 
     let files_missing = false
 
-    if (!fs.existsSync(GENERIC_CHAINSPEC_PATH)) {
-        console.error(chalk.red(`[Gantree] ${GEN_CHAINSPEC_FILENAME} missing at path: ${GENERIC_CHAINSPEC_PATH}`))
+    if (!fs.existsSync(cmd.spec)) {
+        console.error(chalk.red(`[Gantree] No chainspec file found at path: ${cmd.spec}`))
         files_missing = true
     }
-    if (!fs.existsSync(VALIDATORSPEC_PATH)) {
-        console.error(chalk.red(`[Gantree] ${VALIDATORSPEC_FILENAME} missing at path: ${VALIDATORSPEC_PATH}`))
+    if (!fs.existsSync(cmd.validators)) {
+        console.error(chalk.red(`[Gantree] No validatorspec file found at path: ${cmd.validators}`))
         files_missing = true
     }
 
     if (files_missing == true) { process.exit(-1) }
+}
+
+function check_chainspec_valid(chainspec) {
+    if (chainspec.genesis == undefined) {
+        console.log(chalk.red("[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."))
+        process.exit(-1)
+    } else {
+        if (chainspec.genesis.runtime == undefined) {
+            if (chainspec.genesis.raw == undefined) {
+                console.warn(chalk.red("[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"))
+                process.exit(-1)
+            } else {
+                // console.log(chalk.red("[Gantree] Inject function does not accept raw chainspecs"))
+                console.warn(chalk.yellow("[Gantree] ----------------"))
+                console.warn(chalk.yellow("[Gantree] WARNING: raw chainspec used as input"))
+                console.warn(chalk.yellow("[Gantree] This is highly discouraged"))
+                console.warn(chalk.yellow("[Gantree] Function output will be raw instead of non-raw"))
+                console.warn(chalk.yellow("[Gantree] ----------------"))
+                chainspec_str = JSONbig.stringify(chainspec, null, "    ")
+                process.stdout.write(chainspec_str)
+                process.exit()
+            }
+        }
+    }
 }
 
 const bigintHandler = (key, value) => {
@@ -35,15 +59,31 @@ const bigintHandler = (key, value) => {
 
 module.exports = {
     do: async (cmd) => {
-        // console.log(cmd)
-        // if (cmd.chainspec && cmd.validatorspec) {
+
+        check_files_exist(cmd)
+
         const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'));
         const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'));
 
-        // check_required_files()
+        check_chainspec_valid(chainspec)
 
-        // let chainspec = require(GENERIC_CHAINSPEC_PATH)
-        // const validatorspec = require(VALIDATORSPEC_PATH)
+        let runtime_obj = chainspec.genesis.runtime
+
+        if (runtime_obj.aura !== undefined) {
+            runtime_obj.aura.authorities = [] // addresses related to block production
+        }
+        if (runtime_obj.indices !== undefined) {
+            runtime_obj.indices.ids = [] // addresses of all validators and normal nodes
+        }
+        if (runtime_obj.balances !== undefined) {
+            runtime_obj.balances.balances = [] // addresses of all validators and normal nodes + their balances
+        }
+        if (runtime_obj.sudo !== undefined) {
+            runtime_obj.sudo.key = undefined // 'master node' of sorts, only a single address string
+        }
+        if (runtime_obj.grandpa !== undefined) {
+            runtime_obj.grandpa.authorities = [] // addresses related to block finalisation + vote weights
+        }
 
         // console.log("---- NODE #0 | CHAINSPEC ----")
         // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
@@ -54,16 +94,10 @@ module.exports = {
         // console.log("-----------------------------")
 
         // console.log("REMOVING ALL VALIDATOR/NODE PUBLIC ADDRESSES...")
-        chainspec.genesis.runtime.aura.authorities = [] // addresses related to block production
-        chainspec.genesis.runtime.indices.ids = [] // addresses of all validators and normal nodes
-        chainspec.genesis.runtime.balances.balances = [] // addresses of all validators and normal nodes + their balances
-        chainspec.genesis.runtime.sudo.key = undefined // 'master node' of sorts, only a single address string
-        chainspec.genesis.runtime.grandpa.authorities = [] // addresses related to block finalisation + vote weights
 
         // inject values into chainspec in memory
         for (let i = 0; i < validatorspec.validators.length; i++) {
             const validator_n = validatorspec.validators[i]
-            let runtime_obj = chainspec.genesis.runtime
 
             // console.log(`---- NODE #${i} | VALIDATORSPEC ----`)
             // console.log(`sr25519: ${validator_n.sr25519}`)
@@ -84,7 +118,9 @@ module.exports = {
             )
 
             if (i == 0) {
-                runtime_obj.sudo.key = validator_n.sr25519.address
+                if (runtime_obj.sudo != undefined) {
+                    runtime_obj.sudo.key = validator_n.sr25519.address
+                }
             }
 
             const weight = validator_n.pallet_options &&
