@@ -1,4 +1,0 @@
----
-# defaults file for substrate-validator
-chain: test
-substrate_bin_name: node-template

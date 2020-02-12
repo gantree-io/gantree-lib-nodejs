@@ -1,0 +1,12 @@
+---
+- name: get bootnode public ip
+  ipify_facts:
+  register: bootnode_ip
+
+- name: replace bootnode loopback ip with public ip
+  delegate_to: localhost
+  shell: |
+    sed -i -e s/127.0.0.1/{{ bootnode_ip.ansible_facts.ipify_public_ip }}/g {{gropius_control_working}}/spec/chainSpecRaw.raw
+  args:
+    executable: /bin/bash
+

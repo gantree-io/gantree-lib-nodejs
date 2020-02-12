@@ -11,12 +11,12 @@
 
 - hosts: all
   roles:
-    - gropius-env
+    - role: validator-env-gantree
   become: yes
 
 - hosts: builder_bin
   roles:
-    - substrate-build-node
+    - builder-build-bin
   become: yes
 
 - hosts: validator
@@ -27,20 +27,20 @@
 
 - hosts: localhost
   roles:
-    - host-prep
+    - control-prepare
 
 - hosts: validator
   roles:
-    - substrate-keygen-bare
+    - validator-gen-keys
 
 - hosts: builder_bin
   roles:
-    - role: substrate-build-spec
+    - role: builder-build-spec
       when: 'substrate_use_default_spec|default(false)|bool == false'
 
-- hosts: builder_bin
+- hosts: bootnode # NOTE: currently only supports 1
   roles:
-    - role: control-correct-bootnode
+    - role: bootnode-collect-ip
       when: 'substrate_use_default_spec|default(false)|bool == false'
 
 - hosts: validator
@@ -59,57 +59,4 @@
 - hosts: validator
   roles:
     - validator-service-restart
-# - hosts: all
-#   gather_facts: false
-#   strategy: free
-#   tasks:
-#   - name: wait for machine and ssh
-#     wait_for_connection:
-#       timeout: 900
-#       sleep: 10
-#     retries: 20
-
-# - hosts: all
-#   roles: gropius-env
-#   become: yes
-
-# - hosts: bin-builder
-#   roles:
-#   - substrate-build-node
-#   become: yes
-
-# - hosts: all
-#   strategy: free
-#   roles:
-#   - validator-push-bin
-#   become: yes
-
-# - hosts: spec-builder
-#   roles:
-#   - substrate-build-spec
-#   become: yes
-
-# - hosts: all
-#   roles:
-#   - validator-push-spec
-#   become: yes
-
-# - hosts: all
-#   strategy: free
-#   roles:
-#   - substrate-common
-#   - role: node-exporter
-#     when: "node_exporter_enabled|default(false)|bool == true"
-#   become: yes
-
-# - hosts: all
-#   roles:
-#   - common
-#   become: yes
-
-# - hosts: validator
-#   roles:
-#   - substrate-validator
-#   - substrate-validator-session-info
-#   become: yes
 
