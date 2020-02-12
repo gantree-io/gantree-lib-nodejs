@@ -133,7 +133,16 @@ class Terraform {
 
   async _check_environment_variables(nodes) {
     const supported_providers = {
-      "do": ["DIGITALOCEAN_TOKEN"]
+      "aws": [
+        { name: "AWS_ACCESS_KEY_ID" },
+        { name: "AWS_SECRET_ACCESS_KEY" }
+      ],
+      "do": [
+        { name: "DIGITALOCEAN_TOKEN" }
+      ],
+      "gcp": [
+        { name: "GOOGLE_APPLICATION_CREDENTIALS" }
+      ]
     }
     for (let i = 0; i < nodes.length; i++) {
       let provider_n = nodes[i].provider
@@ -141,7 +150,7 @@ class Terraform {
         console.log(chalk.green(`[Gantree] COMPATIBLE PROVIDER: ${provider_n}`))
         const required_env_vars = supported_providers[provider_n]
         for (let i = 0; i < required_env_vars.length; i++) {
-          const required_env_var = required_env_vars[i]
+          const required_env_var = required_env_vars[i].name
           if (required_env_var in process.env) {
             console.log(chalk.green(`[Gantree] Require env var found: ${required_env_var}`))
           } else {
