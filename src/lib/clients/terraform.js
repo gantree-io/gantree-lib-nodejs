@@ -27,7 +27,7 @@ class Terraform {
   }
 
   async sync() {
-    console.log('[Gropius] Initialising Terraform')
+    console.log('[Gantree] Initialising Terraform')
     this._initializeTerraform()
     // console.log('init')
     // try {
@@ -51,7 +51,7 @@ class Terraform {
       )
     } catch (e) {
       console.log(
-        `[Gropius] Could not get validator sync promises: ${e.message}`
+        `[Gantree] Could not get validator sync promises: ${e.message}`
       )
     }
 
@@ -76,7 +76,7 @@ class Terraform {
       )
     } catch (e) {
       console.log(
-        `[Gropius] Could not get validator clean promises: ${e.message}`
+        `[Gantree] Could not get validator clean promises: ${e.message}`
       )
     }
 

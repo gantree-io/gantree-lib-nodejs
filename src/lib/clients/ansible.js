@@ -60,7 +60,7 @@ class Ansible {
     if (this.config.validators == undefined) { fields_missing.push("1nd level key: validators [obj]") }
 
     if (fields_missing.length > 0) {
-      console.log(chalk.red("[Gropius] missing required values in config!:"))
+      console.log(chalk.red("[Gantree] missing required values in config!:"))
       for (let i = 0; i < fields_missing.length; i++) {
         console.log(chalk.red(`-- missing field: ${fields_missing[i]}`))
       }

@@ -18,11 +18,11 @@ function check_required_files() {
     let files_missing = false
 
     if (!fs.existsSync(GENERIC_CHAINSPEC_PATH)) {
-        console.error(chalk.red(`[Gropius] ${GEN_CHAINSPEC_FILENAME} missing at path: ${GENERIC_CHAINSPEC_PATH}`))
+        console.error(chalk.red(`[Gantree] ${GEN_CHAINSPEC_FILENAME} missing at path: ${GENERIC_CHAINSPEC_PATH}`))
         files_missing = true
     }
     if (!fs.existsSync(VALIDATORSPEC_PATH)) {
-        console.error(chalk.red(`[Gropius] ${VALIDATORSPEC_FILENAME} missing at path: ${VALIDATORSPEC_PATH}`))
+        console.error(chalk.red(`[Gantree] ${VALIDATORSPEC_FILENAME} missing at path: ${VALIDATORSPEC_PATH}`))
         files_missing = true
     }
 
@@ -101,19 +101,19 @@ module.exports = {
         process.stdout.write(chainspec_str);
         //console.info(chainspec_str)
 
-        // console.log(chalk.yellow('[Gropius] Syncing platform...'));
+        // console.log(chalk.yellow('[Gantree] Syncing platform...'));
         // const platform = new Platform(cfg);
         // let platformResult;
-        // console.log(chalk.green('[Gropius] Done'));
+        // console.log(chalk.green('[Gantree] Done'));
 
-        // console.log(chalk.yellow('[Gropius] Syncing application...'));
+        // console.log(chalk.yellow('[Gantree] Syncing application...'));
         // const app = new Application(cfg, platformResult);
         // try {
         //     await app.sync();
         // } catch (e) {
-        //     console.log(chalk.red(`[Gropius] Could not sync application: ${e.message}`));
+        //     console.log(chalk.red(`[Gantree] Could not sync application: ${e.message}`));
         //     process.exit(-1);
         // }
-        // console.log(chalk.green('[Gropius] Done'));
+        // console.log(chalk.green('[Gantree] Done'));
     }
 }

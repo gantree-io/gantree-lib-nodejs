@@ -8,7 +8,7 @@ const { validatorSshPrivateKeyPath } = require('./env');
 module.exports = {
   keys: () => {
     if (!validatorSshPrivateKeyPath) {
-      console.log(chalk.red('[Gropius] Please, export the path of the file with the private SSH key you want to use on validators as the environment variable SSH_ID_RSA_VALIDATOR'));
+      console.log(chalk.red('[Gantree] Please, export the path of the file with the private SSH key you want to use on validators as the environment variable SSH_ID_RSA_VALIDATOR'));
       process.exit(-1);
     }
 

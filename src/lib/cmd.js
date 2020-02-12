@@ -18,7 +18,7 @@ module.exports = {
       // const items = command.split(' ');
       // const items = command.match(/\w+|"[^"]+"/g)
       // console.log({items})
-      console.log(`[Gropius] exec: ${command}, ${JSON.stringify(options)}`);
+      console.log(`[Gantree] exec: ${command}, ${JSON.stringify(options)}`);
       // const child = exec(items[0], items.slice(1), options);
       const child = exec(command, options);
       if (options.detached) {
@@ -44,7 +44,7 @@ module.exports = {
 
       child.stderr.on('data', (data) => {
         output = Buffer.concat([output, Buffer.from(data)]);
-        console.log(`[Gropius] Verb: ${options.verbose}`);
+        console.log(`[Gantree] Verb: ${options.verbose}`);
         if (options.verbose) {
           console.log(data.toString());
         }
@@ -52,7 +52,7 @@ module.exports = {
 
       child.on('close', (code) => {
         if (code !== 0 && !match) {
-          console.log(`[Gropius] command: ${command} failed with code: ${code}`);
+          console.log(`[Gantree] command: ${command} failed with code: ${code}`);
           reject(new Error(code));
         }
         else {

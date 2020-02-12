@@ -14,14 +14,14 @@ module.exports = {
 
     const cfg = config.read(cmd.config);
 
-    console.log(chalk.yellow('[Gropius] Cleaning platform...'));
+    console.log(chalk.yellow('[Gantree] Cleaning platform...'));
     const platform = new Platform(cfg);
     try {
       await platform.clean();
     } catch (e) {
-      console.log(chalk.red(`[Gropius] Could not clean platform: ${e.message}`));
+      console.log(chalk.red(`[Gantree] Could not clean platform: ${e.message}`));
       process.exit(-1);
     }
-    console.log(chalk.green('[Gropius] Done'));
+    console.log(chalk.green('[Gantree] Done'));
   }
 }
