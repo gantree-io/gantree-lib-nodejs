@@ -12,7 +12,7 @@ loggingFilter='{{{ ../validatorLoggingFilter }}}'
 [builder_bin:children]
 {{#each validators }}
 {{#unless @index}}
-{{this}}
+validator{{@index}}
 {{/unless}}
 {{/each}}
 
@@ -32,7 +32,7 @@ gropius_working='/home/subuser/tmp/gropius-build-spec'
 [bootnode:children]
 {{#each validator}}
 {{#unless @index}}
-{{this}}
+validator{{@index}}
 {{/unless}}
 {{/each}}
 
