@@ -17,7 +17,7 @@ validator{{@index}}
 {{/each}}
 
 [builder_bin:vars]
-gropius_working='/tmp/gropius-build-bin'
+gantree_working='/tmp/gantree-build-bin'
 
 [builder_spec:children]
 {{#each validators }}
@@ -27,7 +27,7 @@ validator{{@index}}
 {{/each}}
 
 [builder_spec:vars]
-gropius_working='/home/subuser/tmp/gropius-build-spec'
+gantree_working='/home/subuser/tmp/gantree-build-spec'
 
 [bootnode:children]
 {{#each validators }}
@@ -42,7 +42,7 @@ validator{{@index}}
 {{/each}}
 
 [validator:vars]
-gropius_working=/home/subuser/tmp/gropius-validator
+gantree_working=/home/subuser/tmp/gantree-validator
 substrate_user=subuser
 substrate_group=subgroup
 
@@ -66,9 +66,9 @@ substrate_restart_weekday='{{ substrateRestartWeekDay }}'
 substrate_network_id='local_testnet'
 substrate_repository='{{ substrateRepository }}'
 substrate_repository_version='{{ substrateRepositoryVersion }}'
-substrate_chain='/home/subuser/tmp/gropius-validator/spec/chainSpecRaw.raw'
+substrate_chain='/home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw'
 substrate_bin_name={{ substrateBinaryName }}
-gropius_control_working='/tmp/gropius-control'
-gropius_root='../'
+gantree_control_working='/tmp/gantree-control'
+gantree_root='../'
 substrate_use_default_spec='{{substrateUseDefaultSpec}}'
 

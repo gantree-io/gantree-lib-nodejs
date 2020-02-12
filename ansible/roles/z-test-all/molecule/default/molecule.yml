@@ -8,10 +8,18 @@ driver:
 lint:
   name: yamllint
 platforms:
+  - name: builder0
+    groups:
+      - builder_bin
+    image: ubuntu:bionic
+  - name: specer0
+    groups:
+      - builder_spec
+    image: ubuntu:bionic
   - name: validator0
     image: jrei/systemd-ubuntu:18.04
     groups:
-      - builder_bin
+      - bootnode
       - validator
     privileged: true
     volumes:
@@ -39,18 +47,18 @@ provisioner:
         substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
         substrate_repository_version: '8b6fe66'
         substrate_network_id: local_testnet
-        substrate_chain: /home/subuser/tmp/gropius-validator/spec/chainSpecRaw.raw
+        substrate_chain: /home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw
         substrate_bin_name: node-template
-        gropius_control_working: /tmp/gropius-control
-        gropius_root: ../../../../../
-      builder_bin:
-        gropius_working: /home/subuser/tmp/gropius-build-bin
-      builder_spec:
-        gropius_working: /home/subuser/tmp/gropius-build-spec
-      validator:
-        gropius_working: /home/subuser/tmp/gropius-validator
         substrate_user: subuser
         substrate_group: subgroup
+        gantree_control_working: /tmp/gantree-control
+        gantree_root: ../../../../../
+      builder_bin:
+        gantree_working: /tmp/gantree-build-bin
+      builder_spec:
+        gantree_working: /tmp/gantree-build-spec
+      validator:
+        gantree_working: /home/subuser/tmp/gantree-validator
   lint:
     name: ansible-lint
 verifier:
