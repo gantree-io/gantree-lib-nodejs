@@ -1,11 +1,11 @@
 // "We will need to generate at least 2 keys from each type. Every node will need to have its own keys."
 
-const chalk = require('chalk');
-const process = require('process');
-const os = require('os');
-const fs = require('fs');
+const chalk = require('chalk')
+const process = require('process')
+const os = require('os')
+const fs = require('fs')
 const JSONbig = require('json-bigint')
-const BigNumber = require('bignumber.js');
+const BigNumber = require('bignumber.js')
 
 const GEN_CHAINSPEC_FILENAME = `generic_chainspec.json`
 const VALIDATORSPEC_FILENAME = `validatorspec.json`
@@ -58,16 +58,15 @@ function check_chainspec_valid(chainspec, allowraw) {
 }
 
 const bigintHandler = (key, value) => {
-    return typeof value == 'bigint' ? value.toString() : value;
+    return typeof value == 'bigint' ? value.toString() : value
 }
 
 module.exports = {
-    do: async (cmd) => {
-
+    do: async cmd => {
         check_files_exist(cmd)
 
-        const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'));
-        const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'));
+        const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'))
+        const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'))
 
         check_chainspec_valid(chainspec, cmd.allowraw)
 
@@ -137,8 +136,8 @@ module.exports = {
 
         }
 
-        chainspec_str = JSONbig.stringify(chainspec, null, "    ")
-        process.stdout.write(chainspec_str);
+        chainspec_str = JSONbig.stringify(chainspec, null, '    ')
+        process.stdout.write(chainspec_str)
         //console.info(chainspec_str)
 
         // console.log(chalk.yellow('[Gantree] Syncing platform...'));
