@@ -40,7 +40,7 @@ program
     '/tmp/gantree_host/spec/validators.json'
   )
   .option(
-    '-R, --allowraw',
+    '-R, --allow-raw',
     'Allow usage of raw chainspec (returns raw chainspec in stdout)',
     false
   )
