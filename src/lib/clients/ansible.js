@@ -1,14 +1,10 @@
 const path = require('path')
 const fs = require('fs-extra')
-const chalk = require('chalk')
-const process = require('process')
-// const Ajv = require('ajv')
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
 const tpl = require('../tpl')
 const { nodeExporterUsername, nodeExporterPassword } = require('../env')
-const gantree_config_schema = require('../../schemas/gantree_config_schema')
 
 const inventoryFileName = 'inventory'
 
@@ -39,48 +35,32 @@ class Ansible {
     // )
   }
 
-  async clean() {}
+  async clean() { }
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
     return cmd.exec(`ansible-playbook ${command}`, actualOptions)
   }
 
-  _check_required_fields_met() {
-    // const ajv = new Ajv();
-    // const validate = ajv.compile(gantree_config_schema)
-    // console.log(validate)
+  // _validate_gantree_config_schema() {
+  //   const ajv = new Ajv()
+  //   const validate = ajv.compile(gantree_config_schema)
+  //   const gantree_config_valid = validate(this.config)
+  //   if (gantree_config_valid) {
+  //     console.log(chalk.green("[Gantree] Gantree config validated successfully!"))
+  //   } else {
+  //     console.log(chalk.red("[Gantree] Invalid Gantree config detected"))
+  //     // console.log(validate.errors)
+  //     for (let i = 0; i < validate.errors.length; i++) {
+  //       const error_n = validate.errors[i]
+  //       console.log(chalk.red(`[Gantree] --ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`))
+  //     }
+  //     process.exit(-1)
+  //   }
 
-    // console.log("EXITING EARLY...")
-    // process.exit(-1)
-
-    let fields_missing = []
-
-    if (this.config.project == undefined) {
-      fields_missing.push("1st level key: 'project' [str]")
-    }
-    if (this.config.repository == undefined) {
-      fields_missing.push('1st level key: repository [obj]')
-    } else {
-      if (this.config.repository.url == undefined) {
-        fields_missing.push('2nd level key: repository > url [str]')
-      }
-      if (this.config.repository.version == undefined) {
-        fields_missing.push('2nd level key: repository > version [str]')
-      }
-    }
-    if (this.config.validators == undefined) {
-      fields_missing.push('1nd level key: validators [obj]')
-    }
-
-    if (fields_missing.length > 0) {
-      console.log(chalk.red('[Gantree] missing required values in config!:'))
-      for (let i = 0; i < fields_missing.length; i++) {
-        console.log(chalk.red(`-- missing field: ${fields_missing[i]}`))
-      }
-      process.exit(-1)
-    }
-  }
+  //   // console.log("EXITING EARLY...")
+  //   // process.exit(-1)
+  // }
 
   _writeInventory() {
     const origin = path.resolve(
@@ -98,8 +78,6 @@ class Ansible {
     const validators = this._genTplNodes(this.config.validators)
     console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
-
-    this._check_required_fields_met()
 
     const data = {
       project: this.config.project,
