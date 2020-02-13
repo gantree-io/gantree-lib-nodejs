@@ -8,18 +8,87 @@
             "type": "string"
         },
         "repository": {
-            "type": "object",
-            "items": {
-                "$ref": "#/definitions/repository"
-            }
+            "$ref": "#/definitions/repository"
         },
         "validators": {
-            "type": "object"
+            "$ref": "#/definitions/validators"
         }
     },
+    "required": [
+        "project",
+        "repository",
+        "validators"
+    ],
     "definitions": {
         "repository": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "source of repository to build"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "version of repository (commit hash)"
+                }
+            },
+            "required": [
+                "url",
+                "version"
+            ]
+        },
+        "validators": {
+            "type": "object",
+            "properties": {
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/node"
+                    }
+                },
+                "telemetryUrl": {
+                    "type": "string"
+                },
+                "loggingFilter": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nodes"
+            ]
+        },
+        "node": {
+            "type": "object",
+            "required": [
+                "provider",
+                "machineType",
+                "count",
+                "zone",
+                "sshUser"
+            ],
+            "properties": {
+                "provider": {
+                    "type": "string"
+                },
+                "machineType": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "zone": {
+                    "type": "string"
+                },
+                "sshUser": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "projectId": {
+                    "type": "string"
+                }
+            }
         }
     }
 }
