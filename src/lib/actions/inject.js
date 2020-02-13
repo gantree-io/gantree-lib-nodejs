@@ -49,7 +49,7 @@ function check_chainspec_valid(chainspec, allowraw) {
                     process.stdout.write(chainspec_str)
                     process.exit()
                 } else {
-                    console.error(chalk.red("[Gantree] Inject function does not accept raw chainspecs unless --allowraw specified"))
+                    console.error(chalk.red("[Gantree] Inject function does not accept raw chainspecs unless --allow-raw specified"))
                     process.exit(-1)
                 }
             }
@@ -68,7 +68,7 @@ module.exports = {
         const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'))
         const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'))
 
-        check_chainspec_valid(chainspec, cmd.allowraw)
+        check_chainspec_valid(chainspec, cmd.allowRaw)
 
         let runtime_obj = chainspec.genesis.runtime
 
