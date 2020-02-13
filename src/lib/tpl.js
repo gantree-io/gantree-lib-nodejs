@@ -1,9 +1,9 @@
 const fs = require('fs-extra');
 const Handlebars = require('handlebars');
-const path = require('path');
+// const path = require('path');
 
 
-Handlebars.registerHelper('raw', function(options) {
+Handlebars.registerHelper('raw', function (options) {
   return options.fn();
 });
 

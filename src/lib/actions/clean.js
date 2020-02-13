@@ -10,7 +10,7 @@ module.exports = {
     if (!cmd.config) {
       console.info('--config required.');
       process.exit(1);
-    };
+    }
 
     const cfg = config.read(cmd.config);
 

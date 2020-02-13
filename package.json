@@ -6,7 +6,7 @@
   "author": "Flex Dapps",
   "license": "Apache-2.0",
   "scripts": {
-    "test": "mocha --reporter spec --recursive",
+    // "test": "mocha --reporter spec --recursive",
     "sync": "node . sync",
     "clean": "node . clean",
     "inject": "node . inject",
@@ -28,7 +28,9 @@
     "js-yaml": "^3.13.1",
     "json-bigint": "^0.3.0",
     "node-forge": "^0.9.0",
-    "ospath": "^1.2.2"
+    "ospath": "^1.2.2",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.19.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

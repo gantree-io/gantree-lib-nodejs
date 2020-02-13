@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const process = require('process');
 const yaml = require('js-yaml');
 const fs = require('fs');

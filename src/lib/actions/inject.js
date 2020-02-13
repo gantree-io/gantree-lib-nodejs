@@ -2,16 +2,15 @@
 
 const chalk = require('chalk')
 const process = require('process')
-const os = require('os')
 const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
 
-const GEN_CHAINSPEC_FILENAME = `generic_chainspec.json`
-const VALIDATORSPEC_FILENAME = `validatorspec.json`
+// const GEN_CHAINSPEC_FILENAME = `generic_chainspec.json`
+// const VALIDATORSPEC_FILENAME = `validatorspec.json`
 
-const GENERIC_CHAINSPEC_PATH = `${os.homedir()}/.gantree/${GEN_CHAINSPEC_FILENAME}`
-const VALIDATORSPEC_PATH = `${os.homedir()}/.gantree/${VALIDATORSPEC_FILENAME}`
+// const GENERIC_CHAINSPEC_PATH = `${os.homedir()}/.gantree/${GEN_CHAINSPEC_FILENAME}`
+// const VALIDATORSPEC_PATH = `${os.homedir()}/.gantree/${VALIDATORSPEC_FILENAME}`
 
 function check_files_exist(cmd) {
 
@@ -45,7 +44,7 @@ function check_chainspec_valid(chainspec, allowraw) {
                     console.warn(chalk.yellow("[Gantree] This is discouraged"))
                     console.warn(chalk.yellow("[Gantree] Function output will be raw instead of non-raw"))
                     console.warn(chalk.yellow("[Gantree] ----------------"))
-                    chainspec_str = JSONbig.stringify(chainspec, null, "    ")
+                    const chainspec_str = JSONbig.stringify(chainspec, null, "    ")
                     process.stdout.write(chainspec_str)
                     return false
                 } else {
@@ -60,9 +59,9 @@ function check_chainspec_valid(chainspec, allowraw) {
     }
 }
 
-const bigintHandler = (key, value) => {
-    return typeof value == 'bigint' ? value.toString() : value
-}
+// const bigintHandler = (key, value) => {
+//     return typeof value == 'bigint' ? value.toString() : value
+// }
 
 module.exports = {
     do: async cmd => {
@@ -71,7 +70,7 @@ module.exports = {
         const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'))
         const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'))
 
-        chainspec_injectable = check_chainspec_valid(chainspec, cmd.allowRaw)
+        const chainspec_injectable = check_chainspec_valid(chainspec, cmd.allowRaw)
 
         if (chainspec_injectable === true) {
 
@@ -141,7 +140,7 @@ module.exports = {
 
             }
 
-            chainspec_str = JSONbig.stringify(chainspec, null, '    ')
+            const chainspec_str = JSONbig.stringify(chainspec, null, '    ')
             process.stdout.write(chainspec_str)
             //console.info(chainspec_str)
 
