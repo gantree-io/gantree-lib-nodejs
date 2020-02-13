@@ -39,6 +39,11 @@ program
     'Path to validators file.',
     '/tmp/gantree_host/spec/validators.json'
   )
+  .option(
+    '-R, --allowraw',
+    'Allow usage of raw chainspec (returns raw chainspec in stdout)',
+    false
+  )
   .action(inject.do)
 
 program

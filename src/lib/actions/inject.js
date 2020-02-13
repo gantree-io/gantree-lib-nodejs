@@ -29,7 +29,7 @@ function check_files_exist(cmd) {
     if (files_missing == true) { process.exit(-1) }
 }
 
-function check_chainspec_valid(chainspec) {
+function check_chainspec_valid(chainspec, allowraw) {
     if (chainspec.genesis == undefined) {
         console.error(chalk.red("[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."))
         process.exit(-1)
@@ -39,15 +39,19 @@ function check_chainspec_valid(chainspec) {
                 console.error(chalk.red("[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"))
                 process.exit(-1)
             } else {
-                // console.log(chalk.red("[Gantree] Inject function does not accept raw chainspecs"))
-                console.warn(chalk.yellow("[Gantree] ----------------"))
-                console.warn(chalk.yellow("[Gantree] WARNING: raw chainspec used as input"))
-                console.warn(chalk.yellow("[Gantree] This is highly discouraged"))
-                console.warn(chalk.yellow("[Gantree] Function output will be raw instead of non-raw"))
-                console.warn(chalk.yellow("[Gantree] ----------------"))
-                chainspec_str = JSONbig.stringify(chainspec, null, "    ")
-                process.stdout.write(chainspec_str)
-                process.exit()
+                if (allowraw === true) {
+                    console.warn(chalk.yellow("[Gantree] ----------------"))
+                    console.warn(chalk.yellow("[Gantree] WARNING: raw chainspec used as input"))
+                    console.warn(chalk.yellow("[Gantree] This is discouraged"))
+                    console.warn(chalk.yellow("[Gantree] Function output will be raw instead of non-raw"))
+                    console.warn(chalk.yellow("[Gantree] ----------------"))
+                    chainspec_str = JSONbig.stringify(chainspec, null, "    ")
+                    process.stdout.write(chainspec_str)
+                    process.exit()
+                } else {
+                    console.error(chalk.red("[Gantree] Inject function does not accept raw chainspecs unless --allowraw specified"))
+                    process.exit(-1)
+                }
             }
         }
     }
@@ -65,7 +69,7 @@ module.exports = {
         const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'));
         const validatorspec = JSONbig.parse(fs.readFileSync(cmd.validators, 'utf-8'));
 
-        check_chainspec_valid(chainspec)
+        check_chainspec_valid(chainspec, cmd.allowraw)
 
         let runtime_obj = chainspec.genesis.runtime
 
