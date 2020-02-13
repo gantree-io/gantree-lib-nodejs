@@ -6,7 +6,6 @@
   "author": "Flex Dapps",
   "license": "Apache-2.0",
   "scripts": {
-    // "test": "mocha --reporter spec --recursive",
     "sync": "node . sync",
     "clean": "node . clean",
     "inject": "node . inject",
