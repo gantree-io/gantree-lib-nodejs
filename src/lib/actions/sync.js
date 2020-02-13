@@ -14,6 +14,8 @@ module.exports = {
 
     const cfg = config.read(cmd.config)
 
+    config.validate(cfg)
+
     console.log(chalk.yellow('[Gantree] Syncing platform...'))
     const platform = new Platform(cfg)
     let platformResult
