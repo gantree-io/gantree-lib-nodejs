@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 const process = require('process')
-const ajv = require('ajv')
+const AJV = require('ajv')
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
@@ -39,7 +39,7 @@ class Ansible {
     )
   }
 
-  async clean() { }
+  async clean() {}
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
@@ -47,8 +47,7 @@ class Ansible {
   }
 
   _check_required_fields_met() {
-
-    const ajv = new ajv();
+    const ajv = new AJV()
     const validate = ajv.compile(gantree_config_schema)
     console.log(validate)
 
