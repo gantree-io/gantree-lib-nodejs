@@ -2,11 +2,13 @@ const path = require('path')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 const process = require('process')
+const ajv = require('ajv')
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
 const tpl = require('../tpl')
 const { nodeExporterUsername, nodeExporterPassword } = require('../env')
+const gantree_config_schema = require('../../schemas/gantree_config_schema')
 
 const inventoryFileName = 'inventory'
 
@@ -37,7 +39,7 @@ class Ansible {
     )
   }
 
-  async clean() {}
+  async clean() { }
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
@@ -45,6 +47,14 @@ class Ansible {
   }
 
   _check_required_fields_met() {
+
+    const ajv = new ajv();
+    const validate = ajv.compile(gantree_config_schema)
+    console.log(validate)
+
+    // console.log("EXITING EARLY...")
+    // process.exit(-1)
+
     let fields_missing = []
 
     if (this.config.project == undefined) { fields_missing.push("1st level key: 'project' [str]") }
