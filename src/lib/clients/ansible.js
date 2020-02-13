@@ -2,11 +2,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 const process = require('process')
-<<<<<<< HEAD
-const AJV = require('ajv')
-=======
 // const Ajv = require('ajv')
->>>>>>> 74375913f386b170670ee47fa8da916e65d16402
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
@@ -51,16 +47,9 @@ class Ansible {
   }
 
   _check_required_fields_met() {
-<<<<<<< HEAD
-    const ajv = new AJV()
-    const validate = ajv.compile(gantree_config_schema)
-    console.log(validate)
-=======
-
     // const ajv = new Ajv();
     // const validate = ajv.compile(gantree_config_schema)
     // console.log(validate)
->>>>>>> 74375913f386b170670ee47fa8da916e65d16402
 
     // console.log("EXITING EARLY...")
     // process.exit(-1)
