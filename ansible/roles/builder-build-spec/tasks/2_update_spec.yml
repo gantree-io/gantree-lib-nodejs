@@ -25,7 +25,7 @@
 
 - name: do inject
   delegate_to: localhost
-  command: node . inject -s {{ gantree_control_working }}/spec/chainSpec.json -v {{ gantree_control_working}}/spec/validators.json
+  command: node . inject --allow-raw -s {{ gantree_control_working }}/spec/chainSpec.json -v {{ gantree_control_working}}/spec/validators.json
   args:
     chdir: '{{ gantree_root }}'
   register: inject_result
