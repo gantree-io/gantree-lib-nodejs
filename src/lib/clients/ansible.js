@@ -2,7 +2,11 @@ const path = require('path')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 const process = require('process')
+<<<<<<< HEAD
 const AJV = require('ajv')
+=======
+// const Ajv = require('ajv')
+>>>>>>> 74375913f386b170670ee47fa8da916e65d16402
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
@@ -30,13 +34,13 @@ class Ansible {
     //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`);
 
     return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`) // COMMENTED OUT TEMPORARILY
-    // NO ANSIBLE FOR THE MOMENT, DO NOT COMMIT
-    const chalk = require('chalk')
-    console.log(
-      chalk.red(
-        '[WARNING!!!]: skipping ansible, uncomment line 29 of ansible.js!!!'
-      )
-    )
+    // // NO ANSIBLE FOR THE MOMENT, DO NOT COMMIT
+    // const chalk = require('chalk')
+    // console.log(
+    //   chalk.red(
+    //     '[WARNING!!!]: skipping ansible, uncomment line 29 of ansible.js!!!'
+    //   )
+    // )
   }
 
   async clean() {}
@@ -47,9 +51,16 @@ class Ansible {
   }
 
   _check_required_fields_met() {
+<<<<<<< HEAD
     const ajv = new AJV()
     const validate = ajv.compile(gantree_config_schema)
     console.log(validate)
+=======
+
+    // const ajv = new Ajv();
+    // const validate = ajv.compile(gantree_config_schema)
+    // console.log(validate)
+>>>>>>> 74375913f386b170670ee47fa8da916e65d16402
 
     // console.log("EXITING EARLY...")
     // process.exit(-1)
@@ -149,7 +160,7 @@ class Ansible {
     return target
   }
 
-  _genTplNodes(nodeSet, offset = 0) {
+  _genTplNodes(nodeSet) {
     const output = []
     // const vpnAddressBase = '10.0.0';
     // let counter = offset;
