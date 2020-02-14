@@ -44,7 +44,7 @@ In order to install the required node packages and ansible roles, run the follow
 git clone https://bitbucket.org/flexdapps/gantree-gropius
 cd gantree-gropius
 yarn
-ansible-galaxy install -r ./ansible/requirements/role_requirements.yml
+ansible-galaxy install -r ./ansible/requirements/requirements.yml
 ```
 
 ### Environment Requirements
