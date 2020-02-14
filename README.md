@@ -57,13 +57,13 @@ For security reasons, credentials for infrastructure providers must be exported 
 | ------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AWS          | `AWS_ACCESS_KEY_ID`</br>`AWS_SECRET_ACCESS_KEY` | IAM account with EC2 and VPC write access.                                                                                                                  |
 | GCP          | `GOOGLE_APPLICATION_CREDENTIALS`                | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
-| DigitalOcean | `DIGITALOCEAN_TOKEN`                            | ***[todo]***                                                                                                                                                |
+| DigitalOcean | `DIGITALOCEAN_TOKEN`                            | A DigitalOcean access token with read + write access                                                                                                        |
 
 **note:** you only need credentials for providers you wish to use
 
 #### SSH Credentials
 
-You need two additional environment variables to allow ansible to connect to created instances:
+You need an additional environment variables to allow ansible to connect to created instances:
 
 | EXPORT NAME            | DESCRIPTION                                                 |
 | ---------------------- | ----------------------------------------------------------- |
@@ -71,7 +71,7 @@ You need two additional environment variables to allow ansible to connect to cre
 
 <!-- | `SSH_ID_RSA_PUBLIC`    | path to private SSH key you want to use for the public nodes. | -->
 
-You must generate these keys yourself and add them to your ssh-agent.
+You must generate this keypair yourself and add it to your ssh-agent.
 
 <!-- You can easily create and add them to your ssh-agent as follows:
 
@@ -86,14 +86,17 @@ Gantree-CLI requires a configuration file (main.json) in order to guide creation
 
 Using one of the examples below, create a configuration file to represent your desired infrastructure.
 
-#### Configuration Examples
+#### Configuration Samples
 
 Examples of provider definitions
 
-* [AWS Example](config/main.sample_aws.json)
-* [DigitalOcean Example](config/main.sample_do.json)
+* [AWS Sample](config/main.sample_aws.json)
+* [DigitalOcean Sample](config/main.sample_do.json)
+* [GCP Sample](config/main.sample_gcp.json)
 
-**note:** multiple providers can be used in a single configuration.
+Multiple providers can be used in a single configuration.
+
+* ***This is a work-in-progress and not yet officially supported***
 
 **note:** the more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
 
