@@ -27,7 +27,7 @@ class Terraform {
   }
 
   async sync() {
-    console.log('[Gantree] Initialising Terraform')
+    console.log(chalk.yellow('[Gantree] Initialising Terraform'))
     this._initializeTerraform()
     // console.log('init')
     // try {
@@ -170,7 +170,7 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
-      console.log({ cwd })
+      // console.log({ cwd })
       // const backendConfig = this._backendConfig(type, counter);
       destroyPromises.push(
         new Promise(async resolve => {
@@ -257,14 +257,14 @@ class Terraform {
     const name = this._nodeName(type, counter)
 
     fs.readdirSync(originDirPath).forEach(item => {
-      console.log({ item })
+      // console.log({ item })
       const origin = path.join(originDirPath, item)
       const target = path.join(targetDirPath, item)
       const data = {
         dir: path.resolve(path.join(__dirname, '..', '..', '..')),
         name
       }
-      console.log({ origin, target, data })
+      // console.log({ origin, target, data })
       tpl.create(origin, target, data)
     })
   }
