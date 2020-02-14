@@ -36,14 +36,15 @@ In order to use Gropius-CLI, the following dependencies are required:
 [terraform-install]: https://www.terraform.io/downloads.html
 [ansible-install]: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-### NodeJS Requirements
+### NodeJS/Ansible Requirements
 
-In order to install the required node packages, run the following
+In order to install the required node packages and ansible roles, run the following
 
 ```bash
 git clone https://bitbucket.org/flexdapps/gantree-gropius
 cd gantree-gropius
 yarn
+ansible-galaxy install -r ./ansible/requirements/role_requirements.yml
 ```
 
 ### Environment Requirements
