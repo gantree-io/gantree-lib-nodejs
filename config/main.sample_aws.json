@@ -2,7 +2,8 @@
     "project": "gantree",
     "repository": {
         "url": "https://github.com/substrate-developer-hub/substrate-node-template",
-        "version": "8b6fe66"
+        "version": "8b6fe66",
+        "binaryName": "node-template"
     },
     "validators": {
         "telemetryUrl": "wss://my.private.telemetry.endpoint",
