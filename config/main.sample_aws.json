@@ -12,9 +12,9 @@
                 "provider": "aws",
                 "machineType": "m4.large",
                 "count": 2,
-                "location": "eu-central-1",
                 "zone": "eu-central-1a",
-                "sshUser": "ubuntu"
+                "sshUser": "ubuntu",
+                "location": "eu-central-1"
             }
         ]
     }
