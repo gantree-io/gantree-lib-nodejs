@@ -1,0 +1,21 @@
+{
+    "project": "gantree",
+    "repository": {
+        "url": "https://github.com/substrate-developer-hub/substrate-node-template",
+        "version": "8b6fe66"
+    },
+    "validators": {
+        "telemetryUrl": "wss://my.private.telemetry.endpoint",
+        "loggingFilter": "sync=trace,afg=trace,babe=debug",
+        "nodes": [
+            {
+                "provider": "gcp",
+                "machineType": "n1-standard-2",
+                "count": 2,
+                "zone": "us-east1-b",
+                "sshUser": "root",
+                "projectId": "secval-testproject-00"
+            }
+        ]
+    }
+}
