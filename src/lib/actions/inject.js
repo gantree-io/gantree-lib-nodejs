@@ -6,12 +6,6 @@ const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
 
-// const GEN_CHAINSPEC_FILENAME = `generic_chainspec.json`
-// const VALIDATORSPEC_FILENAME = `validatorspec.json`
-
-// const GENERIC_CHAINSPEC_PATH = `${os.homedir()}/.gantree/${GEN_CHAINSPEC_FILENAME}`
-// const VALIDATORSPEC_PATH = `${os.homedir()}/.gantree/${VALIDATORSPEC_FILENAME}`
-
 function check_files_exist(cmd) {
 
     let files_missing = false
@@ -92,16 +86,6 @@ module.exports = {
                 runtime_obj.grandpa.authorities = [] // addresses related to block finalisation + vote weights
             }
 
-            // console.log("---- NODE #0 | CHAINSPEC ----")
-            // console.log(`sr25519: ${chainspec.genesis.runtime.aura.authorities[0]}`)
-            // console.log(`sr25519: ${chainspec.genesis.runtime.indices.ids[0]}`)
-            // console.log(`sr25519: ${chainspec.genesis.runtime.balances.balances[0][0]}`)
-            // console.log(`sr25519: ${chainspec.genesis.runtime.sudo.key}`)
-            // console.log(`ed25519: ${chainspec.genesis.runtime.grandpa.authorities[0][0]}`)
-            // console.log("-----------------------------")
-
-            // console.log("REMOVING ALL VALIDATOR/NODE PUBLIC ADDRESSES...")
-
             // inject values into chainspec in memory
             for (let i = 0; i < validatorspec.validators.length; i++) {
                 const validator_n = validatorspec.validators[i]
@@ -142,22 +126,6 @@ module.exports = {
 
             const chainspec_str = JSONbig.stringify(chainspec, null, '    ')
             process.stdout.write(chainspec_str)
-            //console.info(chainspec_str)
-
-            // console.log(chalk.yellow('[Gantree] Syncing platform...'));
-            // const platform = new Platform(cfg);
-            // let platformResult;
-            // console.log(chalk.green('[Gantree] Done'));
-
-            // console.log(chalk.yellow('[Gantree] Syncing application...'));
-            // const app = new Application(cfg, platformResult);
-            // try {
-            //     await app.sync();
-            // } catch (e) {
-            //     console.log(chalk.red(`[Gantree] Could not sync application: ${e.message}`));
-            //     process.exit(-1);
-            // }
-            // console.log(chalk.green('[Gantree] Done'));               
         }
     }
 }
