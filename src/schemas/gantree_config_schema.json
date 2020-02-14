@@ -30,11 +30,16 @@
                 "version": {
                     "type": "string",
                     "description": "version of repository (commit hash)"
+                },
+                "binaryName": {
+                    "type": "string",
+                    "description": "name of binary built by rust"
                 }
             },
             "required": [
                 "url",
-                "version"
+                "version",
+                "binaryName"
             ]
         },
         "validators": {
