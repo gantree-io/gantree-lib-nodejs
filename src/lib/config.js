@@ -5,6 +5,50 @@ const chalk = require('chalk')
 
 const files = require('./files');
 const gantree_config_schema = require('../schemas/gantree_config_schema')
+const provider_specific_keys = require('../static_data/provider_specific_keys')
+
+function validate_provider_specific_keys(gantreeConfigObj) {
+  const validators = gantreeConfigObj.validators.nodes
+  let missing_provider_keys = {}
+
+  for (const validator_n of validators) {
+    const validator_provider = validator_n.provider
+
+    if (validator_provider in provider_specific_keys) {
+      missing_provider_keys[validator_provider] = [] // create empty array under provider name
+      const required_keys = provider_specific_keys[validator_provider]
+
+      for (const key of required_keys) {
+        if (validator_n.hasOwnProperty(key)) {
+          // don't bother type-checking here, this is done in schema validation with optional keys
+        } else {
+          missing_provider_keys[validator_provider].push(key)
+        }
+      }
+
+    } else {
+      console.log(chalk.green(`[Gantree] No ${validator_provider} specific keys required`))
+    }
+  }
+
+  let keys_are_missing = false
+  let missing_messages = []
+  for (const [provider, keys_missing] of Object.entries(missing_provider_keys)) {
+    if (keys_missing.length > 0) {
+      keys_are_missing = true
+      missing_messages.push(`[Gantree] Required ${provider} keys missing: ${keys_missing}`)
+    } else {
+      console.log(chalk.green(`[Gantree] All required ${provider} specific keys satisfied`))
+    }
+  }
+
+  if (keys_are_missing === true) {
+    for (const missing_message of missing_messages) {
+      console.log(chalk.red(missing_message))
+    }
+    process.exit(-1)
+  }
+}
 
 
 module.exports = {
@@ -31,6 +75,7 @@ module.exports = {
         }
         process.exit(-1)
       }
+      validate_provider_specific_keys(gantreeConfigObj)
     }
   }
 }

@@ -26,13 +26,6 @@ class Ansible {
     //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`);
 
     return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`) // COMMENTED OUT TEMPORARILY
-    // // NO ANSIBLE FOR THE MOMENT, DO NOT COMMIT
-    // const chalk = require('chalk')
-    // console.log(
-    //   chalk.red(
-    //     '[WARNING!!!]: skipping ansible, uncomment line 29 of ansible.js!!!'
-    //   )
-    // )
   }
 
   async clean() {}
@@ -41,26 +34,6 @@ class Ansible {
     const actualOptions = Object.assign({}, this.options, options)
     return cmd.exec(`ansible-playbook ${command}`, actualOptions)
   }
-
-  // _validate_gantree_config_schema() {
-  //   const ajv = new Ajv()
-  //   const validate = ajv.compile(gantree_config_schema)
-  //   const gantree_config_valid = validate(this.config)
-  //   if (gantree_config_valid) {
-  //     console.log(chalk.green("[Gantree] Gantree config validated successfully!"))
-  //   } else {
-  //     console.log(chalk.red("[Gantree] Invalid Gantree config detected"))
-  //     // console.log(validate.errors)
-  //     for (let i = 0; i < validate.errors.length; i++) {
-  //       const error_n = validate.errors[i]
-  //       console.log(chalk.red(`[Gantree] --ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`))
-  //     }
-  //     process.exit(-1)
-  //   }
-
-  //   // console.log("EXITING EARLY...")
-  //   // process.exit(-1)
-  // }
 
   _writeInventory() {
     const origin = path.resolve(

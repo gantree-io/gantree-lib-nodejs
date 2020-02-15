@@ -10,11 +10,12 @@
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
         "nodes": [
             {
-                "provider": "do",
-                "machineType": "c-16",
+                "provider": "gcp",
+                "machineType": "n1-standard-2",
                 "count": 2,
-                "zone": "nyc3",
-                "sshUser": "root"
+                "zone": "us-east1-b",
+                "sshUser": "root",
+                "projectId": "secval-testproject-00"
             }
         ]
     }

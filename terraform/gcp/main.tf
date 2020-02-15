@@ -19,8 +19,7 @@ resource "google_compute_firewall" "allow-all-outbound-tcp-{{ name }}" {
     protocol = "tcp"
   }
 
-  direction     = "EGRESS"
-  source_ranges = ["0.0.0.0/0"] # note: allow all outbound TCP, likely requires future hardening. Poor security.
+  direction     = "EGRESS" # note: allow all outbound TCP, likely requires future hardening. Poor security.
   target_tags   = ["{{ name }}"]
 }
 

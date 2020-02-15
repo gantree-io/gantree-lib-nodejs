@@ -17,7 +17,7 @@ validator{{@index}}
 {{/each}}
 
 [builder_bin:vars]
-gantree_working='/tmp/gantree-build-bin'
+gantree_working='/home/subuser/tmp/gantree-build-bin'
 
 [builder_spec:children]
 {{#each validators }}
