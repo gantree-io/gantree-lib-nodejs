@@ -35,7 +35,7 @@ class Ansible {
     // )
   }
 
-  async clean() { }
+  async clean() {}
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
@@ -78,6 +78,15 @@ class Ansible {
     const validators = this._genTplNodes(this.config.validators)
     console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
+    let bootnodes = '['
+    if (this.config.repository.bootnodes) {
+      for (let bootnode of this.config.repository.bootnodes) {
+        bootnodes += `'${bootnode}',`
+      }
+    }
+    bootnodes += ']'
+
+    console.log({ bootnodes })
 
     const data = {
       project: this.config.project,
@@ -86,6 +95,8 @@ class Ansible {
       substrateRepositoryVersion: this.config.repository.version,
       substrateBinaryName: this.config.repository.binaryName,
       substrateUseDefaultSpec: this.config.repository.useDefaultSpec || false,
+      substrateChainArgument: this.config.repository.chain || false,
+      substrateBootnodeArgument: bootnodes,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',

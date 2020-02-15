@@ -1,25 +1,29 @@
----
-# tasks file for test-all
-- name: validator-env-gantree
-  include_role:
-    name: validator-env-gantree
+# ---
+# # tasks file for test-all
+# - name: validator-env-gantree
+#   include_role:
+#     name: validator-env-gantree
 
-- name: builder-build-bin
-  include_role:
-    name: builder-build-bin
+# - name: builder-build-bin
+#   include_role:
+#     name: builder-build-bin
 
-- name: validator-push-bin
-  include_role:
-    name: validator-push-bin
+# - name: validator-push-bin
+#   include_role:
+#     name: validator-push-bin
 
-- name: builder-build-spec
-  include_role:
-    name: builder-build-spec
+# - name: builder-build-spec
+#   include_role:
+#     name: builder-build-spec
 
-- name: validator-push-spec
-  include_role:
-    name: validator-push-spec
+# - name: validator-push-spec
+#   include_role:
+#     name: validator-push-spec
 
-- name: validator-gen-keys
+# - name: validator-gen-keys
+#   include_role:
+#     name: validator-gen-keys
+
+- name: validator-service
   include_role:
-    name: validator-gen-keys
+    name: validator-service

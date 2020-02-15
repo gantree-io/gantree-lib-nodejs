@@ -10,8 +10,15 @@ ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
          {% if hostvars[inventory_hostname].loggingFilter is defined and hostvars[inventory_hostname].loggingFilter|length %}
          -l{{ hostvars[inventory_hostname].loggingFilter }} \
          {% endif %}
-         {% if substrate_use_default_spec is undefined or substrate_use_default_spec == 'false' %}
+         {% if substrate_chain_argument is defined and substrate_chain_argument != 'false' %}
+         --chain={{ substrate_chain_argument }} \
+         {% elif substrate_use_default_spec is undefined or substrate_use_default_spec == 'false' %}
          --chain={{ substrate_chain }} \
+         {% endif %}
+         {% if substrate_bootnode_argument is defined and substrate_bootnode_argument|length %}
+           {% for bootnode in substrate_bootnode_argument %}
+           --bootnodes={{bootnode}} \
+           {% endfor %}
          {% endif %}
          --no-telemetry
 

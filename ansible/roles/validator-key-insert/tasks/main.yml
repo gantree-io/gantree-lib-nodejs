@@ -38,10 +38,6 @@
     - para
     - audi
   register: keys
-
-- name: debug keys
-  debug:
-    var: keys
 # - name: intialise validator keys
 #   uri:
 #     url: http://localhost:9933

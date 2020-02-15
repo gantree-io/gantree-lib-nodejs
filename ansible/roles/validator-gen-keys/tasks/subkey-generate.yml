@@ -57,9 +57,6 @@
     - sr25519
   changed_when: False
 
-- debug:
-    var: session
-
 - name: write session info to disk on remote host
   become: yes
   template:

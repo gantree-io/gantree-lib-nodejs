@@ -71,4 +71,5 @@ substrate_bin_name={{ substrateBinaryName }}
 gantree_control_working='/tmp/gantree-control'
 gantree_root='../'
 substrate_use_default_spec='{{substrateUseDefaultSpec}}'
-
+substrate_chain_argument='{{ substrateChainArgument }}'
+substrate_bootnode_argument={{{ substrateBootnodeArgument }}}
