@@ -30,18 +30,10 @@ class Terraform {
   async sync() {
     console.log(chalk.yellow('[Gantree] Initialising Terraform'))
     this._initializeTerraform()
-    // console.log('init')
-    // try {
-    //   await this._initState();
-    // } catch(e) {
-    //   console.log(`Allowed error creating state backend: ${e.message}`);
-    // }
 
     this._check_environment_variables(this.config.validators.nodes)
 
     const sshKeys = ssh.keys()
-
-    // console.log({sshKeys})
 
     let validatorSyncPromises = []
     try {
@@ -56,13 +48,7 @@ class Terraform {
       )
     }
 
-    let publicNodeSyncPromises = []
-    // try {
-    //   publicNodeSyncPromises = await this._create('publicNode', sshKeys.publicNodePublicKey, this.config.publicNodes.nodes);
-    // } catch(e) {
-    //   console.log(`Could not get publicNodes sync promises: ${e.message}`);
-    // }
-    const syncPromises = validatorSyncPromises.concat(publicNodeSyncPromises)
+    const syncPromises = validatorSyncPromises
 
     return Promise.all(syncPromises)
   }
@@ -81,16 +67,7 @@ class Terraform {
       )
     }
 
-    let publicNodesCleanPromises = []
-    // try {
-    //   publicNodesCleanPromises = await this._destroy('publicNode', this.config.publicNodes.nodes);
-    // } catch(e) {
-    //   console.log(`Could not get publicNodes clean promises: ${e.message}`);
-    // }
-
-    const cleanPromises = validatorCleanPromises.concat(
-      publicNodesCleanPromises
-    )
+    const cleanPromises = validatorCleanPromises
 
     return Promise.all(cleanPromises)
   }
@@ -105,10 +82,7 @@ class Terraform {
   async _create(type, sshKey, nodes) {
     const createPromises = []
 
-    console.log({ nodes })
-
     for (let counter = 0; counter < nodes.length; counter++) {
-      console.log({ counter })
       const cwd = this._terraformNodeDirPath(type, counter)
       // const backendConfig = this._backendConfig(type, counter);
       const nodeName = this._nodeName(type, counter)
@@ -119,8 +93,6 @@ class Terraform {
           await this._cmd(`init`, options)
 
           this._createVarsFile(cwd, nodes[counter], sshKey, nodeName)
-
-          console.log({ options })
 
           cmd.exec(`pwd`)
           await this._cmd(`apply -auto-approve`, options)
@@ -136,14 +108,16 @@ class Terraform {
     for (let i = 0; i < nodes.length; i++) {
       let provider_n = nodes[i].provider
       if (provider_n in provider_env_vars) {
-        console.log(chalk.green(`[Gantree] COMPATIBLE PROVIDER: ${provider_n}`))
         const required_env_vars = provider_env_vars[provider_n]
         for (let i = 0; i < required_env_vars.length; i++) {
           const required_env_var = required_env_vars[i].name
-          if (required_env_var in process.env) {
-            console.log(chalk.green(`[Gantree] Require env var found: ${required_env_var}`))
-          } else {
-            console.log(chalk.red(`[Gantree] Require env var not found!: ${required_env_var}`))
+          if (!(required_env_var in process.env)) {
+            // if req env var not exported
+            console.log(
+              chalk.red(
+                `[Gantree] Require env var not found!: ${required_env_var}`
+              )
+            )
             process.exit(-1)
           }
         }
@@ -159,16 +133,11 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
-      // console.log({ cwd })
-      // const backendConfig = this._backendConfig(type, counter);
       destroyPromises.push(
         new Promise(async resolve => {
           const options = { cwd }
-          // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
           await this._cmd(`init`, options)
-
           await this._cmd('destroy -lock=false -auto-approve', options)
-
           resolve(true)
         })
       )
@@ -213,16 +182,11 @@ class Terraform {
     fs.removeSync(this.terraformFilesPath)
     fs.ensureDirSync(this.terraformFilesPath)
 
-    // console.log(this.terraformFilesPath)
-
-    // this._copyTerraformFiles('remote-state', 0, 'remote-state');
-    // console.log(this.config.validators)
     for (
       let counter = 0;
       counter < this.config.validators.nodes.length;
       counter++
     ) {
-      // console.log(counter)
       this._copyTerraformFiles(
         'validator',
         counter,
@@ -238,22 +202,17 @@ class Terraform {
   _copyTerraformFiles(type, counter, provider) {
     const targetDirPath = this._terraformNodeDirPath(type, counter)
     const originDirPath = path.join(this.terraformOriginPath, provider)
-    // console.log({targetDirPath, originDirPath})
-    // fs.mkdirSync(targetDirPath, {recursive: true})
     fs.ensureDirSync(targetDirPath)
-    // console.log('yee')
 
     const name = this._nodeName(type, counter)
 
     fs.readdirSync(originDirPath).forEach(item => {
-      // console.log({ item })
       const origin = path.join(originDirPath, item)
       const target = path.join(targetDirPath, item)
       const data = {
         dir: path.resolve(path.join(__dirname, '..', '..', '..')),
         name
       }
-      // console.log({ origin, target, data })
       tpl.create(origin, target, data)
     })
   }
