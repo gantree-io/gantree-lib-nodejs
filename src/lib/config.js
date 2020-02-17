@@ -54,7 +54,14 @@ function validate_provider_specific_keys(gantreeConfigObj) {
 module.exports = {
   read: (rawCfgPath) => {
     const cfgPath = path.resolve(process.cwd(), rawCfgPath);
-    return files.readJSON(cfgPath);
+    let cfgObject = {}
+    try {
+      cfgObject = files.readJSON(cfgPath)
+    } catch (e) {
+      console.log(chalk.red(`[Gantree] couldn't import config: ${e}`))
+      process.exit(-1)
+    }
+    return cfgObject;
   },
   validate: (gantreeConfigObj) => {
     if (gantreeConfigObj === undefined) {
