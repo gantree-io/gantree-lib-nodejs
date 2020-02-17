@@ -1,4 +1,0 @@
-- hosts: validator
-  become: yes
-  roles:
-  - substrate-debug
