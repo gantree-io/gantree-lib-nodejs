@@ -52,8 +52,8 @@ class Ansible {
     console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
     let bootnodes = '['
-    if (this.config.repository.bootnodes) {
-      for (let bootnode of this.config.repository.bootnodes) {
+    if (this.config.validators.bootnodes) {
+      for (let bootnode of this.config.validators.bootnodes) {
         bootnodes += `'${bootnode}',`
       }
     }
@@ -68,8 +68,9 @@ class Ansible {
       substrateRepositoryVersion: this.config.repository.version,
       substrateBinaryName: this.config.repository.binaryName,
       substrateUseDefaultSpec: this.config.repository.useDefaultSpec || false,
-      substrateChainArgument: this.config.repository.chain || false,
+      substrateChainArgument: this.config.validators.chain || false,
       substrateBootnodeArgument: bootnodes,
+      substrateTelemetryArgument: this.config.validators.telemetry || false,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',

@@ -20,7 +20,9 @@ ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
            --bootnodes={{bootnode}} \
            {% endfor %}
          {% endif %}
+         {% if substrate_telemetry_argument is defined and substrate_telemetry_argument == 'false' %}
          --no-telemetry
+         {% endif %}
 
 Restart=always
 
