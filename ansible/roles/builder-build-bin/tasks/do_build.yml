@@ -5,6 +5,9 @@
     version: '{{ substrate_repository_version }}'
     dest: '{{ gantree_working }}/node-src'
 
+- debug:
+    msg: "[Gantree] Courtesy note: Depending on your build instance's specifications, the following step may take quite some time..."
+
 - name: compile-node
   shell: |
     cargo build --release
