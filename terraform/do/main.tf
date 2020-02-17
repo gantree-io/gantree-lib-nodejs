@@ -71,7 +71,7 @@ resource "digitalocean_firewall" "web" {
 
   outbound_rule {
     protocol              = "tcp"
-    port_range            = "1-65535" # note: allow any ports for TCP, likely requires future hardening. Bad security.
+    port_range            = "1-65535" # note: allow any ports for TCP outbound, likely requires future hardening. Security.
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
@@ -86,44 +86,3 @@ resource "digitalocean_firewall" "web" {
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 }
-
-
-# resource "digitalocean_droplet" "mywebserver" {
-#   # Obtain your ssh_key id number via your account. See Document https://developers.digitalocean.com/documentation/v2/#list-all-keys
-#   ssh_keys           = [12345678] # Key example
-#   image              = "ubuntu-18-04-x64"
-#   region             = "ams3"
-#   size               = "s-1vcpu-1gb"
-#   private_networking = true
-#   backups            = true
-#   ipv6               = true
-#   name               = "mywebserver-ams3"
-
-#   provisioner "remote-exec" {
-#     inline = [
-#       "export PATH=$PATH:/usr/bin",
-#       "sudo apt-get update",
-#       "sudo apt-get -y install nginx",
-#     ]
-
-#     connection {
-#       type        = "ssh"
-#       private_key = file("~/.ssh/id_rsa")
-#       user        = "root"
-#       timeout     = "2m"
-#       asd         = var.foo
-#     }
-#   }
-# }
-
-# resource "digitalocean_domain" "mywebserver" {
-#   name       = "www.mywebserver.com"
-#   ip_address = "${digitalocean_droplet.mywebserver.ipv4_address}"
-# }
-
-# resource "digitalocean_record" "mywebserver" {
-#   domain = "${digitalocean_domain.mywebserver.name}"
-#   type   = "A"
-#   name   = "mywebserver"
-#   value  = "${digitalocean_droplet.mywebserver.ipv4_address}"
-# }
