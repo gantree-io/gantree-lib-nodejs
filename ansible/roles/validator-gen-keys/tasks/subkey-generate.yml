@@ -1,10 +1,5 @@
 ---
 # added become: yes
-- name: install xxd
-  become: yes
-  apt:
-    name: vim-common
-    update_cache: yes
 
 - name: ensure home dir
   file:
@@ -16,7 +11,7 @@
     path: /home/{{ substrate_user }}/mnemonic
   register: mnemonic_check
 
-# I deleted xargs from a couple of these commands because the AWS machine was upset
+# note: I deleted xargs from a couple of these commands because the AWS machine was upset
 - name: generate mnemonic
   shell: |
     set -o pipefail
