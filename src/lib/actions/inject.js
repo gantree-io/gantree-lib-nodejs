@@ -9,16 +9,16 @@ const BigNumber = require('bignumber.js')
 function check_files_exist(cmd) {
   let files_missing = false
 
-  if (!fs.existsSync(cmd.spec)) {
+  if (!fs.existsSync(cmd.chainspec)) {
     console.error(
-      chalk.red(`[Gantree] No chainspec file found at path: ${cmd.spec}`)
+      chalk.red(`[Gantree] No chainspec file found at path: ${cmd.chainspec}`)
     )
     files_missing = true
   }
-  if (!fs.existsSync(cmd.validators)) {
+  if (!fs.existsSync(cmd.validatorspec)) {
     console.error(
       chalk.red(
-        `[Gantree] No validatorspec file found at path: ${cmd.validators}`
+        `[Gantree] No validatorspec file found at path: ${cmd.validatorspec}`
       )
     )
     files_missing = true
@@ -82,9 +82,9 @@ module.exports = {
   do: async cmd => {
     check_files_exist(cmd)
 
-    const chainspec = JSONbig.parse(fs.readFileSync(cmd.spec, 'utf-8'))
+    const chainspec = JSONbig.parse(fs.readFileSync(cmd.chainspec, 'utf-8'))
     const validatorspec = JSONbig.parse(
-      fs.readFileSync(cmd.validators, 'utf-8')
+      fs.readFileSync(cmd.validatorspec, 'utf-8')
     )
 
     const chainspec_injectable = check_chainspec_valid(chainspec, cmd.allowRaw)
