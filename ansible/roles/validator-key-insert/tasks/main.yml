@@ -1,4 +1,4 @@
-- name: install curl
+- name: ensure curl
   become: yes
   apt:
     name: curl
@@ -42,12 +42,3 @@
 - name: debug keys
   debug:
     var: keys
-# - name: intialise validator keys
-#   uri:
-#     url: http://localhost:9933
-#     method: 'POST'
-#     body_format: json
-#     bash: |
-#       { "jsonrpc":"2.0", "method":"author_insertKey", "params":["{{ item }}", "{{}}", ""], "id":1 }
-#   loop: '{{ keys.results }}'
-#   register: rotate_keys
