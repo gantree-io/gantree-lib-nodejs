@@ -11,8 +11,17 @@
     "inject": "node . inject",
     "key-combine": "node . key-combine",
     "lint": "eslint .",
-    "pretest": "yarn lint"
+    "pretest": "yarn lint",
+    "precommit": "lint-staged"
   },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ]
+  },
+  "pre-commit": [
+    "precommit"
+  ],
   "bin": {
     "gantree-cli": "src/index.js"
   },
@@ -32,6 +41,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "5.16.0",
+    "lint-staged": "^10.0.7",
     "mocha": "^6.2.0",
     "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
