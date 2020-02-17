@@ -9,7 +9,7 @@ ansible/inventory
 ansible/**/__pycache__
 
 # gantree
-config/main.json
+gantree_config.json
 setup_env_vars.sh
 
 # unknown
