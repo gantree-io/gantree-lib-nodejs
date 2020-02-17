@@ -1,9 +1,9 @@
-const path = require('path');
-const process = require('process');
+const path = require('path')
+const process = require('process')
 const Ajv = require('ajv')
 const chalk = require('chalk')
 
-const files = require('./files');
+const files = require('./files')
 const gantree_config_schema = require('../schemas/gantree_config_schema')
 const provider_specific_keys = require('../static_data/provider_specific_keys')
 
@@ -25,20 +25,23 @@ function validate_provider_specific_keys(gantreeConfigObj) {
           missing_provider_keys[validator_provider].push(key)
         }
       }
-
     } else {
-      console.log(chalk.green(`[Gantree] No ${validator_provider} specific keys required`))
+      // console.log(chalk.green(`[Gantree] No ${validator_provider} specific keys required`))
     }
   }
 
   let keys_are_missing = false
   let missing_messages = []
-  for (const [provider, keys_missing] of Object.entries(missing_provider_keys)) {
+  for (const [provider, keys_missing] of Object.entries(
+    missing_provider_keys
+  )) {
     if (keys_missing.length > 0) {
       keys_are_missing = true
-      missing_messages.push(`[Gantree] Required ${provider} keys missing: ${keys_missing}`)
+      missing_messages.push(
+        `[Gantree] Required ${provider} keys missing: ${keys_missing}`
+      )
     } else {
-      console.log(chalk.green(`[Gantree] All required ${provider} specific keys satisfied`))
+      // console.log(chalk.green(`[Gantree] All required ${provider} specific keys satisfied`))
     }
   }
 
@@ -50,10 +53,9 @@ function validate_provider_specific_keys(gantreeConfigObj) {
   }
 }
 
-
 module.exports = {
-  read: (rawCfgPath) => {
-    const cfgPath = path.resolve(process.cwd(), rawCfgPath);
+  read: rawCfgPath => {
+    const cfgPath = path.resolve(process.cwd(), rawCfgPath)
     let cfgObject = {}
     try {
       cfgObject = files.readJSON(cfgPath)
@@ -61,24 +63,29 @@ module.exports = {
       console.log(chalk.red(`[Gantree] couldn't import config: ${e}`))
       process.exit(-1)
     }
-    return cfgObject;
+    return cfgObject
   },
-  validate: (gantreeConfigObj) => {
+  validate: gantreeConfigObj => {
     if (gantreeConfigObj === undefined) {
-      console.log(chalk.red("[Gantree] Validate must recieve a config object as input"))
+      console.log(
+        chalk.red('[Gantree] Validate must recieve a config object as input')
+      )
       process.exit(-1)
     } else {
       const ajv = new Ajv()
       const validate = ajv.compile(gantree_config_schema)
       const gantree_config_valid = validate(gantreeConfigObj)
       if (gantree_config_valid) {
-        console.log(chalk.green("[Gantree] Gantree config validated successfully!"))
+        // console.log(chalk.green("[Gantree] Gantree config validated successfully!"))
       } else {
-        console.log(chalk.red("[Gantree] Invalid Gantree config detected"))
-        // console.log(validate.errors)
+        console.log(chalk.red('[Gantree] Invalid Gantree config detected'))
         for (let i = 0; i < validate.errors.length; i++) {
           const error_n = validate.errors[i]
-          console.log(chalk.red(`[Gantree] --ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`))
+          console.log(
+            chalk.red(
+              `[Gantree] --ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`
+            )
+          )
         }
         process.exit(-1)
       }
