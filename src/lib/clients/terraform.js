@@ -84,12 +84,10 @@ class Terraform {
 
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
-      // const backendConfig = this._backendConfig(type, counter);
       const nodeName = this._nodeName(type, counter)
       createPromises.push(
         new Promise(async resolve => {
           const options = { cwd }
-          // await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
           await this._cmd(`init`, options)
 
           this._createVarsFile(cwd, nodes[counter], sshKey, nodeName)
@@ -111,8 +109,8 @@ class Terraform {
         const required_env_vars = provider_env_vars[provider_n]
         for (let i = 0; i < required_env_vars.length; i++) {
           const required_env_var = required_env_vars[i].name
+          // if req env var not exported
           if (!(required_env_var in process.env)) {
-            // if req env var not exported
             console.log(
               chalk.red(
                 `[Gantree] Require env var not found!: ${required_env_var}`
@@ -150,15 +148,6 @@ class Terraform {
     return cmd.exec(`terraform ${command}`, actualOptions)
   }
 
-  // async _initState(){
-  //   const cwd = this._terraformNodeDirPath('remote-state');
-  //   const options = { cwd };
-
-  //   await this._cmd(`init -var state_project=${this.config.state.project}`, options);
-  //   const bucketName = this._bucketName()
-  //   return this._cmd(`apply -var state_project=${this.config.state.project} -var name=${bucketName} -auto-approve`, options);
-  // }
-
   _createVarsFile(cwd, node, sshKey, nodeName) {
     const data = {
       dir: path.resolve(__dirname),
@@ -193,10 +182,6 @@ class Terraform {
         this.config.validators.nodes[counter].provider
       )
     }
-
-    // for (let counter = 0; counter < this.config.publicNodes.nodes.length; counter++) {
-    //   this._copyTerraformFiles('publicNode', counter, this.config.publicNodes.nodes[counter].provider);
-    // }
   }
 
   _copyTerraformFiles(type, counter, provider) {
@@ -221,17 +206,6 @@ class Terraform {
     const dirName = this._nodeName(type, counter)
     return path.join(this.terraformFilesPath, dirName)
   }
-
-  // _backendConfig(type, counter) {
-  //   const bucket = this._bucketName();
-  //   const prefix = this._nodeName(type, counter);
-
-  //   return { bucket, prefix };
-  // }
-
-  // _bucketName() {
-  //   return `${this.config.project}-sv-tf-state`
-  // }
 
   _nodeName(type, counter) {
     const name = `${type}${counter}`
