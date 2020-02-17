@@ -8,7 +8,7 @@ class Project {
   }
 
   path() {
-    return path.join(ospath.data(), 'substrate-secure-validator', 'build', this.name);
+    return path.join(ospath.data(), 'gantree-cli', 'build', this.name);
   }
 }
 

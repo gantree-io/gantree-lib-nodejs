@@ -80,6 +80,20 @@ $ ssh-keygen -f <path>
 $ ssh-add <path>
 ``` -->
 
+#### Terraform Statefile Path (optional)
+
+By default the terraform state is stored in:
+
+`${os_home}/gantree-cli/build/terraform/state/`
+
+This location can be customized with the following environment variable:
+
+| EXPORT NAME                | DESCRIPTION                                         |
+| -------------------------- | --------------------------------------------------- |
+| `TERRAFORM_STATEFILE_PATH` | path where the terraform statefile will be located. |
+
+Note: This path must be absolute. If it does not exist it will be created.
+
 ### Configuration Requirements
 
 Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
