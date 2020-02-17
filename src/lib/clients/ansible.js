@@ -21,14 +21,12 @@ class Ansible {
 
   async sync() {
     const inventoryPath = this._writeInventory()
-    console.log({ inventoryPath })
-    //return this._cmd(`all -b -m ping -i ${inventoryFileName}`, this.options);
-    //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`);
-
-    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`) // COMMENTED OUT TEMPORARILY
+    //return this._cmd(`all -b -m ping -i ${inventoryFileName}`, this.options); // ping everything in inventory
+    //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`); // run main.yml verbosely
+    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`)
   }
 
-  async clean() { }
+  async clean() {}
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
@@ -49,7 +47,7 @@ class Ansible {
     fs.ensureDirSync(buildDir, { recursive: true })
     const target = path.join(buildDir, inventoryFileName)
     const validators = this._genTplNodes(this.config.validators)
-    console.log({ origin, project, buildDir, target, validators })
+    // console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
 
     const data = {
@@ -94,7 +92,7 @@ class Ansible {
       data.nodeRestartEnabled = false
     }
 
-    console.log({ origin, target, data })
+    // console.log({ origin, target, data })
     tpl.create(origin, target, data)
 
     return target
@@ -106,8 +104,6 @@ class Ansible {
     // let counter = offset;
 
     nodeSet.nodes.forEach(node => {
-      console.log(`node.ipAddresses ${node.ipAddresses}`)
-      console.log(typeof node.ipAddresses)
       if (typeof node.ipAddresses == 'string') {
         const ipAddress = node.ipAddresses
         const item = {

@@ -1,8 +1,8 @@
 {
     "validators": [
         {
-            "sr25519": "node-#0-sr-address",
-            "ed25519": "node-#0-ed-address",
+            "sr25519": "<node-#0-sr-address>",
+            "ed25519": "<node-#0-ed-address>",
             "pallet_options": {
                 "grandpa": {
                     "vote_weight": 1
@@ -13,8 +13,8 @@
             }
         },
         {
-            "sr25519": "node-#1-sr-address",
-            "ed25519": "node-#1-ed-address",
+            "sr25519": "<node-#1-sr-address>",
+            "ed25519": "<node-#1-ed-address>",
             "pallet_options": {
                 "grandpa": {
                     "vote_weight": 1
