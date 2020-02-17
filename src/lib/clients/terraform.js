@@ -3,6 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 
 const cmd = require('../cmd')
+const env = require('../env')
 const { Project } = require('../project')
 const ssh = require('../ssh')
 const tpl = require('../tpl')
@@ -20,7 +21,8 @@ class Terraform {
       '..',
       'terraform'
     )
-    this.terraformFilesPath = path.join(project.path(), 'terraform')
+    this.terraformTempPath = path.join(project.path(), 'terraform-temp')
+    this.terraformPath = path.join(project.path(), 'terraform')
 
     this.options = {
       verbose: true
@@ -168,8 +170,8 @@ class Terraform {
   }
 
   _initializeTerraform() {
-    fs.removeSync(this.terraformFilesPath)
-    fs.ensureDirSync(this.terraformFilesPath)
+    fs.removeSync(this.terraformTempPath)
+    fs.ensureDirSync(this.terraformTempPath)
 
     for (
       let counter = 0;
@@ -194,9 +196,13 @@ class Terraform {
     fs.readdirSync(originDirPath).forEach(item => {
       const origin = path.join(originDirPath, item)
       const target = path.join(targetDirPath, item)
+      const envStatePath = env.terraformStatefilePath || path.join(this.terraformPath, 'state')
+      if (!path.isAbsolute(envStatePath)) {
+        throw new Error(`terraform statefile path must be absolute, was given: ${envStatePath}`)
+      }
       const data = {
-        dir: path.resolve(path.join(__dirname, '..', '..', '..')),
-        name
+        name,
+        tfstateDir: path.normalize(envStatePath)
       }
       tpl.create(origin, target, data)
     })
@@ -204,7 +210,7 @@ class Terraform {
 
   _terraformNodeDirPath(type, counter = 0) {
     const dirName = this._nodeName(type, counter)
-    return path.join(this.terraformFilesPath, dirName)
+    return path.join(this.terraformTempPath, dirName)
   }
 
   _nodeName(type, counter) {
