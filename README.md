@@ -1,8 +1,3 @@
-<!-- If you are seeing this, you may be reading an embedded version of this readme.md on BitBucket. If you see any other statements with arrows like this one, feel free to ignore them. BitBucket doesn't support comments like these. -->
-<!-- markdownlint-disable MD001 MD041 -->
-![Platform: Linux,Mac](https://img.shields.io/badge/Platform-%20Linux%20%7C%20Mac-blue.svg)
-<!-- markdownlint-enable MD001 MD041 -->
-
 # Gantree CLI
 
 ## About
@@ -14,11 +9,6 @@ In the past, setting up and managing blockchain networks required an understandi
 With the assistance of funding from the [Web3 Foundation](https://web3.foundation/), Flex Dapps is building a suite of technologies which will enable both power users and those less versed to create and manage substrate-powered parachain networks via rapid spin-up and tear-down of self-managed or cloud-hosted machines.
 
 ## Requirements
-
-<!-- This repo has code for creating a complete implementation of the approach
-described [here](https://hackmd.io/QSJlqjZpQBihEU_ojmtR8g) from scratch, including
-both layers described in [Workflow](#workflow). This can be done on a host with
-NodeJS, Yarn and Git installed with: -->
 
 ### Software Requirements
 
@@ -69,16 +59,7 @@ You need an additional environment variables to allow ansible to connect to crea
 | ---------------------- | ----------------------------------------------------------- |
 | `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators. |
 
-<!-- | `SSH_ID_RSA_PUBLIC`    | path to private SSH key you want to use for the public nodes. | -->
-
 You must generate this keypair yourself and add it to your ssh-agent.
-
-<!-- You can easily create and add them to your ssh-agent as follows:
-
-```bash
-$ ssh-keygen -f <path>
-$ ssh-add <path>
-``` -->
 
 #### Terraform Statefile Path (optional)
 
@@ -129,10 +110,6 @@ To synchronise your configuration with digital infrastructure, run the following
 ```bash
 node . sync --config <PATH_TO_GANTREE_CONFIG>
 ```
-
-<!-- You can also just provision a set of previously created machines with the ansible code
-[here](./ansible). We have provided an [example inventory](./ansible/inventory.sample)
-that you can customize. -->
 
 The `sync` command is idempotent, unless there are errors it will always have
 the same results. You can execute it as much as you want, it will only make
