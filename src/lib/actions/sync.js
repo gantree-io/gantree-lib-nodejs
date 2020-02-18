@@ -10,6 +10,9 @@ module.exports = {
     if (!cmd.config) {
       console.error(chalk.red('[Gantree] Error: --config required.'))
       process.exit(-1)
+    } else if (typeof cmd.config === 'boolean') {
+      console.error(chalk.red('[Gantree] Error: Path to config required.'))
+      process.exit(-1)
     }
 
     const cfg = config.read(cmd.config)
