@@ -104,9 +104,9 @@ Using one of the examples below, create a configuration file to represent your d
 
 Examples of provider definitions
 
-* [AWS Sample](config/main.sample_aws.json)
-* [DigitalOcean Sample](config/main.sample_do.json)
-* [GCP Sample](config/main.sample_gcp.json)
+* [AWS Sample](samples/config/only_aws.sample.json)
+* [DigitalOcean Sample](samples/config/only_do.sample.json)
+* [GCP Sample](samples/config/only_gcp.sample.json)
 
 Multiple providers can be used in a single configuration.
 
