@@ -17,7 +17,6 @@ In order to use Gropius-CLI, the following dependencies are required:
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
 | NodeJS                         | >=10.15.2 | Recommended install method: [nvm](nvm-install) |
-| [Yarn](yarn-install)           | >=1.21.1  | Install with `npm install -g yarn`             |
 | [Terraform](terraform-install) | >=0.12    | Snap package will be likely too old            |
 | [Ansible](ansible-install)     | >=2.8     | Recommended install method: pip                |
 
@@ -33,7 +32,7 @@ In order to install the required node packages and ansible roles, run the follow
 ```bash
 git clone https://bitbucket.org/flexdapps/gantree-gropius
 cd gantree-gropius
-yarn
+npm install
 ansible-galaxy install -r ./ansible/requirements/requirements.yml
 ```
 
