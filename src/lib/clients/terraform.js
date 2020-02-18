@@ -81,7 +81,7 @@ class Terraform {
     return this._cmd(`output -json ${outputField}`, options)
   }
 
-  async _create(type, sshKey, nodes) {
+  async _create(type, sshKeyPublic, nodes) {
     const createPromises = []
 
     for (let counter = 0; counter < nodes.length; counter++) {
@@ -92,7 +92,7 @@ class Terraform {
           const options = { cwd }
           await this._cmd(`init`, options)
 
-          this._createVarsFile(cwd, nodes[counter], sshKey, nodeName)
+          this._createVarsFile(cwd, nodes[counter], sshKeyPublic, nodeName)
 
           cmd.exec(`pwd`)
           await this._cmd(`apply -auto-approve`, options)
@@ -150,10 +150,10 @@ class Terraform {
     return cmd.exec(`terraform ${command}`, actualOptions)
   }
 
-  _createVarsFile(cwd, node, sshKey, nodeName) {
+  _createVarsFile(cwd, node, sshKeyPublic, nodeName) {
     const data = {
       dir: path.resolve(__dirname),
-      publicKey: sshKey,
+      publicKey: sshKeyPublic,
       sshUser: node.sshUser,
       machineType: node.machineType,
       location: node.location,
@@ -196,9 +196,12 @@ class Terraform {
     fs.readdirSync(originDirPath).forEach(item => {
       const origin = path.join(originDirPath, item)
       const target = path.join(targetDirPath, item)
-      const envStatePath = env.terraformStatefilePath || path.join(this.terraformPath, 'state')
+      const envStatePath =
+        env.terraformStatefilePath || path.join(this.terraformPath, 'state')
       if (!path.isAbsolute(envStatePath)) {
-        throw new Error(`terraform statefile path must be absolute, was given: ${envStatePath}`)
+        throw new Error(
+          `terraform statefile path must be absolute, was given: ${envStatePath}`
+        )
       }
       const data = {
         name,
