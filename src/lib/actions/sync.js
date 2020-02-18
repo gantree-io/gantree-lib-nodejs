@@ -8,8 +8,8 @@ const { Application } = require('../application.js')
 module.exports = {
   do: async cmd => {
     if (!cmd.config) {
-      console.info('--config required.')
-      process.exit(1)
+      console.error(chalk.red('[Gantree] Error: --config required.'))
+      process.exit(-1)
     }
 
     const cfg = config.read(cmd.config)
