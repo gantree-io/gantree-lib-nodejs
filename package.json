@@ -29,6 +29,12 @@
   "bin": {
     "gantree-cli": "src/index.js"
   },
+  "files": [
+    "/ansible",
+    "/src",
+    "/terraform",
+    "/tpl"
+  ],
   "dependencies": {
     "ajv": "^6.11.0",
     "bignumber.js": "^9.0.0",
