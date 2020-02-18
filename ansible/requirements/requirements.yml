@@ -3,4 +3,4 @@
 # Install with: `ansible-galaxy install -r requirements.yml`
 
 - name: ansible-role-cargo
-  src: https://github.com/flexdapps/ansible-role-cargo.git
+  src: https://github.com/flex-dapps/ansible-role-cargo.git
