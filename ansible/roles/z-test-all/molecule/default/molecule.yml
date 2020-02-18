@@ -51,6 +51,11 @@ provisioner:
         substrate_bin_name: node-template
         substrate_user: subuser
         substrate_group: subgroup
+        substrate_bootnode_argument:
+          - '/ip4/35.242.216.93/tcp/30333/p2p/QmeoT4nzw5QDRaqdkBfnaqW9grMTLiEuYUpu4hSbseKB8C'
+          - '/ip4/34.89.161.185/tcp/30333/p2p/QmbNXcLkbD7Z2BaSUTfqb1VEkEDTij9rhS79b8F2uiJ3Ki'
+          - '/ip4/35.246.201.166/tcp/30333/p2p/QmX1hSCYFgeW876VQvWYkkmxon91ofvsnmk8ceCk1i8Tyv'
+          - '/ip4/35.242.226.138/tcp/30333/p2p/QmW2NQVT1nLqAJCsxXixHkuCN93bCbbdminYKNSGyEX77R'
         gantree_control_working: /tmp/gantree-control
         gantree_root: ../../../../../
       builder_bin:

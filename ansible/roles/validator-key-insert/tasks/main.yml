@@ -38,7 +38,3 @@
     - para
     - audi
   register: keys
-
-- name: debug keys
-  debug:
-    var: keys
