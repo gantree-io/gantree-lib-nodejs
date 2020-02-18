@@ -49,7 +49,7 @@ For security reasons, credentials for infrastructure providers must be exported 
 | GCP          | `GOOGLE_APPLICATION_CREDENTIALS`                | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
 | DigitalOcean | `DIGITALOCEAN_TOKEN`                            | A DigitalOcean access token with read + write access                                                                                                        |
 
-**note:** you only need credentials for providers you wish to use
+**note:** You only need credentials for providers you wish to use
 
 #### SSH Credentials
 
@@ -57,23 +57,9 @@ You need an additional environment variables to allow ansible to connect to crea
 
 | EXPORT NAME            | DESCRIPTION                                                 |
 | ---------------------- | ----------------------------------------------------------- |
-| `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators. |
+| `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators |
 
 You must generate this keypair yourself and add it to your ssh-agent.
-
-#### Terraform Statefile Path (optional)
-
-By default the terraform state is stored in:
-
-`${os_home}/gantree-cli/build/terraform/state/`
-
-This location can be customized with the following environment variable:
-
-| EXPORT NAME                | DESCRIPTION                                         |
-| -------------------------- | --------------------------------------------------- |
-| `TERRAFORM_STATEFILE_PATH` | path where the terraform statefile will be located. |
-
-Note: This path must be absolute. If it does not exist it will be created.
 
 ### Configuration Requirements
 
@@ -93,7 +79,25 @@ Multiple providers can be used in a single configuration.
 
 * ***This is a work-in-progress and not yet officially supported***
 
-**note:** the more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
+**note:** The more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
+
+## Optional Configuration
+
+### Environment Options
+
+#### Terraform Statefile Path (optional)
+
+By default the terraform state is stored in:
+
+`${os_home}/gantree-cli/build/terraform/state/`
+
+This location can be customized with the following environment variable:
+
+| EXPORT NAME                | DESCRIPTION                                         |
+| -------------------------- | --------------------------------------------------- |
+| `TERRAFORM_STATEFILE_PATH` | path to terraform statefile |
+
+**note:** This path must be absolute. If it does not exist it will be created.
 
 ## Usage
 
