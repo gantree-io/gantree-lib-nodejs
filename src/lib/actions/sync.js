@@ -28,6 +28,11 @@ module.exports = {
       console.log(chalk.red(`[Gantree] Could not sync platform: ${e.message}`))
       process.exit(-1)
     }
+    console.log(
+      chalk.green(
+        `[Gantree] Platform result: ${JSON.stringify(platformResult)}`
+      )
+    )
     console.log(chalk.green('[Gantree] Done syncing platform (terraform)'))
 
     console.log(chalk.yellow('[Gantree] Syncing application...'))

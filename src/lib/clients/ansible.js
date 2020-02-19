@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
+const chalk = require('chalk')
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
@@ -47,21 +48,19 @@ class Ansible {
     fs.ensureDirSync(buildDir, { recursive: true })
     const target = path.join(buildDir, inventoryFileName)
     const validators = this._genTplNodes(this.config.validators)
-    // console.log({ origin, project, buildDir, target, validators })
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
-    let bootnodes = '['
-    if (this.config.validators.bootnodes) {
-      for (let bootnode of this.config.validators.bootnodes) {
-        bootnodes += `'${bootnode}',`
-      }
-    }
-    bootnodes += ']'
+    const bootnodes = this._genBootnodes(this.config.validators.bootnodes)
+    const version = this._getVersion(this.config.repository.version)
+    // console.log({ origin, project, buildDir, target, validators, bootnodes, version })
+    console.log(
+      chalk.yellow(`[Gantree] Preparing nodes with version ${version}`)
+    )
 
     const data = {
       project: this.config.project,
 
       substrateRepository: this.config.repository.url,
-      substrateRepositoryVersion: this.config.repository.version,
+      substrateRepositoryVersion: version,
       substrateBinaryName: this.config.repository.binaryName,
       substrateUseDefaultSpec: this.config.repository.useDefaultSpec || false,
       substrateChainArgument: this.config.validators.chain || false,
@@ -106,6 +105,30 @@ class Ansible {
     tpl.create(origin, target, data)
 
     return target
+  }
+
+  _genBootnodes(configBootnodes) {
+    let bootnodes = '['
+    if (configBootnodes) {
+      for (let bootnode of configBootnodes) {
+        bootnodes += `'${bootnode}',`
+      }
+    }
+    bootnodes += ']'
+    return bootnodes
+  }
+
+  _getVersion(inputVersion) {
+    if (inputVersion === undefined) {
+      return 'HEAD'
+    } else {
+      console.log(
+        chalk.yellow(
+          '[Gantree] Warning: No repository version specified, using current HEAD.'
+        )
+      )
+      return inputVersion
+    }
   }
 
   _genTplNodes(nodeSet) {

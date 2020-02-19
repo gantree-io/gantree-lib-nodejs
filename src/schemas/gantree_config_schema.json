@@ -29,7 +29,7 @@
                 },
                 "version": {
                     "type": "string",
-                    "description": "version of repository (commit hash)"
+                    "description": "version of repository (commit hash)."
                 },
                 "binaryName": {
                     "type": "string",
@@ -38,7 +38,6 @@
             },
             "required": [
                 "url",
-                "version",
                 "binaryName"
             ]
         },
