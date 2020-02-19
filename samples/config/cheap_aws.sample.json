@@ -1,0 +1,22 @@
+{
+    "project": "gantree",
+    "repository": {
+        "url": "https://github.com/substrate-developer-hub/substrate-node-template",
+        "version": "8b6fe66",
+        "binaryName": "node-template"
+    },
+    "validators": {
+        "telemetryUrl": "wss://my.private.telemetry.endpoint",
+        "loggingFilter": "sync=trace,afg=trace,babe=debug",
+        "nodes": [
+            {
+                "provider": "aws",
+                "machineType": "t3.small",
+                "count": 2,
+                "zone": "eu-central-1a",
+                "sshUser": "ubuntu",
+                "location": "eu-central-1"
+            }
+        ]
+    }
+}
