@@ -11,7 +11,7 @@
         "nodes": [
             {
                 "provider": "do",
-                "machineType": "c-16",
+                "machineType": "s-1vcpu-1gb",
                 "count": 2,
                 "zone": "nyc3",
                 "sshUser": "root"
