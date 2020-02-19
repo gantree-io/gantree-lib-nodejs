@@ -1,5 +1,6 @@
-data "digitalocean_ssh_key" "default" {
-  name = "gantree-digitalocean"
+resource "digitalocean_ssh_key" "default" {
+  name       = "gantree-ssh-digitalocean"
+  public_key = var.public_key
 }
 
 resource "digitalocean_droplet" "web" {
@@ -8,7 +9,7 @@ resource "digitalocean_droplet" "web" {
   size     = var.machine_type
   image    = "ubuntu-18-04-x64"
   region   = var.zone
-  ssh_keys = [data.digitalocean_ssh_key.default.id]
+  ssh_keys = [digitalocean_ssh_key.default.id]
 }
 
 resource "digitalocean_firewall" "web" {

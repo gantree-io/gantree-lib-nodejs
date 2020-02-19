@@ -23,3 +23,7 @@ variable "zone" {
 variable "ssh_user" {
   default = ""
 }
+
+variable "public_key" {
+  default = ""
+}
