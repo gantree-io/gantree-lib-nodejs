@@ -60,6 +60,8 @@ You need an additional environment variables to allow ansible to connect to crea
 
 You must generate this keypair yourself and add it to your ssh-agent.
 
+**note:** Don't forget to add the private key to you ssh-agent otherwise you will get ***Permission denied (publickey)*** during ansible tasks
+
 ### Configuration Requirements
 
 Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
