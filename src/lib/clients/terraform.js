@@ -12,6 +12,7 @@ const provider_env_vars = require('../../static_data/provider_env_vars')
 class Terraform {
   constructor(cfg) {
     this.config = JSON.parse(JSON.stringify(cfg))
+    this._check_environment_variables(this.config.validators.nodes)
 
     const project = new Project(cfg)
     this.terraformOriginPath = path.join(
@@ -32,8 +33,6 @@ class Terraform {
   async sync() {
     console.log(chalk.yellow('[Gantree] Initialising Terraform'))
     this._initializeTerraform()
-
-    this._check_environment_variables(this.config.validators.nodes)
 
     const sshKeys = ssh.keys()
 
