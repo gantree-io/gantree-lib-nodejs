@@ -7,7 +7,7 @@
 - name: clean substrate db
   become: yes
   shell: |
-    if [ {{ substrate_chain_argument }} != false ]; then
+    if [ {{ substrate_chain_argument }} != "false" ]; then
       chain=" --chain={{ substrate_chain_argument }}"
     else
       chain=""
