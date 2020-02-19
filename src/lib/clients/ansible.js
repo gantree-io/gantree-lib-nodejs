@@ -57,8 +57,6 @@ class Ansible {
     }
     bootnodes += ']'
 
-    console.log({ bootnodes })
-
     const data = {
       project: this.config.project,
 
