@@ -7,7 +7,16 @@
 - name: clean substrate db
   become: yes
   shell: |
-    {{ substrate_bin_name }} purge-chain -d /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }} -y --chain={{ substrate_chain_argument }}
+    if [ {{ substrate_chain_argument }} != false ]; then
+      chain=" --chain={{ substrate_chain_argument }}"
+    else
+      chain=""
+    fi
+
+    nochain="{{ substrate_bin_name }} purge-chain -d /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }} -y"
+    command="$nochain$chain"
+
+    eval $command
 
 - name: start substrate
   become: yes
