@@ -12,7 +12,7 @@ With the assistance of funding from the [Web3 Foundation](https://web3.foundatio
 
 ### Software Requirements
 
-In order to use Gropius-CLI, the following dependencies are required:
+In order to use gantree-cli, the following dependencies are required:
 
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
@@ -25,15 +25,21 @@ In order to use Gropius-CLI, the following dependencies are required:
 [terraform-install]: https://www.terraform.io/downloads.html
 [ansible-install]: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-### NodeJS/Ansible Requirements
+### Ansible Requirements
 
-In order to install the required node packages and ansible roles, run the following
+Install required ansible roles
 
 ```bash
-git clone https://bitbucket.org/flexdapps/gantree-gropius
-cd gantree-gropius
-npm install
-ansible-galaxy install -r ./ansible/requirements/requirements.yml
+curl https://raw.githubusercontent.com/flex-dapps/gantree-requirements/master/ansible-galaxy/requirements.yml > ansible_requirements.yml
+ansible-galaxy install -r ansible_requirements.yml
+```
+
+### Package Installation
+
+Install gantree-cli
+
+```bash
+npm install gantree-cli -g
 ```
 
 ### Environment Requirements
