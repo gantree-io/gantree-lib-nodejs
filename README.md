@@ -80,11 +80,7 @@ Examples of provider definitions
 * [DigitalOcean Sample](samples/config/only_do.sample.json)
 * [GCP Sample](samples/config/only_gcp.sample.json)
 
-Multiple providers can be used in a single configuration.
-
-* ***This is a work-in-progress and not yet officially supported***
-
-**note:** The more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
+**note:** Multiple providers cannot yet be used in a single configuration. This is planned for a future release.
 
 ## Optional Configuration
 
