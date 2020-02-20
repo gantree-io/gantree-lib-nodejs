@@ -1,6 +1,6 @@
 {
   "name": "@flexdapps/gantree-cli",
-  "version": "0.2.0-a0",
+  "version": "0.2.0-a1",
   "main": "src/index.js",
   "repository": "https://bitbucket.org/flexdapps/gantree-gropius",
   "author": "Flex Dapps",
@@ -55,6 +55,7 @@
     "mocha": "^6.2.0",
     "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
-    "tmp": "^0.1.0"
+    "tmp": "^0.1.0",
+    "winston": "^3.2.1"
   }
 }
