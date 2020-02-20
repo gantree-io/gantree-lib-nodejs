@@ -118,7 +118,7 @@ Before attempting to run sync, ensure all tasks outlined in [requirements](#requ
 To synchronise your configuration with digital infrastructure, run the following:
 
 ```bash
-node . sync --config <PATH_TO_GANTREE_CONFIG>
+gantree-cli sync --config <PATH_TO_GANTREE_CONFIG>
 ```
 
 The `sync` command is idempotent, unless there are errors it will always have
@@ -130,5 +130,5 @@ changes when the actual infrastructure state doesn't match the desired state.
 You can remove all the created infrastructure with:
 
 ```bash
-node . clean -c config/main.json
+gantree-cli sync clean -c config/main.json
 ```
