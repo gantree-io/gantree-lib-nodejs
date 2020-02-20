@@ -17,8 +17,8 @@ In order to use Gropius-CLI, the following dependencies are required:
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
 | NodeJS                         | >=10.15.2 | Recommended install method: [nvm](nvm-install) |
-| [Terraform](terraform-install) | >=0.12    | Snap package will be likely too old            |
-| [Ansible](ansible-install)     | >=2.8     | Recommended install method: pip                |
+| [Terraform](terraform-install) | >=0.12.20 | Snap package will be likely too old            |
+| [Ansible](ansible-install)     | >=2.9.4   | Recommended install method: pip                |
 
 [nvm-install]: https://github.com/nvm-sh/nvm
 [yarn-install]: https://yarnpkg.com/lang/en/docs/install
