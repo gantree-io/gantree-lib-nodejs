@@ -88,14 +88,19 @@ Examples of provider definitions
 
 #### Terraform Statefile Path (optional)
 
-By default the terraform state is stored in:
+By default the terraform state is stored in `<HOME-DIR>/gantree-cli/build/terraform/state/`
 
-`${os_home}/gantree-cli/build/terraform/state/`
+On the machine executing gantree-cli, HOME-DIR will resolve to the following:
+
+| OS        | HOME-DIR                                           |
+| --------- | -------------------------------------------------- |
+| Linux     | `/home/<myusername>/`                              |
+| Macintosh | `/Users/<myusername>/Library/Application Support/` |
 
 This location can be customized with the following environment variable:
 
-| EXPORT NAME                | DESCRIPTION                                         |
-| -------------------------- | --------------------------------------------------- |
+| EXPORT NAME                | DESCRIPTION                 |
+| -------------------------- | --------------------------- |
 | `TERRAFORM_STATEFILE_PATH` | path to terraform statefile |
 
 **note:** This path must be absolute. If the statefile does not exist at this location it will be created.
