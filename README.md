@@ -60,17 +60,15 @@ For security reasons, credentials for infrastructure providers must be exported 
 
 You need an additional environment variables to allow ansible to connect to created instances:
 
-| EXPORT NAME            | DESCRIPTION                                                 |
-| ---------------------- | ----------------------------------------------------------- |
+| EXPORT NAME            | DESCRIPTION                                                |
+| ---------------------- | ---------------------------------------------------------- |
 | `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators |
 
 You must generate this keypair yourself and add it to your ssh-agent.
 
-**note:** Don't forget to add the private key to you ssh-agent otherwise you will get ***Permission denied (publickey)*** during ansible tasks
-
 ### Configuration Requirements
 
-Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
+Gantree-cli requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
 
 Using one of the examples below, create a configuration file to represent your desired infrastructure.
 
@@ -104,11 +102,11 @@ This location can be customized with the following environment variable:
 | -------------------------- | --------------------------------------------------- |
 | `TERRAFORM_STATEFILE_PATH` | path to terraform statefile |
 
-**note:** This path must be absolute. If it does not exist it will be created.
+**note:** This path must be absolute. If the statefile does not exist at this location it will be created.
 
 ## Usage
 
-### Syncronization
+### Synchronisation
 
 Before attempting to run sync, ensure all tasks outlined in [requirements](#requirements) have been completed.
 
