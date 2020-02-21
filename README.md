@@ -8,11 +8,9 @@ In the past, setting up and managing blockchain networks required an understandi
 
 With the assistance of funding from the [Web3 Foundation](https://web3.foundation/), Flex Dapps is building a suite of technologies which will enable both power users and those less versed to create and manage substrate-powered parachain networks via rapid spin-up and tear-down of self-managed or cloud-hosted machines.
 
-## Requirements
+## Software Requirements
 
-### Software Requirements
-
-In order to use Gropius-CLI, the following dependencies are required:
+In order to use gantree-cli, the following dependencies are required:
 
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
@@ -30,15 +28,15 @@ In order to use Gropius-CLI, the following dependencies are required:
 In order to install the required node packages and ansible roles, run the following
 
 ```bash
-git clone https://bitbucket.org/flexdapps/gantree-gropius
-cd gantree-gropius
+git clone https://bitbucket.org/flexdapps/gantree-gropius gantree-cli
+cd gantree-cli
 npm install
 ansible-galaxy install -r ./ansible/requirements/requirements.yml
 ```
 
-### Environment Requirements
+## Environment Requirements
 
-#### Provider Credentials
+### Provider Credentials
 
 For security reasons, credentials for infrastructure providers must be exported as environment variables.
 
@@ -50,7 +48,7 @@ For security reasons, credentials for infrastructure providers must be exported 
 
 **note:** You only need credentials for providers you wish to use
 
-#### SSH Credentials
+### SSH Credentials
 
 You need an additional environment variables to allow ansible to connect to created instances:
 
@@ -62,13 +60,13 @@ You must generate this keypair yourself and add it to your ssh-agent.
 
 **note:** Don't forget to add the private key to you ssh-agent otherwise you will get ***Permission denied (publickey)*** during ansible tasks
 
-### Configuration Requirements
+## Configuration
 
 Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
 
 Using one of the examples below, create a configuration file to represent your desired infrastructure.
 
-#### Configuration Samples
+### Configuration File Samples
 
 Examples of provider definitions
 
@@ -81,6 +79,30 @@ Multiple providers can be used in a single configuration.
 * ***This is a work-in-progress and not yet officially supported***
 
 **note:** The more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
+
+### Configuration File Structure: Top Level
+
+* "project": [string] the gantree project name
+* "repository": [object] relating to the substrate binary to be deployed
+* "validators": [object] defining the validators to deploy
+
+### Configuration File Strucutre: repository
+
+* "url": [string] the path to a git repository of the binary source to deploy
+* "version": [string:HEAD] the commit/tag of the binary source to use
+* "binaryName": [string] the name of the binary when compiled, eg. 'polkadot' or 'node-template'
+* "chain": [string] the name of the chain
+* "useDefaultChain": [bool:false] use the internal rust chainspec of the compiled binary
+
+### Configuration File Structure: validators
+
+* "telemetryUrl": [string] the telemetry endpoint passed to the binary on running
+* "loggingFilter": [string] the logging filter passed to the binary on running
+* "nodes": [array] a list of cloud provider configurations which each map to a network instance
+
+### Configuration File Structure: node
+
+See samples/config folder
 
 ## Optional Configuration
 
