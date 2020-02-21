@@ -15,23 +15,30 @@ In order to use gantree-cli, the following dependencies are required:
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
 | NodeJS                         | >=10.15.2 | Recommended install method: [nvm](nvm-install) |
-| [Terraform](terraform-install) | >=0.12    | Snap package will be likely too old            |
-| [Ansible](ansible-install)     | >=2.8     | Recommended install method: pip                |
+| [Terraform](terraform-install) | >=0.12.20 | Snap package will be likely too old            |
+| [Ansible](ansible-install)     | >=2.9.4   | Recommended install method: pip                |
 
 [nvm-install]: https://github.com/nvm-sh/nvm
 [yarn-install]: https://yarnpkg.com/lang/en/docs/install
 [terraform-install]: https://www.terraform.io/downloads.html
 [ansible-install]: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-### NodeJS/Ansible Requirements
+### Ansible Requirements
 
-In order to install the required node packages and ansible roles, run the following
+Install required ansible roles
 
 ```bash
-git clone https://bitbucket.org/flexdapps/gantree-gropius gantree-cli
-cd gantree-cli
-npm install
-ansible-galaxy install -r ./ansible/requirements/requirements.yml
+curl https://raw.githubusercontent.com/flex-dapps/gantree-requirements/master/ansible-galaxy/requirements.yml > ansible_requirements.yml
+ansible-galaxy install -r ansible_requirements.yml
+```
+
+### Package Installation
+
+Install gantree-cli
+
+```bash
+npm install gantree-cli -g
+>>>>>>> 0d0e230bdbcf459afd9e2b980feb485eba8fcf08
 ```
 
 ## Environment Requirements
@@ -52,8 +59,8 @@ For security reasons, credentials for infrastructure providers must be exported 
 
 You need an additional environment variables to allow ansible to connect to created instances:
 
-| EXPORT NAME            | DESCRIPTION                                                 |
-| ---------------------- | ----------------------------------------------------------- |
+| EXPORT NAME            | DESCRIPTION                                                |
+| ---------------------- | ---------------------------------------------------------- |
 | `SSH_ID_RSA_VALIDATOR` | path to private SSH key you want to use for the validators |
 
 You must generate this keypair yourself and add it to your ssh-agent.
@@ -62,7 +69,7 @@ You must generate this keypair yourself and add it to your ssh-agent.
 
 ## Configuration
 
-Gantree-CLI requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
+Gantree-cli requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
 
 Using one of the examples below, create a configuration file to represent your desired infrastructure.
 
@@ -74,11 +81,7 @@ Examples of provider definitions
 * [DigitalOcean Sample](samples/config/only_do.sample.json)
 * [GCP Sample](samples/config/only_gcp.sample.json)
 
-Multiple providers can be used in a single configuration.
-
-* ***This is a work-in-progress and not yet officially supported***
-
-**note:** The more distributed your public nodes, the lower the likelihood your network will be affected by issues/outages from respective cloud providers.
+**note:** Multiple providers cannot yet be used in a single configuration. This is planned for a future release.
 
 ### Configuration File Structure: Top Level
 
@@ -110,21 +113,26 @@ See samples/config folder
 
 #### Terraform Statefile Path (optional)
 
-By default the terraform state is stored in:
+By default the terraform state is stored in `<HOME-DIR>/gantree-cli/build/terraform/state/`
 
-`${os_home}/gantree-cli/build/terraform/state/`
+On the machine executing gantree-cli, HOME-DIR will resolve to the following:
+
+| OS        | HOME-DIR                                           |
+| --------- | -------------------------------------------------- |
+| Linux     | `/home/<myusername>/`                              |
+| Macintosh | `/Users/<myusername>/Library/Application Support/` |
 
 This location can be customized with the following environment variable:
 
-| EXPORT NAME                | DESCRIPTION                                         |
-| -------------------------- | --------------------------------------------------- |
+| EXPORT NAME                | DESCRIPTION                 |
+| -------------------------- | --------------------------- |
 | `TERRAFORM_STATEFILE_PATH` | path to terraform statefile |
 
-**note:** This path must be absolute. If it does not exist it will be created.
+**note:** This path must be absolute. If the statefile does not exist at this location it will be created.
 
 ## Usage
 
-### Syncronization
+### Synchronisation
 
 Before attempting to run sync, ensure all tasks outlined in [requirements](#requirements) have been completed.
 
@@ -135,7 +143,7 @@ Before attempting to run sync, ensure all tasks outlined in [requirements](#requ
 To synchronise your configuration with digital infrastructure, run the following:
 
 ```bash
-node . sync --config <PATH_TO_GANTREE_CONFIG>
+gantree-cli sync --config <PATH_TO_GANTREE_CONFIG>
 ```
 
 The `sync` command is idempotent, unless there are errors it will always have
@@ -147,5 +155,5 @@ changes when the actual infrastructure state doesn't match the desired state.
 You can remove all the created infrastructure with:
 
 ```bash
-node . clean -c config/main.json
+gantree-cli sync clean -c config/main.json
 ```

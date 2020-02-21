@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"terraform.languageServer.enabled": true,
-		"terraform.indexing.enabled": false
+		"terraform.indexing.enabled": false,
+		"editor.formatOnSave": true
 	}
 }
