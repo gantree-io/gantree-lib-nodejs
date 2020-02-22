@@ -38,7 +38,6 @@ Install gantree-cli
 
 ```bash
 npm install gantree-cli -g
->>>>>>> 0d0e230bdbcf459afd9e2b980feb485eba8fcf08
 ```
 
 ## Environment Requirements
