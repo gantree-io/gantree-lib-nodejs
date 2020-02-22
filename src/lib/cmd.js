@@ -1,10 +1,22 @@
 const { Buffer } = require('buffer')
 const { exec } = require('child_process')
 
+const { Counter } = require('./counter')
+const { returnLogger } = require('./logging')
+
+const logger = returnLogger('cmd')
+
+async function each_count(count, action_trigger_count) {
+  if (count % action_trigger_count == 0) {
+    process.stdout.write(".")
+  }
+}
+
 module.exports = {
   exec: async (command, options = {}) => {
+    const counter = new Counter(each_count, 5)
     return new Promise((resolve, reject) => {
-      console.log(`[Gantree] Executing: ${command}, ${JSON.stringify(options)}`)
+      logger.info(`Executing: ${command}, ${JSON.stringify(options)}`)
       const child = exec(command, options)
       if (options.detached) {
         child.unref()
@@ -15,6 +27,7 @@ module.exports = {
       let output = new Buffer.from('')
 
       child.stdout.on('data', data => {
+        counter.stop_counting()
         if (options.matcher && options.matcher.test(data)) {
           match = true
           child.kill('SIGTERM')
@@ -23,15 +36,16 @@ module.exports = {
         }
         output = Buffer.concat([output, Buffer.from(data)])
         if (options.verbose) {
-          console.log(data.toString())
+          counter.count_until_false()
+          logger.info(`'${command}':`)
+          process.stdout.write(data.toString())
         }
       })
 
       child.stderr.on('data', data => {
         output = Buffer.concat([output, Buffer.from(data)])
         if (options.verbose) {
-          console.log('[Gantree] Verbose output (stderr):')
-          console.log(data.toString())
+          logger.error(`Execution failed for command '${command}': ${data.toString()}`)
         }
       })
 
@@ -44,6 +58,7 @@ module.exports = {
         } else {
           resolve(output)
         }
+        counter.stop_counting()
       })
     })
   }
