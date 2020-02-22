@@ -6,6 +6,9 @@ const cmd = require('../cmd')
 const { Project } = require('../project')
 const tpl = require('../tpl')
 const { nodeExporterUsername, nodeExporterPassword } = require('../env')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('ansible')
 
 const inventoryFileName = 'inventory'
 
@@ -27,7 +30,7 @@ class Ansible {
     return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`)
   }
 
-  async clean() {}
+  async clean() { }
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
@@ -120,13 +123,9 @@ class Ansible {
 
   _getVersion(inputVersion) {
     if (inputVersion === undefined) {
+      logger.warn("No repository version specified, using current HEAD.")
       return 'HEAD'
     } else {
-      console.log(
-        chalk.yellow(
-          '[Gantree] Warning: No repository version specified, using current HEAD.'
-        )
-      )
       return inputVersion
     }
   }
