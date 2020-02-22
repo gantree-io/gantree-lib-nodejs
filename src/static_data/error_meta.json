@@ -1,0 +1,26 @@
+{
+    "GENERIC_ERROR": {
+        "code": 1,
+        "messsage": "generic error"
+    },
+    "ENVIRONMENT_VARIABLE_MISSING": {
+        "code": 5,
+        "message": "missing required environment variable"
+    },
+    "PLATFORM_SYNC_FAILED": {
+        "code": 6,
+        "message": "platform sync failed"
+    },
+    "APPLICATION_SYNC_FAILED": {
+        "code": 7,
+        "message": "application sync failed"
+    },
+    "BAD_CONFIG": {
+        "code": 8,
+        "message": "bad config"
+    },
+    "COMMAND_NOT_FOUND": {
+        "code": 127,
+        "message": "command not found"
+    }
+}
