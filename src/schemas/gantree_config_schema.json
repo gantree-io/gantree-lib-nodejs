@@ -2,6 +2,7 @@
     "$id": "https://flexdapps.com/schemas/gantree_config_schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "description": "Schema for Gantree's primary config file",
+    "allErrors": true,
     "type": "object",
     "properties": {
         "project": {
@@ -50,11 +51,23 @@
                         "$ref": "#/definitions/node"
                     }
                 },
-                "telemetryUrl": {
+                "telemetry": {
+                    "type": "boolean"
+                },
+                "chain": {
                     "type": "string"
+                },
+                "useDefaultChainspec": {
+                    "type": "boolean"
                 },
                 "loggingFilter": {
                     "type": "string"
+                },
+                "bootnodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
