@@ -1,9 +1,12 @@
-const chalk = require('chalk')
-const process = require('process')
+const chalk = require('chalk') // used for colouring output
 
 const config = require('../config.js')
 const { Platform } = require('../platform.js')
 const { Application } = require('../application.js')
+const { throwGantreeError } = require('../error')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('sync')
 
 module.exports = {
   do: async cmd => {
@@ -19,23 +22,22 @@ module.exports = {
 
     config.validate(cfg)
 
-    console.log(chalk.yellow('[Gantree] Syncing platform...'))
+    logger.info('Syncing platform... (terraform)')
     const platform = new Platform(cfg)
     let platformResult
     try {
       platformResult = await platform.sync()
     } catch (e) {
-      console.log(chalk.red(`[Gantree] Could not sync platform: ${e.message}`))
-      process.exit(-1)
+      logger.error(`Platform sync failed: ${e}`)
+      throwGantreeError("PLATFORM_SYNC_FAILED", e)
+      // logger.error(`Could not sync platform: ${e.message}`)
+      // console.error(`PLATFORM SYNC FAILED: ${e.message}`)
+      // process.exit(6)
     }
-    console.log(
-      chalk.green(
-        `[Gantree] Platform result: ${JSON.stringify(platformResult)}`
-      )
-    )
-    console.log(chalk.green('[Gantree] Done syncing platform (terraform)'))
+    logger.info(`Platform result: ${JSON.stringify(platformResult)}`)
+    logger.info('Done syncing platform (terraform)')
 
-    console.log(chalk.yellow('[Gantree] Syncing application...'))
+    logger.info('Syncing application... (ansible)')
     const app = new Application(cfg, platformResult)
     try {
       await app.sync()
