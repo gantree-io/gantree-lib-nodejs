@@ -37,7 +37,7 @@ ansible-galaxy install -r ansible_requirements.yml
 Install gantree-cli
 
 ```bash
-npm install gantree-cli -g
+npm install @flexdapps/gantree-cli -g
 ```
 
 ## Environment Requirements
