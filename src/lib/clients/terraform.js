@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const chalk = require('chalk')
 
 const cmd = require('../cmd')
 const env = require('../env')
@@ -8,6 +7,7 @@ const { Project } = require('../project')
 const ssh = require('../ssh')
 const tpl = require('../tpl')
 const provider_env_vars = require('../../static_data/provider_env_vars')
+const { throwGantreeError } = require('../error')
 const { returnLogger } = require('../logging')
 
 const logger = returnLogger('terraform')
@@ -116,8 +116,15 @@ class Terraform {
           const required_env_var = required_env_vars[i].name
           // if req env var not exported
           if (!(required_env_var in process.env)) {
-            console.error(`Required environment variable not found: ${required_env_var}`)
-            process.exit(5)
+            logger.error(
+              `Required environment variable not found: ${required_env_var}`
+            )
+            throwGantreeError(
+              'ENVIRONMENT_VARIABLE_MISSING',
+              Error(
+                `Required environment variable not found: ${required_env_var}`
+              )
+            )
           }
         }
       } else {
