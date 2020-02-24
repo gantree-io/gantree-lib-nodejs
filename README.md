@@ -10,7 +10,9 @@ With the assistance of funding from the [Web3 Foundation](https://web3.foundatio
 
 ## Software Requirements
 
-In order to use gantree-cli, the following dependencies are required:
+If you would like to avoid having to install dependencies, use the [Docker image](https://github.com/flex-dapps/gantree-cli-docker).
+
+Otherwise, in order to use gantree-cli, the following dependencies are required:
 
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
