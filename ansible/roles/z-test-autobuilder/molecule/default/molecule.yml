@@ -1,0 +1,84 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: ../../requirements/requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: builder0
+    groups:
+      - temp-builder
+      - builder-bin
+      - gcp
+    image: ubuntu:bionic
+  - name: specer0
+    groups:
+      - builder_spec
+    image: ubuntu:bionic
+  - name: validator0
+    image: jrei/systemd-ubuntu:18.04
+    groups:
+      - bootnode
+      - validator
+    privileged: true
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    command: '/sbin/init'
+    network_mode: host
+    environment:
+      container: docker
+  - name: validator1
+    image: jrei/systemd-ubuntu:18.04
+    groups:
+      - validator
+    privileged: true
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    command: '/sbin/init'
+    network_mode: host
+    environment:
+      container: docker
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      gcp:
+        zone: us-central1-a
+        region: us-central1
+        gcp_project: gantree-dev-00
+        gcp_cred_kind: serviceaccount
+        gcp_cred_file: /home/rozifus/Work/cred/gcp/gantree-dev-00-b78c5073467b.json
+        ssh_user: root
+        ansible_user: root
+        ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
+      all:
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s"
+        substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
+        substrate_repository_version: '8b6fe66'
+        substrate_network_id: local_testnet
+        substrate_chain: /home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw
+        substrate_bin_name: node-template
+        substrate_user: subuser
+        substrate_group: subgroup
+        substrate_bootnode_argument:
+          - '/ip4/35.242.216.93/tcp/30333/p2p/QmeoT4nzw5QDRaqdkBfnaqW9grMTLiEuYUpu4hSbseKB8C'
+          - '/ip4/34.89.161.185/tcp/30333/p2p/QmbNXcLkbD7Z2BaSUTfqb1VEkEDTij9rhS79b8F2uiJ3Ki'
+          - '/ip4/35.246.201.166/tcp/30333/p2p/QmX1hSCYFgeW876VQvWYkkmxon91ofvsnmk8ceCk1i8Tyv'
+          - '/ip4/35.242.226.138/tcp/30333/p2p/QmW2NQVT1nLqAJCsxXixHkuCN93bCbbdminYKNSGyEX77R'
+        gantree_control_working: /tmp/gantree-control
+        gantree_root: ../../../../../
+      builder_bin:
+        gantree_working: /tmp/gantree-build-bin
+      builder_spec:
+        gantree_working: /tmp/gantree-build-spec
+      validator:
+        gantree_working: /home/subuser/tmp/gantree-validator
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
