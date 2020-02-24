@@ -19,6 +19,7 @@ Otherwise, in order to use gantree-cli, the following dependencies are required:
 | NodeJS                         | >=10.15.2 | Recommended install method: [nvm](nvm-install) |
 | [Terraform](terraform-install) | >=0.12.20 | Snap package will be likely too old            |
 | [Ansible](ansible-install)     | >=2.9.4   | Recommended install method: pip                |
+| Git                            | >=2.0     | Required by ansible-galaxy for installing role |
 
 [nvm-install]: https://github.com/nvm-sh/nvm
 [yarn-install]: https://yarnpkg.com/lang/en/docs/install
