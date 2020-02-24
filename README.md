@@ -10,7 +10,9 @@ With the assistance of funding from the [Web3 Foundation](https://web3.foundatio
 
 ## Software Requirements
 
-In order to use gantree-cli, the following dependencies are required:
+If you would like to avoid having to install dependencies, use the [Docker image](https://github.com/flex-dapps/gantree-cli-docker).
+
+Otherwise, in order to use gantree-cli, the following dependencies are required:
 
 | REQUIREMENT                    | VERSION   | NOTES                                          |
 | ------------------------------ | --------- | ---------------------------------------------- |
@@ -38,7 +40,6 @@ Install gantree-cli
 
 ```bash
 npm install gantree-cli -g
->>>>>>> 0d0e230bdbcf459afd9e2b980feb485eba8fcf08
 ```
 
 ## Environment Requirements
@@ -65,7 +66,7 @@ You need an additional environment variables to allow ansible to connect to crea
 
 You must generate this keypair yourself and add it to your ssh-agent.
 
-**note:** Don't forget to add the private key to you ssh-agent otherwise you will get ***Permission denied (publickey)*** during ansible tasks
+**note:** Don't forget to add the private key to you ssh-agent otherwise you will get **_Permission denied (publickey)_** during ansible tasks
 
 ## Configuration
 
@@ -77,31 +78,31 @@ Using one of the examples below, create a configuration file to represent your d
 
 Examples of provider definitions
 
-* [AWS Sample](samples/config/only_aws.sample.json)
-* [DigitalOcean Sample](samples/config/only_do.sample.json)
-* [GCP Sample](samples/config/only_gcp.sample.json)
+- [AWS Sample](samples/config/only_aws.sample.json)
+- [DigitalOcean Sample](samples/config/only_do.sample.json)
+- [GCP Sample](samples/config/only_gcp.sample.json)
 
 **note:** Multiple providers cannot yet be used in a single configuration. This is planned for a future release.
 
 ### Configuration File Structure: Top Level
 
-* "project": [string] the gantree project name
-* "repository": [object] relating to the substrate binary to be deployed
-* "validators": [object] defining the validators to deploy
+- "project": [string] the gantree project name
+- "repository": [object] relating to the substrate binary to be deployed
+- "validators": [object] defining the validators to deploy
 
 ### Configuration File Strucutre: repository
 
-* "url": [string] the path to a git repository of the binary source to deploy
-* "version": [string:HEAD] the commit/tag of the binary source to use
-* "binaryName": [string] the name of the binary when compiled, eg. 'polkadot' or 'node-template'
-* "chain": [string] the name of the chain
-* "useDefaultChain": [bool:false] use the internal rust chainspec of the compiled binary
+- "url": [string] the path to a git repository of the binary source to deploy
+- "version": [string:HEAD] the commit/tag of the binary source to use
+- "binaryName": [string] the name of the binary when compiled, eg. 'polkadot' or 'node-template'
 
 ### Configuration File Structure: validators
 
-* "telemetryUrl": [string] the telemetry endpoint passed to the binary on running
-* "loggingFilter": [string] the logging filter passed to the binary on running
-* "nodes": [array] a list of cloud provider configurations which each map to a network instance
+- "chain": [string] the name of the chain
+- "useDefaultChainspec": [bool:false] use the internal rust chainspec of the compiled binary
+- "telemetry": [boolean] whether to use the default telemetry, or not report any telemetry
+- "loggingFilter": [string] the logging filter passed to the binary on running
+- "nodes": [array] a list of cloud provider configurations which each map to a network instance
 
 ### Configuration File Structure: node
 
@@ -136,9 +137,9 @@ This location can be customized with the following environment variable:
 
 Before attempting to run sync, ensure all tasks outlined in [requirements](#requirements) have been completed.
 
-* You've installed all requirements
-* All relevant environment variables are exported
-* You've nagivated to the root of the cloned repo
+- You've installed all requirements
+- All relevant environment variables are exported
+- You've nagivated to the root of the cloned repo
 
 To synchronise your configuration with digital infrastructure, run the following:
 

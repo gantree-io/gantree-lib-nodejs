@@ -1,8 +1,8 @@
 {
-  "name": "@flexdapps/gantree-cli",
-  "version": "0.2.0-a1",
+  "name": "gantree-cli",
+  "version": "0.1.2",
   "main": "src/index.js",
-  "repository": "https://bitbucket.org/flexdapps/gantree-gropius",
+  "repository": "https://github.com/flex-dapps/gantree-cli",
   "author": "Flex Dapps",
   "license": "Apache-2.0",
   "scripts": {
