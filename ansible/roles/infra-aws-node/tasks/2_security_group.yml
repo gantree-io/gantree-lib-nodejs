@@ -1,0 +1,26 @@
+---
+- name: security group
+  ec2_group:
+    name: "SG {{ instance_name }}"
+    description: "security group for {{ instance_name }}"
+    region: "{{ region }}"
+    state: "{{ state }}"
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 30333
+        to_port: 30333
+        cidr_ip: 0.0.0.0/0
+      - proto: udp
+        from_port: 51820
+        to_port: 51820
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 9100
+        to_port: 9100
+        cidr_ip: 0.0.0.0/0
+  register: securitygroup_result

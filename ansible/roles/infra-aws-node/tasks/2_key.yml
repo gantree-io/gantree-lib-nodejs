@@ -1,0 +1,7 @@
+---
+- name: create key pair using key_material obtained using 'file' lookup plugin
+  ec2_key:
+    region: "{{ region }}"
+    name: "key-{{ instance_name }}"
+    key_material: "{{ lookup('file', lookup('vars', 'ssh_key_path')) }}"
+    state: "{{ state }}"

@@ -1,0 +1,38 @@
+---
+- name: find ubuntu amis
+  ec2_ami_info:
+    region: "{{ region }}"
+    owners:
+      - 099720109477 # Canonical
+    filters:
+      name: "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+  register: ubuntu_amis
+  when: state != "absent"
+
+- name: get latest ami
+  set_fact:
+    latest_ami: >
+      {{ ubuntu_amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+  when: state != "absent"
+
+- name: ec2 instance
+  ec2_instance:
+    wait: yes
+    state: "{{ state }}"
+    name: "inst-{{ instance_name }}"
+    region: "{{ region }}"
+    key_name: "key-{{ instance_name }}"
+    instance_type: c4.large
+    subnet_id: "{{ subnet_result.subnet.id }}"
+    security_group: "{{ securitygroup_result.group_id }}"
+    filters:  # NOTE(ryan): default filter borks with character limit exceeded
+      "tag:Name": "inst-{{ instance_name }}"
+      "tag:not_terminated": "true"
+    tags:
+      # because we can't really filter on the instance-state properly
+      # change the flag when we terminate
+      not_terminated: "{{ 'true' if state != 'absent' else 'false' }}"
+    network:
+      assign_public_ip: false
+    image_id: "{{ latest_ami.image_id }}"
+  register: ec2

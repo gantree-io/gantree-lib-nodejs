@@ -1,0 +1,9 @@
+---
+- name: internet gateway
+  ec2_vpc_igw:
+    region: "{{ region }}"
+    state: "{{ state }}"
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    tags:
+      Name: "igw-{{ instance_name }}"
+  register: igw_result

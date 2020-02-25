@@ -1,0 +1,48 @@
+---
+- name: create key pair using key_material obtained using 'file' lookup plugin
+  ec2_key:
+    region: "{{ region }}"
+    name: my_keypair
+    key_material: "{{ lookup('file', lookup('vars', 'ssh_key_path')) }}"
+    state: present
+
+# Terminate every running instance in a region. Use with EXTREME caution.
+- name: create a VPC with dedicated tenancy and a couple of tags
+  ec2_vpc_net:
+    name: vpc-{{ instance_name }}
+    cidr_block: 172.26.0.0/16
+    region: "{{ region }}"
+    tags:
+      Name: "{{ instance_name }}"
+    tenancy: dedicated
+    state: present
+
+- name: find ubuntu amis
+  ec2_ami_info:
+    region: "{{ region }}"
+    owners:
+      - 099720109477 # Canonical
+    filters:
+      name: "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+  register: ubuntu_amis
+
+- name: get latest ami
+  set_fact:
+    latest_ami: >
+      {{ ubuntu_amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+
+- ec2_instance:
+    name: "{{ instance_name }}_inst"
+    region: "{{ region }}"
+    key_name: "my_keypair"
+    instance_type: c4.large
+    security_group: default
+    filters:  # NOTE(ryan): default filter borks with character limit exceeded
+      "tag:Name": "{{ instance_name }}_inst"
+      "tag:not_terminated": "true"
+    tags:     # because we can't really filter on the instance-state properly
+      not_terminated: "true" # remove this when we terminate
+    network:
+      assign_public_ip: true
+    image_id: "{{ latest_ami.image_id }}"
+  register: ec2

@@ -1,0 +1,4 @@
+---
+- import_tasks: 2_eip.yml
+- import_tasks: 2_instance.yml
+- import_tasks: 2_vpc_net.yml

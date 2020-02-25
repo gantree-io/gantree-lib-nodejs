@@ -45,6 +45,9 @@ provisioner:
   name: ansible
   inventory:
     group_vars:
+      aws:
+        ansible_user: ubuntu
+        ssh_user: ubuntu
       gcp:
         zone: us-central1-a
         region: us-central1

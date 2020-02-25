@@ -11,14 +11,14 @@
 
 - hosts: localhost
   roles:
-    - infra-gcp-node
+    - infra-aws-node
   vars:
     #ansible_user: root
     instance_name: temp-builder-instance
     deletion_protection: no
     ansible_groups:
     - temp_builder
-    - gcp
+    - aws
     - builder_bin
   #become: no
 

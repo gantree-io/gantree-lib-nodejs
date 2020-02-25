@@ -1,0 +1,14 @@
+---
+- name: route table
+  ec2_vpc_route_table:
+    region: "{{ region }}"
+    state: "{{ state }}"
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    subnets:
+      - "{{ subnet_result.subnet.id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw_result.gateway_id }}"
+    tags:
+      Name: "vpcrt-{{ instance_name }}"
+  register: routetable_result

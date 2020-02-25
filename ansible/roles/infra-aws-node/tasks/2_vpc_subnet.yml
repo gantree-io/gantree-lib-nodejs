@@ -1,0 +1,13 @@
+---
+# TODO(ryan) is this comment still applicable?
+# Terminate every running instance in a region. Use with EXTREME caution.
+
+- name: vpc subnet
+  ec2_vpc_subnet:
+    vpc_id: "{{ vpc_result.vpc.id }}"
+    cidr: 10.0.1.16/28
+    region: "{{ region }}"
+    state: "{{ state }}"
+    tags:
+      Name: "vpcsn-{{ instance_name }}"
+  register: subnet_result
