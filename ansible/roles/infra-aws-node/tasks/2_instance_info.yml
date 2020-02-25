@@ -1,0 +1,9 @@
+---
+# NOTE(ryan) 2_instance_info and 2_instance both register 'ec2'
+- name: ec2 instance info
+  ec2_instance:
+    region: "{{ region }}"
+    filters:  # NOTE(ryan): default filter borks with character limit exceeded
+      "tag:Name": "inst-{{ instance_name }}"
+      "tag:not_terminated": "true"
+  register: ec2

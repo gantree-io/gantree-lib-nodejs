@@ -5,7 +5,9 @@
     description: "security group for {{ instance_name }}"
     region: "{{ region }}"
     state: "{{ state }}"
-    vpc_id: "{{ vpc_result.vpc.id }}"
+    vpc_id: "{{ vpc_result.vpcs[0].id }}"
+    tags:
+      Name: "SG {{ instance_name }}"
     rules:
       - proto: tcp
         from_port: 22

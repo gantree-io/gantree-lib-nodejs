@@ -4,12 +4,12 @@
 - import_tasks: 2_vpc_subnet.yml
 - import_tasks: 2_vpc_igw.yml
 - import_tasks: 2_vpc_route_table.yml
+- import_tasks: 2_vpc_info.yml
 - import_tasks: 2_security_group.yml
+- import_tasks: 2_security_group_info.yml
 - import_tasks: 2_instance.yml
 - import_tasks: 2_eip.yml
-# NOTE(ryan): maybe not ideal
-# running 2_instance again to get the new eip public_ip_address info attached to the instance
-- import_tasks: 2_instance.yml
+- import_tasks: 2_instance_info.yml
 
 - name: Wait for SSH to come up
   wait_for:

@@ -1,0 +1,7 @@
+---
+- name: security group
+  ec2_group_info:
+    region: "{{ region }}"
+    filters:
+      tag:Name: "SG {{ instance_name }}"
+  register: securitygroup_result
