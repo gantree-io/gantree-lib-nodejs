@@ -47,8 +47,9 @@ provisioner:
         substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
         substrate_repository_version: '8b6fe66'
         substrate_network_id: local_testnet
-        substrate_chain: /home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw
+        substrate_use_default_spec: true
         substrate_bin_name: node-template
+        substrate_node_name: gantree-yeetbox
         substrate_user: subuser
         substrate_group: subgroup
         substrate_bootnode_argument:
