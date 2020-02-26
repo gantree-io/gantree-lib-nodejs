@@ -15,6 +15,9 @@
       {{ ubuntu_amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
   when: state != "absent"
 
+- import_tasks: 2_vpc_subnet_info.yml
+- import_tasks: 2_security_group_info.yml
+
 # NOTE(ryan) 2_instance_info and 2_instance both register 'ec2'
 - name: ec2 instance
   ec2_instance:
@@ -24,14 +27,23 @@
     region: "{{ region }}"
     key_name: "key-{{ instance_name }}"
     instance_type: c4.large
-    subnet_id: "{{ subnet_result.subnets[0].id }}"
-    security_group: "{{ securitygroup_result.security_groups[0].group_id }}"
+    subnet_id: "{{ vpcsn_res.id }}"
+    security_group: "{{ secgroup_res.group_id }}"
     filters:  # NOTE(ryan): default filter borks with character limit exceeded
       "tag:Name": "inst-{{ instance_name }}"
       "tag:not_terminated": "true"
     tags:
       # because we can't really filter on the instance-state properly
       # change the flag when we terminate
-      not_terminated: "{{ 'true' if state != 'absent' else 'false' }}"
+      not_terminated: "{{ 'false' if state == 'absent' else 'true' }}"
     image_id: "{{ latest_ami.image_id }}"
-  register: ec2
+  register: inst_state
+
+- name: set ec2 not_terminated tag
+  ec2_tag:
+    region: "{{ region }}"
+    resource: '{{ item.instance_id }}'
+    tags:
+      not_terminated: "{{ 'false' if state == 'absent' else 'true' }}"
+  with_items: "{{ inst_state.instances }}"
+  #ignore_errors: yes

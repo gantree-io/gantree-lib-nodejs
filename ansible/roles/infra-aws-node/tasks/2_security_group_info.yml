@@ -1,7 +1,12 @@
 ---
-- name: security group
+- name: refresh security group info
   ec2_group_info:
     region: "{{ region }}"
     filters:
       tag:Name: "SG {{ instance_name }}"
-  register: securitygroup_result
+  register: secgroup_res_all
+  no_log: yes
+
+- name: set secgroup_res fact
+  set_fact:
+    secgroup_res: "{{ secgroup_res_all.security_groups[0] }}"

@@ -1,0 +1,12 @@
+---
+- name: refresh vpc subnet
+  ec2_vpc_subnet_info:
+    region: "{{ region }}"
+    filters:
+      "tag:Name": "vpcsn-{{ instance_name }}"
+  register: vpcsn_res_all
+  no_log: yes
+
+- name: set vpcsn_res fact
+  set_fact:
+    vpcsn_res: "{{ vpcsn_res_all.subnets[0] }}"

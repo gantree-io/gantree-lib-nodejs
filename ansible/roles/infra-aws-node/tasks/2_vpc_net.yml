@@ -1,11 +1,12 @@
 ---
 # TODO(ryan) is this comment still applicable?
 # Terminate every running instance in a region. Use with EXTREME caution.
-- name: create a VPC with dedicated tenancy and a couple of tags
+- name: vpc network
   ec2_vpc_net:
-    name: "vpc-{{ instance_name }}"
+    name: "vpcnet-{{ instance_name }}"
     cidr_block: 10.0.0.0/16
     region: "{{ region }}"
     tenancy: default
     state: "{{ state }}"
-  register: vpc_result
+    #tags:
+    #  Name: "vpcnet-{{ instance_name }}"

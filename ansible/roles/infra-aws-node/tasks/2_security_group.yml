@@ -1,11 +1,13 @@
 ---
+- import_tasks: 2_vpc_net_info.yml
+
 - name: security group
   ec2_group:
     name: "SG {{ instance_name }}"
     description: "security group for {{ instance_name }}"
     region: "{{ region }}"
     state: "{{ state }}"
-    vpc_id: "{{ vpc_result.vpcs[0].id }}"
+    vpc_id: "{{ vpcnet_res.id }}"
     tags:
       Name: "SG {{ instance_name }}"
     rules:
@@ -25,4 +27,3 @@
         from_port: 9100
         to_port: 9100
         cidr_ip: 0.0.0.0/0
-  register: securitygroup_result

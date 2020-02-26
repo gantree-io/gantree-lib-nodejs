@@ -4,25 +4,22 @@
 - import_tasks: 2_vpc_subnet.yml
 - import_tasks: 2_vpc_igw.yml
 - import_tasks: 2_vpc_route_table.yml
-- import_tasks: 2_vpc_info.yml
 - import_tasks: 2_security_group.yml
-- import_tasks: 2_security_group_info.yml
 - import_tasks: 2_instance.yml
 - import_tasks: 2_eip.yml
+
 - import_tasks: 2_instance_info.yml
 
 - name: Wait for SSH to come up
   wait_for:
-    host: "{{ item.public_ip_address }}"
+    host: "{{ ec2inst_res.public_ip_address }}"
     port: 22
     delay: 10
     timeout: 120
-  with_items: "{{ ec2.instances }}"
   retries: 3
 
 - name: Add host to groups
   add_host:
     #name: "{{ instance_name }}"
-    hostname: "{{ item.public_ip_address }}"
+    hostname: "{{ ec2inst_res.public_ip_address }}"
     groups: "{{ ansible_groups }}"
-  with_items: "{{ ec2.instances }}"

@@ -13,14 +13,13 @@
   roles:
     - infra-aws-node
   vars:
-    #ansible_user: root
     instance_name: temp-builder-instance
     deletion_protection: no
     ansible_groups:
     - temp_builder
     - aws
     - builder_bin
-  #become: no
+  become: no
 
 - hosts: all
   roles:

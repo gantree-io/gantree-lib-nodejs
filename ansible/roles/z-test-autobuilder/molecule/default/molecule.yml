@@ -8,12 +8,10 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: builder0
-    groups:
-      - temp-builder
-      - builder-bin
-      - gcp
-    image: ubuntu:bionic
+  #- name: builder0
+  #  groups:
+  #    - builder_bin
+  #  image: ubuntu:bionic
   - name: specer0
     groups:
       - builder_spec

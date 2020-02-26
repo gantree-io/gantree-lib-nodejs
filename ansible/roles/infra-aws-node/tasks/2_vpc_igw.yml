@@ -3,7 +3,6 @@
   ec2_vpc_igw:
     region: "{{ region }}"
     state: "{{ state }}"
-    vpc_id: "{{ vpc_result.vpc.id }}"
+    vpc_id: "{{ vpcnet_res.id }}"
     tags:
-      Name: "igw-{{ instance_name }}"
-  register: igw_result
+      Name: "vpcigw-{{ instance_name }}"

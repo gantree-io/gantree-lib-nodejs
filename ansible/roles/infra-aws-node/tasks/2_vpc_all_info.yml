@@ -1,32 +1,28 @@
 ---
 # TODO(ryan) is this comment still applicable?
 # Terminate every running instance in a region. Use with EXTREME caution.
-- name: vpc net info
+- name: refresh vpc net info
   ec2_vpc_net_info:
     region: "{{ region }}"
     filters:
       "tag:Name": "vpc-{{ instance_name }}"
   register: vpc_result
 
-- name: asjl
-  debug:
-    msg: "{{ vpc_result }}"
-
-- name: vpc subnet info
+- name: refresh vpc subnet info
   ec2_vpc_subnet_info:
     region: "{{ region }}"
     filters:
       "tag:Name": "vpcsn-{{ instance_name }}"
   register: subnet_result
 
-- name: internet gateway info
+- name: refresh internet gateway info
   ec2_vpc_igw_info:
     region: "{{ region }}"
     filters:
       "tag:Name": "igw-{{ instance_name }}"
   register: igw_result
 
-- name: route table info
+- name: refresh route table info
   ec2_vpc_route_table_info:
     region: "{{ region }}"
     filters:
