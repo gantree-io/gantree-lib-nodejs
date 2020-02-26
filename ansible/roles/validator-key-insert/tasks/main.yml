@@ -17,7 +17,7 @@
     printf "${public_key}"
     printf "${mnemonic}"
 
-    curl http://localhost:9933 -H "Content-Type:application/json" -d \
+    curl http://localhost:{{ substrate_rpc_port }} -H "Content-Type:application/json" -d \
       "{ \
         \"jsonrpc\":\"2.0\", \
         \"id\":1, \

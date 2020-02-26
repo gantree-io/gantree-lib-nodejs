@@ -47,10 +47,15 @@ provisioner:
         substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
         substrate_repository_version: '8b6fe66'
         substrate_network_id: local_testnet
-        substrate_chain: /home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw
+        # substrate_chain: /home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw
+        substrate_chain_argument: dev
+        substrate_use_default_spec: true
         substrate_bin_name: node-template
         substrate_user: subuser
         substrate_group: subgroup
+        substrate_rpc_port: 9900
+        substrate_options:
+          - '--unsafe-ws-external'
         substrate_bootnode_argument:
           - '/ip4/35.242.216.93/tcp/30333/p2p/QmeoT4nzw5QDRaqdkBfnaqW9grMTLiEuYUpu4hSbseKB8C'
           - '/ip4/34.89.161.185/tcp/30333/p2p/QmbNXcLkbD7Z2BaSUTfqb1VEkEDTij9rhS79b8F2uiJ3Ki'
