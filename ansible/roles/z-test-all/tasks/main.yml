@@ -1,29 +1,51 @@
-# ---
-# # tasks file for test-all
-# - name: validator-env-gantree
-#   include_role:
-#     name: validator-env-gantree
+- hosts: all
+  roles:
+    - role: validator-env-gantree
+  become: yes
 
-# - name: builder-build-bin
-#   include_role:
-#     name: builder-build-bin
+- hosts: builder_bin
+  roles:
+    - mock-build-bin
+  become: yes
 
-# - name: validator-push-bin
-#   include_role:
-#     name: validator-push-bin
+- hosts: validator:builder_spec
+  strategy: free
+  roles:
+    - validator-push-bin
+  become: yes
 
-# - name: builder-build-spec
-#   include_role:
-#     name: builder-build-spec
+- hosts: localhost
+  roles:
+    - control-prepare
 
-# - name: validator-push-spec
-#   include_role:
-#     name: validator-push-spec
+- hosts: validator
+  serial: 1 # NOTE(ryan): to avoid weird collision on pulling the keys to host
+  roles:
+    - validator-gen-keys
 
-# - name: validator-gen-keys
-#   include_role:
-#     name: validator-gen-keys
+- hosts: builder_spec
+  roles:
+    - role: builder-build-spec
+      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
 
-- name: validator-service
-  include_role:
-    name: validator-service
+- hosts: bootnode # NOTE(ryan): currently only supports 1
+  roles:
+    - role: bootnode-collect-ip
+      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
+
+- hosts: validator
+  roles:
+    - role: validator-push-spec
+      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
+
+- hosts: validator
+  roles:
+    - validator-service
+
+- hosts: validator
+  roles:
+    - validator-key-insert
+
+- hosts: validator
+  roles:
+    - validator-service-restart

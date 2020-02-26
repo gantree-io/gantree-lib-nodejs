@@ -66,6 +66,7 @@ class Ansible {
       substrateChainArgument: this.config.validators.chain || false,
       substrateBootnodeArgument: bootnodes,
       substrateTelemetryArgument: this.config.validators.telemetry || false,
+      substrateNodeName: this.config.validators.name || false,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',
