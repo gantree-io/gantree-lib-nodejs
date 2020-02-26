@@ -2,7 +2,6 @@
     "$id": "https://flexdapps.com/schemas/gantree_config_schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "description": "Schema for Gantree's primary config file",
-    "allErrors": true,
     "type": "object",
     "properties": {
         "project": {
