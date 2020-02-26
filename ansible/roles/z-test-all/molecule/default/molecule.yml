@@ -51,6 +51,7 @@ provisioner:
         substrate_chain_argument: dev
         substrate_use_default_spec: true
         substrate_bin_name: node-template
+        substrate_node_name: gantree-yeetbox
         substrate_user: subuser
         substrate_group: subgroup
         substrate_rpc_port: 9900

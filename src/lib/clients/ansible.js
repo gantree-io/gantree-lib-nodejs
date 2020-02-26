@@ -71,6 +71,7 @@ class Ansible {
       substrateTelemetryArgument: this.config.validators.telemetry || false,
       substrateOptions: substrateOptions,
       substrateRpcPort: this.config.validators.rpcPort || 9933,
+      substrateNodeName: this.config.validators.name || false,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',

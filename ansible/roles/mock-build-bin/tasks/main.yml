@@ -11,5 +11,6 @@
   get_url:
     url: '{{ polkadot_binary_url | quote }}'
     checksum: '{{ polkadot_binary_checksum | quote }}'
-    dest: "{{ gantree_control_working }}/bin/{{ substrate_bin_name }}"
+    dest: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
+    validate_certs: no #todo figure out why this is needed and fix
   become: no

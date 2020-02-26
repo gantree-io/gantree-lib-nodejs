@@ -64,3 +64,4 @@ substrate_bootnode_argument={{{ substrateBootnodeArgument }}}
 substrate_telemetry_argument='{{ substrateTelemetryAgument }}'
 substrate_options={{{ substrateOptions }}}
 substrate_rpc_port='{{ substrateRpcPort }}'
+substrate_node_name='{{ substrateNodeName }}'
