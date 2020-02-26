@@ -74,18 +74,20 @@ module.exports = {
       console.error('[Gantree] Validate must recieve a config object as input')
       process.exit(1)
     } else {
-      const ajv = new Ajv()
+      const ajv = new Ajv({ allErrors: true })
       const validate = ajv.compile(gantree_config_schema)
       const gantree_config_valid = validate(gantreeConfigObj)
       if (gantree_config_valid) {
-        logger.info("Gantree config validated successfully!")
+        logger.info('Gantree config validated successfully!')
       } else {
         logger.error('Invalid Gantree config detected')
         for (let i = 0; i < validate.errors.length; i++) {
           const error_n = validate.errors[i]
-          logger.error(`--ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`)
+          logger.error(
+            `--ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`
+          )
         }
-        throwGantreeError("BAD_CONFIG", Error("invalid gantree config"))
+        throwGantreeError('BAD_CONFIG', Error('invalid gantree config'))
       }
       validate_provider_specific_keys(gantreeConfigObj)
     }
