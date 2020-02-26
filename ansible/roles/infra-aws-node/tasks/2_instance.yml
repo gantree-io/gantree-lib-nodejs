@@ -46,4 +46,4 @@
     tags:
       not_terminated: "{{ 'false' if state == 'absent' else 'true' }}"
   with_items: "{{ inst_state.instances }}"
-  #ignore_errors: yes
+  ignore_errors: yes
