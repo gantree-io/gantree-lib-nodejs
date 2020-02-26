@@ -6,8 +6,8 @@
         "binaryName": "node-template"
     },
     "validators": {
-        "telemetryUrl": "wss://my.private.telemetry.endpoint",
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
+        "telemetry": true,
         "nodes": [
             {
                 "provider": "gcp",
