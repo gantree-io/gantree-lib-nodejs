@@ -12,6 +12,8 @@ ansible/**/__pycache__
 gantree_config.json
 setup_env_vars.sh
 *gantree-cli*.tgz
+/combined.log
+/error.log
 
 # unknown
 build/*
