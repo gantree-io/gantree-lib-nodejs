@@ -3,7 +3,7 @@
 
 instance_name: NOT_SET
 region: eu-central-1
-machine_type: m4.large
+instance_type: m4.large
 ssh_user: ubuntu
 ssh_key_path: NOT_SET
 state: present

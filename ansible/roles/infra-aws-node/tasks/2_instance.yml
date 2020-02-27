@@ -25,7 +25,7 @@
     name: "inst-{{ instance_name }}"
     region: "{{ region }}"
     key_name: "key-{{ instance_name }}"
-    instance_type: c4.large
+    instance_type: "{{ instance_type }}"
     subnet_id: "{{ vpcsn_res.id }}"
     security_group: "{{ secgroup_res.group_id }}"
     filters:  # NOTE(ryan): default filter borks with character limit exceeded
