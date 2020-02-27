@@ -55,6 +55,15 @@
                 },
                 "loggingFilter": {
                     "type": "string"
+                },
+                "rpcPort": {
+                    "type": "number"
+                },
+                "substrateOptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
