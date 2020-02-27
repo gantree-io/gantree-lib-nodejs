@@ -62,7 +62,10 @@
                 "loggingFilter": {
                     "type": "string"
                 },
-                "bootnodes": {
+                "rpcPort": {
+                    "type": "number"
+                },
+                "substrateOptions": {
                     "type": "array",
                     "items": {
                         "type": "string"

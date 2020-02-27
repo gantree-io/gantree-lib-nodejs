@@ -30,7 +30,7 @@ class Ansible {
     return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`)
   }
 
-  async clean() { }
+  async clean() {}
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
@@ -52,7 +52,10 @@ class Ansible {
     const target = path.join(buildDir, inventoryFileName)
     const validators = this._genTplNodes(this.config.validators)
     // const publicNodes = this._genTplNodes(this.config.publicNodes, validators.length);
-    const bootnodes = this._genBootnodes(this.config.validators.bootnodes)
+    const bootnodes = this._arrayify(this.config.validators.bootnodes)
+    const substrateOptions = this._arrayify(
+      this.config.validators.substrateOptions
+    )
     const version = this._getVersion(this.config.repository.version)
     // console.log({ origin, project, buildDir, target, validators, bootnodes, version })
     console.log(
@@ -69,6 +72,9 @@ class Ansible {
       substrateChainArgument: this.config.validators.chain || false,
       substrateBootnodeArgument: bootnodes,
       substrateTelemetryArgument: this.config.validators.telemetry || false,
+      substrateOptions: substrateOptions,
+      substrateRpcPort: this.config.validators.rpcPort || 9933,
+      substrateNodeName: this.config.validators.name || false,
       // polkadotBinaryUrl: this.config.polkadotBinary.url,
       // polkadotBinaryChecksum: this.config.polkadotBinary.checksum,
       // polkadotNetworkId: this.config.polkadotNetworkId || 'ksmcc2',
@@ -110,20 +116,20 @@ class Ansible {
     return target
   }
 
-  _genBootnodes(configBootnodes) {
-    let bootnodes = '['
-    if (configBootnodes) {
-      for (let bootnode of configBootnodes) {
-        bootnodes += `'${bootnode}',`
+  _arrayify(option) {
+    let options = '['
+    if (option) {
+      for (let op of option) {
+        options += `'${op}',`
       }
     }
-    bootnodes += ']'
-    return bootnodes
+    options += ']'
+    return options
   }
 
   _getVersion(inputVersion) {
     if (inputVersion === undefined) {
-      logger.warn("No repository version specified, using current HEAD.")
+      logger.warn('No repository version specified, using current HEAD.')
       return 'HEAD'
     } else {
       return inputVersion
