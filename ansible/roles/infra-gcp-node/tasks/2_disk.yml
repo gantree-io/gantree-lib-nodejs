@@ -1,8 +1,8 @@
 ---
-- name: modify disk
+- name: gcp compute disk
   gcp_compute_disk:
-    name: 'disk-instance'
-    size_gb: 50
+    name: "disk-{{ instance_name }}"
+    size_gb: "{{ machine_disk_size }}"
     source_image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
     zone: "{{ zone }}"
     project: "{{ gcp_project }}"
@@ -11,4 +11,4 @@
     scopes:
       - https://www.googleapis.com/auth/compute
     state: "{{ state }}"
-  register: disk
+  register: disk_res

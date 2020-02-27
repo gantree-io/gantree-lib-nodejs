@@ -1,9 +1,9 @@
 ---
 # defaults file for z-test-gcp
 
-instance_name: test-aws-inst
+instance_name: NOT_SET
 region: eu-central-1
 machine_type: m4.large
 ssh_user: ubuntu
-ssh_key_path: /home/rozifus/Work/cred/ssh/validator_node_ssh_key.pub
+ssh_key_path: NOT_SET
 state: present

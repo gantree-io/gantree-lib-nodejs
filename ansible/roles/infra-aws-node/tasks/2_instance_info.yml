@@ -1,5 +1,4 @@
 ---
-# NOTE(ryan) 2_instance_info and 2_instance both register 'ec2'
 - name: ec2 instance info
   ec2_instance:
     region: "{{ region }}"

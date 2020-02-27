@@ -18,7 +18,6 @@
 - import_tasks: 2_vpc_subnet_info.yml
 - import_tasks: 2_security_group_info.yml
 
-# NOTE(ryan) 2_instance_info and 2_instance both register 'ec2'
 - name: ec2 instance
   ec2_instance:
     wait: yes

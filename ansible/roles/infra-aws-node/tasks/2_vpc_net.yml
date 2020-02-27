@@ -1,6 +1,4 @@
 ---
-# TODO(ryan) is this comment still applicable?
-# Terminate every running instance in a region. Use with EXTREME caution.
 - name: vpc network
   ec2_vpc_net:
     name: "vpcnet-{{ instance_name }}"

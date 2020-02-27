@@ -1,7 +1,7 @@
 ---
-- name: modify address
+- name: gcp compute address
   gcp_compute_address:
-    name: 'address-instance'
+    name: "address-{{ instance_name }}"
     region: "{{ region }}"
     project: "{{ gcp_project }}"
     auth_kind: "{{ gcp_cred_kind }}"
@@ -9,4 +9,4 @@
     scopes:
       - https://www.googleapis.com/auth/compute
     state: "{{ state }}"
-  register: address
+  register: address_res

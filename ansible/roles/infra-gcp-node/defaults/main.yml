@@ -1,16 +1,16 @@
 ---
-# defaults file for z-test-gcp
-instance_name: gcp-instance
+instance_name: NOT_SET
 zone: us-central1-a
 region: us-central1
-machine_type: n1-standard-8
+machine_type: n1-standard-4
+machine_disk_size: 50
 deletion_protection: yes
 gcp_project: gantree-dev-00
 gcp_cred_kind: serviceaccount
-gcp_cred_file: /home/rozifus/Work/cred/gcp/gantree-dev-00-b78c5073467b.json
+gcp_cred_file: NOT_SET
 ssh_user: root
-ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
-ansible_groups:
-  - ansible_gcp_group
+ssh_key: NOT_SET
+provider_groups:
+  - provider_gcp
 
 state: present
