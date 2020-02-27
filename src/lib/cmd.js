@@ -8,7 +8,7 @@ const logger = returnLogger('cmd')
 
 async function each_count(count, action_trigger_count) {
   if (count % action_trigger_count == 0) {
-    process.stdout.write(".")
+    process.stdout.write('.')
   }
 }
 
@@ -37,7 +37,7 @@ module.exports = {
         output = Buffer.concat([output, Buffer.from(data)])
         if (options.verbose) {
           counter.count_until_false()
-          logger.info(`'${command}':`)
+          // logger.info(`'${command}':`)
           process.stdout.write(data.toString())
         }
       })
@@ -45,7 +45,9 @@ module.exports = {
       child.stderr.on('data', data => {
         output = Buffer.concat([output, Buffer.from(data)])
         if (options.verbose) {
-          logger.error(`Execution failed for command '${command}': ${data.toString()}`)
+          logger.error(
+            `Execution failed for command '${command}': ${data.toString()}`
+          )
         }
       })
 
