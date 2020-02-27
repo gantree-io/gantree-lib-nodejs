@@ -4,6 +4,7 @@ const config = require('../config.js')
 const { Platform } = require('../platform.js')
 const { Application } = require('../application.js')
 const { throwGantreeError } = require('../error')
+const { writeParsableStdout } = require('../cmd')
 const { returnLogger } = require('../logging')
 
 const logger = returnLogger('sync')
@@ -29,12 +30,16 @@ module.exports = {
       platformResult = await platform.sync()
     } catch (e) {
       logger.error(`Platform sync failed: ${e}`)
-      throwGantreeError("PLATFORM_SYNC_FAILED", e)
+      throwGantreeError('PLATFORM_SYNC_FAILED', e)
       // logger.error(`Could not sync platform: ${e.message}`)
       // console.error(`PLATFORM SYNC FAILED: ${e.message}`)
       // process.exit(6)
     }
     logger.info(`Platform result: ${JSON.stringify(platformResult)}`)
+    writeParsableStdout(
+      'VALIDATOR_IP_ADDRESSES',
+      JSON.stringify(platformResult.validatorIpAddresses)
+    )
     logger.info('Done syncing platform (terraform)')
 
     logger.info('Syncing application... (ansible)')
