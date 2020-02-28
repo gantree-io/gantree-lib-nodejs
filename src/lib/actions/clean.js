@@ -1,7 +1,7 @@
 const config = require('../config.js')
 const { throwGantreeError } = require('../error')
 const { Platform } = require('../platform.js')
-const { returnLogger } = require('./logging')
+const { returnLogger } = require('../logging')
 
 const logger = returnLogger('clean')
 
@@ -24,6 +24,6 @@ module.exports = {
       logger.error(`Could not clean platform: ${e.message}`)
       throwGantreeError('PLATFORM_CLEAN_FAILED', e)
     }
-    logger.log('Done cleaning platform')
+    logger.info('Done cleaning platform')
   }
 }

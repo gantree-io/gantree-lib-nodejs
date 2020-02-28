@@ -29,7 +29,7 @@ function validate_provider_specific_keys(gantreeConfigObj) {
         }
       }
     } else {
-      logger.log(`No ${validator_provider} specific keys required`)
+      logger.info(`No ${validator_provider} specific keys required`)
     }
   }
 
@@ -44,7 +44,7 @@ function validate_provider_specific_keys(gantreeConfigObj) {
         `Required ${provider} keys missing: ${keys_missing}`
       )
     } else {
-      logger.log(`All required ${provider} specific keys satisfied`)
+      logger.info(`All required ${provider} specific keys satisfied`)
     }
   }
 
