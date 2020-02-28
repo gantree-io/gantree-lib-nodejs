@@ -1,4 +1,7 @@
 {
+    "data": {
+        "version": "1.0"
+    },
     "GENERIC_ERROR": {
         "code": 1,
         "messsage": "generic error"
@@ -38,6 +41,10 @@
     "FILE_NOT_FOUND": {
         "code": 13,
         "message": "expected or specified file not found"
+    },
+    "PLATFORM_INIT_FAILED": {
+        "code": 14,
+        "message": "platform init failed"
     },
     "COMMAND_NOT_FOUND": {
         "code": 127,
