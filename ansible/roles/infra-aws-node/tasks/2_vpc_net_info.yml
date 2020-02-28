@@ -1,0 +1,12 @@
+---
+- name: refresh vpc network
+  ec2_vpc_net_info:
+    region: "{{ region }}"
+    filters:
+      tag:Name: "vpcnet-{{ instance_name }}"
+  register: vpcnet_res_all
+  no_log: yes
+
+- name: set vpcnet_res fact
+  set_fact:
+    vpcnet_res: "{{ vpcnet_res_all.vpcs[0] }}"

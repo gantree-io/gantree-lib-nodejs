@@ -1,0 +1,17 @@
+---
+- import_tasks: 2_vpc_net_info.yml
+- import_tasks: 2_vpc_subnet_info.yml
+- import_tasks: 2_vpc_igw_info.yml
+
+- name: vpc route table
+  ec2_vpc_route_table:
+    region: "{{ region }}"
+    state: "{{ state }}"
+    vpc_id: "{{ vpcnet_res.id }}"
+    subnets:
+      - "{{ vpcsn_res.id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ vpcigw_res.internet_gateway_id }}"
+    tags:
+      Name: "vpcrt-{{ instance_name }}"

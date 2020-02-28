@@ -1,0 +1,11 @@
+---
+- import_tasks: 2_vpc_net_info.yml
+
+- name: vpc subnet
+  ec2_vpc_subnet:
+    vpc_id: "{{ vpcnet_res.id }}"
+    cidr: 10.0.1.16/28
+    region: "{{ region }}"
+    state: "{{ state }}"
+    tags:
+      Name: "vpcsn-{{ instance_name }}"

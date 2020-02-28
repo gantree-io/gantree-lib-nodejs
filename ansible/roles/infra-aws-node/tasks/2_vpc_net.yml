@@ -1,0 +1,10 @@
+---
+- name: vpc network
+  ec2_vpc_net:
+    name: "vpcnet-{{ instance_name }}"
+    cidr_block: 10.0.0.0/16
+    region: "{{ region }}"
+    tenancy: default
+    state: "{{ state }}"
+    #tags:
+    #  Name: "vpcnet-{{ instance_name }}"

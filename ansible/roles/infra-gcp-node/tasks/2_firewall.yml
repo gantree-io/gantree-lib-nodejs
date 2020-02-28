@@ -1,0 +1,25 @@
+---
+- name: gcp compute firewall
+  gcp_compute_firewall:
+    name: 'firewall-instance'
+    allowed:
+    - ip_protocol: tcp
+      ports:
+      - 22
+      - 9100
+      - 30333
+    - ip_protocol: udp
+      ports:
+      - 51820
+    source_ranges:
+    - 0.0.0.0/0
+    target_tags:
+    - inst-{{ instance_name }}
+    network: "{{ network_res }}"
+    direction: ingress
+    project: "{{ gcp_project }}"
+    auth_kind: "{{ gcp_cred_kind }}"
+    service_account_file: "{{ gcp_cred_file }}"
+    scopes:
+        - https://www.googleapis.com/auth/compute
+    state: "{{ state }}"
