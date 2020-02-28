@@ -47,9 +47,7 @@ class Terraform {
         this.config.validators.nodes
       )
     } catch (e) {
-      console.error(
-        `[Gantree] Could not get validator sync promises: ${e.message}`
-      )
+      logger.error(`Could not get validator sync promises: ${e.message}`)
     }
 
     const syncPromises = validatorSyncPromises
@@ -66,9 +64,7 @@ class Terraform {
         this.config.validators.nodes
       )
     } catch (e) {
-      console.error(
-        `[Gantree] Could not get validator clean promises: ${e.message}`
-      )
+      logger.error(`Could not get validator clean promises: ${e.message}`)
     }
 
     const cleanPromises = validatorCleanPromises
