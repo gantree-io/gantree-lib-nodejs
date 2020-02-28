@@ -53,9 +53,7 @@ module.exports = {
 
       child.on('close', code => {
         if (code !== 0 && !match) {
-          console.log(
-            `[Gantree] Execution failed with code ${code}: ${command}`
-          )
+          logger.error(`Execution failed with code ${code}: ${command}`)
           reject(new Error(code))
         } else {
           resolve(output)
