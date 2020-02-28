@@ -1,17 +1,26 @@
 const error_meta = require('../static_data/error_meta')
 
 function throwGantreeError(error_alias, e) {
-    const message = error_meta[error_alias].message
-    const code = error_meta[error_alias].code
+  let message = error_meta[error_alias].message
+  let code = error_meta[error_alias].code
 
-    if (message === undefined) { console.log("no message meta defined for error!") }
-    if (code === undefined) { console.log("no code meta defined for error!") }
-    if (e === undefined) { console.log("no error passed to error wrapper!") }
+  if (message === undefined) {
+    console.error('no message meta defined for error!')
+    message = 'no message defined in error meta'
+  }
+  if (code === undefined) {
+    console.error('no code meta defined for error!')
+    code = 1
+  }
+  if (e === undefined) {
+    console.error('no error passed to error wrapper!')
+    e = Error('no error passed')
+  }
 
-    console.error(`FAIL:[${code}] ${message}: ${e.message}`)
-    process.exit(code)
+  console.error(`FAIL:[${code}] ${message}: ${e.message}`)
+  process.exit(code)
 }
 
 module.exports = {
-    throwGantreeError
+  throwGantreeError
 }
