@@ -1,7 +1,6 @@
 const path = require('path')
 const process = require('process')
 const Ajv = require('ajv')
-const chalk = require('chalk')
 
 const files = require('./files')
 const gantree_config_schema = require('../schemas/gantree_config_schema')
@@ -30,7 +29,7 @@ function validate_provider_specific_keys(gantreeConfigObj) {
         }
       }
     } else {
-      // console.log(chalk.green(`[Gantree] No ${validator_provider} specific keys required`))
+      logger.log(`No ${validator_provider} specific keys required`)
     }
   }
 
@@ -42,18 +41,21 @@ function validate_provider_specific_keys(gantreeConfigObj) {
     if (keys_missing.length > 0) {
       keys_are_missing = true
       missing_messages.push(
-        `[Gantree] Required ${provider} keys missing: ${keys_missing}`
+        `Required ${provider} keys missing: ${keys_missing}`
       )
     } else {
-      // console.log(chalk.green(`[Gantree] All required ${provider} specific keys satisfied`))
+      logger.log(`All required ${provider} specific keys satisfied`)
     }
   }
 
   if (keys_are_missing === true) {
     for (const missing_message of missing_messages) {
-      console.log(chalk.red(missing_message))
+      logger.error(missing_message)
     }
-    process.exit(-1)
+    throwGantreeError(
+      'BAD_CONFIG',
+      Error(`provider-specific key/s missing: ${missing_messages}`)
+    )
   }
 }
 
@@ -64,15 +66,18 @@ module.exports = {
     try {
       cfgObject = files.readJSON(cfgPath)
     } catch (e) {
-      console.error(`[Gantree] couldn't import config: ${e}`)
-      process.exit(1)
+      logger.error(`Failed to import config: ${e}`)
+      throwGantreeError('BAD_CONFIG', Error(`Failed to import config: ${e}`))
     }
     return cfgObject
   },
   validate: async gantreeConfigObj => {
     if (gantreeConfigObj === undefined) {
-      console.error('[Gantree] Validate must recieve a config object as input')
-      process.exit(1)
+      console.error('Validate must recieve a config object as input')
+      throwGantreeError(
+        'BAD_CONFIG',
+        Error('Validate must recieve a config object as input')
+      )
     } else {
       const ajv = new Ajv({ allErrors: true })
       const validate = ajv.compile(gantree_config_schema)
