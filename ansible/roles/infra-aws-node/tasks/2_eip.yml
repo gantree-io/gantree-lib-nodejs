@@ -1,0 +1,10 @@
+---
+- import_tasks: 2_instance_info.yml
+
+- name: associate elastic ip
+  ec2_eip:
+    device_id: "{{ ec2inst_res.instance_id }}"
+    region: "{{ region }}"
+    state: "{{ state }}"
+    release_on_disassociation: yes
+  register: elastic_ip

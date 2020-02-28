@@ -1,0 +1,15 @@
+---
+- import_tasks: 2_sshkey_info.yml
+
+- name: do droplet
+  digital_ocean_droplet:
+    oauth_token: "{{ access_token }}"
+    state: "{{ state }}"
+    region: "{{ region }}"
+    image: "{{ droplet_image }}"
+    size: "{{ droplet_size }}"
+    ssh_keys:
+    - "{{ sshkey_res.id }}"
+    name: "drop-{{ droplet_name }}"
+    unique_name: yes
+  register: droplet_res

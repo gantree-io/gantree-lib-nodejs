@@ -1,0 +1,12 @@
+---
+- name: load vpc route table
+  ec2_vpc_route_table:
+    region: "{{ region }}"
+    filters:
+      "tag:Name": "vpcrt-{{ instance_name }}"
+  register: vpcrt_res_all
+  no_log: yes
+
+- name: load vpctr_res fact
+  set_fact:
+    vpcrt_res: "{{ vpcrt_res_all.route_tables[0] }}"

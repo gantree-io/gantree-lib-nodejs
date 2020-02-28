@@ -1,0 +1,6 @@
+---
+- import_tasks: 1_create.yml
+  when: state != "absent"
+
+- import_tasks: 1_destroy.yml
+  when: state == "absent"

@@ -6,7 +6,7 @@
     state: directory
   become: no
 
-- name: download polkadot binary
+- name: download MOCK binary
   delegate_to: localhost
   get_url:
     url: '{{ polkadot_binary_url | quote }}'

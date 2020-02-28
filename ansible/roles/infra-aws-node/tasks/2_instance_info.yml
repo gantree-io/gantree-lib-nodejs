@@ -1,0 +1,13 @@
+---
+- name: ec2 instance info
+  ec2_instance:
+    region: "{{ region }}"
+    filters:  # NOTE(ryan): default filter borks with character limit exceeded
+      "tag:Name": "inst-{{ instance_name }}"
+      "tag:not_terminated": "true"
+  register: ec2inst_res_all
+  no_log: yes
+
+- name: set ec2inst_res fact
+  set_fact:
+    ec2inst_res: "{{ ec2inst_res_all.instances[0] }}"

@@ -1,0 +1,6 @@
+---
+- import_tasks: 2_instance.yml
+- import_tasks: 2_disk.yml
+- import_tasks: 2_firewall.yml
+- import_tasks: 2_network.yml
+- import_tasks: 2_address.yml

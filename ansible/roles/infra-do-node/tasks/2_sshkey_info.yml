@@ -1,0 +1,15 @@
+---
+- name: do get all sshkeys
+  digital_ocean_sshkey_info:
+    oauth_token: "{{ access_token }}"
+  register: sshkey_allkeys_res
+
+- debug:
+    msg: "{{ sshkey_allkeys_res }}"
+
+- name: do filter sshkey
+  set_fact:
+    sshkey_res: "{{ item }}"
+  loop: "{{ sshkey_allkeys_res.data|json_query(ssh_pubkey) }}"
+  vars:
+    ssh_pubkey: "[?name=='key-{{ instance_name }}']"
