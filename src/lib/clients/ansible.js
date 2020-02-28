@@ -1,6 +1,5 @@
 const path = require('path')
 const fs = require('fs-extra')
-const chalk = require('chalk')
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
@@ -58,9 +57,7 @@ class Ansible {
     )
     const version = this._getVersion(this.config.repository.version)
     // console.log({ origin, project, buildDir, target, validators, bootnodes, version })
-    console.log(
-      chalk.yellow(`[Gantree] Preparing nodes with version ${version}`)
-    )
+    logger.info(`Preparing nodes with version ${version}`)
 
     const data = {
       project: this.config.project,
