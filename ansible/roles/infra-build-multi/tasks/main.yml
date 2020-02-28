@@ -1,0 +1,4 @@
+---
+- name: build infra
+  include_tasks: selector.yml
+  with_items: "{{ infra }}"

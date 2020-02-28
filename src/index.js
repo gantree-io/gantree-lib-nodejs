@@ -8,6 +8,7 @@ require('dotenv').config({ path: path.resolve(process.cwd(), 'config/.env') })
 
 const clean = require('./lib/actions/clean')
 const sync = require('./lib/actions/sync')
+const inventory = require('./lib/actions/inventory')
 const inject = require('./lib/actions/inject')
 const keyCombine = require('./lib/actions/key-combine')
 const version = require('./lib/version')
@@ -25,6 +26,11 @@ program
   .description('Removes all the resources.')
   .option('-c, --config [config] (required)', 'Path to config file.')
   .action(clean.do)
+
+program
+  .command('inventory')
+  .description('get ansible dynamic inventory')
+  .action(inventory.do)
 
 program
   .command('inject')

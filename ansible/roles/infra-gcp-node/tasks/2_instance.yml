@@ -12,7 +12,7 @@
         boot: true
         source: "{{ disk_res }}"
     network_interfaces:
-      - network: "{{ network }}"
+      - network: "{{ network_res }}"
         access_configs:
           - name: 'External NAT'
             nat_ip: "{{ address_res }}"
@@ -23,7 +23,7 @@
     zone: "{{ zone }}"
     project: "{{ gcp_project }}"
     auth_kind: "{{ gcp_cred_kind }}"
-    service_account_file: "{{ gcp_cred_file }}"
-    scopes:
-      - https://www.googleapis.com/auth/compute
+    #service_account_file: "{{ gcp_cred_file }}"
+    #scopes:
+    #  - https://www.googleapis.com/auth/compute
   register: instance_res
