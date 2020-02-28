@@ -89,7 +89,11 @@ class Terraform {
         new Promise(async resolve => {
           const options = { cwd }
           const init_options = { cwd, verbose: false }
-          await this._cmd(`init`, init_options) // initialise terraform
+          try {
+            await this._cmd(`init`, init_options) // initialise terraform
+          } catch (e) {
+            throwGantreeError('PLATFORM_INIT_FAILED', e)
+          }
 
           this._createVarsFile(cwd, nodes[counter], sshKeyPublic, nodeName)
 
@@ -124,8 +128,11 @@ class Terraform {
           }
         }
       } else {
-        console.error(`Incompatible provider: ${provider_n}`)
-        process.exit(1)
+        logger.error(`Incompatible provider: ${provider_n}`)
+        throwGantreeError(
+          'BAD_CONFIG',
+          Error(`Incompatible provider: ${provider_n}`)
+        )
       }
     }
   }

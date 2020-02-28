@@ -85,10 +85,10 @@ module.exports = {
       if (gantree_config_valid) {
         logger.info('Gantree config validated successfully!')
       } else {
-        logger.error('Invalid Gantree config detected')
+        console.error('Invalid Gantree config detected')
         for (let i = 0; i < validate.errors.length; i++) {
           const error_n = validate.errors[i]
-          logger.error(
+          console.error(
             `--ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`
           )
         }
