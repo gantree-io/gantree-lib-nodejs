@@ -1,5 +1,3 @@
-const chalk = require('chalk') // used for colouring output
-
 const config = require('../config.js')
 const { Platform } = require('../platform.js')
 const { Application } = require('../application.js')
@@ -12,11 +10,11 @@ const logger = returnLogger('sync')
 module.exports = {
   do: async cmd => {
     if (!cmd.config) {
-      console.error(chalk.red('[Gantree] Error: --config required.'))
-      process.exit(-1)
+      logger.error('--config required')
+      throwGantreeError('MISSING_ARGUMENTS', Error('--config required.'))
     } else if (typeof cmd.config === 'boolean') {
-      console.error(chalk.red('[Gantree] Error: Path to config required.'))
-      process.exit(-1)
+      logger.error('Path to config required')
+      throwGantreeError('MISSING_ARGUMENTS', Error('Path to config required'))
     }
 
     const cfg = config.read(cmd.config)
@@ -47,11 +45,9 @@ module.exports = {
     try {
       await app.sync()
     } catch (e) {
-      console.log(
-        chalk.red(`[Gantree] Could not sync application: ${e.message}`)
-      )
-      process.exit(-1)
+      logger.error(`Could not sync application: ${e.message}`)
+      throwGantreeError('APPLICATION_SYNC_FAILED', e)
     }
-    console.log(chalk.green('[Gantree] Done syncing application (ansible)'))
+    logger.info('Done syncing application (ansible)')
   }
 }
