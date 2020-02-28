@@ -19,6 +19,26 @@
         "code": 8,
         "message": "bad config"
     },
+    "NO_IMPLICIT_RAW_CHAINSPEC": {
+        "code": 9,
+        "message": "rawspec provided without --allow-raw explicitly specified"
+    },
+    "INVALID_CHAINSPEC": {
+        "code": 10,
+        "message": "chainspec provided is not valid"
+    },
+    "PLATFORM_CLEAN_FAILED": {
+        "code": 11,
+        "message": "platform clean failed"
+    },
+    "MISSING_ARGUMENTS": {
+        "code": 12,
+        "message": "required arguments are missing"
+    },
+    "FILE_NOT_FOUND": {
+        "code": 13,
+        "message": "expected or specified file not found"
+    },
     "COMMAND_NOT_FOUND": {
         "code": 127,
         "message": "command not found"
