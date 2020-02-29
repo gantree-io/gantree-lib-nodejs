@@ -1,5 +1,6 @@
 ---
 - name: gcp compute network
+  delegate_to: localhost
   gcp_compute_network:
     name: 'net-{{ instance_name }}'
     project: "{{ gcp_project }}"

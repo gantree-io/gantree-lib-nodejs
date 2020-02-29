@@ -1,5 +1,6 @@
 ---
 - name: gcp compute instance
+  delegate_to: localhost
   gcp_compute_instance:
     state: "{{ state }}"
     name: "inst-{{ instance_name }}"

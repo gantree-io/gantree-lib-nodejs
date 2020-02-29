@@ -1,0 +1,6 @@
+---
+- include_tasks: 1_create.yml
+  when: state != "absent"
+
+- include_tasks: 1_destroy.yml
+  when: state == "absent"

@@ -1,4 +1,16 @@
 ---
-- name: build infra
-  include_tasks: selector.yml
-  with_items: "{{ infra }}"
+- name: cloud selector
+  include_role:
+    name: infra-gcp-node
+  when: "{{ config.provider == 'gcp' }}"
+  #vars:
+  #  - item
+    #instance_name: "{{ item.instance_name }}"
+    #zone: "{{ item.zone }}"
+    #region: "{{ item.region }}"
+    #machine_type: "{{ item.machine_type }}"
+    #gcp_project: "{{ item.gcp_project }}"
+    #ssh_user: "{{ item.ssh_user }}"
+    #ssh_key: "{{ item.ssh_key }}"
+    #ansible_user: "{{ item.ssh_key }}"
+    #state: "{{ item.state }}"

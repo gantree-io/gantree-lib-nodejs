@@ -1,14 +1,4 @@
 ---
-- hosts: non-local
-  gather_facts: false
-  strategy: free
-  tasks:
-    - name: wait for machine and ssh
-      wait_for_connection:
-        timeout: 120
-        sleep: 2
-      retries: 3
-
 - hosts: localhost
   tasks:
     - debug:
@@ -16,14 +6,28 @@
   become: no
 
 - hosts: localhost
+  tasks:
+    - add_host:
+        name: "{{ item.instance_name }}"
+        groups: base_infra
+        config: "{{ item }}"
+      with_items: "{{ infra }}"
+
+- hosts: base_infra
+  gather_facts: no
   roles:
     - infra-build-multi
-  vars:
-    ansible_groups:
-    - temp_builder
-    - provider_gcp
-    - builder_bin
   become: no
+
+- hosts: non-local
+  gather_facts: no
+  strategy: free
+  tasks:
+    - name: wait for machine and ssh
+      wait_for_connection:
+        timeout: 120
+        sleep: 2
+      retries: 3
 
 - hosts: all
   roles:

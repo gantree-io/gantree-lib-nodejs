@@ -1,0 +1,11 @@
+---
+plugin: gcp_compute
+projects:
+  - gantree-dev-00
+regions:
+  - us-east1
+hostnames:
+  - name
+filters: []
+auth_kind: serviceaccount
+service_account_file: /home/rozifus/Work/cred/gcp/gantree-dev-00-b78c5073467b.json

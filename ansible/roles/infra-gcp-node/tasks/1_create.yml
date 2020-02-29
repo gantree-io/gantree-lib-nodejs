@@ -1,9 +1,4 @@
 ---
-
-- name: debugasdkl
-  debug:
-    var: gcp_project
-
 - import_tasks: 2_disk.yml
 - import_tasks: 2_network.yml
 - import_tasks: 2_firewall.yml
@@ -11,6 +6,7 @@
 - import_tasks: 2_instance.yml
 
 - name: Wait for SSH to come up
+  delegate_to: localhost
   wait_for:
     host: "{{ address_res.address }}"
     port: 22
@@ -20,6 +16,7 @@
 
 - name: Add host to groups
   add_host:
-    #name: "{{ instance_name }}"
     hostname: "{{ address_res.address }}"
-    groups: "{{ ansible_groups }}"
+    groups:
+      - provider-gcp
+      - "{{ instance_name }}"

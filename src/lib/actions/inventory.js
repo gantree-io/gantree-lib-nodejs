@@ -17,7 +17,8 @@ const dofunc = async cmd => {
 
   const cfg = config.read(configPath)
 
-  config.validate(cfg)
+  // TODO: re-add this
+  // config.validate(cfg)
 
   const di = await buildDynamicInventory(cfg)
 
@@ -66,8 +67,9 @@ const buildDynamicInventory = async (c) => {
   c.validators.nodes.forEach((item, idx) => {
     const newInfra = {
       provider: item.provider,
-      instance_name: 'validator' + idx,
+      instance_name: item.name || ("node" + idx),
       machine_type: item.machineType,
+      deletion_protection: item.deletionProtection,
       zone: item.zone,
       region: item.region,
       ssh_user: item.sshUser,

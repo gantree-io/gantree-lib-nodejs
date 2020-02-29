@@ -1,5 +1,6 @@
 ---
 - name: gcp compute address
+  delegate_to: localhost
   gcp_compute_address:
     name: "address-{{ instance_name }}"
     region: "{{ region }}"

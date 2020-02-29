@@ -1,5 +1,6 @@
 ---
 - name: gcp compute disk
+  delegate_to: localhost
   gcp_compute_disk:
     name: "disk-{{ instance_name }}"
     size_gb: "{{ machine_disk_size }}"

@@ -1,7 +1,8 @@
 ---
 - name: gcp compute firewall
+  delegate_to: localhost
   gcp_compute_firewall:
-    name: 'firewall-instance'
+    name: 'fw-{{ instance_name }}'
     allowed:
     - ip_protocol: tcp
       ports:
