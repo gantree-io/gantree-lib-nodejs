@@ -5,7 +5,7 @@ projects:
 regions:
   - us-east1
 hostnames:
-  - name
+  - public_ip
 filters: []
 auth_kind: serviceaccount
 service_account_file: /home/rozifus/Work/cred/gcp/gantree-dev-00-b78c5073467b.json

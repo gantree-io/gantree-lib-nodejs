@@ -1,26 +1,6 @@
 ---
-- hosts: localhost
-  tasks:
-    - debug:
-        msg: yeet
-  become: no
-
-- hosts: localhost
-  tasks:
-    - add_host:
-        name: "{{ item.instance_name }}"
-        groups: base_infra
-        config: "{{ item }}"
-      with_items: "{{ infra }}"
-
-- hosts: base_infra
-  gather_facts: no
-  roles:
-    - infra-build-multi
-  become: no
-
-- hosts: non-local
-  gather_facts: no
+- hosts: all:!local:!localhost
+  gather_facts: false
   strategy: free
   tasks:
     - name: wait for machine and ssh
@@ -29,27 +9,15 @@
         sleep: 2
       retries: 3
 
-- hosts: all
+- hosts: all:!local:!localhost
   roles:
     - role: validator-env-gantree
   become: yes
 
 - hosts: builder_bin
   roles:
-    - mock-build-bin
+    - builder-build-bin
   become: yes
-
-- hosts: localhost
-  roles:
-    - infra-gcp-node
-  vars:
-    #ansible_user: root
-    state: absent
-    ansible_groups:
-    - temp_builder
-    - provider_do
-    - builder_bin
-  #become: nos
 
 - hosts: validator:builder_spec
   strategy: free

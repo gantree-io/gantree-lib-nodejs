@@ -51,9 +51,6 @@ const buildDynamicInventory = async (c) => {
       vars: {
         ansible_python_interpreter: localPython,
         ansible_connection: 'local',
-        infra: [
-          "wat"
-        ]
       }
     },
     all: {
@@ -65,7 +62,16 @@ const buildDynamicInventory = async (c) => {
   }
 
   c.validators.nodes.forEach((item, idx) => {
-    const newInfra = {
+    const node = parseNode(item, idx)
+    o._meta.hostvars.localhost.infra.push(node)
+  })
+
+  return o
+}
+
+const parseNode = (item, idx) => {
+  if (item.provider == 'gcp') {
+    return {
       provider: item.provider,
       instance_name: item.name || ("node" + idx),
       machine_type: item.machineType,
@@ -77,14 +83,21 @@ const buildDynamicInventory = async (c) => {
       gcp_project: item.projectId,
       state: "present"
     }
-    o._meta.hostvars.localhost.infra.push(newInfra)
-  })
+  }
 
-  return o
-}
+  if (item.provider == 'do') {
+    return {
+      provider: item.provider,
+      instance_name: item.name || ("node" + idx),
+      machine_type: item.machineType,
+      zone: item.zone,
+      ssh_user: item.sshUser,
+      ssh_key: item.sshKey,
+      access_token: item.access_token
+    }
+  }
 
-const parseValidators = (vs) => {
-
+  throw Error(`Unknown provider: ${item.provider}`)
 }
 
 module.exports = {

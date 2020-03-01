@@ -1,8 +1,18 @@
 ---
-- name: cloud selector
+
+- debug:
+    msg: "{{ config }}"
+
+- name: gcp selector
   include_role:
     name: infra-gcp-node
-  when: "{{ config.provider == 'gcp' }}"
+  when: config.provider == 'gcp'
+
+- name: do selector
+  include_role:
+    name: infra-do-node
+  when: config.provider == 'do'
+
   #vars:
   #  - item
     #instance_name: "{{ item.instance_name }}"
