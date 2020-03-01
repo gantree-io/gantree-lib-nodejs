@@ -10,17 +10,6 @@
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
         "nodes": [
             {
-                "name": "yeep0",
-                "provider": "gcp",
-                "machineType": "n1-standard-2",
-                "deletionProtection": false,
-                "zone": "us-east1-b",
-                "region": "us-east1",
-                "sshUser": "root",
-                "sshKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval",
-                "projectId": "gantree-dev-00"
-            },
-            {
                 "name": "famp1",
                 "provider": "gcp",
                 "machineType": "n1-standard-2",

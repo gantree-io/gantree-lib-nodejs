@@ -18,9 +18,6 @@
           - name: 'External NAT'
             nat_ip: "{{ address_res }}"
             type: 'ONE_TO_ONE_NAT'
-    tags:
-      items:
-        - inst-{{ instance_name }}
     zone: "{{ zone }}"
     project: "{{ gcp_project }}"
     auth_kind: "{{ gcp_cred_kind }}"

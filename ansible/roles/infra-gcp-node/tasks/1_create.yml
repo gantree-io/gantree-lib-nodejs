@@ -4,6 +4,7 @@
 - import_tasks: 2_firewall.yml
 - import_tasks: 2_address.yml
 - import_tasks: 2_instance.yml
+- import_tasks: 2_gantree_tags.yml
 
 - name: Wait for SSH to come up
   delegate_to: localhost

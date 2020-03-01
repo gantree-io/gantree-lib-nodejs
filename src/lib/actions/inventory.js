@@ -63,17 +63,19 @@ const buildDynamicInventory = async (c) => {
 
   c.validators.nodes.forEach((item, idx) => {
     const node = parseNode(item, idx)
-    o._meta.hostvars.localhost.infra.push(node)
+    o._meta.hostvars.localhost.infra.push(node.infra)
   })
 
   return o
 }
 
 const parseNode = (item, idx) => {
+  const name = item.name || ("node" + idx)
+
   if (item.provider == 'gcp') {
-    return {
+    const infra = {
       provider: item.provider,
-      instance_name: item.name || ("node" + idx),
+      instance_name: name,
       machine_type: item.machineType,
       deletion_protection: item.deletionProtection,
       zone: item.zone,
@@ -83,18 +85,22 @@ const parseNode = (item, idx) => {
       gcp_project: item.projectId,
       state: "present"
     }
+
+    return { infra }
   }
 
   if (item.provider == 'do') {
-    return {
+    const infra = {
       provider: item.provider,
-      instance_name: item.name || ("node" + idx),
+      instance_name: name,
       machine_type: item.machineType,
       zone: item.zone,
       ssh_user: item.sshUser,
       ssh_key: item.sshKey,
       access_token: item.access_token
     }
+
+    return { infra }
   }
 
   throw Error(`Unknown provider: ${item.provider}`)

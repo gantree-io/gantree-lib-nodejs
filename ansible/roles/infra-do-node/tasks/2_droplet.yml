@@ -5,11 +5,11 @@
   delegate_to: localhost
   digital_ocean_droplet:
     state: "{{ state }}"
+    name: "drop-{{ instance_name }}"
     region: "{{ region }}"
     image: "{{ droplet_image }}"
     size: "{{ droplet_size }}"
     ssh_keys:
     - "{{ sshkey_res.id }}"
-    name: "drop-{{ instance_name }}"
     unique_name: yes
   register: droplet_res
