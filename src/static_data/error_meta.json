@@ -46,6 +46,14 @@
         "code": 14,
         "message": "platform init failed"
     },
+    "SCRIPT_ERROR": {
+        "code": 15,
+        "message": "execution of a stand-alone gantree script failed"
+    },
+    "DIR_NOT_FOUND": {
+        "code": 16,
+        "message": "expected or specified directory not found"
+    },
     "COMMAND_NOT_FOUND": {
         "code": 127,
         "message": "command not found"
