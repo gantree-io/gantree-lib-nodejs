@@ -9,7 +9,7 @@
         sleep: 2
       retries: 3
 
-- hosts: gantree_node
+- hosts: validator
   roles:
     - role: validator-env-gantree
   become: yes
