@@ -1,7 +1,10 @@
 ---
 # tasks file for substrate-builder
-- name: build binary
+- name: get build prerequisites
   import_tasks: ensure_prerequisites.yml
+  when: 'substrate_binary_url == "false" and substrate_local_compile == "false"'
+
+- name: build binary remotely
   import_tasks: do_build.yml
   when: 'substrate_binary_url == "false" and substrate_local_compile == "false"'
 
