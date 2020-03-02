@@ -7,6 +7,17 @@ const config = require('../config.js')
 const { Platform } = require('../platform.js')
 const { Application } = require('../application.js')
 
+const arrayify = option => {
+  let options = '['
+  if (option) {
+    for (let op of option) {
+      options += `'${op}',`
+    }
+  }
+  options += ']'
+  return options
+}
+
 const dofunc = async cmd => {
   const configPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
 
@@ -30,6 +41,9 @@ const buildDynamicInventory = async (c) => {
   const pythonLocalPython = await exec('python -c "import sys; print(sys.executable)"')
   const localPython = pythonLocalPython.stdout
 
+  const bootnodes = arrayify(c.validators.bootnodes)
+  const substrateOptions = arrayify(c.validators.substrateOptions)
+
   //console.log(c)
   const o = {
     _meta: {
@@ -39,11 +53,6 @@ const buildDynamicInventory = async (c) => {
 
           ]
         }
-      }
-    },
-    provider_gcp: {
-      vars: {
-        ansible_user: 'root'
       }
     },
     local: {
@@ -56,6 +65,7 @@ const buildDynamicInventory = async (c) => {
     all: {
       vars: {
         gantree_control_working: "/tmp/gantree-control/",
+        gantree_working: '/tmp/gantree',
         ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
         // project={{ project } }
         substrate_user: "subuser",
@@ -65,24 +75,31 @@ const buildDynamicInventory = async (c) => {
         substrate_repository_version: c.repository.version,
         substrate_chain: '/home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw',
         substrate_bin_name: c.repository.binaryName,
-        gantree_control_working: '/tmp/gantree-control',
         gantree_root: '../',
-        substrate_use_default_spec: '{{ substrateUseDefaultSpec }}',
-        substrate_chain_argument: '{{ substrateChainArgument }}',
-        substrate_bootnode_argument: "{{ { substrateBootnodeArgument } } }",
-        substrate_telemetry_argument: '{{ substrateTelemetryAgument }}',
-        substrate_options: "{{ { substrateOptions } }}",
-        substrate_rpc_port: '{{ substrateRpcPort }}',
-        substrate_node_name: '{{ substrateNodeName }}'
+        substrate_use_default_spec: c.repository.useDefaultSpec || false,
+        substrate_chain_argument: c.validators.chain || false,
+        substrate_bootnode_argument: bootnodes,
+        substrate_telemetry_argument: c.validators.telemetry || false,
+        substrate_options: substrateOptions,
+        substrate_rpc_port: c.validators.rpcPort || 9933,
+        substrate_node_name: c.validators.name || false
       }
     }
   }
 
-  const gantree_nodes = []
+  const validator_list = []
 
   c.validators.nodes.forEach((item, idx) => {
     const name = item.name || ("node" + idx)
-    gantree_nodes.push(name)
+
+    if (idx == 0) {
+      o.builder_bin = {}
+      o.builder_spec = {}
+      o.builder_bin.children = [item.name]
+      o.builder_spec.children = [item.name]
+    }
+
+    validator_list.push(name)
     const node = parseNode(name, item, idx)
     o._meta.hostvars.localhost.infra.push(node.infra)
     o[name] = o[name] || {}
@@ -91,8 +108,8 @@ const buildDynamicInventory = async (c) => {
     // gantree_nodes.push(node.inst_name)
   })
 
-  o.gantree_node = {}
-  o.gantree_node.children = gantree_nodes
+  o.validator = {}
+  o.validator.children = validator_list
 
   return o
 }
