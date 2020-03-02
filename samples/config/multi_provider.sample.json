@@ -26,8 +26,16 @@
                 "machineType": "c-4",
                 "zone": "nyc3",
                 "sshUser": "root",
-                "sshKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval",
-                "accessToken": "a03796c737fd499c42a6688327138afd33491dba7757664b918be13a15141b38"
+                "sshKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
+            },
+            {
+                "name": "awesome",
+                "provider": "aws",
+                "machineType": "m4.large",
+                "zone": "eu-central-1",
+                "location": "eu-central-1",
+                "sshUser": "ubuntu",
+                "sshKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
             }
         ]
     }

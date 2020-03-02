@@ -6,8 +6,6 @@ regions:
   - us-east1
 hostnames:
   - public_ip
-groups:
-  validator: "'validator' in "
 keyed_groups:
   - key: tags['items']
     separator: ''

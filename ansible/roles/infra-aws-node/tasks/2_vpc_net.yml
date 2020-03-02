@@ -1,5 +1,6 @@
 ---
 - name: vpc network
+  delegate_to: localhost
   ec2_vpc_net:
     name: "vpcnet-{{ instance_name }}"
     cidr_block: 10.0.0.0/16

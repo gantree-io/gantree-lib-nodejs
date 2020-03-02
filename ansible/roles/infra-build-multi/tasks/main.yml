@@ -1,8 +1,4 @@
 ---
-
-- debug:
-    msg: "{{ config }}"
-
 - name: gcp selector
   include_role:
     name: infra-gcp-node
@@ -13,14 +9,7 @@
     name: infra-do-node
   when: config.provider == 'do'
 
-  #vars:
-  #  - item
-    #instance_name: "{{ item.instance_name }}"
-    #zone: "{{ item.zone }}"
-    #region: "{{ item.region }}"
-    #machine_type: "{{ item.machine_type }}"
-    #gcp_project: "{{ item.gcp_project }}"
-    #ssh_user: "{{ item.ssh_user }}"
-    #ssh_key: "{{ item.ssh_key }}"
-    #ansible_user: "{{ item.ssh_key }}"
-    #state: "{{ item.state }}"
+- name: aws selector
+  include_role:
+    name: infra-aws-node
+  when: config.provider == 'aws'

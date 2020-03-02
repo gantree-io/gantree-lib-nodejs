@@ -1,5 +1,6 @@
 ---
 - name: refresh vpc internet gateway
+  delegate_to: localhost
   ec2_vpc_igw_info:
     region: "{{ region }}"
     filters:
@@ -8,5 +9,6 @@
   no_log: yes
 
 - name: set vpcigw_res fact
+  delegate_to: localhost
   set_fact:
     vpcigw_res: "{{ vpcigw_res_all.internet_gateways[0] }}"

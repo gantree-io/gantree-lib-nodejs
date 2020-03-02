@@ -115,6 +115,7 @@ const parseNode = (name, item, idx) => {
     const vars = {
       substrate_user: "gcpuser",
       substrate_group: "gcpgroup",
+      ansible_user: item.sshUser
     }
 
     const inst_name = "inst-" + name
@@ -136,9 +137,32 @@ const parseNode = (name, item, idx) => {
     const vars = {
       substrate_user: "subuser",
       substrate_group: "subgroup",
+      ansible_user: item.sshUser
     }
 
     const inst_name = "drop-" + name
+
+    return { infra, vars, inst_name }
+  }
+
+  if (item.provider == 'aws') {
+    const infra = {
+      provider: item.provider,
+      instance_name: name,
+      instance_type: item.machineType,
+      region: item.zone,
+      ssh_user: item.sshUser,
+      ssh_key: item.sshKey,
+      state: item.state || "present"
+    }
+
+    const vars = {
+      substrate_user: "awsuser",
+      substrate_group: "awsgroup",
+      ansible_user: item.sshUser
+    }
+
+    const inst_name = "inst-" + name
 
     return { infra, vars, inst_name }
   }
