@@ -88,19 +88,20 @@ Examples of provider definitions
 ### Configuration File Structure: Top Level
 
 - "project": [string] the gantree project name
-- "repository": [object] relating to the substrate binary to be deployed
+- "binary": [object] relating to the substrate binary to be deployed
 - "validators": [object] defining the validators to deploy
 
 ### Configuration File Strucutre: repository
 
-- "url": [string] the path to a git repository of the binary source to deploy
+- "repository": [string] the path to a git repository of the binary source to deploy
 - "version": [string:HEAD] the commit/tag of the binary source to use
-- "binaryName": [string] the name of the binary when compiled, eg. 'polkadot' or 'node-template'
+- "url": [string] the path to a binary to deploy
+- "name": [string] the name of the binary when compiled, eg. 'polkadot' or 'node-template'
 
 ### Configuration File Structure: validators
 
 - "chain": [string] the name of the chain
-- "useDefaultChainspec": [bool:false] use the internal rust chainspec of the compiled binary
+- "useDefaultSpec": [bool:false] use the internal rust chainspec of the compiled binary
 - "telemetry": [boolean] whether to use the default telemetry, or not report any telemetry
 - "loggingFilter": [string] the logging filter passed to the binary on running
 - "nodes": [array] a list of cloud provider configurations which each map to a network instance
