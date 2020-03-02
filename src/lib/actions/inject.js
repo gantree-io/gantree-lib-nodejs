@@ -3,6 +3,10 @@ const process = require('process')
 const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
+const { throwGantreeError } = require('../error')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('inject')
 
 // "We will need to generate at least 2 keys from each type. Every node will need to have its own keys."
 
@@ -10,42 +14,45 @@ function check_files_exist(cmd) {
   let files_missing = false
 
   if (!fs.existsSync(cmd.chainspec)) {
-    console.error(
-      chalk.red(`[Gantree] No chainspec file found at path: ${cmd.chainspec}`)
-    )
+    console.error(`No chainspec file found at path: ${cmd.chainspec}`)
     files_missing = true
   }
   if (!fs.existsSync(cmd.validatorspec)) {
-    console.error(
-      chalk.red(
-        `[Gantree] No validatorspec file found at path: ${cmd.validatorspec}`
-      )
-    )
+    console.error(`No validatorspec file found at path: ${cmd.validatorspec}`)
     files_missing = true
   }
 
   if (files_missing == true) {
-    process.exit(-1)
+    throwGantreeError(
+      'FILE_NOT_FOUND',
+      Error('one or more files required by inject are missing')
+    )
   }
 }
 
 function check_chainspec_valid(chainspec, allowraw) {
   if (chainspec.genesis == undefined) {
-    console.error(
-      chalk.red(
-        "[Gantree] Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
+    logger.error(
+      "Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
+    )
+    throwGantreeError(
+      'INVALID_CHAINSPEC',
+      Error(
+        "Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
       )
     )
-    process.exit(-1)
   } else {
     if (chainspec.genesis.runtime == undefined) {
       if (chainspec.genesis.raw == undefined) {
-        console.error(
-          chalk.red(
-            "[Gantree] Cannot inject values into chainspec with no '.genesis.runtime' key"
+        logger.error(
+          "Cannot inject values into chainspec with no '.genesis.runtime' key"
+        )
+        throwGantreeError(
+          'INVALID_CHAINSPEC',
+          Error(
+            "Cannot inject values into chainspec with no '.genesis.runtime' key"
           )
         )
-        process.exit(-1)
       } else {
         if (allowraw === true) {
           console.warn(chalk.yellow('[Gantree] ----------------'))
@@ -63,12 +70,15 @@ function check_chainspec_valid(chainspec, allowraw) {
           process.stdout.write(chainspec_str)
           return false
         } else {
-          console.error(
-            chalk.red(
-              '[Gantree] Inject function does not accept raw chainspecs unless --allow-raw specified'
+          logger.error(
+            'Inject function does not accept raw chainspecs unless --allow-raw specified'
+          )
+          throwGantreeError(
+            'NO_IMPLICIT_RAW_CHAINSPEC',
+            Error(
+              'Inject function does not accept raw chainspecs unless --allow-raw specified'
             )
           )
-          process.exit(-1)
         }
       }
     } else {

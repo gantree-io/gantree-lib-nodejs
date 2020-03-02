@@ -1,12 +1,17 @@
-const path = require('path');
+const path = require('path')
 
-const files = require('./files');
+const files = require('./files')
 
 module.exports = {
   show: () => {
-    const targetPath = path.join(path.dirname(module.filename), '..', '..', 'package.json');
-    const pkg = files.readJSON(targetPath);
+    const targetPath = path.join(
+      path.dirname(module.filename),
+      '..',
+      '..',
+      'package.json'
+    )
+    const pkg = files.readJSON(targetPath)
 
-    return pkg.version;
+    return pkg.version
   }
 }

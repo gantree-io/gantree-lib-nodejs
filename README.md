@@ -14,17 +14,12 @@ If you would like to avoid having to install dependencies, use the [Docker image
 
 Otherwise, in order to use gantree-cli, the following dependencies are required:
 
-| REQUIREMENT                    | VERSION   | NOTES                                          |
-| ------------------------------ | --------- | ---------------------------------------------- |
-| NodeJS                         | >=10.15.2 | Recommended install method: [nvm](nvm-install) |
-| [Terraform](terraform-install) | >=0.12.20 | Snap package will be likely too old            |
-| [Ansible](ansible-install)     | >=2.9.4   | Recommended install method: pip                |
-| Git                            | >=2.0     | Required by ansible-galaxy for installing role |
-
-[nvm-install]: https://github.com/nvm-sh/nvm
-[yarn-install]: https://yarnpkg.com/lang/en/docs/install
-[terraform-install]: https://www.terraform.io/downloads.html
-[ansible-install]: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+| REQUIREMENT                                                                                   | VERSION   | NOTES                                                            |
+| --------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------- |
+| NodeJS                                                                                        | >=10.15.2 | Recommended install method: [nvm](https://github.com/nvm-sh/nvm) |
+| [Terraform](https://www.terraform.io/downloads.html)                                          | >=0.12.20 | Snap package will be likely too old                              |
+| [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) | >=2.9.4   | Recommended install method: pip                                  |
+| Git                                                                                           | >=2.0     | Required by ansible-galaxy for installing role                   |
 
 ### Ansible Requirements
 

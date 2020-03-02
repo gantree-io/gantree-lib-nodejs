@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const chalk = require('chalk')
 
 const cmd = require('../cmd')
 const env = require('../env')
@@ -8,6 +7,10 @@ const { Project } = require('../project')
 const ssh = require('../ssh')
 const tpl = require('../tpl')
 const provider_env_vars = require('../../static_data/provider_env_vars')
+const { throwGantreeError } = require('../error')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('terraform')
 
 class Terraform {
   constructor(cfg) {
@@ -31,7 +34,7 @@ class Terraform {
   }
 
   async sync() {
-    console.log(chalk.yellow('[Gantree] Initialising Terraform'))
+    logger.info('Initialising Terraform')
     this._initializeTerraform()
 
     const sshKeys = ssh.keys()
@@ -44,9 +47,7 @@ class Terraform {
         this.config.validators.nodes
       )
     } catch (e) {
-      console.log(
-        `[Gantree] Could not get validator sync promises: ${e.message}`
-      )
+      logger.error(`Could not get validator sync promises: ${e.message}`)
     }
 
     const syncPromises = validatorSyncPromises
@@ -63,9 +64,7 @@ class Terraform {
         this.config.validators.nodes
       )
     } catch (e) {
-      console.log(
-        `[Gantree] Could not get validator clean promises: ${e.message}`
-      )
+      logger.error(`Could not get validator clean promises: ${e.message}`)
     }
 
     const cleanPromises = validatorCleanPromises
@@ -89,12 +88,17 @@ class Terraform {
       createPromises.push(
         new Promise(async resolve => {
           const options = { cwd }
-          await this._cmd(`init`, options)
+          const init_options = { cwd, verbose: false }
+          try {
+            await this._cmd(`init`, init_options) // initialise terraform
+          } catch (e) {
+            throwGantreeError('PLATFORM_INIT_FAILED', e)
+          }
 
           this._createVarsFile(cwd, nodes[counter], sshKeyPublic, nodeName)
 
-          cmd.exec(`pwd`)
-          await this._cmd(`apply -auto-approve`, options)
+          cmd.exec(`pwd`) // get working directory
+          await this._cmd(`apply -auto-approve`, options) // terraform apply
 
           resolve(true)
         })
@@ -112,17 +116,23 @@ class Terraform {
           const required_env_var = required_env_vars[i].name
           // if req env var not exported
           if (!(required_env_var in process.env)) {
-            console.log(
-              chalk.red(
-                `[Gantree] Require env var not found!: ${required_env_var}`
+            logger.error(
+              `Required environment variable not found: ${required_env_var}`
+            )
+            throwGantreeError(
+              'ENVIRONMENT_VARIABLE_MISSING',
+              Error(
+                `Required environment variable not found: ${required_env_var}`
               )
             )
-            process.exit(-1)
           }
         }
       } else {
-        console.log(chalk.red(`[Gantree] INCOMPATIBLE PROVIDER: ${provider_n}`))
-        process.exit(-1)
+        logger.error(`Incompatible provider: ${provider_n}`)
+        throwGantreeError(
+          'BAD_CONFIG',
+          Error(`Incompatible provider: ${provider_n}`)
+        )
       }
     }
   }
@@ -146,7 +156,7 @@ class Terraform {
 
   async _cmd(command, options = {}) {
     const actualOptions = Object.assign({}, this.options, options)
-    return cmd.exec(`terraform ${command}`, actualOptions)
+    return cmd.exec(`terraform ${command}`, actualOptions, { verbose: false })
   }
 
   _createVarsFile(cwd, node, sshKeyPublic, nodeName) {

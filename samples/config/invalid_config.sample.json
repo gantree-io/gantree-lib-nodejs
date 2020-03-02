@@ -8,10 +8,17 @@
     "validators": {
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
         "telemetry": true,
+        "chain": "mandala",
+        "useDefaultChainspec": "true",
+        "bootnodes": [
+            "",
+            "",
+            12
+        ],
         "nodes": [
             {
                 "provider": "aws",
-                "machineType": "m4.large",
+                "machineType": "t3.small",
                 "count": 2,
                 "zone": "eu-central-1a",
                 "sshUser": "ubuntu",

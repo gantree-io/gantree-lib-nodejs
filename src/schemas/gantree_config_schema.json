@@ -50,8 +50,14 @@
                         "$ref": "#/definitions/node"
                     }
                 },
-                "telemetryUrl": {
+                "telemetry": {
+                    "type": "boolean"
+                },
+                "chain": {
                     "type": "string"
+                },
+                "useDefaultChainspec": {
+                    "type": "boolean"
                 },
                 "loggingFilter": {
                     "type": "string"

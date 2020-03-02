@@ -1,11 +1,13 @@
 const path = require('path')
 const fs = require('fs-extra')
-const chalk = require('chalk')
 
 const cmd = require('../cmd')
 const { Project } = require('../project')
 const tpl = require('../tpl')
 const { nodeExporterUsername, nodeExporterPassword } = require('../env')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('ansible')
 
 const inventoryFileName = 'inventory'
 
@@ -55,9 +57,7 @@ class Ansible {
     )
     const version = this._getVersion(this.config.repository.version)
     // console.log({ origin, project, buildDir, target, validators, bootnodes, version })
-    console.log(
-      chalk.yellow(`[Gantree] Preparing nodes with version ${version}`)
-    )
+    logger.info(`Preparing nodes with version ${version}`)
 
     const data = {
       project: this.config.project,
@@ -126,13 +126,9 @@ class Ansible {
 
   _getVersion(inputVersion) {
     if (inputVersion === undefined) {
+      logger.warn('No repository version specified, using current HEAD.')
       return 'HEAD'
     } else {
-      console.log(
-        chalk.yellow(
-          '[Gantree] Warning: No repository version specified, using current HEAD.'
-        )
-      )
       return inputVersion
     }
   }
