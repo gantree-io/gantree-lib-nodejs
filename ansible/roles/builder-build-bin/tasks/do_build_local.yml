@@ -1,0 +1,45 @@
+---
+- name: download node source
+  delegate_to: localhost
+  git:
+    repo: '{{ substrate_repository }}'
+    version: '{{ substrate_repository_version }}'
+    dest: '{{ gantree_control_working }}/node-src'
+
+- name: configure toolchain
+  delegate_to: localhost
+  shell: |
+    rustup update nightly
+    rustup update stable
+    rustup target add wasm32-unknown-unknown --toolchain nightly
+
+- debug:
+    msg: "[Gantree] Courtesy note: Depending on your machine's specifications, the following step may take quite some time..."
+
+- name: compile-node
+  delegate_to: localhost
+  shell: |
+    cargo build --release
+  args:
+    chdir: '{{ gantree_control_working }}/node-src/'
+  changed_when: false
+
+- name: create host bin directory
+  delegate_to: localhost
+  file:
+    path: '{{ gantree_control_working }}/bin'
+    state: directory
+  become: yes
+
+- name: delete any existing binary
+  delegate_to: localhost
+  file:
+    path: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
+    state: absent
+
+- name: copy node bin to working dir
+  delegate_to: localhost
+  file:
+    src: '{{ gantree_control_working }}/node-src/target/release/{{ substrate_bin_name }}'
+    dest: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
+    state: hard

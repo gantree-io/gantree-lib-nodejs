@@ -24,7 +24,11 @@ class Ansible {
     const inventoryPath = this._writeInventory()
     //return this._cmd(`all -b -m ping -i ${inventoryFileName}`, this.options); // ping everything in inventory
     //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`); // run main.yml verbosely
-    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`)
+    return this._cmd(
+      `main.yml -f 30 -i "${inventoryPath}" ${
+        this.config.binary.localCompile ? '-K' : ''
+      }`
+    )
   }
 
   async clean() {}
@@ -53,7 +57,7 @@ class Ansible {
     const substrateOptions = this._arrayify(
       this.config.validators.substrateOptions
     )
-    const version = this._getVersion(this.config.repository.version)
+    const version = this._getVersion(this.config.binary.version)
     // console.log({ origin, project, buildDir, target, validators, bootnodes, version })
     console.log(
       chalk.yellow(`[Gantree] Preparing nodes with version ${version}`)
@@ -65,6 +69,7 @@ class Ansible {
       substrateRepository: this.config.binary.url || false,
       substrateBinary: this.config.binary.fetch || false,
       substrateRepositoryVersion: version || '',
+      substrateLocalCompile: this.config.binary.localCompile || false,
       substrateBinaryName: this.config.binary.name,
       substrateUseDefaultSpec: this.config.validators.useDefaultSpec || false,
       substrateChainArgument: this.config.validators.chain || false,
