@@ -1,5 +1,5 @@
 ---
-- hosts: all:!local:!localhost
+- hosts: validator
   gather_facts: false
   strategy: free
   tasks:
@@ -9,7 +9,7 @@
         sleep: 2
       retries: 3
 
-- hosts: all:!local:!localhost
+- hosts: gantree_node
   roles:
     - role: validator-env-gantree
   become: yes

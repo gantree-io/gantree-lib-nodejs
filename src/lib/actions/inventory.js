@@ -56,22 +56,48 @@ const buildDynamicInventory = async (c) => {
     all: {
       vars: {
         gantree_control_working: "/tmp/gantree-control/",
-        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
+        // project={{ project } }
+        substrate_user: "subuser",
+        substrate_group: "subgroup",
+        substrate_network_id: 'local_testnet',
+        substrate_repository: c.repository.url,
+        substrate_repository_version: c.repository.version,
+        substrate_chain: '/home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw',
+        substrate_bin_name: c.repository.binaryName,
+        gantree_control_working: '/tmp/gantree-control',
+        gantree_root: '../',
+        substrate_use_default_spec: '{{ substrateUseDefaultSpec }}',
+        substrate_chain_argument: '{{ substrateChainArgument }}',
+        substrate_bootnode_argument: "{{ { substrateBootnodeArgument } } }",
+        substrate_telemetry_argument: '{{ substrateTelemetryAgument }}',
+        substrate_options: "{{ { substrateOptions } }}",
+        substrate_rpc_port: '{{ substrateRpcPort }}',
+        substrate_node_name: '{{ substrateNodeName }}'
       }
     }
   }
 
+  const gantree_nodes = []
+
   c.validators.nodes.forEach((item, idx) => {
-    const node = parseNode(item, idx)
+    const name = item.name || ("node" + idx)
+    gantree_nodes.push(name)
+    const node = parseNode(name, item, idx)
     o._meta.hostvars.localhost.infra.push(node.infra)
+    o[name] = o[name] || {}
+    o[name].vars = o[name].vars || {}
+    o[name].vars = Object.assign({}, o[name].vars, node.vars)
+    // gantree_nodes.push(node.inst_name)
   })
+
+  o.gantree_node = {}
+  o.gantree_node.children = gantree_nodes
 
   return o
 }
 
-const parseNode = (item, idx) => {
-  const name = item.name || ("node" + idx)
-
+const parseNode = (name, item, idx) => {
   if (item.provider == 'gcp') {
     const infra = {
       provider: item.provider,
@@ -86,7 +112,14 @@ const parseNode = (item, idx) => {
       state: "present"
     }
 
-    return { infra }
+    const vars = {
+      substrate_user: "gcpuser",
+      substrate_group: "gcpgroup",
+    }
+
+    const inst_name = "inst-" + name
+
+    return { infra, vars, inst_name }
   }
 
   if (item.provider == 'do') {
@@ -100,7 +133,14 @@ const parseNode = (item, idx) => {
       access_token: item.access_token
     }
 
-    return { infra }
+    const vars = {
+      substrate_user: "subuser",
+      substrate_group: "subgroup",
+    }
+
+    const inst_name = "drop-" + name
+
+    return { infra, vars, inst_name }
   }
 
   throw Error(`Unknown provider: ${item.provider}`)

@@ -1,5 +1,5 @@
 ---
-- name: "instance tag: {{ item.key }}"
+- name: "instance tags"
   gce_tag:
     instance_name: inst-{{ instance_name }}
     tags:

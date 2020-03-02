@@ -9,3 +9,4 @@
     droplet_image: '53893572' # ubuntu-18-04-x64
     region: "{{ config.droplet_region | default('nyc3') }}"
     state: "{{ config.state | default('present') }}"
+    gantree_tags: "{{ config.gantree_tags | default({}) }}"

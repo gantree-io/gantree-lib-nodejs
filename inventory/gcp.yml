@@ -5,9 +5,11 @@ projects:
 regions:
   - us-east1
 hostnames:
-  - name
+  - public_ip
+groups:
+  validator: "'validator' in "
 keyed_groups:
-  - key: labels
+  - key: tags['items']
     separator: ''
 compose:
   ansible_host: networkInterfaces[0].accessConfigs[0].natIP

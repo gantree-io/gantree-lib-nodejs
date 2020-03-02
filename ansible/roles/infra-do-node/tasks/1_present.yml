@@ -1,6 +1,7 @@
 ---
 - import_tasks: 2_sshkey.yml
 - import_tasks: 2_droplet.yml
+- import_tasks: 2_gantree_tags.yml
 
 - name: Wait for SSH to come up
   delegate_to: localhost

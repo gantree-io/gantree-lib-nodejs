@@ -15,7 +15,7 @@
     source_ranges:
     - 0.0.0.0/0
     target_tags:
-    - inst-{{ instance_name }}
+    - "{{ instance_name }}"
     network: "{{ network_res }}"
     direction: ingress
     project: "{{ gcp_project }}"
