@@ -24,11 +24,7 @@ class Ansible {
     const inventoryPath = this._writeInventory()
     //return this._cmd(`all -b -m ping -i ${inventoryFileName}`, this.options); // ping everything in inventory
     //return this._cmd(`main.yml -vvvv -f 30 -i ${inventoryPath}`); // run main.yml verbosely
-    return this._cmd(
-      `main.yml -f 30 -i "${inventoryPath}" ${
-        this.config.binary.localCompile ? '-K' : ''
-      }`
-    )
+    return this._cmd(`main.yml -f 30 -i "${inventoryPath}"`)
   }
 
   async clean() {}

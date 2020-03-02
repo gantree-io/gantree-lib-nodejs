@@ -1,6 +1,7 @@
 ---
 - name: download node source
   delegate_to: localhost
+  become: no
   git:
     repo: '{{ substrate_repository }}'
     version: '{{ substrate_repository_version }}'
@@ -8,6 +9,7 @@
 
 - name: configure toolchain
   delegate_to: localhost
+  become: no
   shell: |
     rustup update nightly
     rustup update stable
@@ -18,6 +20,7 @@
 
 - name: compile-node
   delegate_to: localhost
+  become: no
   shell: |
     cargo build --release
   args:
@@ -26,19 +29,21 @@
 
 - name: create host bin directory
   delegate_to: localhost
+  become: no
   file:
     path: '{{ gantree_control_working }}/bin'
     state: directory
-  become: yes
 
 - name: delete any existing binary
   delegate_to: localhost
+  become: no
   file:
     path: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
     state: absent
 
 - name: copy node bin to working dir
   delegate_to: localhost
+  become: no
   file:
     src: '{{ gantree_control_working }}/node-src/target/release/{{ substrate_bin_name }}'
     dest: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
