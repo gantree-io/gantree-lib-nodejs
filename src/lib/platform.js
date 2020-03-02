@@ -14,7 +14,8 @@ class Platform {
       'validator',
       this.config.validators.nodes
     )
-    return { validatorIpAddresses }
+    const infraObj = { validatorIpAddresses }
+    return Promise.resolve(infraObj)
   }
 
   async clean() {
