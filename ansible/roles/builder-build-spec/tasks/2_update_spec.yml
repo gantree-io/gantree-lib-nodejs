@@ -2,7 +2,7 @@
 # tasks file for test-recurse
 - name: do combine
   delegate_to: localhost
-  command: node . key-combine -d {{ gantree_control_working}}/session
+  command: node src/scripts/cli_keycombine.js -d {{ gantree_control_working}}/session
   args:
     chdir: '{{ gantree_root }}'
   register: combine_result
@@ -25,7 +25,7 @@
 
 - name: do inject
   delegate_to: localhost
-  command: node . inject --allow-raw -c {{ gantree_control_working }}/spec/chainSpec.json -v {{ gantree_control_working}}/spec/validators.json
+  command: node src/scripts/cli_inject.js --allow-raw -c {{ gantree_control_working }}/spec/chainSpec.json -v {{ gantree_control_working}}/spec/validators.json
   args:
     chdir: '{{ gantree_root }}'
   register: inject_result
