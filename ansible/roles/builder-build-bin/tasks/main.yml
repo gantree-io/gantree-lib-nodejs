@@ -1,4 +1,10 @@
 ---
 # tasks file for substrate-builder
-- import_tasks: ensure_prerequisites.yml
-- import_tasks: do_build.yml
+- name: build binary
+  import_tasks: ensure_prerequisites.yml
+  import_tasks: do_build.yml
+  when: 'substrate_binary_url == false'
+
+- name: fetch binary
+  import_tasks: fetch_binary.yml
+  when: 'substrate_binary_url != false'

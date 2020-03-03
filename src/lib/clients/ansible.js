@@ -62,10 +62,11 @@ class Ansible {
     const data = {
       project: this.config.project,
 
-      substrateRepository: this.config.repository.url,
-      substrateRepositoryVersion: version,
-      substrateBinaryName: this.config.repository.binaryName,
-      substrateUseDefaultSpec: this.config.repository.useDefaultSpec || false,
+      substrateRepository: this.config.binary.url || false,
+      substrateBinary: this.config.binary.fetch || false,
+      substrateRepositoryVersion: version || '',
+      substrateBinaryName: this.config.binary.name,
+      substrateUseDefaultSpec: this.config.validators.useDefaultSpec || false,
       substrateChainArgument: this.config.validators.chain || false,
       substrateBootnodeArgument: bootnodes,
       substrateTelemetryArgument: this.config.validators.telemetry || false,
