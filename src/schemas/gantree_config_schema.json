@@ -16,16 +16,20 @@
     },
     "required": [
         "project",
-        "repository",
+        "binary",
         "validators"
     ],
     "definitions": {
-        "repository": {
+        "binary": {
             "type": "object",
             "properties": {
-                "url": {
+                "repository": {
                     "type": "string",
                     "description": "source of repository to build"
+                },
+                "fetch": {
+                    "type": "string",
+                    "description": "binary to download"
                 },
                 "version": {
                     "type": "string",
@@ -37,7 +41,6 @@
                 }
             },
             "required": [
-                "url",
                 "binaryName"
             ]
         },
