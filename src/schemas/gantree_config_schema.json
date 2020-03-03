@@ -35,13 +35,17 @@
                     "type": "string",
                     "description": "version of repository (commit hash)."
                 },
-                "binaryName": {
+                "name": {
                     "type": "string",
                     "description": "name of binary built by rust"
+                },
+                "localCompile": {
+                    "type": "boolean",
+                    "description": "whether the node should be built on the machine executing Gantree"
                 }
             },
             "required": [
-                "binaryName"
+                "name"
             ]
         },
         "validators": {

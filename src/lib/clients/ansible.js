@@ -68,6 +68,7 @@ class Ansible {
       substrateRepository: this.config.binary.url || false,
       substrateBinary: this.config.binary.fetch || false,
       substrateRepositoryVersion: version || '',
+      substrateLocalCompile: this.config.binary.localCompile || false,
       substrateBinaryName: this.config.binary.name,
       substrateUseDefaultSpec: this.config.validators.useDefaultSpec || false,
       substrateChainArgument: this.config.validators.chain || false,
