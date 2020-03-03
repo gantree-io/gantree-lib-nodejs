@@ -93,9 +93,9 @@ Examples of provider definitions
 
 ### Configuration File Strucutre: repository
 
-- "repository": [string] the path to a git repository of the binary source to deploy
+- "url": [string] the path to a git repository of the binary source to deploy
 - "version": [string:HEAD] the commit/tag of the binary source to use
-- "url": [string] the path to a binary to deploy
+- "fetch": [string] the path to a binary to deploy
 - "name": [string] the name of the binary when compiled, eg. 'polkadot' or 'node-template'
 
 ### Configuration File Structure: validators
