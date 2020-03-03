@@ -15,6 +15,7 @@ class Ansible {
   constructor(cfg) {
     this.config = JSON.parse(JSON.stringify(cfg))
 
+    // todo: not maintainable, replace any of these paths with a package-wide variable
     this.ansiblePath = path.join(__dirname, '..', '..', '..', 'ansible')
     this.options = {
       cwd: this.ansiblePath,
@@ -37,6 +38,7 @@ class Ansible {
   }
 
   _writeInventory() {
+    // todo: not maintainable, replace any of these paths with a package-wide variable
     const origin = path.resolve(
       __dirname,
       '..',
