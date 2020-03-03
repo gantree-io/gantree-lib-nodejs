@@ -4,6 +4,7 @@
 - import_tasks: 2_vpc_igw_info.yml
 
 - name: vpc route table
+  delegate_to: localhost
   ec2_vpc_route_table:
     region: "{{ region }}"
     state: "{{ state }}"

@@ -1,5 +1,6 @@
 ---
 - name: find ubuntu amis
+  delegate_to: localhost
   ec2_ami_info:
     region: "{{ region }}"
     owners:
@@ -10,6 +11,7 @@
   when: state != "absent"
 
 - name: get latest ami
+  delegate_to: localhost
   set_fact:
     latest_ami: >
       {{ ubuntu_amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
@@ -19,6 +21,7 @@
 - import_tasks: 2_security_group_info.yml
 
 - name: ec2 instance
+  delegate_to: localhost
   ec2_instance:
     wait: yes
     state: "{{ state }}"
@@ -34,11 +37,14 @@
     tags:
       # because we can't really filter on the instance-state properly
       # change the flag when we terminate
+      gantree: "managed"
+      group_name: "{{ instance_name }}"
       not_terminated: "{{ 'false' if state == 'absent' else 'true' }}"
     image_id: "{{ latest_ami.image_id }}"
   register: inst_state
 
 - name: set ec2 not_terminated tag
+  delegate_to: localhost
   ec2_tag:
     region: "{{ region }}"
     resource: '{{ item.instance_id }}'

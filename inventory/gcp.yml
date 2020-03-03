@@ -1,0 +1,16 @@
+---
+plugin: gcp_compute
+projects:
+  - gantree-dev-00
+regions:
+  - us-east1
+hostnames:
+  - public_ip
+keyed_groups:
+  - key: tags['items']
+    separator: ''
+compose:
+  ansible_host: networkInterfaces[0].accessConfigs[0].natIP
+filters: []
+auth_kind: serviceaccount
+#service_account_file: /home/rozifus/Work/cred/gcp/gantree-dev-00-b78c5073467b.json

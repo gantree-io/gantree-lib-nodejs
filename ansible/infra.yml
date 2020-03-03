@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks:
+    - add_host:
+        name: "{{ item.instance_name }}"
+        groups: base_infra
+        config: "{{ item }}"
+      with_items: "{{ infra }}"
+
+- hosts: base_infra
+  strategy: free
+  gather_facts: no
+  roles:
+    - infra-build-multi
+  become: no

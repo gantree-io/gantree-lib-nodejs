@@ -1,6 +1,17 @@
 ---
-- import_tasks: 1_create.yml
-  when: state != "absent"
-
-- import_tasks: 1_destroy.yml
-  when: state == "absent"
+- import_tasks: 0_select.yml
+  vars:
+    instance_name: "{{ config.instance_name }}"
+    zone: "{{ config.zone }}"
+    region: "{{ config.region }}"
+    machine_type: "{{ config.machine_type }}"
+    machine_disk_size: "{{ config.machine_disk_size | default(50) }}"
+    deletion_protection: "{{ config.deletion_protection | default(true)}}"
+    gcp_project: "{{ config.gcp_project }}"
+    gcp_cred_kind: "{{ config.gcp_cred_kind | default('serviceaccount') }}"
+    gcp_cred_file: "{{ config.gcp_cred_file }}"
+    ssh_user: "{{ config.ssh_user }}"
+    ssh_key: "{{ config.ssh_key }}"
+    provider_groups: "{{ config.provider_groups | default() }}"
+    state: "{{ config.state }}"
+    gantree_tags: "{{ config.gantree_tags | default({}) }}"

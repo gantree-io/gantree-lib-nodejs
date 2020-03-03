@@ -1,0 +1,8 @@
+---
+- name: "droplet tags"
+  gce_tag:
+    name: "{{ item.key }}"
+    resource_id: "{{ droplet_res.resource_id }}"
+    state: "{{ item.value }}"
+  with_dict: "{{ gantree_tags }}"
+  when: state != 'absent'
