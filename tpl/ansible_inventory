@@ -53,6 +53,7 @@ substrate_group=subgroup
 ansible_ssh_common_args='-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
 substrate_network_id='local_testnet'
 substrate_repository='{{ substrateRepository }}'
+substrate_binary_url='{{ substrateBinary }}'
 substrate_repository_version='{{ substrateRepositoryVersion }}'
 substrate_chain='/home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw'
 substrate_bin_name={{ substrateBinaryName }}
@@ -65,3 +66,4 @@ substrate_telemetry_argument='{{ substrateTelemetryAgument }}'
 substrate_options={{{ substrateOptions }}}
 substrate_rpc_port='{{ substrateRpcPort }}'
 substrate_node_name='{{ substrateNodeName }}'
+substrate_local_compile='{{ substrateLocalCompile }}'

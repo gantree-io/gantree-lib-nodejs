@@ -55,17 +55,19 @@ class Ansible {
     const substrateOptions = this._arrayify(
       this.config.validators.substrateOptions
     )
-    const version = this._getVersion(this.config.repository.version)
+    const version = this._getVersion(this.config.binary.version)
     // console.log({ origin, project, buildDir, target, validators, bootnodes, version })
     logger.info(`Preparing nodes with version ${version}`)
 
     const data = {
       project: this.config.project,
 
-      substrateRepository: this.config.repository.url,
-      substrateRepositoryVersion: version,
-      substrateBinaryName: this.config.repository.binaryName,
-      substrateUseDefaultSpec: this.config.repository.useDefaultSpec || false,
+      substrateRepository: this.config.binary.url || false,
+      substrateBinary: this.config.binary.fetch || false,
+      substrateRepositoryVersion: version || '',
+      substrateLocalCompile: this.config.binary.localCompile || false,
+      substrateBinaryName: this.config.binary.name,
+      substrateUseDefaultSpec: this.config.validators.useDefaultSpec || false,
       substrateChainArgument: this.config.validators.chain || false,
       substrateBootnodeArgument: bootnodes,
       substrateTelemetryArgument: this.config.validators.telemetry || false,

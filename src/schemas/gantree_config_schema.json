@@ -7,8 +7,8 @@
         "project": {
             "type": "string"
         },
-        "repository": {
-            "$ref": "#/definitions/repository"
+        "binary": {
+            "$ref": "#/definitions/binary"
         },
         "validators": {
             "$ref": "#/definitions/validators"
@@ -16,29 +16,36 @@
     },
     "required": [
         "project",
-        "repository",
+        "binary",
         "validators"
     ],
     "definitions": {
-        "repository": {
+        "binary": {
             "type": "object",
             "properties": {
-                "url": {
+                "repository": {
                     "type": "string",
                     "description": "source of repository to build"
+                },
+                "fetch": {
+                    "type": "string",
+                    "description": "binary to download"
                 },
                 "version": {
                     "type": "string",
                     "description": "version of repository (commit hash)."
                 },
-                "binaryName": {
+                "name": {
                     "type": "string",
                     "description": "name of binary built by rust"
+                },
+                "localCompile": {
+                    "type": "boolean",
+                    "description": "whether the node should be built on the machine executing Gantree"
                 }
             },
             "required": [
-                "url",
-                "binaryName"
+                "name"
             ]
         },
         "validators": {

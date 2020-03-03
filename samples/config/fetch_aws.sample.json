@@ -1,9 +1,8 @@
 {
     "project": "gantree",
     "binary": {
-        "url": "https://github.com/substrate-developer-hub/substrate-node-template.git",
-        "version": "8b6fe66",
-        "name": "node-template"
+        "fetch": "https://github.com/paritytech/polkadot/releases/download/v0.7.20/polkadot",
+        "name": "polkadot"
     },
     "validators": {
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
