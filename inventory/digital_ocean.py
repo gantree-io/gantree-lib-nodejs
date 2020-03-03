@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/home/denver/Applications/ansible/bin/python3
 
 """
 DigitalOcean external inventory script
