@@ -1,28 +1,17 @@
 const chalk = require('chalk')
 const process = require('process')
 const util = require('util')
-const exec = util.promisify(require('child_process').exec);
+const exec = util.promisify(require('child_process').exec)
 
 const config = require('../config.js')
-const { Platform } = require('../platform.js')
-const { Application } = require('../application.js')
 
-const arrayify = option => {
-  let options = '['
-  if (option) {
-    for (let op of option) {
-      options += `'${op}',`
-    }
-  }
-  options += ']'
-  return options
-}
-
-const dofunc = async cmd => {
+const dofunc = async () => {
   const configPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
 
   if (!configPath) {
-    console.error(chalk.red('[Gantree] Error: env|GANTREE_INVENTORY_CONFIG_PATH required.'))
+    console.error(
+      chalk.red('[Gantree] Error: env|GANTREE_INVENTORY_CONFIG_PATH required.')
+    )
     process.exit(-1)
   }
 
@@ -36,22 +25,19 @@ const dofunc = async cmd => {
   process.stdout.write(JSON.stringify(di, null, 2))
 }
 
-const buildDynamicInventory = async (c) => {
+const buildDynamicInventory = async c => {
   // get the python for current environment so we can pass it around ansible if needed
-  const pythonLocalPython = await exec('python -c "import sys; print(sys.executable)"')
+  const pythonLocalPython = await exec(
+    'python -c "import sys; print(sys.executable)"'
+  )
   const localPython = pythonLocalPython.stdout
-
-  const bootnodes = arrayify(c.validators.bootnodes)
-  const substrateOptions = arrayify(c.validators.substrateOptions)
 
   //console.log(c)
   const o = {
     _meta: {
       hostvars: {
         localhost: {
-          infra: [
-
-          ]
+          infra: []
         }
       }
     },
@@ -59,30 +45,27 @@ const buildDynamicInventory = async (c) => {
       hosts: ['localhost'],
       vars: {
         ansible_python_interpreter: localPython,
-        ansible_connection: 'local',
+        ansible_connection: 'local'
       }
     },
     all: {
       vars: {
-        gantree_control_working: "/tmp/gantree-control/",
-        gantree_working: '/tmp/gantree',
-        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
+        gantree_control_working: '/tmp/gantree-control/',
+        ansible_ssh_common_args:
+          '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
         // project={{ project } }
-        substrate_user: "subuser",
-        substrate_group: "subgroup",
         substrate_network_id: 'local_testnet',
         substrate_repository: c.repository.url,
         substrate_repository_version: c.repository.version,
-        substrate_chain: '/home/subuser/tmp/gantree-validator/spec/chainSpecRaw.raw',
         substrate_bin_name: c.repository.binaryName,
         gantree_root: '../',
-        substrate_use_default_spec: c.repository.useDefaultSpec || false,
-        substrate_chain_argument: c.validators.chain || false,
-        substrate_bootnode_argument: bootnodes,
-        substrate_telemetry_argument: c.validators.telemetry || false,
-        substrate_options: substrateOptions,
+        substrate_use_default_spec: c.repository.useDefaultSpec || 'false',
+        substrate_chain_argument: c.validators.chain || 'false',
+        substrate_bootnode_argument: c.validators.bootnodes || [],
+        substrate_telemetry_argument: c.validators.telemetry || 'false',
+        substrate_options: c.validators.substrateOptions || [],
         substrate_rpc_port: c.validators.rpcPort || 9933,
-        substrate_node_name: c.validators.name || false
+        substrate_node_name: c.validators.name || 'false'
       }
     }
   }
@@ -90,7 +73,7 @@ const buildDynamicInventory = async (c) => {
   const validator_list = []
 
   c.validators.nodes.forEach((item, idx) => {
-    const name = item.name || ("node" + idx)
+    const name = item.name || 'node' + idx
 
     if (idx == 0) {
       o.builder_bin = {}
@@ -114,7 +97,18 @@ const buildDynamicInventory = async (c) => {
   return o
 }
 
-const parseNode = (name, item, idx) => {
+const getVars = (item, defaults) => {
+  const substrate_user = item.substrate_user || defaults.substrate_user
+  return {
+    substrate_user,
+    substrate_group: item.substrate_group || defaults.substrate_group,
+    ansible_user: item.sshUser || defaults.ansbile_user,
+    substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
+    gantree_working: `/home/${substrate_user}/tmp/gantree-validator`
+  }
+}
+
+const parseNode = (name, item) => {
   if (item.provider == 'gcp') {
     const infra = {
       provider: item.provider,
@@ -126,16 +120,16 @@ const parseNode = (name, item, idx) => {
       ssh_user: item.sshUser,
       ssh_key: item.sshKey,
       gcp_project: item.projectId,
-      state: "present"
+      state: 'present'
     }
 
-    const vars = {
-      substrate_user: "gcpuser",
-      substrate_group: "gcpgroup",
-      ansible_user: item.sshUser
-    }
+    const vars = getVars(item, {
+      substrate_user: 'subuser',
+      substrate_group: 'subgroup',
+      ansible_user: 'root'
+    })
 
-    const inst_name = "inst-" + name
+    const inst_name = 'inst-' + name
 
     return { infra, vars, inst_name }
   }
@@ -151,13 +145,13 @@ const parseNode = (name, item, idx) => {
       access_token: item.access_token
     }
 
-    const vars = {
-      substrate_user: "subuser",
-      substrate_group: "subgroup",
-      ansible_user: item.sshUser
-    }
+    const vars = getVars(item, {
+      substrate_user: 'subuser',
+      substrate_group: 'subgroup',
+      ansible_user: 'root'
+    })
 
-    const inst_name = "drop-" + name
+    const inst_name = 'drop-' + name
 
     return { infra, vars, inst_name }
   }
@@ -170,16 +164,16 @@ const parseNode = (name, item, idx) => {
       region: item.zone,
       ssh_user: item.sshUser,
       ssh_key: item.sshKey,
-      state: item.state || "present"
+      state: item.state || 'present'
     }
 
-    const vars = {
-      substrate_user: "awsuser",
-      substrate_group: "awsgroup",
-      ansible_user: item.sshUser
-    }
+    const vars = getVars(item, {
+      substrate_user: 'subuser',
+      substrate_group: 'subgroup',
+      ansible_user: 'ubuntu'
+    })
 
-    const inst_name = "inst-" + name
+    const inst_name = 'inst-' + name
 
     return { infra, vars, inst_name }
   }
