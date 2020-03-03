@@ -1,20 +1,12 @@
 {
     "project": "gantree",
-    "repository": {
-        "url": "https://github.com/substrate-developer-hub/substrate-node-template",
-        "version": "8b6fe66",
-        "binaryName": "node-template"
+    "binary": {
+        "fetch": "https://github.com/paritytech/polkadot/releases/download/v0.7.20/polkadot",
+        "name": "polkadot"
     },
     "validators": {
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
         "telemetry": true,
-        "chain": "mandala",
-        "useDefaultChainspec": "true",
-        "bootnodes": [
-            "",
-            "",
-            12
-        ],
         "nodes": [
             {
                 "provider": "aws",
