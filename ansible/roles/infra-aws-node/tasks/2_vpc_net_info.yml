@@ -1,5 +1,6 @@
 ---
 - name: refresh vpc network
+  delegate_to: localhost
   ec2_vpc_net_info:
     region: "{{ region }}"
     filters:
@@ -8,5 +9,6 @@
   no_log: yes
 
 - name: set vpcnet_res fact
+  delegate_to: localhost
   set_fact:
     vpcnet_res: "{{ vpcnet_res_all.vpcs[0] }}"

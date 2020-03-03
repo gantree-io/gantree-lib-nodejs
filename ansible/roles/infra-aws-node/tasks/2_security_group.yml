@@ -2,6 +2,7 @@
 - import_tasks: 2_vpc_net_info.yml
 
 - name: security group
+  delegate_to: localhost
   ec2_group:
     name: "SG {{ instance_name }}"
     description: "security group for {{ instance_name }}"

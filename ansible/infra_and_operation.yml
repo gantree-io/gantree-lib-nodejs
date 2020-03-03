@@ -1,0 +1,9 @@
+---
+- import_playbook: infra.yml
+
+- hosts: localhost
+  become: no
+  tasks:
+    - meta: refresh_inventory
+
+- import_playbook: operation.yml

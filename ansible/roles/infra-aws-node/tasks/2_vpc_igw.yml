@@ -1,5 +1,6 @@
 ---
 - name: internet gateway
+  delegate_to: localhost
   ec2_vpc_igw:
     region: "{{ region }}"
     state: "{{ state }}"

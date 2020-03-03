@@ -1,5 +1,6 @@
 ---
 - name: gcp compute instance
+  delegate_to: localhost
   gcp_compute_instance:
     state: "{{ state }}"
     name: "inst-{{ instance_name }}"
@@ -12,18 +13,18 @@
         boot: true
         source: "{{ disk_res }}"
     network_interfaces:
-      - network: "{{ network }}"
+      - network: "{{ network_res }}"
         access_configs:
           - name: 'External NAT'
             nat_ip: "{{ address_res }}"
             type: 'ONE_TO_ONE_NAT'
     tags:
       items:
-        - inst-{{ instance_name }}
+        - "{{ instance_name }}"
     zone: "{{ zone }}"
     project: "{{ gcp_project }}"
     auth_kind: "{{ gcp_cred_kind }}"
-    service_account_file: "{{ gcp_cred_file }}"
-    scopes:
-      - https://www.googleapis.com/auth/compute
+    #service_account_file: "{{ gcp_cred_file }}"
+    #scopes:
+    #  - https://www.googleapis.com/auth/compute
   register: instance_res

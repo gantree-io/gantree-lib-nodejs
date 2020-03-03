@@ -1,6 +1,9 @@
 ---
-- include_tasks: 1_present.yml
-  when: state != "absent"
-
-- include_tasks: 1_absent.yml
-  when: state == "absent"
+- include_tasks: 0_select.yml
+  vars:
+    instance_name: "{{ config.instance_name }}"
+    region: "{{ config.region }}"
+    instance_type: "{{ config.instance_type }}"
+    ssh_user: "{{ config.ssh_user }}"
+    ssh_key: "{{ config.ssh_key }}"
+    state: "{{ config.state | default('present') }}"
