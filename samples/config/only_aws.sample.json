@@ -3,7 +3,7 @@
     "binary": {
         "repository": "https://github.com/substrate-developer-hub/substrate-node-template.git",
         "version": "8b6fe66",
-        "name": "node-template"
+        "binaryName": "node-template"
     },
     "validators": {
         "loggingFilter": "sync=trace,afg=trace,babe=debug",
