@@ -1,5 +1,10 @@
 const { Gantree } = require('./src')
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
+  // application specific logging, throwing an error, or other logic here
+})
+
 const PATH_TO_CONFIG =
   '/home/denver/github/gantree-cli/samples/config/cheap_aws.sample.json'
 
