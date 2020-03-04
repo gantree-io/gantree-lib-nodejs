@@ -7,7 +7,7 @@ class Project {
   }
 
   path() {
-    return path.join(ospath.data(), 'gantree-cli', 'build', this.name)
+    return path.join(ospath.data(), 'gantree-lib', 'build', this.name)
   }
 }
 

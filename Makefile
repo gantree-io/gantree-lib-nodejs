@@ -4,13 +4,13 @@ build:
 		npm pack
 
 clean:
-		rm -rf ./*gantree-cli*.tgz
+		rm -rf ./*gantree-lib*.tgz
 
 install:
-		npm install ./gantree-cli*.tgz -g
+		npm install ./gantree-lib*.tgz -g
 
 uninstall:
-		npm uninstall ./gantree-cli*.tgz -g
+		npm uninstall ./gantree-lib*.tgz -g
 
 dev:
 		make uninstall
