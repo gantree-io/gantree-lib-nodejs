@@ -140,6 +140,7 @@ class Terraform {
   async _destroy(type, nodes) {
     const destroyPromises = []
 
+    // bug: has zero regard for actual config, legacy code needs patching
     for (let counter = 0; counter < nodes.length; counter++) {
       const cwd = this._terraformNodeDirPath(type, counter)
       destroyPromises.push(
