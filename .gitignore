@@ -12,7 +12,7 @@ ansible/**/__pycache__
 # gantree
 gantree_config.json
 setup_env_vars.sh
-*gantree-lib*.tgz
+*gantree-cli*.tgz
 /combined.log
 /error.log
 
