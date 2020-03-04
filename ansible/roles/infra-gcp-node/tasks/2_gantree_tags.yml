@@ -1,0 +1,10 @@
+---
+- name: "instance tags"
+  gce_tag:
+    instance_name: inst-{{ instance_name }}
+    tags:
+      - "{{ item.key }}"
+    state: "{{ item.value }}"
+    zone: "{{ zone }}"
+  with_dict: "{{ gantree_tags }}"
+  when: state != 'absent'

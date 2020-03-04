@@ -1,0 +1,9 @@
+---
+- name: internet gateway
+  delegate_to: localhost
+  ec2_vpc_igw:
+    region: "{{ region }}"
+    state: "{{ state }}"
+    vpc_id: "{{ vpcnet_res.id }}"
+    tags:
+      Name: "vpcigw-{{ instance_name }}"

@@ -1,0 +1,12 @@
+---
+- name: ensure remote spec directory exists
+  become: yes
+  file:
+    path: '{{ gantree_working }}/spec'
+    state: directory
+
+- name: copy raw-chainspec to validator
+  become: yes
+  copy:
+    src: '{{ gantree_control_working }}/spec/chainSpecRaw.raw'
+    dest: '{{ gantree_working }}/spec/chainSpecRaw.raw'

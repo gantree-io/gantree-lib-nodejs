@@ -1,0 +1,40 @@
+---
+# tasks file for test-recurse
+- name: do combine
+  delegate_to: localhost
+  command: node src/scripts/cli_keycombine.js -d {{ gantree_control_working}}/session
+  args:
+    chdir: '{{ gantree_root }}'
+  register: combine_result
+  become: no
+  changed_when: false
+
+- name: ensure host spec directory
+  delegate_to: localhost
+  file:
+    path: '{{ gantree_control_working }}/spec'
+    state: directory
+  become: no
+
+- name: write combine
+  delegate_to: localhost
+  copy:
+    content: '{{ combine_result.stdout }}'
+    dest: '{{ gantree_control_working }}/spec/validators.json'
+  become: no
+
+- name: do inject
+  delegate_to: localhost
+  command: node src/scripts/cli_inject.js --allow-raw -c {{ gantree_control_working }}/spec/chainSpec.json -v {{ gantree_control_working}}/spec/validators.json
+  args:
+    chdir: '{{ gantree_root }}'
+  register: inject_result
+  become: no
+  changed_when: false
+
+- name: write inject
+  delegate_to: localhost
+  copy:
+    content: '{{ inject_result.stdout }}'
+    dest: '{{ gantree_control_working }}/spec/chainSpecInjected.json'
+  become: no

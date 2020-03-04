@@ -1,0 +1,29 @@
+---
+# tasks file for validator service
+- name: install systemd
+  become: yes
+  apt:
+    name: systemd
+
+- name: create substrate service file
+  become: yes
+  template:
+    src: substrate.service.j2
+    dest: /etc/systemd/system/substrate.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: configure and stop substrate service in systemd
+  become: yes
+  systemd:
+    name: substrate
+    enabled: yes
+    daemon_reload: yes
+    state: stopped
+
+- name: start substrate
+  become: yes
+  systemd:
+    name: substrate
+    state: started

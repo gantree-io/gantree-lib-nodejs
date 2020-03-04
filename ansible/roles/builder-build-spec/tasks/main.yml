@@ -1,0 +1,4 @@
+---
+- import_tasks: 1_extract_default_spec.yml
+- import_tasks: 2_update_spec.yml
+- import_tasks: 3_create_raw_spec.yml

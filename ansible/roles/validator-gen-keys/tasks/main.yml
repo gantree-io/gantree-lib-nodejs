@@ -1,0 +1,4 @@
+---
+# tasks file for substrate-keygen
+- import_tasks: install-subkey.yml
+- import_tasks: subkey-generate.yml

@@ -1,0 +1,42 @@
+[Unit]
+Description=Substrate Node
+
+[Service]
+User={{ substrate_user }}
+Group={{ substrate_group }}
+ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
+         {% if substrate_node_name is defined and substrate_node_name != 'false' %}
+          --name {{ substrate_node_name }}-{{ groups['validator'].index(inventory_hostname) }} \
+         {% else %}
+          --name {{ project|default('project') }}-sv-{{ groups['validator'].index(inventory_hostname) }} \
+         {% endif %}
+         --validator \
+         {% if hostvars[inventory_hostname].loggingFilter is defined and hostvars[inventory_hostname].loggingFilter|length %}
+         -l{{ hostvars[inventory_hostname].loggingFilter }} \
+         {% endif %}
+         {% if substrate_chain_argument is defined and substrate_chain_argument != 'false' %}
+         --chain={{ substrate_chain_argument }} \
+         {% elif substrate_use_default_spec is undefined or substrate_use_default_spec == 'false' %}
+         --chain={{ substrate_chain }} \
+         {% endif %}
+         {% if substrate_bootnode_argument is defined and substrate_bootnode_argument|length %}
+           {% for bootnode in substrate_bootnode_argument %}
+           --bootnodes={{ bootnode }} \
+           {% endfor %}
+         {% endif %}
+         {% if substrate_rpc_port is defined %}
+         --rpc-port={{ substrate_rpc_port }} \
+         {% endif %}
+         {% if substrate_options is defined and substrate_options|length %}
+           {% for option in substrate_options %}
+           {{ option }} \
+           {% endfor %}
+         {% endif %}
+         {% if substrate_telemetry_argument is defined and substrate_telemetry_argument == 'false' %}
+         --no-telemetry
+         {% endif %}
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

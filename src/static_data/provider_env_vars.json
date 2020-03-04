@@ -1,0 +1,20 @@
+{
+    "aws": [
+        {
+            "name": "AWS_ACCESS_KEY_ID"
+        },
+        {
+            "name": "AWS_SECRET_ACCESS_KEY"
+        }
+    ],
+    "do": [
+        {
+            "name": "DIGITALOCEAN_TOKEN"
+        }
+    ],
+    "gcp": [
+        {
+            "name": "GOOGLE_APPLICATION_CREDENTIALS"
+        }
+    ]
+}

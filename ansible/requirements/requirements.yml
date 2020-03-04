@@ -1,0 +1,6 @@
+# This is used to manage Ansible role dependences
+# http://docs.ansible.com/galaxy.html#installing-multiple-roles-from-a-file
+# Install with: `ansible-galaxy install -r requirements.yml`
+
+- name: ansible-role-cargo
+  src: https://github.com/flex-dapps/ansible-role-cargo.git

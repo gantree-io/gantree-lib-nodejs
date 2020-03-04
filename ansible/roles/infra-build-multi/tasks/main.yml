@@ -1,0 +1,15 @@
+---
+- name: gcp selector
+  include_role:
+    name: infra-gcp-node
+  when: config.provider == 'gcp'
+
+- name: do selector
+  include_role:
+    name: infra-do-node
+  when: config.provider == 'do'
+
+- name: aws selector
+  include_role:
+    name: infra-aws-node
+  when: config.provider == 'aws'

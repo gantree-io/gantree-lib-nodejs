@@ -1,0 +1,25 @@
+---
+# taken from https://getsubstrate.io
+- name: install substrate build requirements for ubuntu
+  apt:
+    update_cache: yes
+    pkg:
+      - cmake
+      - pkg-config
+      - libssl-dev
+      - git
+      - gcc
+      - build-essential
+      - clang
+      - libclang-dev
+
+- name: setup cargo and rustup
+  include_role:
+    name: ansible-role-cargo
+
+- name: configure rustup
+  shell: |
+    rustup default stable
+    rustup update nightly
+    rustup target add wasm32-unknown-unknown --toolchain nightly
+  changed_when: false

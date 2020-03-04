@@ -1,0 +1,19 @@
+---
+- import_tasks: 2_sshkey.yml
+- import_tasks: 2_droplet.yml
+- import_tasks: 2_gantree_tags.yml
+
+- name: Wait for SSH to come up
+  delegate_to: localhost
+  wait_for:
+    host: "{{ droplet_res.data.ip_address }}"
+    port: 22
+    delay: 10
+    timeout: 120
+  retries: 3
+
+#- name: Add host to groups
+#  add_host:
+#    #name: "{{ instance_name }}"
+#    hostname: "{{ droplet_res.data.ip_address }}"
+#    groups: "{{ ansible_groups }}"

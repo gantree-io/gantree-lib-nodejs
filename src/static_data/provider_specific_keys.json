@@ -1,0 +1,8 @@
+{
+    "gcp": [
+        "projectId"
+    ],
+    "aws": [
+        "location"
+    ]
+}

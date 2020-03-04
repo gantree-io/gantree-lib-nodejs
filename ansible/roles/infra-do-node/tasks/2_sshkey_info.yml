@@ -1,0 +1,13 @@
+---
+- name: do get all sshkeys
+  delegate_to: localhost
+  digital_ocean_sshkey_info:
+  register: sshkey_allkeys_res
+
+- name: do filter sshkey
+  delegate_to: localhost
+  set_fact:
+    sshkey_res: "{{ item }}"
+  loop: "{{ sshkey_allkeys_res.data|json_query(ssh_pubkey) }}"
+  vars:
+    ssh_pubkey: "[?name=='key-{{ instance_name }}']"
