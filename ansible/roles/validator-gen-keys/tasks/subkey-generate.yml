@@ -52,6 +52,24 @@
     - sr25519
   changed_when: False
 
+- name: get node key
+  shell: |
+    {{ substrate_bin_name }} --node-key-file /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_network_id }}/network/secret_ed25519 > nodeoutput 2>&1 &
+
+    sleep 3
+
+    pkill {{ substrate_bin_name }}
+
+    node_id=$(grep "Local node identity is:" < nodeoutput | sed 's/.*://' | tr -d " ")
+
+    echo ${node_id}
+  register: node_key
+
+- name: get bootnode public ip
+  ipify_facts:
+  register: bootnode_ip
+  when: (not is_docker is defined) or (not is_docker == true)
+
 - name: write session info to disk on remote host
   become: yes
   template:
@@ -72,3 +90,12 @@
     dest: '{{ gantree_control_working }}/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
     flat: yes
   retries: 2
+
+- name: change owner of substrate user keystore
+  become: yes
+  file:
+    path: /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_network_id }}
+    owner: '{{ substrate_user }}'
+    group: '{{ substrate_group }}'
+    recurse: yes
+    mode: 0755

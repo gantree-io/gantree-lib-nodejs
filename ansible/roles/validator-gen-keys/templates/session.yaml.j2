@@ -2,3 +2,6 @@
 {% for item in session.results %}
 {{ item.stdout }}
 {% endfor %}
+libp2p:
+  ip_addr: {{ bootnode_ip.ansible_facts.ipify_public_ip }}
+  node_key: {{ node_key.stdout }}

@@ -48,9 +48,12 @@ function inject(chainSpecPath, validatorSpecPath, _allowRaw) {
 
 function _realInject(chainSpec, validatorSpec) {
   let runtimeObj = chainSpec.genesis.runtime
+  let bootnodes = chainSpec.bootNodes
   runtimeObj = _clearSupportedRuntimeFields(runtimeObj)
   runtimeObj = _insertKeys(runtimeObj, validatorSpec)
+  bootnodes = _insertBootnodes(bootnodes, validatorSpec)
   chainSpec.genesis.runtime = runtimeObj
+  chainSpec.bootNodes = bootnodes
   return chainSpec
 }
 
@@ -109,6 +112,16 @@ function _insertKeys(runtimeObj, validatorSpec) {
   }
 
   return runtimeObj
+}
+
+function _insertBootnodes(bootnodes, validatorSpec) {
+  bootnodes = []
+  for (let validator of validatorSpec.validators) {
+    bootnodes.push(
+      `/ip4/${validator.libp2p.ip_addr}/tcp/30333/p2p/${validator.libp2p.node_key}`
+    )
+  }
+  return bootnodes
 }
 
 // todo: this function needs a face-lift
