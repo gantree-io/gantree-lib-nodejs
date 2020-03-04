@@ -42,6 +42,12 @@ class Gantree {
     return Promise.resolve(platformSyncResult)
   }
 
+  async cleanPlatform(gantreeConfigObj) {
+    const platform = new Platform(gantreeConfigObj)
+    const platformCleanResult = await platform.clean()
+    return Promise.resolve(platformCleanResult)
+  }
+
   async syncApplication(gantreeConfigObj, infraObj) {
     const app = new Application(gantreeConfigObj, infraObj)
     const applicationSyncResult = await app.sync()
