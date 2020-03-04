@@ -1,8 +1,8 @@
 {
-  "name": "gantree-cli",
+  "name": "gantree-lib",
   "version": "0.3.0-a2",
   "main": "src/index.js",
-  "repository": "https://github.com/flex-dapps/gantree-cli",
+  "repository": "https://github.com/flex-dapps/gantree-lib-nodejs",
   "author": "Flex Dapps",
   "license": "Apache-2.0",
   "scripts": {
@@ -26,9 +26,6 @@
   "pre-commit": [
     "precommit"
   ],
-  "bin": {
-    "gantree-cli": "src/index.js"
-  },
   "files": [
     "/ansible",
     "/src",
