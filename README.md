@@ -1,4 +1,6 @@
-# Gantree CLI
+# Gantree Lib
+
+[!!!] ***PLEASE NOTE:*** *This information is outdated and requires updating*
 
 ## About
 
