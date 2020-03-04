@@ -35,12 +35,21 @@ const buildDynamicInventory = async c => {
       'python -c "import sys; print(sys.executable)"'
     )
   } catch (e) {
-    console.log('python 2 is a no-go')
+    console.warn('python 2 is a no-go')
   }
   pythonLocalPython = await exec(
     'python3 -c "import sys; print(sys.executable)"'
   )
   const localPython = pythonLocalPython.stdout
+
+  const verison = await (() => {
+    if (c.binary.repository === undefined) {
+      console.warn('No version specified, using repository HEAD')
+      return 'HEAD'
+    } else {
+      return c.binary.repository
+    }
+  })
 
   //console.log(c)
   const o = {
@@ -65,11 +74,11 @@ const buildDynamicInventory = async c => {
           '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
         // project={{ project } }
         substrate_network_id: 'local_testnet',
-        substrate_repository: c.repository.url,
-        substrate_repository_version: c.repository.version,
-        substrate_bin_name: c.repository.binaryName,
+        substrate_repository: c.binary.repository || 'false',
+        substrate_repository_version: verison,
+        substrate_bin_name: c.binary.name,
         gantree_root: '../',
-        substrate_use_default_spec: c.repository.useDefaultSpec || 'false',
+        substrate_use_default_spec: c.validators.useDefaultChainspec || 'false',
         substrate_chain_argument: c.validators.chain || 'false',
         substrate_bootnode_argument: c.validators.bootnodes || [],
         substrate_telemetry_argument: c.validators.telemetry || 'false',
