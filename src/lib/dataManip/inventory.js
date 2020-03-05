@@ -35,12 +35,12 @@ const buildDynamicInventory = async c => {
       'python -c "import sys; print(sys.executable)"'
     )
   } catch (e) {
-    console.warn('python 2 is a no-go')
+    // console.warn('python 2 is a no-go')
   }
   pythonLocalPython = await exec(
     'python3 -c "import sys; print(sys.executable)"'
   )
-  const localPython = pythonLocalPython.stdout
+  const localPython = pythonLocalPython.stdout.trim()
 
   const verison = await (() => {
     if (c.binary.repository === undefined) {
