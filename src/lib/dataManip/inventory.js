@@ -40,7 +40,7 @@ const buildDynamicInventory = async c => {
   pythonLocalPython = await exec(
     'python3 -c "import sys; print(sys.executable)"'
   )
-  const localPython = pythonLocalPython.stdout
+  const localPython = pythonLocalPython.stdout.trim()
 
   const verison = await (() => {
     if (c.binary.repository === undefined) {
