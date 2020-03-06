@@ -1,28 +1,11 @@
 //todo: cleanup for lib-centric approach
 
-const chalk = require('chalk')
 const process = require('process')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
-const config = require('../config.js')
-
-const inventory = async () => {
-  const configPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
-
-  if (!configPath) {
-    console.error(
-      chalk.red('[Gantree] Error: env|GANTREE_INVENTORY_CONFIG_PATH required.')
-    )
-    process.exit(-1)
-  }
-
-  const cfg = config.read(configPath)
-
-  // TODO: re-add this
-  // config.validate(cfg)
-
-  const di = await buildDynamicInventory(cfg)
+const inventory = async gantreeConfigObj => {
+  const di = await buildDynamicInventory(gantreeConfigObj)
 
   process.stdout.write(JSON.stringify(di, null, 2))
 }
@@ -42,12 +25,16 @@ const buildDynamicInventory = async c => {
   )
   const localPython = pythonLocalPython.stdout.trim()
 
-  const verison = await (() => {
-    if (c.binary.repository === undefined) {
-      console.warn('No version specified, using repository HEAD')
-      return 'HEAD'
+  const version = await (() => {
+    if (!(c.binary.repository === undefined)) {
+      if (c.binary.repository.version === undefined) {
+        console.warn('No version specified, using repository HEAD')
+        return 'HEAD'
+      } else {
+        return c.binary.repository.version
+      }
     } else {
-      return c.binary.repository
+      return 'false'
     }
   })
 
@@ -74,8 +61,10 @@ const buildDynamicInventory = async c => {
           '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
         // project={{ project } }
         substrate_network_id: 'local_testnet',
-        substrate_repository: c.binary.repository || 'false',
-        substrate_repository_version: verison,
+        substrate_repository: c.binary.repository.url || 'false',
+        substrate_repository_version: version(),
+        substrate_binary_url: c.binary.fetch || 'false',
+        substrate_local_compile: c.binary.localCompile || 'false',
         substrate_bin_name: c.binary.name,
         gantree_root: '../',
         substrate_use_default_spec: c.validators.useDefaultChainspec || 'false',
