@@ -1,13 +1,12 @@
 //todo: cleanup for lib-centric approach
 
-const process = require('process')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
 const inventory = async gantreeConfigObj => {
   const di = await buildDynamicInventory(gantreeConfigObj)
 
-  process.stdout.write(JSON.stringify(di, null, 2))
+  return di
 }
 
 const buildDynamicInventory = async c => {
