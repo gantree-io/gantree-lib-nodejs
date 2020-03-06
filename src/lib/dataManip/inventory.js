@@ -24,18 +24,20 @@ const buildDynamicInventory = async c => {
   )
   const localPython = pythonLocalPython.stdout.trim()
 
-  const version = await (() => {
-    if (!(c.binary.repository === undefined)) {
+  let repository_url = 'false'
+  let repository_version = 'false'
+
+  if (!(c.binary.repository === undefined)) {
+    repository_url = c.binary.repository.url
+    repository_version = await (() => {
       if (c.binary.repository.version === undefined) {
         console.warn('No version specified, using repository HEAD')
         return 'HEAD'
       } else {
         return c.binary.repository.version
       }
-    } else {
-      return 'false'
-    }
-  })
+    })
+  }
 
   //console.log(c)
   const o = {
@@ -60,8 +62,8 @@ const buildDynamicInventory = async c => {
           '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
         // project={{ project } }
         substrate_network_id: 'local_testnet',
-        substrate_repository: c.binary.repository.url || 'false',
-        substrate_repository_version: version(),
+        substrate_repository: repository_url || 'false',
+        substrate_repository_version: repository_version,
         substrate_binary_url: c.binary.fetch || 'false',
         substrate_local_compile: c.binary.localCompile || 'false',
         substrate_bin_name: c.binary.name,
