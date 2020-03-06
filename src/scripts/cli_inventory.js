@@ -16,10 +16,12 @@ async function main() {
 
   const gantreeConfigObj = config.read(configPath)
 
-  await config.validate(gantreeConfigObj)
-  await check.envVars(gantreeConfigObj)
+  await config.validate(gantreeConfigObj, { verbose: false })
+  await check.envVars(gantreeConfigObj, { verbose: false })
 
-  inventory(gantreeConfigObj)
+  const inventoryObj = await inventory(gantreeConfigObj)
+
+  process.stdout.write(JSON.stringify(inventoryObj, null, 2))
 }
 
 main()
