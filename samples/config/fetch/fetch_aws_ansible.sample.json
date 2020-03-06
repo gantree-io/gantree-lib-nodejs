@@ -11,7 +11,7 @@
             {
                 "name": "awesome",
                 "provider": "aws",
-                "machineType": "m4.large",
+                "machineType": "m3.small",
                 "zone": "eu-central-1",
                 "location": "eu-central-1",
                 "sshUser": "ubuntu",
