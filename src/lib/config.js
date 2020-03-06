@@ -11,7 +11,7 @@ const { returnLogger } = require('./logging')
 const logger = returnLogger('config')
 
 function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
-  const verbose = options.verbose | false
+  const verbose = options.verbose | true
   const validators = gantreeConfigObj.validators.nodes
   let missing_provider_keys = {}
 
@@ -75,7 +75,7 @@ module.exports = {
     return cfgObject
   },
   validate: async (gantreeConfigObj, options = {}) => {
-    const verbose = options.verbose | false
+    const verbose = options.verbose | true
     if (gantreeConfigObj === undefined) {
       console.error('Validate must recieve a config object as input')
       throwGantreeError(
@@ -100,7 +100,7 @@ module.exports = {
         }
         throwGantreeError('BAD_CONFIG', Error('invalid gantree config'))
       }
-      validate_provider_specific_keys(gantreeConfigObj)
+      validate_provider_specific_keys(gantreeConfigObj, options)
     }
   }
 }
