@@ -24,16 +24,11 @@
             "type": "object",
             "properties": {
                 "repository": {
-                    "type": "string",
-                    "description": "source of repository to build"
+                    "$ref": "#/definitions/repository"
                 },
                 "fetch": {
                     "type": "string",
-                    "description": "binary to download"
-                },
-                "version": {
-                    "type": "string",
-                    "description": "version of repository (commit hash)."
+                    "description": "url to fetch binary from"
                 },
                 "name": {
                     "type": "string",
@@ -46,6 +41,22 @@
             },
             "required": [
                 "name"
+            ]
+        },
+        "repository": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "url of repository to build"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "version of the repository to build"
+                }
+            },
+            "required": [
+                "url"
             ]
         },
         "validators": {
