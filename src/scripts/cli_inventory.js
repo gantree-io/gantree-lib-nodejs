@@ -4,6 +4,11 @@ const config = require('../lib/config')
 const check = require('../lib/check')
 const { inventory } = require('../lib/dataManip/inventory')
 
+process.on('unhandledRejection', (reason, p) => {
+  console.error('Unhandled Rejection at: Promise', p, 'reason:', reason)
+  // application specific logging, throwing an error, or other logic here
+})
+
 async function main() {
   const configPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
 
