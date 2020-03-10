@@ -42,7 +42,7 @@
                 "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
                 "machineType": "t3.small",
                 "location": "eu-central-1",
-                "zone": "eu-central-1a",
+                "zone": "eu-central-1",
                 "firewall": {
                     "allowed": [
                         {
@@ -88,6 +88,7 @@
                 "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
                 "machineType": "n1-standard-2",
                 "location": "us-east1",
+                "region": "us-east1",
                 "zone": "us-east1-b",
                 "projectId": "secval-testproject-00",
                 "firewall": {
