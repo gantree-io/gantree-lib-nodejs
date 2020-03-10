@@ -4,10 +4,6 @@
   digital_ocean_sshkey_info:
   register: sshkey_allkeys_res
 
-- name: depp
-  debug:
-    msg: "{{ sshkey_allkeys_res }}"
-
 - name: do filter sshkey
   delegate_to: localhost
   set_fact:

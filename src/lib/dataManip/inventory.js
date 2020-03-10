@@ -80,7 +80,6 @@ const buildDynamicInventory = async c => {
   }
 
   ensureNames(c)
-  addSshKeyNames(c)
 
   const validator_list = []
 
@@ -95,7 +94,7 @@ const buildDynamicInventory = async c => {
     }
 
     validator_list.push(name)
-    const parsed = parseNode(name, item)
+    const parsed = parseNode(name, item, c)
 
     o._meta.hostvars.localhost.infra.push(parsed.infra)
     o[name] = o[name] || {}
@@ -109,21 +108,22 @@ const buildDynamicInventory = async c => {
   return o
 }
 
+const calcAwsSshKeyName = (item, config) => {
+  return 'key-' + config.metadata.project + '-' + item.name
+}
+
+const calcDoSshKeyName = (item, config) => {
+  const h = require('crypto')
+    .createHash('md5')
+    .update(item.instance.sshPublicKey)
+    .digest('hex')
+  return 'key-' + config.metadata.project + '-' + h
+}
+
 const ensureNames = config => {
   config.nodes.forEach((item, idx) => {
     item.name = item.name || config.metadata.project + idx
     item.infra_name = 'gantree-infra-create-' + item.name
-  })
-}
-
-const addSshKeyNames = config => {
-  config.nodes.forEach(item => {
-    const h = require('crypto')
-      .createHash('md5')
-      .update(item.instance.sshPublicKey)
-      .digest('hex')
-    const ssh_key_name = 'key-' + config.metadata.project + '-' + h
-    item.instance.sshKeyName = ssh_key_name
   })
 }
 
@@ -139,7 +139,7 @@ const getVars = (item, defaults) => {
   }
 }
 
-const parseNode = (name, item) => {
+const parseNode = (name, item, config) => {
   if (item.instance.provider == 'gcp') {
     const infra = {
       provider: item.instance.provider,
@@ -151,7 +151,6 @@ const parseNode = (name, item) => {
       region: item.instance.region,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,
-      ssh_key_name: item.instance.sshKeyName,
       gcp_project: item.instance.projectId,
       state: item.state || 'present'
     }
@@ -176,7 +175,7 @@ const parseNode = (name, item) => {
       zone: item.instance.zone,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,
-      ssh_key_name: item.instance.sshKeyName,
+      ssh_key_name: calcDoSshKeyName(item, config),
       access_token: item.instance.access_token,
       state: item.state || 'present'
     }
@@ -201,7 +200,7 @@ const parseNode = (name, item) => {
       region: item.instance.zone,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,
-      ssh_key_name: item.sshKeyName,
+      ssh_key_name: calcAwsSshKeyName(item, config),
       state: item.state || 'present'
     }
 
