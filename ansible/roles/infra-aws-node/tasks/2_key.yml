@@ -3,7 +3,7 @@
   delegate_to: localhost
   ec2_key:
     region: "{{ region }}"
-    name: "key-{{ instance_name }}"
+    name: "{{ ssh_key_name }}"
     key_material: "{{ ssh_key }}"
     #key_material: "{{ lookup('file', lookup('vars', 'ssh_key_path')) }}"
     state: "{{ state }}"

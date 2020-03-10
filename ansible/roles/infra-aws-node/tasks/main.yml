@@ -6,4 +6,5 @@
     instance_type: "{{ config.instance_type }}"
     ssh_user: "{{ config.ssh_user }}"
     ssh_key: "{{ config.ssh_key }}"
+    ssh_key_name: "{{ config.ssh_key_name }}"
     state: "{{ config.state | default('present') }}"

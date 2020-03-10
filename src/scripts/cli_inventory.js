@@ -10,11 +10,13 @@ process.on('unhandledRejection', (reason, p) => {
 })
 
 async function main() {
-  const configPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
+  // DEPRECATE(ryan): GANTREE_INVENTORY_CONFIG_PATH
+  const configPath =
+    process.env.GANTREE_CONFIG_PATH || process.env.GANTREE_INVENTORY_CONFIG_PATH
 
   if (!configPath) {
     console.error(
-      chalk.red('[Gantree] Error: env|GANTREE_INVENTORY_CONFIG_PATH required.')
+      chalk.red('[Gantree] Error: env|GANTREE_CONFIG_PATH required.')
     )
     process.exit(-1)
   }
