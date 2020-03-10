@@ -8,14 +8,6 @@
         "repository": {
             "url": "<repo_URL>",
             "version": "<commit hash>"
-        },
-        "fetch": {
-            "url": "binary_url",
-            "sha256": "<sha256 hash>"
-        },
-        "local": {
-            "path": "./my-binary",
-            "sha256": "<sha256 hash>"
         }
     },
     "network": "my-network",
@@ -37,6 +29,7 @@
     "nodes": [
         {
             "name": "my-node-1",
+            "validator": false,
             "pallet_options": {
                 "grandpa": {
                     "address": "$ed25519",
@@ -80,6 +73,7 @@
         },
         {
             "name": "my-node-2",
+            "validator": false,
             "pallet_options": {
                 "grandpa": {
                     "address": "$ed25519",
