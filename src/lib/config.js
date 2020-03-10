@@ -3,26 +3,28 @@ const process = require('process')
 const Ajv = require('ajv')
 
 const files = require('./files')
-const gantree_config_schema = require('../schemas/gantree_config_schema')
+const gantree_config_schema = require('../schemas/gantree_config_schema_2')
 const provider_specific_keys = require('../static_data/provider_specific_keys')
 const { throwGantreeError } = require('./error')
 const { returnLogger } = require('./logging')
 
 const logger = returnLogger('config')
 
-function validate_provider_specific_keys(gantreeConfigObj) {
-  const validators = gantreeConfigObj.validators.nodes
+// TODO: change language to 'nodes' instead of 'validators'
+function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
+  const verbose = options.verbose | true
+  const validators = gantreeConfigObj.nodes
   let missing_provider_keys = {}
 
   for (const validator_n of validators) {
-    const validator_provider = validator_n.provider
+    const validator_provider = validator_n.instance.provider
 
     if (validator_provider in provider_specific_keys) {
       missing_provider_keys[validator_provider] = [] // create empty array under provider name
       const required_keys = provider_specific_keys[validator_provider]
 
       for (const key of required_keys) {
-        if (validator_n.hasOwnProperty(key)) {
+        if (validator_n.instance.hasOwnProperty(key)) {
           // don't bother type-checking here, this is done in schema validation with optional keys
         } else {
           missing_provider_keys[validator_provider].push(key)
@@ -44,7 +46,9 @@ function validate_provider_specific_keys(gantreeConfigObj) {
         `Required ${provider} keys missing: ${keys_missing}`
       )
     } else {
-      logger.info(`All required ${provider} specific keys satisfied`)
+      if (verbose === true) {
+        logger.info(`All required ${provider} specific keys satisfied`)
+      }
     }
   }
 
@@ -71,7 +75,8 @@ module.exports = {
     }
     return cfgObject
   },
-  validate: async gantreeConfigObj => {
+  validate: async (gantreeConfigObj, options = {}) => {
+    const verbose = options.verbose | true
     if (gantreeConfigObj === undefined) {
       console.error('Validate must recieve a config object as input')
       throwGantreeError(
@@ -83,7 +88,9 @@ module.exports = {
       const validate = ajv.compile(gantree_config_schema)
       const gantree_config_valid = validate(gantreeConfigObj)
       if (gantree_config_valid) {
-        logger.info('Gantree config validated successfully!')
+        if (verbose === true) {
+          logger.info('Gantree config validated successfully!')
+        }
       } else {
         console.error('Invalid Gantree config detected')
         for (let i = 0; i < validate.errors.length; i++) {
@@ -94,7 +101,7 @@ module.exports = {
         }
         throwGantreeError('BAD_CONFIG', Error('invalid gantree config'))
       }
-      validate_provider_specific_keys(gantreeConfigObj)
+      validate_provider_specific_keys(gantreeConfigObj, options)
     }
   }
 }

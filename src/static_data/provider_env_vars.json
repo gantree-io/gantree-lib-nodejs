@@ -14,7 +14,10 @@
     ],
     "gcp": [
         {
-            "name": "GOOGLE_APPLICATION_CREDENTIALS"
+            "name": "GCP_AUTH_KIND"
+        },
+        {
+            "name": "GCP_SERVICE_ACCOUNT_FILE"
         }
     ]
 }

@@ -1,6 +1,15 @@
 const error_meta = require('../static_data/error_meta')
 
 function throwGantreeError(error_alias, e) {
+  const error_data = error_meta[error_alias]
+
+  if (error_data === undefined) {
+    console.error(
+      'INTERNAL ERROR: Invalid error alias given! Does not exist in error meta!'
+    )
+    throw e
+  }
+
   let message = error_meta[error_alias].message
   let code = error_meta[error_alias].code
 

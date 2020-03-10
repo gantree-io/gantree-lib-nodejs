@@ -2,7 +2,7 @@
 - hosts: localhost
   tasks:
     - add_host:
-        name: "{{ item.instance_name }}"
+        name: "{{ item.infra_name }}"
         groups: base_infra
         config: "{{ item }}"
       with_items: "{{ infra }}"

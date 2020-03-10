@@ -1,0 +1,290 @@
+{
+    "$id": "https://flexdapps.com/schemas/gantree_config_schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Schema for Gantree's primary config file",
+    "type": "object",
+    "required": [
+        "metadata",
+        "binary",
+        "nodes"
+    ],
+    "properties": {
+        "metadata": {
+            "$ref": "#/definitions/metadata"
+        },
+        "binary": {
+            "$ref": "#/definitions/binary"
+        },
+        "defaults": {
+            "node": {
+                "$ref": "#/definitions/node"
+            }
+        },
+        "nodes": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/node"
+            }
+        }
+    },
+    "definitions": {
+        "metadata": {
+            "type": "object",
+            "required": [
+                "version",
+                "project"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "description": "gantree config version"
+                },
+                "project": {
+                    "type": "string",
+                    "description": "name of gantree project"
+                }
+            }
+        },
+        "binary": {
+            "type": "object",
+            "required": [
+                "filename"
+            ],
+            "oneOf": [
+                {
+                    "required": [
+                        "repository"
+                    ]
+                },
+                {
+                    "required": [
+                        "fetch"
+                    ]
+                },
+                {
+                    "required": [
+                        "local"
+                    ]
+                }
+            ],
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "filename of the binary to execute"
+                },
+                "repository": {
+                    "$ref": "#/definitions/repository"
+                },
+                "fetch": {
+                    "$ref": "#/definitions/fetch"
+                },
+                "local": {
+                    "$ref": "#/definitions/localBinary"
+                }
+            }
+        },
+        "repository": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "url of repository to build"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "version of the repository to build"
+                },
+                "localCompile": {
+                    "type": "boolean",
+                    "description": "whether the node should be built on the machine executing Gantree"
+                }
+            }
+        },
+        "fetch": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "url to download a binary"
+                },
+                "sha256": {
+                    "type": "string",
+                    "description": "sha256 hash of binary for verification"
+                }
+            }
+        },
+        "localBinary": {
+            "type": "object",
+            "required": [
+                "path"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "path to local binary"
+                },
+                "sha256": {
+                    "type": "string",
+                    "description": "sha256 hash of binary for verification"
+                }
+            }
+        },
+        "node": {
+            "type": "object",
+            "required": [
+                "instance",
+                "validator"
+            ],
+            "properties": {
+                "palletOptions": {
+                    "$ref": "#/definitions/palletOptions"
+                },
+                "binaryOptions": {
+                    "$ref": "#/definitions/binaryOptions"
+                },
+                "chain": {
+                    "type": "string",
+                    "description": "TODO: this"
+                },
+                "useDefaultChainSpec": {
+                    "type": "boolean"
+                },
+                "validator": {
+                    "type": "boolean",
+                    "description": "specify if the node is a validator or not"
+                },
+                "instance": {
+                    "$ref": "#/definitions/instance"
+                }
+            }
+        },
+        "palletOptions": {
+            "type": "object",
+            "properties": {
+                "auraAddress": {
+                    "type": "string",
+                    "description": "sr25519 key to use for aura"
+                },
+                "grandpa": {
+                    "type": "object",
+                    "required": [
+                        "address",
+                        "weight"
+                    ],
+                    "properties": {
+                        "address": {
+                            "type": "string",
+                            "description": "ed25519 key to use for grandpa"
+                        },
+                        "weight": {
+                            "type": "string",
+                            "description": "weight of grandpa vote"
+                        }
+                    }
+                }
+            }
+        },
+        "binaryOptions": {
+            "type": "object",
+            "properties": {
+                "substrateOptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "telemetry": {
+                    "type": "boolean",
+                    "description": "enable/disable telemetry for node"
+                },
+                "rpcPort": {
+                    "type": "integer",
+                    "description": "TODO: this"
+                },
+                "loggingFilter": {
+                    "type": "string",
+                    "description": "filter applied to logging"
+                }
+            }
+        },
+        "instance": {
+            "type": "object",
+            "properties": {
+                "sshPublicKey": {
+                    "type": "string",
+                    "description": "public ssh key used to access this node"
+                },
+                "sshUser": {
+                    "type": "string",
+                    "description": "username to connect to instance via SSH"
+                },
+                "provider": {
+                    "type": "string",
+                    "description": "name of provider to use"
+                },
+                "machineType": {
+                    "type": "string",
+                    "description": "name of hardware for provider's instance"
+                },
+                "location": {
+                    "type": "string",
+                    "description": "TODO: this"
+                },
+                "zone": {
+                    "type": "string",
+                    "description": "TODO: this"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "Project ID for GCP instances"
+                },
+                "firewall": {
+                    "$ref": "#/definitions/firewall"
+                }
+            }
+        },
+        "firewall": {
+            "type": "object",
+            "properties": {
+                "rules": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/firewallRule"
+                    }
+                }
+            },
+            "description": "an array of firewall rules - everything is blocked until explicitly allowed"
+        },
+        "firewallRule": {
+            "type": "object",
+            "required": [
+                "protocol",
+                "cidrIp"
+            ],
+            "properties": {
+                "protocol": {
+                    "type": "string",
+                    "description": "protocol rule will apply to"
+                },
+                "from": {
+                    "type": "integer",
+                    "description": "port of ingress"
+                },
+                "to": {
+                    "type": "integer",
+                    "description": "port of egress"
+                },
+                "cidrIp": {
+                    "type": "string",
+                    "description": "TODO: this"
+                }
+            }
+        }
+    }
+}
