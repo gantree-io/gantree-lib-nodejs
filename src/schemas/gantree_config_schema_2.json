@@ -245,7 +245,7 @@
                     "description": "Project ID for GCP instances"
                 },
                 "firewall": {
-                    "$ref": "#/definition/firewall"
+                    "$ref": "#/definitions/firewall"
                 }
             }
         },
