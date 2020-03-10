@@ -1,0 +1,117 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "my-gantree-project",
+    },
+    "binary": {
+        "name": "<binary filename>",
+        "repository": {
+            "url": "<repo_URL>",
+            "version": "<commit hash>"
+        },
+        "fetch": {
+            "url": "binary_url",
+            "sha256": "<sha256 hash>"
+        },
+        "local": {
+            "path": "./my-binary",
+            "sha256": "<sha256 hash>"
+        }
+    },
+    "network": "my-network",
+    "defaults": {
+        "nodes": {
+            "palletOptions": {
+                "aura": "$sr25519"
+            },
+            "binaryOptions": {
+                "telemetry": true,
+                "loggingFilter": "sync=trace,afg=trace,babe=debug"
+            },
+            "instance": {
+                "sshPublicKey": "<public ssh key>"
+            },
+            "validator": false
+        }
+    },
+    "nodes": [
+        {
+            "name": "my-node-1",
+            "pallet_options": {
+                "grandpa": {
+                    "address": "$ed25519",
+                    "weight": 3
+                }
+            },
+            "instance": {
+                "provider": "aws",
+                "machineType": "t3.small",
+                "location": "<location>",
+                "zone": "<zone>",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "from": 22,
+                            "to": 22,
+                            "cidr_ip": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 30333,
+                            "to": 30333,
+                            "cidr_ip": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 51820,
+                            "to": 51820,
+                            "cidr_ip": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 9100,
+                            "to": 9100,
+                            "cidr_ip": "0.0.0.0/0"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "my-node-2",
+            "pallet_options": {
+                "grandpa": {
+                    "address": "$ed25519",
+                    "weight": 2
+                }
+            },
+            "instance": {
+                "provider": "gcp",
+                "machineType": "n1-standard-2",
+                "location": "us-east1",
+                "zone": "us-east1-b",
+                "projectId": "my-gcp-project-id",
+                "sshPublicKey": "<overwriting public ssh key>",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "ports": [
+                                22,
+                                9100,
+                                30333
+                            ]
+                        },
+                        {
+                            "protocol": "udp",
+                            "ports": [
+                                51820
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
