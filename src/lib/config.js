@@ -10,20 +10,21 @@ const { returnLogger } = require('./logging')
 
 const logger = returnLogger('config')
 
+// TODO: change language to 'nodes' instead of 'validators'
 function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
   const verbose = options.verbose | true
-  const validators = gantreeConfigObj.validators.nodes
+  const validators = gantreeConfigObj.nodes
   let missing_provider_keys = {}
 
   for (const validator_n of validators) {
-    const validator_provider = validator_n.provider
+    const validator_provider = validator_n.instance.provider
 
     if (validator_provider in provider_specific_keys) {
       missing_provider_keys[validator_provider] = [] // create empty array under provider name
       const required_keys = provider_specific_keys[validator_provider]
 
       for (const key of required_keys) {
-        if (validator_n.hasOwnProperty(key)) {
+        if (validator_n.instance.hasOwnProperty(key)) {
           // don't bother type-checking here, this is done in schema validation with optional keys
         } else {
           missing_provider_keys[validator_provider].push(key)
