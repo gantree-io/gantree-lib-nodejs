@@ -93,6 +93,8 @@ const buildDynamicInventory = async c => {
 
     validator_list.push(name)
     const node = parseNode(name, item, idx)
+    // TODO(ryan) less hacky, allow for shared config
+    node.infra.infra_name = 'gantree-infra-create-' + name
     o._meta.hostvars.localhost.infra.push(node.infra)
     o[name] = o[name] || {}
     o[name].vars = o[name].vars || {}
