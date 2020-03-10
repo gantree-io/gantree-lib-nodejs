@@ -4,7 +4,7 @@
         "project": "my-gantree-project"
     },
     "binary": {
-        "name": "<binary filename>",
+        "filename": "<binary filename>",
         "repository": {
             "url": "<repo_URL>",
             "version": "<commit hash>"
