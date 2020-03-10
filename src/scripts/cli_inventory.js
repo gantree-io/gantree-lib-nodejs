@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const chalk = require('chalk')
 const config = require('../lib/config')
 const check = require('../lib/check')
 const { inventory } = require('../lib/dataManip/inventory')
+const { throwGantreeError } = require('../error')
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason)
@@ -10,16 +10,17 @@ process.on('unhandledRejection', (reason, p) => {
 })
 
 async function main() {
-  const configPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
+  // TODO: we should consider changing this to just GANTREE_CONFIG_PATH
+  const gantreeConfigPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
 
-  if (!configPath) {
-    console.error(
-      chalk.red('[Gantree] Error: env|GANTREE_INVENTORY_CONFIG_PATH required.')
+  if (gantreeConfigPath === undefined) {
+    throwGantreeError(
+      "ENVIRONMENT_VARIABLE_MISSING",
+      Error("GANTREE_INVENTORY_CONFIG_PATH missing, please export the absolute path to your gantree config")
     )
-    process.exit(-1)
   }
 
-  const gantreeConfigObj = config.read(configPath)
+  const gantreeConfigObj = config.read(gantreeConfigPath)
 
   await config.validate(gantreeConfigObj, { verbose: false })
   await check.envVars(gantreeConfigObj, { verbose: false })
