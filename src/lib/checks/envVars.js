@@ -11,9 +11,9 @@ function envVars(gantreeConfigObj) {
       Error('envVars requires a gantree config object')
     )
   }
-  const nodes = gantreeConfigObj.validators.nodes
+  const nodes = gantreeConfigObj.nodes
   for (const node_n of nodes) {
-    let node_provider = node_n.provider
+    let node_provider = node_n.instance.provider
     if (node_provider in provider_env_vars) {
       const required_env_vars = provider_env_vars[node_provider]
       for (const required_env_var of required_env_vars) {
