@@ -54,25 +54,25 @@
                             "protocol": "tcp",
                             "from": 22,
                             "to": 22,
-                            "cidr_ip": "0.0.0.0/0"
+                            "cidrIp": "0.0.0.0/0"
                         },
                         {
                             "protocol": "tcp",
                             "from": 30333,
                             "to": 30333,
-                            "cidr_ip": "0.0.0.0/0"
+                            "cidrIp": "0.0.0.0/0"
                         },
                         {
                             "protocol": "tcp",
                             "from": 51820,
                             "to": 51820,
-                            "cidr_ip": "0.0.0.0/0"
+                            "cidrIp": "0.0.0.0/0"
                         },
                         {
                             "protocol": "tcp",
                             "from": 9100,
                             "to": 9100,
-                            "cidr_ip": "0.0.0.0/0"
+                            "cidrIp": "0.0.0.0/0"
                         }
                     ]
                 }
