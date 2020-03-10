@@ -68,20 +68,20 @@ const buildDynamicInventory = async c => {
         substrate_local_compile: c.binary.localCompile || 'false',
         substrate_bin_name: c.binary.name,
         gantree_root: '../',
-        substrate_use_default_spec: c.validators.useDefaultChainspec || 'false',
-        substrate_chain_argument: c.validators.chain || 'false',
-        substrate_bootnode_argument: c.validators.bootnodes || [],
-        substrate_telemetry_argument: c.validators.telemetry || 'false',
-        substrate_options: c.validators.substrateOptions || [],
-        substrate_rpc_port: c.validators.rpcPort || 9933,
-        substrate_node_name: c.validators.name || 'false'
+        substrate_use_default_spec: c.nodes.useDefaultChainSpec || 'false',
+        substrate_chain_argument: c.nodes.chain || 'false',
+        substrate_bootnode_argument: c.nodes.bootnodes || [],
+        substrate_telemetry_argument: c.nodes.telemetry || 'false',
+        substrate_options: c.nodes.substrateOptions || [],
+        substrate_rpc_port: c.nodes.rpcPort || 9933,
+        substrate_node_name: c.nodes.name || 'false'
       }
     }
   }
 
   const validator_list = []
 
-  c.validators.nodes.forEach((item, idx) => {
+  c.nodes.forEach((item, idx) => {
     const name = item.name || 'node' + idx
 
     if (idx == 0) {
@@ -111,24 +111,24 @@ const getVars = (item, defaults) => {
   return {
     substrate_user,
     substrate_group: item.substrate_group || defaults.substrate_group,
-    ansible_user: item.sshUser || defaults.ansbile_user,
+    ansible_user: item.instance.sshUser || defaults.ansbile_user,
     substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
     gantree_working: `/home/${substrate_user}/tmp/gantree-validator`
   }
 }
 
 const parseNode = (name, item) => {
-  if (item.provider == 'gcp') {
+  if (item.instance.provider == 'gcp') {
     const infra = {
-      provider: item.provider,
+      provider: item.instance.provider,
       instance_name: name,
-      machine_type: item.machineType,
+      machine_type: item.instance.machineType,
       deletion_protection: item.deletionProtection,
-      zone: item.zone,
-      region: item.region,
-      ssh_user: item.sshUser,
-      ssh_key: item.sshKey,
-      gcp_project: item.projectId,
+      zone: item.instance.zone,
+      region: item.instance.region,
+      ssh_user: item.instance.sshUser,
+      ssh_key: item.instance.sshPublicKey,
+      gcp_project: item.instance.projectId,
       state: 'present'
     }
 
@@ -143,15 +143,15 @@ const parseNode = (name, item) => {
     return { infra, vars, inst_name }
   }
 
-  if (item.provider == 'do') {
+  if (item.instance.provider == 'do') {
     const infra = {
-      provider: item.provider,
+      provider: item.instance.provider,
       instance_name: name,
-      machine_type: item.machineType,
-      zone: item.zone,
-      ssh_user: item.sshUser,
-      ssh_key: item.sshKey,
-      access_token: item.access_token
+      machine_type: item.instance.machineType,
+      zone: item.instance.zone,
+      ssh_user: item.instance.sshUser,
+      ssh_key: item.instance.sshPublicKey,
+      access_token: item.instance.access_token
     }
 
     const vars = getVars(item, {
@@ -165,14 +165,14 @@ const parseNode = (name, item) => {
     return { infra, vars, inst_name }
   }
 
-  if (item.provider == 'aws') {
+  if (item.instance.provider == 'aws') {
     const infra = {
-      provider: item.provider,
+      provider: item.instance.provider,
       instance_name: name,
-      instance_type: item.machineType,
-      region: item.zone,
-      ssh_user: item.sshUser,
-      ssh_key: item.sshKey,
+      instance_type: item.instance.machineType,
+      region: item.instance.zone,
+      ssh_user: item.instance.sshUser,
+      ssh_key: item.instance.sshPublicKey,
       state: item.state || 'present'
     }
 
@@ -187,7 +187,7 @@ const parseNode = (name, item) => {
     return { infra, vars, inst_name }
   }
 
-  throw Error(`Unknown provider: ${item.provider}`)
+  throw Error(`Unknown provider: ${item.instance.provider}`)
 }
 
 module.exports = {
