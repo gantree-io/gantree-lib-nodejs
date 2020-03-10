@@ -130,7 +130,7 @@
                     "description": "path to local binary"
                 },
                 "sha256": {
-                    "type": "object",
+                    "type": "string",
                     "description": "sha256 hash of binary for verification"
                 }
             }
