@@ -146,7 +146,11 @@ const parseNode = (name, item, config) => {
       instance_name: item.name,
       infra_name: item.infra_name,
       machine_type: item.instance.machineType,
-      deletion_protection: item.deletionProtection,
+      source_image:
+        item.instance.sourceImage ||
+        'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts',
+      size_gb: item.instance.sizeGb || 50,
+      deletion_protection: item.instance.deletionProtection,
       zone: item.instance.zone,
       region: item.instance.region,
       ssh_user: item.instance.sshUser,
