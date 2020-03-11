@@ -2,7 +2,6 @@
 - name: do sshkey
   delegate_to: localhost
   digital_ocean_sshkey:
-    name: "key-{{ instance_name }}"
+    name: "{{ ssh_key_name }}"
     ssh_pub_key: "{{ ssh_key }}"
     state: "{{ state }}"
-  register: sshkey_res

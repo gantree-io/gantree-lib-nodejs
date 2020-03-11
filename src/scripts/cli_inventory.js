@@ -12,8 +12,9 @@ process.on('unhandledRejection', (reason, p) => {
 })
 
 async function main() {
-  // TODO: we should consider changing this to just GANTREE_CONFIG_PATH
-  const gantreeConfigPath = process.env.GANTREE_INVENTORY_CONFIG_PATH
+  // DEPRECATE(ryan): GANTREE_INVENTORY_CONFIG_PATH
+  const gantreeConfigPath =
+    process.env.GANTREE_CONFIG_PATH || process.env.GANTREE_INVENTORY_CONFIG_PATH
 
   if (gantreeConfigPath === undefined) {
     throwGantreeError(

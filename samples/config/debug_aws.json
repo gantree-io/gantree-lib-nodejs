@@ -1,0 +1,213 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "my-gantree-project"
+    },
+    "binary": {
+        "filename": "node-template",
+        "repository": {
+            "url": "https://github.com/substrate-developer-hub/substrate-node-template.git",
+            "version": "8b6fe66"
+        }
+    },
+    "network": "my-network",
+    "defaults": {
+        "nodes": {
+            "palletOptions": {
+                "aura": "$sr25519"
+            },
+            "binaryOptions": {
+                "telemetry": true,
+                "loggingFilter": "sync=trace,afg=trace,babe=debug"
+            },
+            "instance": {
+                "sshPublicKey": "<public ssh key>"
+            },
+            "validator": false
+        }
+    },
+    "nodes": [
+        {
+            "name": "my-node-1",
+            "validator": false,
+            "pallet_options": {
+                "grandpa": {
+                    "address": "$ed25519",
+                    "weight": 3
+                }
+            },
+            "instance": {
+                "provider": "aws",
+                "sshUser": "ubuntu",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "machineType": "t3.small",
+                "location": "eu-central-1",
+                "zone": "eu-central-1",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "from": 22,
+                            "to": 22,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 30333,
+                            "to": 30333,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 51820,
+                            "to": 51820,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 9100,
+                            "to": 9100,
+                            "cidrIp": "0.0.0.0/0"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "validator": false,
+            "pallet_options": {
+                "grandpa": {
+                    "address": "$ed25519",
+                    "weight": 3
+                }
+            },
+            "instance": {
+                "provider": "aws",
+                "sshUser": "ubuntu",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "machineType": "t3.small",
+                "location": "eu-central-1",
+                "zone": "eu-central-1",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "from": 22,
+                            "to": 22,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 30333,
+                            "to": 30333,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 51820,
+                            "to": 51820,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 9100,
+                            "to": 9100,
+                            "cidrIp": "0.0.0.0/0"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "my-node-2",
+            "validator": false,
+            "pallet_options": {
+                "grandpa": {
+                    "address": "$ed25519",
+                    "weight": 3
+                }
+            },
+            "instance": {
+                "provider": "aws",
+                "sshUser": "ubuntu",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "machineType": "t3.small",
+                "location": "eu-central-1",
+                "zone": "eu-central-1",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "from": 22,
+                            "to": 22,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 30333,
+                            "to": 30333,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 51820,
+                            "to": 51820,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 9100,
+                            "to": 9100,
+                            "cidrIp": "0.0.0.0/0"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "validator": false,
+            "pallet_options": {
+                "grandpa": {
+                    "address": "$ed25519",
+                    "weight": 3
+                }
+            },
+            "instance": {
+                "provider": "aws",
+                "sshUser": "ubuntu",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "machineType": "t3.small",
+                "location": "eu-central-1",
+                "zone": "eu-central-1",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "from": 22,
+                            "to": 22,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 30333,
+                            "to": 30333,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 51820,
+                            "to": 51820,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 9100,
+                            "to": 9100,
+                            "cidrIp": "0.0.0.0/0"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
