@@ -63,11 +63,6 @@
     - role: builder-build-spec
       when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
 
-- hosts: bootnode # NOTE(ryan): currently only supports 1
-  roles:
-    - role: bootnode-collect-ip
-      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
-
 - hosts: validator
   roles:
     - role: validator-push-spec
