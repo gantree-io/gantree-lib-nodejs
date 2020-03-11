@@ -10,7 +10,6 @@
             "version": "8b6fe66"
         }
     },
-    "network": "my-network",
     "defaults": {
         "nodes": {
             "palletOptions": {

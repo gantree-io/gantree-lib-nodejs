@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-const chalk = require('chalk')
-const config = require('../lib/config')
+const { Gantree } = require('../lib/gantree')
 const check = require('../lib/check')
 const { inventory } = require('../lib/dataManip/inventory')
+const { throwGantreeError } = require('../lib/error')
+
+const gantree = new Gantree()
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason)
@@ -11,19 +13,24 @@ process.on('unhandledRejection', (reason, p) => {
 
 async function main() {
   // DEPRECATE(ryan): GANTREE_INVENTORY_CONFIG_PATH
-  const configPath =
+  const gantreeConfigPath =
     process.env.GANTREE_CONFIG_PATH || process.env.GANTREE_INVENTORY_CONFIG_PATH
 
-  if (!configPath) {
-    console.error(
-      chalk.red('[Gantree] Error: env|GANTREE_CONFIG_PATH required.')
+  if (gantreeConfigPath === undefined) {
+    throwGantreeError(
+      'ENVIRONMENT_VARIABLE_MISSING',
+      Error(
+        'GANTREE_INVENTORY_CONFIG_PATH missing, please export the absolute path to your gantree config'
+      )
     )
-    process.exit(-1)
   }
 
-  const gantreeConfigObj = config.read(configPath)
+  const gantreeConfigObj = await gantree.returnConfig(gantreeConfigPath)
 
-  await config.validate(gantreeConfigObj, { verbose: false })
+  // validated during gantree.returnConfig function
+  // await config.validate(gantreeConfigObj, { verbose: false })
+
+  // TODO: consider moving this into gantree.returnConfig func
   await check.envVars(gantreeConfigObj, { verbose: false })
 
   const inventoryObj = await inventory(gantreeConfigObj)
