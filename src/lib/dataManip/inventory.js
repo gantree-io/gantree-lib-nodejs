@@ -79,27 +79,27 @@ const buildDynamicInventory = async c => {
     }
   }
 
+  ensureNames(c)
+
   const validator_list = []
 
   c.nodes.forEach((item, idx) => {
-    const name = item.name || 'node' + idx
+    const name = item.name
 
     if (idx == 0) {
       o.builder_bin = {}
       o.builder_spec = {}
-      o.builder_bin.children = [item.name]
-      o.builder_spec.children = [item.name]
+      o.builder_bin.children = [name]
+      o.builder_spec.children = [name]
     }
 
     validator_list.push(name)
-    const node = parseNode(name, item, idx)
-    // TODO(ryan) less hacky, allow for shared config
-    node.infra.infra_name = 'gantree-infra-create-' + name
-    o._meta.hostvars.localhost.infra.push(node.infra)
+    const parsed = parseNode(name, item, c)
+
+    o._meta.hostvars.localhost.infra.push(parsed.infra)
     o[name] = o[name] || {}
     o[name].vars = o[name].vars || {}
-    o[name].vars = Object.assign({}, o[name].vars, node.vars)
-    // gantree_nodes.push(node.inst_name)
+    o[name].vars = Object.assign({}, o[name].vars, parsed.vars)
   })
 
   o.validator = {}
@@ -108,8 +108,28 @@ const buildDynamicInventory = async c => {
   return o
 }
 
+const calcAwsSshKeyName = (item, config) => {
+  return 'key-' + config.metadata.project + '-' + item.name
+}
+
+const calcDoSshKeyName = (item, config) => {
+  const h = require('crypto')
+    .createHash('md5')
+    .update(item.instance.sshPublicKey)
+    .digest('hex')
+  return 'key-' + config.metadata.project + '-' + h
+}
+
+const ensureNames = config => {
+  config.nodes.forEach((item, idx) => {
+    item.name = item.name || config.metadata.project + idx
+    item.infra_name = 'gantree-infra-create-' + item.name
+  })
+}
+
 const getVars = (item, defaults) => {
   const substrate_user = item.substrate_user || defaults.substrate_user
+
   return {
     substrate_user,
     substrate_group: item.substrate_group || defaults.substrate_group,
@@ -119,11 +139,12 @@ const getVars = (item, defaults) => {
   }
 }
 
-const parseNode = (name, item) => {
+const parseNode = (name, item, config) => {
   if (item.instance.provider == 'gcp') {
     const infra = {
       provider: item.instance.provider,
-      instance_name: name,
+      instance_name: item.name,
+      infra_name: item.infra_name,
       machine_type: item.instance.machineType,
       deletion_protection: item.deletionProtection,
       zone: item.instance.zone,
@@ -131,7 +152,7 @@ const parseNode = (name, item) => {
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,
       gcp_project: item.instance.projectId,
-      state: 'present'
+      state: item.state || 'present'
     }
 
     const vars = getVars(item, {
@@ -148,12 +169,15 @@ const parseNode = (name, item) => {
   if (item.instance.provider == 'do') {
     const infra = {
       provider: item.instance.provider,
-      instance_name: name,
+      instance_name: item.name,
+      infra_name: item.infra_name,
       machine_type: item.instance.machineType,
       zone: item.instance.zone,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,
-      access_token: item.instance.access_token
+      ssh_key_name: calcDoSshKeyName(item, config),
+      access_token: item.instance.access_token,
+      state: item.state || 'present'
     }
 
     const vars = getVars(item, {
@@ -170,11 +194,13 @@ const parseNode = (name, item) => {
   if (item.instance.provider == 'aws') {
     const infra = {
       provider: item.instance.provider,
-      instance_name: name,
+      instance_name: item.name,
+      infra_name: item.infra_name,
       instance_type: item.instance.machineType,
       region: item.instance.zone,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,
+      ssh_key_name: calcAwsSshKeyName(item, config),
       state: item.state || 'present'
     }
 

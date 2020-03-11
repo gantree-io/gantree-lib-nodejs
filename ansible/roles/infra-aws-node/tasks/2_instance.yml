@@ -27,7 +27,7 @@
     state: "{{ state }}"
     name: "inst-{{ instance_name }}"
     region: "{{ region }}"
-    key_name: "key-{{ instance_name }}"
+    key_name: "{{ ssh_key_name }}"
     instance_type: "{{ instance_type }}"
     subnet_id: "{{ vpcsn_res.id }}"
     security_group: "{{ secgroup_res.group_id }}"
