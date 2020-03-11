@@ -38,8 +38,9 @@
             "instance": {
                 "provider": "aws",
                 "sshUser": "ubuntu",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev",
                 "machineType": "t3.small",
+                "volumeSize": 200,
                 "location": "eu-central-1",
                 "zone": "eu-central-1",
                 "firewall": {
@@ -83,8 +84,9 @@
             "instance": {
                 "provider": "aws",
                 "sshUser": "ubuntu",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev",
                 "machineType": "t3.small",
+                "volumeSize": 150,
                 "location": "eu-central-1",
                 "zone": "eu-central-1",
                 "firewall": {
@@ -129,7 +131,7 @@
             "instance": {
                 "provider": "aws",
                 "sshUser": "ubuntu",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev",
                 "machineType": "t3.small",
                 "location": "eu-central-1",
                 "zone": "eu-central-1",
@@ -174,7 +176,7 @@
             "instance": {
                 "provider": "aws",
                 "sshUser": "ubuntu",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPhfYhH372N90McdBxtrfWnaTTx4MS0ECozU9V1EVBJYtB8bG0JJvSljWlSCJLN+vCvUsU7wbE8AmlkyDVEz5ahjGjid8BzvimfgAGk2kddBd0/6tUk7zW0LA8VFoV77819NDQU88Ck5w4MwfT3ovxQdBfiODWOq1tu9slZJwl9m/UNi5Nnr8P0WFwyKdteJAoVn2Q/npAsyJ5IEi3yFABJARWp+ncZaK4ihH+56Jyd/LKk/EZuSqEALc4CEwtBNyqDmIq4VFiEsGo9aLmOYX+z2NXBAgdgZNbrD3JbJ/S1gRnbAsaiBWSF4b3c/PYnQkqKEO4dSXKkFgypbkYNFgp denver@denver-GBox-Ub18",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev",
                 "machineType": "t3.small",
                 "location": "eu-central-1",
                 "zone": "eu-central-1",

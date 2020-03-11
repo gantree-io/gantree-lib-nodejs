@@ -122,7 +122,7 @@ const calcDoSshKeyName = (item, config) => {
 
 const ensureNames = config => {
   config.nodes.forEach((item, idx) => {
-    item.name = item.name || config.metadata.project + idx
+    item.name = item.name || config.metadata.project + '-' + idx
     item.infra_name = 'gantree-infra-create-' + item.name
   })
 }
@@ -201,6 +201,7 @@ const parseNode = (name, item, config) => {
       instance_name: item.name,
       infra_name: item.infra_name,
       instance_type: item.instance.machineType,
+      volume_size: item.instance.volumeSize || 50,
       region: item.instance.zone,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,

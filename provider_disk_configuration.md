@@ -4,8 +4,8 @@
 #### GCP Provider
 - sizeGb: integer: default(50)
 
-#### DO
-- DO_API_TOKEN
+#### DO Provider
+- size: string: required
 
-#### AWS
-- must run python3
+#### AWS Provider
+- volumeSize: integer: default(50)
