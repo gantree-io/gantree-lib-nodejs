@@ -12,4 +12,4 @@
 - name: set ec2inst_res fact
   delegate_to: localhost
   set_fact:
-    ec2inst_res: "{{ ec2inst_res_all.instances[0] }}"
+    ec2inst_res: "{{ ec2inst_res_all.instances[0] | default('not-found') }}"

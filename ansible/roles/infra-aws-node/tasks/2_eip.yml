@@ -1,13 +1,15 @@
 ---
 - import_tasks: 2_instance_info.yml
-  when: state != 'absent'
+
+- debug:
+    msg: "{{ ec2inst_res }}"
 
 - name: associate elastic ip
   delegate_to: localhost
   ec2_eip:
-    device_id: "{{ ec2inst_res.instance_id }}"
+    device_id: "{{ ec2inst_res.instance_id | default(omit) }}"
     region: "{{ region }}"
     state: "{{ state }}"
     release_on_disassociation: yes
   register: elastic_ip
-  when: state != 'absent'
+  when: ec2inst_res != 'not-found'
