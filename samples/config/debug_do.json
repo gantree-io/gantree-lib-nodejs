@@ -19,10 +19,8 @@
                 "telemetry": true,
                 "loggingFilter": "sync=trace,afg=trace,babe=debug"
             },
-            "comment": {
-                "instance": {
-                    "sshPublicKey": "<public ssh key>"
-                }
+            "instance": {
+                "sshPublicKey": "<public ssh key>"
             },
             "validator": false
         }

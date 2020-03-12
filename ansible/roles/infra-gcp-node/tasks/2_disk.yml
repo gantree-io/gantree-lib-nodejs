@@ -3,8 +3,8 @@
   delegate_to: localhost
   gcp_compute_disk:
     name: "disk-{{ instance_name }}"
-    size_gb: "{{ machine_disk_size }}"
-    source_image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
+    size_gb: "{{ size_gb }}"
+    source_image: "{{ source_image }}"
     zone: "{{ zone }}"
     project: "{{ gcp_project }}"
     auth_kind: "{{ gcp_cred_kind }}"

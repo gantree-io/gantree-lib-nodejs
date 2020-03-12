@@ -124,7 +124,7 @@ const calcDoSshKeyName = (item, config) => {
 
 const ensureNames = config => {
   config.nodes.forEach((item, idx) => {
-    item.name = item.name || config.metadata.project + idx
+    item.name = item.name || config.metadata.project + '-' + idx
     item.infra_name = 'gantree-infra-create-' + item.name
   })
 }
@@ -143,12 +143,16 @@ const getVars = (item, defaults) => {
 
 const parseNode = (name, item, config) => {
   if (item.instance.provider == 'gcp') {
+    const gcpSourceImageDefault =
+      'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
     const infra = {
       provider: item.instance.provider,
       instance_name: item.name,
       infra_name: item.infra_name,
       machine_type: item.instance.machineType,
-      deletion_protection: item.deletionProtection,
+      source_image: item.instance.sourceImage || gcpSourceImageDefault,
+      size_gb: item.instance.sizeGb || 50,
+      deletion_protection: item.instance.deletionProtection || true,
       zone: item.instance.zone,
       region: item.instance.region,
       ssh_user: item.instance.sshUser,
@@ -199,6 +203,7 @@ const parseNode = (name, item, config) => {
       instance_name: item.name,
       infra_name: item.infra_name,
       instance_type: item.instance.machineType,
+      volume_size: item.instance.volumeSize || 50,
       region: item.instance.zone,
       ssh_user: item.instance.sshUser,
       ssh_key: item.instance.sshPublicKey,

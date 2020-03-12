@@ -18,7 +18,7 @@ async function main() {
     throwGantreeError(
       'ENVIRONMENT_VARIABLE_MISSING',
       Error(
-        'GANTREE_INVENTORY_CONFIG_PATH missing, please export the absolute path to your gantree config'
+        'GANTREE_CONFIG_PATH missing, please export the absolute path to your gantree config'
       )
     )
   }
