@@ -9,6 +9,15 @@ const inventory = async gantreeConfigObj => {
   return di
 }
 
+const returnRepoVersion = async c => {
+  if (c.binary.repository.version === undefined) {
+    console.warn('No version specified, using repository HEAD')
+    return 'HEAD'
+  } else {
+    return c.binary.repository.version
+  }
+}
+
 const buildDynamicInventory = async c => {
   // get the python for current environment so we can pass it around ansible if needed
   let pythonLocalPython
@@ -29,14 +38,7 @@ const buildDynamicInventory = async c => {
 
   if (!(c.binary.repository === undefined)) {
     repository_url = c.binary.repository.url
-    repository_version = await (() => {
-      if (c.binary.repository.version === undefined) {
-        console.warn('No version specified, using repository HEAD')
-        return 'HEAD'
-      } else {
-        return c.binary.repository.version
-      }
-    })
+    repository_version = await returnRepoVersion(c)
   }
 
   //console.log(c)
