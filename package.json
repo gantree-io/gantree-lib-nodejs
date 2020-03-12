@@ -28,9 +28,8 @@
   ],
   "files": [
     "/ansible",
-    "/src",
-    "/terraform",
-    "/tpl"
+    "/inventory",
+    "/src"
   ],
   "dependencies": {
     "ajv": "^6.11.0",
