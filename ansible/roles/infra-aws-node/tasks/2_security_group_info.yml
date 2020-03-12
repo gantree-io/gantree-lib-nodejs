@@ -11,4 +11,4 @@
 - name: set secgroup_res fact
   delegate_to: localhost
   set_fact:
-    secgroup_res: "{{ secgroup_res_all.security_groups[0] }}"
+    secgroup_res: "{{ secgroup_res_all.security_groups[0] | default(omit) }}"

@@ -4,7 +4,7 @@
 - name: vpc subnet
   delegate_to: localhost
   ec2_vpc_subnet:
-    vpc_id: "{{ vpcnet_res.id }}"
+    vpc_id: "{{ vpcnet_res.id | default('vpcnet-not-found') }}"
     cidr: 10.0.1.16/28
     region: "{{ region }}"
     state: "{{ state }}"

@@ -1,8 +1,20 @@
 ---
 - import_tasks: 2_eip.yml
+
 - import_tasks: 2_instance.yml
+
+- import_tasks: 2_vpc_net_info.yml
+
 - import_tasks: 2_vpc_route_table.yml
+  when: vpcnet_res != 'not-found'
+
 - import_tasks: 2_vpc_igw.yml
+  when: vpcnet_res != 'not-found'
+
 - import_tasks: 2_vpc_subnet.yml
+  when: vpcnet_res != 'not-found'
+
 - import_tasks: 2_security_group.yml
+  when: vpcnet_res != 'not-found'
+
 - import_tasks: 2_vpc_net.yml

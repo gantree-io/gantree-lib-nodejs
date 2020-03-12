@@ -16,7 +16,7 @@
     - 0.0.0.0/0
     target_tags:
     - "{{ instance_name }}"
-    network: "{{ network_res }}"
+    network: "{{ network_res | default(omit) }}"
     direction: ingress
     project: "{{ gcp_project }}"
     auth_kind: "{{ gcp_cred_kind }}"

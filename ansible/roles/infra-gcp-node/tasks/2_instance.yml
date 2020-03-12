@@ -11,12 +11,12 @@
     disks:
       - auto_delete: true
         boot: true
-        source: "{{ disk_res }}"
+        source: "{{ disk_res | default(omit) }}"
     network_interfaces:
-      - network: "{{ network_res }}"
+      - network: "{{ network_res | default(omit) }}"
         access_configs:
           - name: 'External NAT'
-            nat_ip: "{{ address_res }}"
+            nat_ip: "{{ address_res | default(omit) }}"
             type: 'ONE_TO_ONE_NAT'
     tags:
       items:

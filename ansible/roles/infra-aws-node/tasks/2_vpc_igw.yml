@@ -4,6 +4,6 @@
   ec2_vpc_igw:
     region: "{{ region }}"
     state: "{{ state }}"
-    vpc_id: "{{ vpcnet_res.id }}"
+    vpc_id: "{{ vpcnet_res.id | default('vpcnet-not-found') }}"
     tags:
       Name: "vpcigw-{{ instance_name }}"

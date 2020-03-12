@@ -14,5 +14,4 @@
     ssh_user: "{{ config.ssh_user }}"
     ssh_key: "{{ config.ssh_key }}"
     provider_groups: "{{ config.provider_groups | default() }}"
-    state: "{{ config.state }}"
     gantree_tags: "{{ config.gantree_tags | default({}) }}"
