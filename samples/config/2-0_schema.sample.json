@@ -27,7 +27,7 @@
     },
     "nodes": [
         {
-            "name": "my-node-1",
+            "name": "my_node_1",
             "validator": false,
             "pallet_options": {
                 "grandpa": {
@@ -73,7 +73,7 @@
             }
         },
         {
-            "name": "my-node-2",
+            "name": "mynode2",
             "validator": false,
             "pallet_options": {
                 "grandpa": {
