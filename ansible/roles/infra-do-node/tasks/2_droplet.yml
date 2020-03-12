@@ -1,5 +1,6 @@
 ---
 - import_tasks: 2_sshkey_info.yml
+  when: state != "asbsent"
 
 - name: do droplet
   delegate_to: localhost
@@ -10,6 +11,6 @@
     image: "{{ droplet_image }}"
     size: "{{ droplet_size }}"
     ssh_keys:
-    - "{{ sshkey_res.id }}"
+    - "{{ sshkey_res.id | default(omit) }}"
     unique_name: yes
   register: droplet_res

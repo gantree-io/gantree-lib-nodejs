@@ -8,7 +8,7 @@
     description: "security group for {{ instance_name }}"
     region: "{{ region }}"
     state: "{{ state }}"
-    vpc_id: "{{ vpcnet_res.id }}"
+    vpc_id: "{{ vpcnet_res.id | default(0) }}"
     tags:
       Name: "SG {{ instance_name }}"
     rules:

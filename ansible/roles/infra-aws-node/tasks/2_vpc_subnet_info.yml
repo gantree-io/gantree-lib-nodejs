@@ -11,4 +11,4 @@
 - name: set vpcsn_res fact
   delegate_to: localhost
   set_fact:
-    vpcsn_res: "{{ vpcsn_res_all.subnets[0] }}"
+    vpcsn_res: "{{ vpcsn_res_all.subnets[0] | default(omit) }}"

@@ -1,5 +1,22 @@
 ---
-- name: do sshkey
+# NOTE(ryan):
+# Ok, so we're running this twice, the first time pretending that it works regardless of result.
+# The reason for this is that this task gets run for every DO node all at once, so all the nodes
+# notice the key is missing and they all try to create it, but only the first once succeeds.
+# So basically part1 is a free-for-all where anyone can create the key and everyone else will fail
+# For part2 everyone checks the key exists and is happy :)
+# Also note, retries don't work here because the nodes will keep thinking they need to create the
+# key and keep retrying and failing to create it because it already exists
+
+- name: do sshkey part1
+  delegate_to: localhost
+  digital_ocean_sshkey:
+    name: "{{ ssh_key_name }}"
+    ssh_pub_key: "{{ ssh_key }}"
+    state: "{{ state }}"
+  failed_when: false
+
+- name: do sshkey part2
   delegate_to: localhost
   digital_ocean_sshkey:
     name: "{{ ssh_key_name }}"

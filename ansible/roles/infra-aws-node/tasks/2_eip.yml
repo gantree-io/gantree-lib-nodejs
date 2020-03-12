@@ -1,5 +1,6 @@
 ---
 - import_tasks: 2_instance_info.yml
+  when: state != 'absent'
 
 - name: associate elastic ip
   delegate_to: localhost
@@ -9,3 +10,4 @@
     state: "{{ state }}"
     release_on_disassociation: yes
   register: elastic_ip
+  when: state != 'absent'

@@ -11,4 +11,4 @@
 - name: set vpcigw_res fact
   delegate_to: localhost
   set_fact:
-    vpcigw_res: "{{ vpcigw_res_all.internet_gateways[0] }}"
+    vpcigw_res: "{{ vpcigw_res_all.internet_gateways[0] | default(omit) }}"

@@ -8,11 +8,11 @@
   ec2_vpc_route_table:
     region: "{{ region }}"
     state: "{{ state }}"
-    vpc_id: "{{ vpcnet_res.id }}"
+    vpc_id: "{{ vpcnet_res.id | default('vpc-not-found') }}"
     subnets:
-      - "{{ vpcsn_res.id }}"
+      - "{{ vpcsn_res.id | default(omit) }}"
     routes:
       - dest: 0.0.0.0/0
-        gateway_id: "{{ vpcigw_res.internet_gateway_id }}"
+        gateway_id: "{{ vpcigw_res.internet_gateway_id | default(omit) }}"
     tags:
       Name: "vpcrt-{{ instance_name }}"

@@ -11,4 +11,4 @@
 - name: set vpcnet_res fact
   delegate_to: localhost
   set_fact:
-    vpcnet_res: "{{ vpcnet_res_all.vpcs[0] }}"
+    vpcnet_res: "{{ vpcnet_res_all.vpcs[0] | default('not-found') }}"

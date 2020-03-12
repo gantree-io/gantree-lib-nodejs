@@ -13,5 +13,5 @@
   strategy: free
   gather_facts: no
   roles:
-    - infra-build-multi
+    - { role: infra-build-multi, state: absent }
   become: no
