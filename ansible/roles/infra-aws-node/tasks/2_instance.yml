@@ -41,6 +41,11 @@
       group_name: "{{ instance_name }}"
       not_terminated: "{{ 'false' if state == 'absent' else 'true' }}"
     image_id: "{{ latest_ami.image_id }}"
+    volumes:
+      - device_name: /dev/sda1
+        ebs:
+          volume_size: "{{ volume_size }}"
+          delete_on_termination: true
   register: inst_state
 
 - name: set ec2 not_terminated tag
