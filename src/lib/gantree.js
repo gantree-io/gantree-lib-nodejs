@@ -1,6 +1,7 @@
 const configUtils = require('./config')
 const { Platform } = require('./platform')
 const { Application } = require('./application')
+const cmd = require('./cmd')
 
 class Gantree {
   constructor() {
@@ -34,6 +35,21 @@ class Gantree {
     await this.syncApplication(gantreeConfigObj, infraObj)
 
     console.log('[DONE ] sync application')
+  }
+
+  async ansibleSyncAll(inventoryPath, ansiblePath) {
+    const cmdOptions = { verbose: true }
+    console.log(
+      'Syncing platform + application with temp function (ansible only)'
+    )
+    await cmd.exec('pwd', cmdOptions)
+    await cmd.exec(
+      `ansible-playbook -i ${inventoryPath} ${ansiblePath}/infra_and_operation.yml`,
+      cmdOptions
+    )
+    console.log(
+      'Done syncing platform + application! (temp ansible-only function)'
+    )
   }
 
   async syncPlatform(gantreeConfigObj) {
