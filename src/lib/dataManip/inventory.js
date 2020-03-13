@@ -57,7 +57,6 @@ const buildDynamicInventory = async c => {
     repository_version = await returnRepoVersion(c)
   }
 
-  //console.log(c)
   const o = {
     _meta: {
       hostvars: {

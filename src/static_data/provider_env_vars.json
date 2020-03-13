@@ -9,7 +9,7 @@
     ],
     "do": [
         {
-            "name": "DIGITALOCEAN_TOKEN"
+            "name": "DO_API_TOKEN"
         }
     ],
     "gcp": [

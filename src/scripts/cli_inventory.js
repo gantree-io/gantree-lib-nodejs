@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-const { Gantree } = require('../lib/gantree')
 const check = require('../lib/check')
+const config = require('../lib/config')
 const { inventory } = require('../lib/dataManip/inventory')
 const { throwGantreeError } = require('../lib/error')
-
-const gantree = new Gantree()
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason)
@@ -23,10 +21,10 @@ async function main() {
     )
   }
 
-  const gantreeConfigObj = await gantree.returnConfig(gantreeConfigPath)
+  const gantreeConfigObj = await config.read(gantreeConfigPath)
 
-  // validated during gantree.returnConfig function
-  // await config.validate(gantreeConfigObj, { verbose: false })
+  // don't use returnConfig instead, it dirties stdout
+  await config.validate(gantreeConfigObj, { verbose: false })
 
   // TODO: consider moving this into gantree.returnConfig func
   await check.envVars(gantreeConfigObj, { verbose: false })

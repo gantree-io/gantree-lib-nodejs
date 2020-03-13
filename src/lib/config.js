@@ -31,7 +31,9 @@ function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
         }
       }
     } else {
-      logger.info(`No ${validator_provider} specific keys required`)
+      if (verbose === true) {
+        logger.info(`No ${validator_provider} specific keys required`)
+      }
     }
   }
 
