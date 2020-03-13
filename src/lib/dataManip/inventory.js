@@ -1,12 +1,24 @@
 //todo: cleanup for lib-centric approach
-
+const path = require('path')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
+const inventoryGcp = require('./inventoryGcp')
+const inventoryAws = require('./inventoryAws')
+
 const inventory = async gantreeConfigObj => {
+  const inventoryPath = getInventoryPath()
+
+  inventoryGcp.writeFile(gantreeConfigObj, inventoryPath)
+  inventoryAws.writeFile(gantreeConfigObj, inventoryPath)
+
   const di = await buildDynamicInventory(gantreeConfigObj)
 
   return di
+}
+
+const getInventoryPath = () => {
+  return path.join(__dirname, '../../../inventory')
 }
 
 const buildDynamicInventory = async c => {
