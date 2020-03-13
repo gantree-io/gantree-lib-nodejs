@@ -1,6 +1,7 @@
 //todo: cleanup for lib-centric approach
 const path = require('path')
 const util = require('util')
+const fs = require('fs')
 const exec = util.promisify(require('child_process').exec)
 
 const inventoryGcp = require('./inventoryGcp')
@@ -10,6 +11,7 @@ const inventoryDo = require('./inventoryDo')
 const inventory = async gantreeConfigObj => {
   const inventoryPath = getInventoryPath()
   const activePath = path.join(inventoryPath, 'active')
+  !fs.existsSync(activePath) && fs.mkdirSync(activePath)
   const inactivePath = path.join(inventoryPath, 'inactive')
 
   inventoryGcp.writeFile(gantreeConfigObj, activePath)
