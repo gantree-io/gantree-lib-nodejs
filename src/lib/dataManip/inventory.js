@@ -9,6 +9,15 @@ const inventory = async gantreeConfigObj => {
   return di
 }
 
+const returnRepoVersion = async c => {
+  if (c.binary.repository.version === undefined) {
+    console.warn('No version specified, using repository HEAD')
+    return 'HEAD'
+  } else {
+    return c.binary.repository.version
+  }
+}
+
 const buildDynamicInventory = async c => {
   // get the python for current environment so we can pass it around ansible if needed
   let pythonLocalPython
@@ -29,14 +38,7 @@ const buildDynamicInventory = async c => {
 
   if (!(c.binary.repository === undefined)) {
     repository_url = c.binary.repository.url
-    repository_version = await (() => {
-      if (c.binary.repository.version === undefined) {
-        console.warn('No version specified, using repository HEAD')
-        return 'HEAD'
-      } else {
-        return c.binary.repository.version
-      }
-    })
+    repository_version = await returnRepoVersion(c)
   }
 
   //console.log(c)
@@ -64,9 +66,9 @@ const buildDynamicInventory = async c => {
         substrate_network_id: 'local_testnet',
         substrate_repository: repository_url || 'false',
         substrate_repository_version: repository_version,
-        substrate_binary_url: c.binary.fetch || 'false',
+        substrate_binary_url: c.binary.fetch.url || 'false',
         substrate_local_compile: c.binary.localCompile || 'false',
-        substrate_bin_name: c.binary.name,
+        substrate_bin_name: c.binary.filename,
         gantree_root: '../',
         substrate_use_default_spec: c.nodes.useDefaultChainSpec || 'false',
         substrate_chain_argument: c.nodes.chain || 'false',
@@ -141,14 +143,14 @@ const getVars = (item, defaults) => {
 
 const parseNode = (name, item, config) => {
   if (item.instance.provider == 'gcp') {
+    const gcpSourceImageDefault =
+      'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
     const infra = {
       provider: item.instance.provider,
       instance_name: item.name,
       infra_name: item.infra_name,
       machine_type: item.instance.machineType,
-      source_image:
-        item.instance.sourceImage ||
-        'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts',
+      source_image: item.instance.sourceImage || gcpSourceImageDefault,
       size_gb: item.instance.sizeGb || 50,
       deletion_protection: item.instance.deletionProtection || 'false',
       zone: item.instance.zone,

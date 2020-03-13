@@ -46,7 +46,7 @@ module.exports = {
         output = Buffer.concat([output, Buffer.from(data)])
         if (options.verbose) {
           logger.error(
-            `Execution failed for command '${command}': ${data.toString()}`
+            `Error occured during command execution '${command}': \n${data.toString()}`
           )
         }
       })

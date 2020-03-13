@@ -12,15 +12,13 @@ process.on('unhandledRejection', (reason, p) => {
 })
 
 async function main() {
-  // DEPRECATE(ryan): GANTREE_INVENTORY_CONFIG_PATH
-  const gantreeConfigPath =
-    process.env.GANTREE_CONFIG_PATH || process.env.GANTREE_INVENTORY_CONFIG_PATH
+  const gantreeConfigPath = process.env.GANTREE_CONFIG_PATH
 
   if (gantreeConfigPath === undefined) {
     throwGantreeError(
       'ENVIRONMENT_VARIABLE_MISSING',
       Error(
-        'GANTREE_INVENTORY_CONFIG_PATH missing, please export the absolute path to your gantree config'
+        'GANTREE_CONFIG_PATH missing, please export the absolute path to your gantree config'
       )
     )
   }
