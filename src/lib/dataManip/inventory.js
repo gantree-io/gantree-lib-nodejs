@@ -5,12 +5,16 @@ const exec = util.promisify(require('child_process').exec)
 
 const inventoryGcp = require('./inventoryGcp')
 const inventoryAws = require('./inventoryAws')
+const inventoryDo = require('./inventoryDo')
 
 const inventory = async gantreeConfigObj => {
   const inventoryPath = getInventoryPath()
+  const activePath = path.join(inventoryPath, 'active')
+  const inactivePath = path.join(inventoryPath, 'inactive')
 
-  inventoryGcp.writeFile(gantreeConfigObj, inventoryPath)
-  inventoryAws.writeFile(gantreeConfigObj, inventoryPath)
+  inventoryGcp.writeFile(gantreeConfigObj, activePath)
+  inventoryAws.writeFile(gantreeConfigObj, activePath)
+  inventoryDo.writeFile(gantreeConfigObj, activePath, inactivePath)
 
   const di = await buildDynamicInventory(gantreeConfigObj)
 
@@ -18,7 +22,7 @@ const inventory = async gantreeConfigObj => {
 }
 
 const getInventoryPath = () => {
-  return path.join(__dirname, '../../../inventory')
+  return path.join(__dirname, '../', '../', '../', 'inventory')
 }
 
 const returnRepoVersion = async c => {
