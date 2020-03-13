@@ -35,13 +35,17 @@ const buildDynamicInventory = async c => {
 
   let repository_url = 'false'
   let repository_version = 'false'
+  let fetch_url = 'false'
+
+  if (!(c.binary.fetch == undefined)) {
+    fetch_url = c.binary.fetch.url
+  }
 
   if (!(c.binary.repository === undefined)) {
     repository_url = c.binary.repository.url
     repository_version = await returnRepoVersion(c)
   }
 
-  //console.log(c)
   const o = {
     _meta: {
       hostvars: {
@@ -66,7 +70,7 @@ const buildDynamicInventory = async c => {
         substrate_network_id: 'local_testnet',
         substrate_repository: repository_url || 'false',
         substrate_repository_version: repository_version,
-        substrate_binary_url: c.binary.fetch.url || 'false',
+        substrate_binary_url: fetch_url || 'false',
         substrate_local_compile: c.binary.localCompile || 'false',
         substrate_bin_name: c.binary.filename,
         gantree_root: '../',
