@@ -32,6 +32,13 @@ curl https://raw.githubusercontent.com/flex-dapps/gantree-requirements/master/an
 ansible-galaxy install -r ansible_requirements.yml
 ```
 
+Install required python packages
+
+```bash
+pipenv install
+pipenv shell
+```
+
 ### Package Installation
 
 Install gantree-cli
