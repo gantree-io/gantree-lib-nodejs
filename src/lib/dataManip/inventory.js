@@ -87,7 +87,7 @@ const buildDynamicInventory = async c => {
         substrate_local_compile: c.binary.localCompile || 'false',
         substrate_bin_name: c.binary.filename,
         gantree_root: '../',
-        substrate_use_default_spec: c.nodes.useDefaultChainSpec || 'false',
+        substrate_use_default_spec: c.binary.useDefaultChainSpec || 'false',
         substrate_chain_argument: c.nodes.chain || 'false',
         substrate_bootnode_argument: c.nodes.bootnodes || [],
         substrate_telemetry_argument: c.nodes.telemetry || 'false',
