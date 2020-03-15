@@ -4,11 +4,13 @@
         "project": "my-gantree-project"
     },
     "binary": {
-        "filename": "node-template",
-        "repository": {
-            "url": "https://github.com/substrate-developer-hub/substrate-node-template.git",
-            "version": "8b6fe66"
-        }
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.22/polkadot"
+        },
+        "filename": "polkadot",
+        "localCompile": "false",
+        "useDefaultChainSpec": "true",
+        "chain": "false"
     },
     "network": "my-network",
     "defaults": {

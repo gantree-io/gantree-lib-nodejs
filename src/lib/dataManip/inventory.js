@@ -8,6 +8,10 @@ const inventoryGcp = require('./inventoryGcp')
 const inventoryAws = require('./inventoryAws')
 const inventoryDo = require('./inventoryDo')
 
+const configGcp = require('./configGcp')
+const configAws = require('./configAws')
+const configDo = require('./configDo')
+
 const inventory = async gantreeConfigObj => {
   const inventoryPath = getInventoryPath()
   const activePath = path.join(inventoryPath, 'active')
@@ -36,9 +40,10 @@ const returnRepoVersion = async c => {
   }
 }
 
-const buildDynamicInventory = async c => {
+const getLocalPython = async () => {
   // get the python for current environment so we can pass it around ansible if needed
   let pythonLocalPython
+
   try {
     pythonLocalPython = await exec(
       'python -c "import sys; print(sys.executable)"'
@@ -46,18 +51,16 @@ const buildDynamicInventory = async c => {
   } catch (e) {
     // console.warn('python 2 is a no-go')
   }
+
   pythonLocalPython = await exec(
     'python3 -c "import sys; print(sys.executable)"'
   )
-  const localPython = pythonLocalPython.stdout.trim()
 
-  let repository_url = 'false'
-  let repository_version = 'false'
+  return pythonLocalPython.stdout.trim()
+}
 
-  if (!(c.binary.repository === undefined)) {
-    repository_url = c.binary.repository.url
-    repository_version = await returnRepoVersion(c)
-  }
+const buildDynamicInventory = async config => {
+  ensureNames(config)
 
   const o = {
     _meta: {
@@ -70,39 +73,18 @@ const buildDynamicInventory = async c => {
     local: {
       hosts: ['localhost'],
       vars: {
-        ansible_python_interpreter: localPython,
+        ansible_python_interpreter: await getLocalPython(),
         ansible_connection: 'local'
       }
     },
     all: {
-      vars: {
-        gantree_control_working: '/tmp/gantree-control/',
-        ansible_ssh_common_args:
-          '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
-        // project={{ project } }
-        substrate_network_id: 'local_testnet',
-        substrate_repository: repository_url || 'false',
-        substrate_repository_version: repository_version,
-        substrate_binary_url: (c.binary.fetch && c.binary.fetch.url) || 'false',
-        substrate_local_compile: c.binary.localCompile || 'false',
-        substrate_bin_name: c.binary.filename,
-        gantree_root: '../',
-        substrate_use_default_spec: c.binary.useDefaultChainSpec || 'false',
-        substrate_chain_argument: c.nodes.chain || 'false',
-        substrate_bootnode_argument: c.nodes.bootnodes || [],
-        substrate_telemetry_argument: c.nodes.telemetry || 'false',
-        substrate_options: c.nodes.substrateOptions || [],
-        substrate_rpc_port: c.nodes.rpcPort || 9933,
-        substrate_node_name: c.nodes.name || 'false'
-      }
+      vars: await getSharedVars({ config })
     }
   }
 
-  ensureNames(c)
-
   const validator_list = []
 
-  c.nodes.forEach((item, idx) => {
+  config.nodes.forEach((item, idx) => {
     const name = item.name
 
     if (idx == 0) {
@@ -113,30 +95,19 @@ const buildDynamicInventory = async c => {
     }
 
     validator_list.push(name)
-    const parsed = parseNode(name, item, c)
+    const infra = parseNode({ name, item, config })
 
-    o._meta.hostvars.localhost.infra.push(parsed.infra)
+    o._meta.hostvars.localhost.infra.push(infra)
+
+    const nodeVars = getNodeVars({ item, infra })
     o[name] = o[name] || {}
-    o[name].vars = o[name].vars || {}
-    o[name].vars = Object.assign({}, o[name].vars, parsed.vars)
+    o[name].vars = Object.assign(o[name].vars || {}, nodeVars)
   })
 
   o.validator = {}
   o.validator.children = validator_list
 
   return o
-}
-
-const calcAwsSshKeyName = (item, config) => {
-  return 'key-' + config.metadata.project + '-' + item.name
-}
-
-const calcDoSshKeyName = item => {
-  const h = require('crypto')
-    .createHash('md5')
-    .update(item.instance.sshPublicKey)
-    .digest('hex')
-  return 'key-gantree-' + h
 }
 
 const ensureNames = config => {
@@ -146,97 +117,65 @@ const ensureNames = config => {
   })
 }
 
-const getVars = (item, defaults) => {
-  const substrate_user = item.substrate_user || defaults.substrate_user
+const getSharedVars = async ({ config: c }) => {
+  let repository_url = 'false'
+  let repository_version = 'false'
+
+  if (!(c.binary.repository === undefined)) {
+    repository_url = c.binary.repository.url
+    repository_version = await returnRepoVersion(c)
+  }
 
   return {
-    substrate_user,
-    substrate_group: item.substrate_group || defaults.substrate_group,
-    ansible_user: item.instance.sshUser || defaults.ansbile_user,
-    substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
-    gantree_working: `/home/${substrate_user}/tmp/gantree-validator`
+    // ansible/gantree vars
+    gantree_root: '../',
+    gantree_control_working: '/tmp/gantree-control/',
+    ansible_ssh_common_args:
+      '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
+
+    // shared vars
+    substrate_network_id: 'local_testnet',
+    substrate_repository: repository_url || 'false',
+    substrate_repository_version: repository_version,
+    substrate_binary_url: (c.binary.fetch && c.binary.fetch.url) || 'false',
+    substrate_local_compile: c.binary.localCompile || 'false',
+    substrate_bin_name: c.binary.filename,
+    substrate_use_default_spec: c.binary.useDefaultChainSpec || 'false',
+    substrate_chain_argument: c.binary.chain || 'false',
+    substrate_bootnode_argument: c.binary.bootnodes || []
   }
 }
 
-const parseNode = (name, item, config) => {
+const getNodeVars = ({ item, infra }) => {
+  item.binaryOptions = item.binaryOptions || {}
+
+  const substrate_user = 'subuser'
+
+  return {
+    ansible_user: infra.ssh_user,
+    gantree_working: `/home/${substrate_user}/tmp/gantree-validator`,
+
+    substrate_user,
+    substrate_group: 'subgroup',
+    substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
+    substrate_telemetry_argument: item.binaryOptions.telemetry || 'false',
+    substrate_options: item.binaryOptions.substrateOptions || [],
+    substrate_rpc_port: item.binaryOptions.rpcPort || 9933,
+    substrate_node_name: item.name || 'false'
+  }
+}
+
+const parseNode = ({ item, config }) => {
   if (item.instance.provider == 'gcp') {
-    const gcpSourceImageDefault =
-      'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
-    const infra = {
-      provider: item.instance.provider,
-      instance_name: item.name,
-      infra_name: item.infra_name,
-      machine_type: item.instance.machineType,
-      source_image: item.instance.sourceImage || gcpSourceImageDefault,
-      size_gb: item.instance.sizeGb || 50,
-      deletion_protection: item.instance.deletionProtection || 'false',
-      zone: item.instance.zone,
-      region: item.instance.region,
-      ssh_user: item.instance.sshUser,
-      ssh_key: item.instance.sshPublicKey,
-      gcp_project: item.instance.projectId,
-      state: item.state || 'present'
-    }
-
-    const vars = getVars(item, {
-      substrate_user: 'subuser',
-      substrate_group: 'subgroup',
-      ansible_user: 'root'
-    })
-
-    const inst_name = 'inst-' + name
-
-    return { infra, vars, inst_name }
+    return configGcp.parseInfra({ item, config })
   }
 
   if (item.instance.provider == 'do') {
-    const infra = {
-      provider: item.instance.provider,
-      instance_name: item.name,
-      infra_name: item.infra_name,
-      machine_type: item.instance.machineType,
-      zone: item.instance.zone,
-      ssh_user: item.instance.sshUser,
-      ssh_key: item.instance.sshPublicKey,
-      ssh_key_name: calcDoSshKeyName(item, config),
-      access_token: item.instance.access_token,
-      state: item.state || 'present'
-    }
-
-    const vars = getVars(item, {
-      substrate_user: 'subuser',
-      substrate_group: 'subgroup',
-      ansible_user: 'root'
-    })
-
-    const inst_name = 'drop-' + name
-
-    return { infra, vars, inst_name }
+    return configDo.parseInfra({ item, config })
   }
 
   if (item.instance.provider == 'aws') {
-    const infra = {
-      provider: item.instance.provider,
-      instance_name: item.name,
-      infra_name: item.infra_name,
-      instance_type: item.instance.machineType,
-      volume_size: item.instance.volumeSize || 50,
-      region: item.instance.zone,
-      ssh_user: item.instance.sshUser,
-      ssh_key: item.instance.sshPublicKey,
-      ssh_key_name: calcAwsSshKeyName(item, config),
-      state: item.state || 'present'
-    }
-
-    const vars = getVars(item, {
-      substrate_user: 'subuser',
-      substrate_group: 'subgroup',
-      ansible_user: 'ubuntu'
-    })
-
-    const inst_name = 'inst-' + name
-
-    return { infra, vars, inst_name }
+    return configAws.parseInfra({ item, config })
   }
 
   throw Error(`Unknown provider: ${item.instance.provider}`)

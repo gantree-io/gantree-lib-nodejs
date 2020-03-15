@@ -11,3 +11,4 @@
   loop: "{{ sshkey_allkeys_res.data|json_query(ssh_pubkey) }}"
   vars:
     ssh_pubkey: "[?name=='{{ ssh_key_name }}']"
+  no_log: yes
