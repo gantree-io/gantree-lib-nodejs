@@ -32,11 +32,10 @@ curl https://raw.githubusercontent.com/flex-dapps/gantree-requirements/master/an
 ansible-galaxy install -r ansible_requirements.yml
 ```
 
-Install required python packages
+Install required python packages (it is highly recommended to use a virtual environment)
 
 ```bash
-pipenv install
-pipenv shell
+pip install ansible boto boto3 botocore requests google-auth
 ```
 
 ### Package Installation
