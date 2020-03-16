@@ -1,0 +1,6 @@
+ansible
+boto
+boto3
+botocore
+requests
+google-auth
