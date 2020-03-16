@@ -14,23 +14,17 @@ const writeDoFile = (c, invPath, invDeactivePath) => {
   const doPyInactive = path.join(invDeactivePath, doPyName)
   const doIniInactive = path.join(invDeactivePath, doIniName)
 
+  if (fs.existsSync(doPyActive)) {
+    fs.unlinkSync(doPyActive)
+  }
+  if (fs.existsSync(doIniActive)) {
+    fs.unlinkSync(doIniActive)
+  }
+
   if (active) {
-    if (!fs.existsSync(doPyActive)) {
-      fs.copyFileSync(doPyInactive, doPyActive)
-      fs.chmodSync(doPyActive, '755')
-    }
-
-    if (!fs.existsSync(doIniActive)) {
-      fs.copyFileSync(doIniInactive, doIniActive)
-    }
-  } else {
-    if (fs.existsSync(doPyActive)) {
-      fs.unlinkSync(doPyActive)
-    }
-
-    if (fs.existsSync(doIniActive)) {
-      fs.unlinkSync(doIniActive)
-    }
+    fs.copyFileSync(doPyInactive, doPyActive)
+    fs.chmodSync(doPyActive, '755')
+    fs.copyFileSync(doIniInactive, doIniActive)
   }
 }
 

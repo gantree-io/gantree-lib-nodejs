@@ -1,7 +1,8 @@
 const parseInfra = ({ item, config }) => {
   const infraConfig = {
     instance_name: item.name,
-    infra_name: item.infra_name,
+    infra_name: 'gantree-infra-' + item.name,
+    group_name: item.name.replace(/-/g, '_'),
     provider: item.instance.provider,
     instance_type: item.instance.machineType,
     volume_size: item.instance.volumeSize || 50,
