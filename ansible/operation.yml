@@ -1,5 +1,5 @@
 ---
-- hosts: validator
+- hosts: validator:builder_bin:builder_spec
   gather_facts: false
   strategy: free
   tasks:
@@ -20,6 +20,7 @@
   become: yes
 
 - hosts: validator:builder_spec
+  gather_facts: no
   strategy: free
   roles:
     - validator-push-bin
@@ -30,9 +31,15 @@
     - control-prepare
 
 - hosts: validator
-  serial: 1 # NOTE(ryan): to avoid weird collision on pulling the keys to host
+  gather_facts: no
   roles:
     - validator-gen-keys
+
+- hosts: validator
+  gather_facts: no
+  serial: 1 # NOTE(ryan): to avoid weird collision on pulling the keys to host
+  roles:
+    - validator-gen-keys-retreive
 
 - hosts: builder_spec
   roles:
@@ -40,18 +47,22 @@
       when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
 
 - hosts: validator
+  gather_facts: no
   roles:
     - role: validator-push-spec
       when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
 
 - hosts: validator
+  gather_facts: no
   roles:
     - validator-service
 
 - hosts: validator
+  gather_facts: no
   roles:
     - validator-key-insert
 
 - hosts: validator
+  gather_facts: no
   roles:
     - validator-service-restart

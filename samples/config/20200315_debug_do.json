@@ -4,11 +4,13 @@
         "project": "my-gantree-project"
     },
     "binary": {
-        "filename": "node-template",
-        "repository": {
-            "url": "https://github.com/substrate-developer-hub/substrate-node-template.git",
-            "version": "8b6fe66"
-        }
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.22/polkadot"
+        },
+        "filename": "polkadot",
+        "localCompile": "false",
+        "useDefaultChainSpec": "true",
+        "chain": "false"
     },
     "defaults": {
         "nodes": {
@@ -40,7 +42,7 @@
                 "machineType": "s-1vcpu-1gb",
                 "zone": "nyc3",
                 "sshUser": "root",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev"
             }
         },
         {
@@ -56,7 +58,7 @@
                 "machineType": "s-1vcpu-1gb",
                 "zone": "nyc3",
                 "sshUser": "root",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev"
             }
         },
         {
@@ -73,7 +75,7 @@
                 "machineType": "s-1vcpu-1gb",
                 "zone": "nyc3",
                 "sshUser": "root",
-                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWm5zT2xq2U+8FoKQPfZElMiWk5IblaJlaQ9oNcLSknaRfPl0kNrHtiXAd7GPA3H1Gqo/C0G1y4xG6EZCETlFpMrNhEHyax84yC8xKMg6UdkmX5mT0c9p98OvZKQLqOGU2vc6cMeQ/uw9BF/74ToSjC1LnCV3DTh2QuVJuKjvDdjmWroqHANuwobrGtRjZQW1dMbgqsiw+Vb0F0AUC0+0q9MXDLbnRNt8sk+Gj1I/CaRqsFzkBpgnQeyCqgWuibm4E125AqtpwOSLRx85eJ+BHNA4ljG+Jcct5SmZBLXBKJEsQWUtDbOSZ+7ZlIDxCmAvE+2J46R1AjyD4bvHF9aV3 rozifus@calv-subsecval"
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev"
             }
         }
     ]

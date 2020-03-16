@@ -1,9 +1,6 @@
 ---
 - import_tasks: 2_instance_info.yml
 
-- debug:
-    msg: "{{ ec2inst_res }}"
-
 - name: associate elastic ip
   delegate_to: localhost
   ec2_eip:

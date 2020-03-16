@@ -84,17 +84,10 @@
     state: directory
   become: no
 
-- name: retrieve session info
-  fetch:
-    src: '/home/{{ substrate_user }}/session.{{ substrate_network_id }}.yaml'
-    dest: '{{ gantree_control_working }}/session/{{ inventory_hostname }}.{{ substrate_network_id }}.yaml'
-    flat: yes
-  retries: 2
-
 - name: change owner of substrate user keystore
   become: yes
   file:
-    path: /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_network_id }}
+    path: /home/{{ substrate_user }}/.local
     owner: '{{ substrate_user }}'
     group: '{{ substrate_group }}'
     recurse: yes
