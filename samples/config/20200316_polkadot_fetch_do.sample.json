@@ -1,0 +1,40 @@
+{
+    "metadata": {
+        "project": "polkadot",
+        "version": "0.1"
+    },
+    "binary": {
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.20/polkadot"
+        },
+        "filename": "polkadot"
+    },
+    "nodes": [
+        {
+            "validator": true,
+            "name": "polkadotgantree1",
+            "loggingFilter": "sync=trace,afg=trace,babe=debug",
+            "telemetry": true,
+            "instance": {
+                "provider": "do",
+                "machineType": "s-1vcpu-1gb",
+                "zone": "nyc3",
+                "sshUser": "root",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLHzCiw0eejXAq193i55rpmuoq4Iw4teOd324IwE3bZoFHh1IPnSMAqpU6KXsJ/ca3UvxKK2eM6rUMYzV2uF4j3hWIbtPaMmVKtewcWDuftGyQGYd5QkjmFfzZRY3wOEVXGtFnyr/nidOqadmpasiVfG8GJzbGPlWMuMOdQV2zbn/Jv1k/hxTEKRSR0F6KT0H6fVwHO5GIUZEL1nAI0oBJRMGItWUmrONeGLlqIfftNVM85wVivENw+1RmHpSey/XgtpxW3nnpHBp1jwwrXo9m5KqBAMeZZZvTwS1LSOxpE2zJ17IWpdEoVKZfnRl5cXiH212m6QzLTu60zrWzToZl denver@debian"
+            }
+        },
+        {
+            "validator": true,
+            "name": "polkadotgantree2",
+            "loggingFilter": "sync=trace,afg=trace,babe=debug",
+            "telemetry": true,
+            "instance": {
+                "provider": "do",
+                "machineType": "s-1vcpu-1gb",
+                "zone": "nyc3",
+                "sshUser": "root",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLHzCiw0eejXAq193i55rpmuoq4Iw4teOd324IwE3bZoFHh1IPnSMAqpU6KXsJ/ca3UvxKK2eM6rUMYzV2uF4j3hWIbtPaMmVKtewcWDuftGyQGYd5QkjmFfzZRY3wOEVXGtFnyr/nidOqadmpasiVfG8GJzbGPlWMuMOdQV2zbn/Jv1k/hxTEKRSR0F6KT0H6fVwHO5GIUZEL1nAI0oBJRMGItWUmrONeGLlqIfftNVM85wVivENw+1RmHpSey/XgtpxW3nnpHBp1jwwrXo9m5KqBAMeZZZvTwS1LSOxpE2zJ17IWpdEoVKZfnRl5cXiH212m6QzLTu60zrWzToZl denver@debian"
+            }
+        }
+    ]
+}
