@@ -52,6 +52,21 @@ class Gantree {
     )
   }
 
+  async ansibleCleanAll(inventoryPath, ansiblePath) {
+    const cmdOptions = { verbose: true }
+    console.log(
+      'Cleaning platform + application with temp function (ansible only)'
+    )
+    await cmd.exec('pwd', cmdOptions)
+    await cmd.exec(
+      `ansible-playbook -i ${inventoryPath} ${ansiblePath}/clean_infra.yml`,
+      cmdOptions
+    )
+    console.log(
+      'Done cleaning platform + application! (temp ansible-only function)'
+    )
+  }
+
   async syncPlatform(gantreeConfigObj) {
     const platform = new Platform(gantreeConfigObj)
     const platformSyncResult = await platform.sync()
