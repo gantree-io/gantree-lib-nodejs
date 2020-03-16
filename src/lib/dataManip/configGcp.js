@@ -5,7 +5,8 @@ const parseInfra = ({ item }) => {
   const infraConfig = {
     provider: item.instance.provider,
     instance_name: item.name,
-    infra_name: item.infra_name,
+    infra_name: 'gantree-infra-' + item.name,
+    group_name: item.name.replace(/-/g, '_'),
     machine_type: item.instance.machineType,
     source_image: item.instance.sourceImage || gcpSourceImageDefault,
     size_gb: item.instance.sizeGb || 50,

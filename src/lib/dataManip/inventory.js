@@ -85,23 +85,23 @@ const buildDynamicInventory = async config => {
   const validator_list = []
 
   config.nodes.forEach((item, idx) => {
-    const name = item.name
+    const infra = parseNode({ item, config })
+    const group = infra.group_name
 
     if (idx == 0) {
       o.builder_bin = {}
       o.builder_spec = {}
-      o.builder_bin.children = [name]
-      o.builder_spec.children = [name]
+      o.builder_bin.children = [group]
+      o.builder_spec.children = [group]
     }
 
-    validator_list.push(name)
-    const infra = parseNode({ name, item, config })
+    validator_list.push(group)
 
     o._meta.hostvars.localhost.infra.push(infra)
 
     const nodeVars = getNodeVars({ item, infra })
-    o[name] = o[name] || {}
-    o[name].vars = Object.assign(o[name].vars || {}, nodeVars)
+    o[group] = o[group] || {}
+    o[group].vars = Object.assign(o[group].vars || {}, nodeVars)
   })
 
   o.validator = {}

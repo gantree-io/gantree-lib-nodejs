@@ -10,7 +10,8 @@ const parseInfra = ({ item }) => {
   const infraConfig = {
     provider: item.instance.provider,
     instance_name: item.name,
-    infra_name: item.infra_name,
+    infra_name: 'gantree-infra-' + item.name,
+    group_name: item.name,
     machine_type: item.instance.machineType,
     zone: item.instance.zone,
     ssh_user: item.instance.sshUser || 'root',
