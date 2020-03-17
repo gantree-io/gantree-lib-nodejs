@@ -1,12 +1,11 @@
 ---
 - import_tasks: 0_select.yml
   vars:
-    access_token: "{{ config.access_token }}"
-    ssh_user: root
+    ssh_user: "{{ config.ssh_user }}"
     ssh_key: "{{ config.ssh_key }}"
     ssh_key_name: "{{ config.ssh_key_name }}"
     instance_name: "{{ config.instance_name }}"
-    droplet_size: "{{ config.droplet_size | default('s-1vcpu-1gb') }}"
-    droplet_image: '53893572' # ubuntu-18-04-x64
-    region: "{{ config.droplet_region | default('nyc3') }}"
-    gantree_tags: "{{ config.gantree_tags | default({}) }}"
+    droplet_size: "{{ config.droplet_size }}"
+    droplet_image: "{{ config.droplet_image }}" # ubuntu-18-04-x64
+    region: "{{ config.droplet_region }}"
+    gantree_tags: "{{ config.gantree_tags }}"

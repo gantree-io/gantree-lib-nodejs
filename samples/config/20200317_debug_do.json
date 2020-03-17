@@ -12,69 +12,33 @@
         "useDefaultChainSpec": "true",
         "chain": "false"
     },
-    "defaults": {
-        "nodes": {
-            "palletOptions": {
-                "aura": "$sr25519"
-            },
-            "binaryOptions": {
-                "telemetry": true,
-                "loggingFilter": "sync=trace,afg=trace,babe=debug"
-            },
-            "instance": {
-                "sshPublicKey": "<public ssh key>"
-            },
-            "validator": false
-        }
-    },
     "nodes": [
         {
             "name": "my-node-1",
             "validator": false,
-            "pallet_options": {
-                "grandpa": {
-                    "address": "$ed25519",
-                    "weight": 3
-                }
-            },
             "instance": {
                 "provider": "do",
-                "machineType": "s-1vcpu-1gb",
-                "zone": "nyc3",
-                "sshUser": "root",
+                "dropletSize": "s-2vcpu-2gb",
+                "region": "nyc3",
                 "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev"
             }
         },
         {
             "validator": false,
-            "pallet_options": {
-                "grandpa": {
-                    "address": "$ed25519",
-                    "weight": 3
-                }
-            },
             "instance": {
                 "provider": "do",
-                "machineType": "s-1vcpu-1gb",
-                "zone": "nyc3",
-                "sshUser": "root",
+                "dropletSize": "s-1vcpu-1gb",
+                "region": "nyc1",
                 "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev"
             }
         },
         {
             "name": "my-node-2",
             "validator": false,
-            "pallet_options": {
-                "grandpa": {
-                    "address": "$ed25519",
-                    "weight": 3
-                }
-            },
             "instance": {
                 "provider": "do",
-                "machineType": "s-1vcpu-1gb",
+                "dropletSize": "s-4vcpu-4gb",
                 "zone": "nyc3",
-                "sshUser": "root",
                 "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev"
             }
         }

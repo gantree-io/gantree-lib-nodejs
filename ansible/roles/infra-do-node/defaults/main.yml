@@ -2,10 +2,9 @@
 # defaults file for z-test-gcp
 
 access_token: NOT_SET
-ssh_user: root
+ssh_user: NOT_SET
 ssh_key: NOT_SET
-droplet_name: NOT_SET
-droplet_size: s-1vcpu-1gb
-droplet_image: 53893572 # ubuntu-18-04-x64
-region: nyc3
+droplet_size: NOT_SET
+droplet_image: NOT_SET
+region: NOT_SET
 state: present

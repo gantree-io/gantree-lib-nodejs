@@ -129,7 +129,7 @@ const getSharedVars = async ({ config: c }) => {
   return {
     // ansible/gantree vars
     gantree_root: '../',
-    gantree_control_working: '/tmp/gantree-control/',
+    gantree_control_working: '/tmp/gantree-control',
     ansible_ssh_common_args:
       '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
 
@@ -152,6 +152,7 @@ const getNodeVars = ({ item, infra }) => {
   const substrate_user = 'subuser'
 
   return {
+    force_valid_group_names: 'silently',
     ansible_user: infra.ssh_user,
     gantree_working: `/home/${substrate_user}/tmp/gantree-validator`,
 
