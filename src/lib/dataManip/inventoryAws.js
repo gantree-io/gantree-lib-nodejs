@@ -22,8 +22,8 @@ const getAwsRegions = c => {
   const regions = []
   c.nodes.forEach(n => {
     if (n.instance.provider == 'aws') {
-      if (!regions.includes(n.instance.zone)) {
-        regions.push(n.instance.zone)
+      if (!regions.includes(n.instance.region)) {
+        regions.push(n.instance.region)
       }
     }
   })

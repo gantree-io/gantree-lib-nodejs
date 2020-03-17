@@ -2,7 +2,6 @@
     "gcp": [
         "projectId"
     ],
-    "aws": [
-        "location"
-    ]
+    "aws": [],
+    "do": []
 }

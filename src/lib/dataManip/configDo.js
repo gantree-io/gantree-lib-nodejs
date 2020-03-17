@@ -12,11 +12,12 @@ const parseInfra = ({ item }) => {
     instance_name: item.name,
     infra_name: 'gantree-infra-' + item.name,
     group_name: item.name,
-    machine_type: item.instance.machineType,
-    zone: item.instance.zone,
+    droplet_size: item.instance.size || 's-1vcpu-1gb',
+    droplet_image: item.instance.image || 53893572, //ubuntu-18-04-x64
+    droplet_region: item.instance.region || 'nyc3',
     ssh_user: item.instance.sshUser || 'root',
     ssh_key: item.instance.sshPublicKey,
-    access_token: item.instance.access_token
+    gantree_tags: {}
   }
 
   infraConfig.ssh_key_name = calcDoSshKeyName(infraConfig.ssh_key)

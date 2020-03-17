@@ -1,11 +1,11 @@
 ---
 instance_name: NOT_SET
-zone: us-central1-a
-region: us-central1
-machine_type: n1-standard-4
-machine_disk_size: 50
-deletion_protection: yes
-gcp_project: gantree-dev-00
+zone: NOT_SET
+region: NOT_SET
+machine_type: NOT_SET
+machine_disk_size: NOT_SET
+deletion_protection: no
+gcp_project: NOT_SET
 gcp_cred_kind: serviceaccount
 gcp_cred_file: NOT_SET
 ssh_user: root
