@@ -1,0 +1,56 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "single-aws"
+    },
+    "binary": {
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.22/polkadot"
+        },
+        "filename": "polkadot",
+        "localCompile": "false",
+        "useDefaultChainSpec": "true",
+        "chain": "false"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "aws",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWAxBOh0EMuwIjFHkI3LwGFjqLv7LMr4qJW6YpKFszXo+IYdOw1pE80AwveWmiRrnNHdWwvIUeTU+H/tTgNOFKH0oJbd0Zb3oJLfZxo2Gzau6KtenEoH0WhaEAvPZPpGFf+N+QMAtCod3lcW7J9IP/cxGadcbiHi2Lz9DtFmdFekdK6SrGWuXudnAv+KaRB7Uexutx1PO/TIFh3Ai1QmMBgWcW5qo/vffJrvIwxmvnyGmodgUcPQsp2AoA9QpEUl5oHF5l9Mp5TLOPWM6DwwmWl9fuMFfLLfzvn94hdUs/UcA/iEcHefoa0/vIB6tbSyntymQ2dARq7dckuk4DMYJJ rozifus@rama-gandev",
+                "machineType": "t3.small",
+                "volumeSize": 200,
+                "location": "eu-central-1",
+                "zone": "eu-central-1",
+                "firewall": {
+                    "allowed": [
+                        {
+                            "protocol": "tcp",
+                            "from": 22,
+                            "to": 22,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 30333,
+                            "to": 30333,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 51820,
+                            "to": 51820,
+                            "cidrIp": "0.0.0.0/0"
+                        },
+                        {
+                            "protocol": "tcp",
+                            "from": 9100,
+                            "to": 9100,
+                            "cidrIp": "0.0.0.0/0"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

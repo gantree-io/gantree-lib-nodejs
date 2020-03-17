@@ -1,8 +1,7 @@
 ---
 - name: ec2 instance info
   delegate_to: localhost
-  ec2_instance:
-    state: "{{ state }}"
+  ec2_instance_info:
     region: "{{ region }}"
     filters:  # NOTE(ryan): default filter borks with character limit exceeded
       "tag:Name": "inst-{{ instance_name }}"
