@@ -34,7 +34,7 @@
       "tag:not_terminated": "true"
     tags:
       # because we can't really filter on the instance-state properly
-      # change the flag when we terminate
+      # change the not_terminated flag when we terminate
       gantree: "managed"
       group_name: "{{ instance_name }}"
       not_terminated: "{{ 'false' if state == 'absent' else 'true' }}"
