@@ -29,7 +29,8 @@
   "files": [
     "/ansible",
     "/inventory",
-    "/src"
+    "/src",
+    "python_requirements.txt"
   ],
   "dependencies": {
     "ajv": "^6.11.0",

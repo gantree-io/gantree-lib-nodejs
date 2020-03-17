@@ -1,6 +1,6 @@
-ansible
-boto
-boto3
-botocore
-requests
-google-auth
+ansible==2.9.6
+boto==2.49.0
+boto3==1.12.20
+botocore==1.15.20
+google-auth==1.11.2
+requests==2.23.0
