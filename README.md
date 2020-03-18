@@ -2,6 +2,8 @@
 
 ## About
 
+**[!] Please note - This read is outdated and requires updating**
+
 Substrate is built on the core belief that the future will be multichain.
 
 In the past, setting up and managing blockchain networks required an understanding of a multitude of concepts which may have inhibited end users from experimenting with them.
