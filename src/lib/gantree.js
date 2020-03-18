@@ -44,7 +44,7 @@ class Gantree {
     )
     await cmd.exec('pwd', cmdOptions)
     await cmd.exec(
-      `ansible-playbook -i ${inventoryPath} ${ansiblePath}/infra_and_operation.yml`,
+      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/infra_and_operation.yml`,
       cmdOptions
     )
     console.log(
@@ -59,7 +59,7 @@ class Gantree {
     )
     await cmd.exec('pwd', cmdOptions)
     await cmd.exec(
-      `ansible-playbook -i ${inventoryPath} ${ansiblePath}/clean_infra.yml`,
+      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/clean_infra.yml`,
       cmdOptions
     )
     console.log(

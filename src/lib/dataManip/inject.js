@@ -86,26 +86,36 @@ function _insertKeys(runtimeObj, validatorSpec) {
   for (let i = 0; i < validatorSpec.validators.length; i++) {
     let validator_n = validatorSpec.validators[i]
 
-    runtimeObj.aura.authorities.push(validator_n.sr25519.address)
-    runtimeObj.indices.ids.push(validator_n.sr25519.address)
+    if (runtimeObj.aura !== undefined) {
+      runtimeObj.aura.authorities.push(validator_n.sr25519.address)
+    }
 
-    const balance =
-      (validator_n.pallet_options &&
-        validator_n.pallet_options.balances &&
-        validator_n.pallet_options.balances.balance) ||
-      BigNumber('1152921504606846976') // todo: this must not be static
-    runtimeObj.balances.balances.push([validator_n.sr25519.address, balance])
+    // for compatibility with older versions of node-template
+    if (runtimeObj.indices !== undefined) {
+      runtimeObj.indices.ids.push(validator_n.sr25519.address)
+    }
 
-    const weight =
-      (validator_n.pallet_options &&
-        validator_n.pallet_options.grandpa &&
-        validator_n.pallet_options.grandpa) ||
-      1
-    runtimeObj.grandpa.authorities.push([validator_n.ed25519.address, weight])
+    if (runtimeObj.balances !== undefined) {
+      const balance =
+        (validator_n.pallet_options &&
+          validator_n.pallet_options.balances &&
+          validator_n.pallet_options.balances.balance) ||
+        BigNumber('1152921504606846976') // todo: this must not be static
+      runtimeObj.balances.balances.push([validator_n.sr25519.address, balance])
+    }
 
-    // todo: this should not always be the first node in validator list (probably)
-    if (i == 0) {
-      if (runtimeObj.sudo != undefined) {
+    if (runtimeObj.grandpa !== undefined) {
+      const weight =
+        (validator_n.pallet_options &&
+          validator_n.pallet_options.grandpa &&
+          validator_n.pallet_options.grandpa) ||
+        1
+      runtimeObj.grandpa.authorities.push([validator_n.ed25519.address, weight])
+    }
+
+    if (runtimeObj.sudo !== undefined) {
+      // todo: this should not always be the first node in validator list (probably)
+      if (i == 0) {
         runtimeObj.sudo.key = validator_n.sr25519.address
       }
     }
