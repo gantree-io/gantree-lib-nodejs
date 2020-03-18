@@ -1,8 +1,11 @@
 # Gantree Lib
 
+Library at the core of Gantree
+
+***[!] Please note - This readme is outdated and requires updating***
+
 ## About
 
-**[!] Please note - This read is outdated and requires updating**
 
 Substrate is built on the core belief that the future will be multichain.
 
