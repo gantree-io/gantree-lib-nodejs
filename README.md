@@ -39,10 +39,10 @@ pip install ansible boto boto3 botocore requests google-auth
 
 ### Package Installation
 
-Install gantree-cli
+Install gantree-lib
 
 ```bash
-npm install gantree-cli -g
+npm install gantree-lib -g
 ```
 
 ## Environment Requirements
