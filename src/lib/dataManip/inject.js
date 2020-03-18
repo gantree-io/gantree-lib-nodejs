@@ -113,9 +113,9 @@ function _insertKeys(runtimeObj, validatorSpec) {
       runtimeObj.grandpa.authorities.push([validator_n.ed25519.address, weight])
     }
 
-    // todo: this should not always be the first node in validator list (probably)
-    if (i == 0) {
-      if (runtimeObj.sudo != undefined) {
+    if (runtimeObj.sudo !== undefined) {
+      // todo: this should not always be the first node in validator list (probably)
+      if (i == 0) {
         runtimeObj.sudo.key = validator_n.sr25519.address
       }
     }
