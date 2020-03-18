@@ -2,6 +2,8 @@ const configUtils = require('./config')
 const { Platform } = require('./platform')
 const { Application } = require('./application')
 const cmd = require('./cmd')
+// TODO: (future) refactor into a method of a single "get data from inventory" object
+const { extractIps } = require('./extractIps')
 
 class Gantree {
   constructor() {
@@ -9,6 +11,10 @@ class Gantree {
     this.syncAll = this.syncAll.bind(this)
     this.syncPlatform = this.syncPlatform.bind(this)
     this.syncApplication = this.syncApplication.bind(this)
+    // temporary
+    this.ansibleSyncAll = this.ansibleSyncAll.bind(this)
+    // temporary
+    this.ansibleCleanAll = this.ansibleCleanAll.bind(this)
   }
 
   async returnConfig(gantreeConfigPath) {
@@ -37,16 +43,37 @@ class Gantree {
     console.log('[DONE ] sync application')
   }
 
-  async ansibleSyncAll(inventoryPath, ansiblePath) {
+  async ansibleSyncAll(inventoryPath, ansiblePath, syncOptions = {}) {
+    const verbose = syncOptions.verbose || false
     const cmdOptions = { verbose: true }
     console.log(
       'Syncing platform + application with temp function (ansible only)'
     )
     await cmd.exec('pwd', cmdOptions)
+
+    // build infra
+    console.log('Syncing infrastructure (ansible only)')
     await cmd.exec(
-      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/infra_and_operation.yml`,
+      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/infra.yml`,
       cmdOptions
     )
+
+    // get IP address and print to stdout for backend usage
+    console.log('Getting IPs... (ansible only)')
+    const NodeIpAddresses = await extractIps(inventoryPath, verbose)
+
+    cmd.writeParsableStdout(
+      'NODE_IP_ADDRESSES',
+      JSON.stringify(NodeIpAddresses)
+    )
+
+    console.log('setting up nodes (ansible only)')
+    // create nodes on infra
+    await cmd.exec(
+      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/operation.yml`,
+      cmdOptions
+    )
+
     console.log(
       'Done syncing platform + application! (temp ansible-only function)'
     )

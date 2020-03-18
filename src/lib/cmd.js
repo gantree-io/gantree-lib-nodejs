@@ -14,9 +14,14 @@ async function each_count(count, action_trigger_count) {
 
 module.exports = {
   exec: async (command, options = {}) => {
+    const verbose = options.verbose || false
+    const returnStdoutOnly = options.returnStdoutOnly || false
+    const returnCleanStdout = options.returnCleanStdout || false
     const counter = new Counter(each_count, 5)
     return new Promise((resolve, reject) => {
-      logger.info(`Executing: ${command}, ${JSON.stringify(options)}`)
+      if (returnCleanStdout !== true) {
+        logger.info(`Executing: ${command}, ${JSON.stringify(options)}`)
+      }
       const child = exec(command, options)
       if (options.detached) {
         child.unref()
@@ -25,6 +30,7 @@ module.exports = {
       }
       let match = false
       let output = new Buffer.from('')
+      let stdoutOnly = new Buffer.from('')
 
       child.stdout.on('data', data => {
         counter.stop_counting()
@@ -35,7 +41,8 @@ module.exports = {
           return
         }
         output = Buffer.concat([output, Buffer.from(data)])
-        if (options.verbose) {
+        stdoutOnly = Buffer.concat([stdoutOnly, Buffer.from(data)])
+        if (verbose) {
           counter.count_until_false()
           // logger.info(`'${command}':`)
           process.stdout.write(data.toString())
@@ -44,7 +51,7 @@ module.exports = {
 
       child.stderr.on('data', data => {
         output = Buffer.concat([output, Buffer.from(data)])
-        if (options.verbose) {
+        if (verbose) {
           logger.error(
             `Error occured during command execution '${command}': \n${data.toString()}`
           )
@@ -56,7 +63,11 @@ module.exports = {
           logger.error(`Execution failed with code ${code}: ${command}`)
           reject(new Error(code))
         } else {
-          resolve(output)
+          if (returnStdoutOnly === true) {
+            resolve(stdoutOnly)
+          } else {
+            resolve(output)
+          }
         }
         counter.stop_counting()
       })
