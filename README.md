@@ -1,7 +1,5 @@
 # Gantree Lib
 
-[!!!] ***PLEASE NOTE:*** *This information is outdated and requires updating*
-
 ## About
 
 Substrate is built on the core belief that the future will be multichain.
