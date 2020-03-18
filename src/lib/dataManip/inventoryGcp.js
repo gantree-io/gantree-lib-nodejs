@@ -21,11 +21,17 @@ const writeGcpFile = (c, invPath) => {
 const getGcpProjects = c => {
   const projects = []
   c.nodes.forEach(n => {
-    if (n.instance.provider == 'gcp') {
-      if (!projects.includes(n.instance.projectId)) {
-        projects.push(n.instance.projectId)
-      }
+    if (n.instance.provider != 'gcp') {
+      return
     }
+    if (!n.instance.projectId) {
+      return
+    }
+    if (projects.includes(n.instance.projectId)) {
+      return
+    }
+
+    projects.push(n.instance.projectId)
   })
   return projects
 }

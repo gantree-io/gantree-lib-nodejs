@@ -21,11 +21,11 @@ const writeAwsFile = (c, invPath) => {
 const getAwsRegions = c => {
   const regions = []
   c.nodes.forEach(n => {
-    if (n.instance.provider == 'aws') {
-      if (!regions.includes(n.instance.region)) {
-        regions.push(n.instance.region)
-      }
-    }
+    if (n.instance.provider != 'aws') return
+    if (!n.instance.region) return
+    if (regions.includes(n.instance.region)) return
+
+    regions.push(n.instance.region)
   })
   return regions
 }
