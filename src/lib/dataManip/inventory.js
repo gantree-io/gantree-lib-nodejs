@@ -165,7 +165,7 @@ const getSharedVars = async ({ config: c }) => {
     substrate_binary_sha256: (binKeys.fetch && binKeys.fetch.sha256) || 'false', // TODO: not yet implemented
 
     substrate_binary_url: (binKeys.fetch && binKeys.fetch.url) || 'false',
-    substrate_use_default_spec: binKeys.useRustChainSpec || 'false',
+    substrate_use_default_spec: binKeys.useBinChainSpec || 'false',
     substrate_chain_argument: binKeys.chain || 'false',
 
     substrate_binary_path: (binKeys.local && binKeys.local.path) || 'false', // TODO: not yet implemented
