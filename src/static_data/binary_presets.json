@@ -11,12 +11,13 @@
     "edgeware-3.0.1": {
         "chain": "berlin",
         "fetch": {
-            "url": "https://github.com/hicommonwealth/edgeware-node/releases/download/3.0.1/edgeware",
-            "sha256": "8526b29d3c4fb50b0b14e8bbd8802d11c11a86d8dfefe56256b924287514e514"
+            "url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/edgeware-3.0.1-CompiledByFlex",
+            "sha256": "5036704a04f7cfc583f710929c7648e8a69d35616733965d10609d8d5c57cf4d"
         },
-        "filename": "edgeware",
+        "filename": "edgeware-3.0.1-CompiledByFlex",
         "useBinChainSpec": "true",
-        "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json"
+        "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json",
+        "COMMENT chain spec url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/berlin.chainspec-3.0.1.json"
     },
     "edgeware-3.0.1-compile": {
         "chain": "berlin",
@@ -26,6 +27,7 @@
         },
         "filename": "edgeware",
         "useBinChainSpec": "true",
-        "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json"
+        "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json",
+        "COMMENT chain spec url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/berlin.chainspec-3.0.1.json"
     }
 }
