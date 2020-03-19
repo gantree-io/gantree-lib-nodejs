@@ -52,6 +52,7 @@
                 },
                 "version": {
                     "type": "string",
+                    "pattern": "^1.0$",
                     "description": "version of the repository to build"
                 }
             },
