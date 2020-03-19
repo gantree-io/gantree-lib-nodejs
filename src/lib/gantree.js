@@ -1,9 +1,15 @@
+const path = require('path')
 const configUtils = require('./config')
 const { Platform } = require('./platform')
 const { Application } = require('./application')
 const cmd = require('./cmd')
 // TODO: (future) refactor into a method of a single "get data from inventory" object
 const { extractIps } = require('./extractIps')
+// TODO: use different method, not ideal, causes issues if script moved in src
+const packageDir = path.join(__dirname, '../../')
+
+const inventoryPath = path.join(packageDir, '/inventory')
+const ansiblePath = path.join(packageDir, '/ansible')
 
 class Gantree {
   constructor() {
@@ -43,7 +49,7 @@ class Gantree {
     console.log('[DONE ] sync application')
   }
 
-  async ansibleSyncAll(inventoryPath, ansiblePath, syncOptions = {}) {
+  async ansibleSyncAll(syncOptions = {}) {
     const verbose = syncOptions.verbose || false
     const cmdOptions = { verbose: true }
     console.log(
@@ -79,7 +85,7 @@ class Gantree {
     )
   }
 
-  async ansibleCleanAll(inventoryPath, ansiblePath) {
+  async ansibleCleanAll() {
     const cmdOptions = { verbose: true }
     console.log(
       'Cleaning platform + application with temp function (ansible only)'
