@@ -1,0 +1,20 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "preset-compile-edgeware-bin"
+    },
+    "binary": {
+        "preset": "edgeware-3.0.1-compile"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "do",
+                "dropletSize": "s-6vcpu-16gb",
+                "region": "nyc3",
+                "sshPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLHzCiw0eejXAq193i55rpmuoq4Iw4teOd324IwE3bZoFHh1IPnSMAqpU6KXsJ/ca3UvxKK2eM6rUMYzV2uF4j3hWIbtPaMmVKtewcWDuftGyQGYd5QkjmFfzZRY3wOEVXGtFnyr/nidOqadmpasiVfG8GJzbGPlWMuMOdQV2zbn/Jv1k/hxTEKRSR0F6KT0H6fVwHO5GIUZEL1nAI0oBJRMGItWUmrONeGLlqIfftNVM85wVivENw+1RmHpSey/XgtpxW3nnpHBp1jwwrXo9m5KqBAMeZZZvTwS1LSOxpE2zJ17IWpdEoVKZfnRl5cXiH212m6QzLTu60zrWzToZl denver@debian"
+            }
+        }
+    ]
+}
