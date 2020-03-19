@@ -17,5 +17,15 @@
         "filename": "edgeware",
         "useBinChainSpec": "true",
         "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json"
+    },
+    "edgeware-3.0.1-compile": {
+        "chain": "berlin",
+        "repository": {
+            "url": "https://github.com/hicommonwealth/edgeware-node",
+            "version": "3.0.1"
+        },
+        "filename": "edgeware",
+        "useBinChainSpec": "true",
+        "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json"
     }
 }
