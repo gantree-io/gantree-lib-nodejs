@@ -48,23 +48,28 @@
         },
         "binary": {
             "type": "object",
-            "required": [
-                "filename"
-            ],
             "oneOf": [
                 {
                     "required": [
-                        "repository"
+                        "repository",
+                        "filename"
                     ]
                 },
                 {
                     "required": [
-                        "fetch"
+                        "fetch",
+                        "filename"
                     ]
                 },
                 {
                     "required": [
-                        "local"
+                        "local",
+                        "filename"
+                    ]
+                },
+                {
+                    "required": [
+                        "preset"
                     ]
                 }
             ],
