@@ -1,8 +1,12 @@
 //todo: cleanup for lib-centric approach
-const path = require('path')
 const util = require('util')
-const fs = require('fs')
 const exec = util.promisify(require('child_process').exec)
+
+const {
+  getWorkspacePath,
+  getActiveInventoryPath,
+  getInactiveInventoryPath
+} = require('../pathHelpers')
 
 const inventoryGcp = require('./inventoryGcp')
 const inventoryAws = require('./inventoryAws')
@@ -13,22 +17,16 @@ const configAws = require('./configAws')
 const configDo = require('./configDo')
 
 const inventory = async gantreeConfigObj => {
-  const inventoryPath = getInventoryPath()
-  const activePath = path.join(inventoryPath, 'active')
-  !fs.existsSync(activePath) && fs.mkdirSync(activePath)
-  const inactivePath = path.join(inventoryPath, 'inactive')
+  const inactivePath = getInactiveInventoryPath()
+  const activePath = getActiveInventoryPath()
 
-  inventoryGcp.writeFile(gantreeConfigObj, activePath)
-  inventoryAws.writeFile(gantreeConfigObj, activePath)
-  inventoryDo.writeFile(gantreeConfigObj, activePath, inactivePath)
+  inventoryGcp.managePlugin(gantreeConfigObj, activePath)
+  inventoryAws.managePlugin(gantreeConfigObj, activePath)
+  inventoryDo.managePlugin(gantreeConfigObj, activePath, inactivePath)
 
   const di = await buildDynamicInventory(gantreeConfigObj)
 
   return di
-}
-
-const getInventoryPath = () => {
-  return path.join(__dirname, '../', '../', '../', 'inventory')
 }
 
 const returnRepoVersion = async c => {
@@ -129,7 +127,7 @@ const getSharedVars = async ({ config: c }) => {
   return {
     // ansible/gantree vars
     gantree_root: '../',
-    gantree_control_working: '/tmp/gantree-control',
+    gantree_control_working: getWorkspacePath('operation'),
     ansible_ssh_common_args:
       '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
 

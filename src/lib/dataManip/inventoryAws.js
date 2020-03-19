@@ -3,7 +3,7 @@ const yaml = require('js-yaml')
 const fs = require('fs')
 const path = require('path')
 
-const writeAwsFile = (c, invPath) => {
+const managePlugin = (c, invPath) => {
   const regions = getAwsRegions(c)
 
   const awsInvPath = path.join(invPath, 'aws_ec2.yml')
@@ -51,5 +51,5 @@ const createAwsInventory = vars => {
 }
 
 module.exports = {
-  writeFile: writeAwsFile
+  managePlugin
 }

@@ -3,7 +3,7 @@ const yaml = require('js-yaml')
 const fs = require('fs')
 const path = require('path')
 
-const writeGcpFile = (c, invPath) => {
+const managePlugin = (c, invPath) => {
   const projects = getGcpProjects(c)
 
   const gcpInvPath = path.join(invPath, 'gcp.yml')
@@ -57,5 +57,5 @@ const createGcpInventory = vars => {
 }
 
 module.exports = {
-  writeFile: writeGcpFile
+  managePlugin
 }
