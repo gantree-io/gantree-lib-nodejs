@@ -1,15 +1,20 @@
-const path = require('path')
 const configUtils = require('./config')
 const { Platform } = require('./platform')
 const { Application } = require('./application')
 const cmd = require('./cmd')
 // TODO: (future) refactor into a method of a single "get data from inventory" object
 const { extractIps } = require('./extractIps')
-// TODO: use different method, not ideal, causes issues if script moved in src
-const packageDir = path.join(__dirname, '../../')
+const {
+  getGantreePath,
+  getGantreeInventoryPath,
+  getActiveInventoryPath
+} = require('./pathHelpers')
 
-const inventoryPath = path.join(packageDir, '/inventory')
-const ansiblePath = path.join(packageDir, '/ansible')
+const getPlaybookCommand = playbook =>
+  `ansible-playbook -i ${getGantreeInventoryPath()} -i ${getActiveInventoryPath()} ${getGantreePath(
+    'ansible',
+    playbook
+  )}`
 
 class Gantree {
   constructor() {
@@ -59,14 +64,15 @@ class Gantree {
 
     // build infra
     console.log('Syncing infrastructure (ansible only)')
-    await cmd.exec(
-      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/infra.yml`,
-      cmdOptions
-    )
+    await cmd.exec(getPlaybookCommand('infra.yml'), cmdOptions)
 
     // get IP address and print to stdout for backend usage
     console.log('Getting IPs... (ansible only)')
-    const NodeIpAddresses = await extractIps(inventoryPath, verbose)
+    const NodeIpAddresses = await extractIps(
+      getGantreeInventoryPath(),
+      getActiveInventoryPath(),
+      verbose
+    )
 
     cmd.writeParsableStdout(
       'NODE_IP_ADDRESSES',
@@ -75,10 +81,7 @@ class Gantree {
 
     console.log('setting up nodes (ansible only)')
     // create nodes on infra
-    await cmd.exec(
-      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/operation.yml`,
-      cmdOptions
-    )
+    await cmd.exec(getPlaybookCommand('operation.yml'), cmdOptions)
 
     console.log(
       'Done syncing platform + application! (temp ansible-only function)'
@@ -91,10 +94,7 @@ class Gantree {
       'Cleaning platform + application with temp function (ansible only)'
     )
     await cmd.exec('pwd', cmdOptions)
-    await cmd.exec(
-      `ansible-playbook -i ${inventoryPath}/gantree -i ${inventoryPath}/active ${ansiblePath}/clean_infra.yml`,
-      cmdOptions
-    )
+    await cmd.exec(getPlaybookCommand('clean_infra.yml'), cmdOptions)
     console.log(
       'Done cleaning platform + application! (temp ansible-only function)'
     )

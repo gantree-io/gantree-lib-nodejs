@@ -5,7 +5,11 @@ process.on('unhandledRejection', (reason, p) => {
   // application specific logging, throwing an error, or other logic here
 })
 
-async function extractIps(inventoryPath, _verbose = false) {
+async function extractIps(
+  gantreeInventoryPath,
+  activeInventoryPath,
+  _verbose = false
+) {
   const verbose = _verbose
   const cmdOptions = {
     verbose: false,
@@ -14,7 +18,7 @@ async function extractIps(inventoryPath, _verbose = false) {
   }
 
   const inventoryOutputBuffer = await cmd.exec(
-    `ansible-inventory -i ${inventoryPath}/gantree -i ${inventoryPath}/active --list`,
+    `ansible-inventory -i ${gantreeInventoryPath} -i ${activeInventoryPath} --list`,
     cmdOptions
   )
   const inventoryOutputString = await inventoryOutputBuffer.toString()
