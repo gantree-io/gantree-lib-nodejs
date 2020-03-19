@@ -4,7 +4,7 @@
         "project": "gan-preset-sample-polkadot"
     },
     "binary": {
-        "preset": "edgeware-3.0.1"
+        "preset": "polkadot-0.7.22"
     },
     "nodes": [
         {
