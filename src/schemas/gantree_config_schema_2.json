@@ -37,6 +37,7 @@
             "properties": {
                 "version": {
                     "type": "string",
+                    "pattern": "^2.0$",
                     "description": "gantree config version"
                 },
                 "project": {
