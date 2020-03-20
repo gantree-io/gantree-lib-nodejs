@@ -11,8 +11,8 @@ function returnLogger(service_name) {
     format: winston.format.json(),
     defaultMeta: { service: service_name },
     transports: [
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'combined.log' })
+      // new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      // new winston.transports.File({ filename: 'combined.log' })
     ]
   })
   if (process.env.NODE_ENV !== 'production') {
