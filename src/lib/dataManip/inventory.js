@@ -16,6 +16,9 @@ const configGcp = require('./configGcp')
 const configAws = require('./configAws')
 const configDo = require('./configDo')
 
+const binary_presets = require('../../static_data/binary_presets')
+const { throwGantreeError } = require('../error')
+
 const inventory = async gantreeConfigObj => {
   const inactivePath = getInactiveInventoryPath()
   const activePath = getActiveInventoryPath()
@@ -27,15 +30,6 @@ const inventory = async gantreeConfigObj => {
   const di = await buildDynamicInventory(gantreeConfigObj)
 
   return di
-}
-
-const returnRepoVersion = async c => {
-  if (c.binary.repository.version === undefined) {
-    console.warn('No version specified, using repository HEAD')
-    return 'HEAD'
-  } else {
-    return c.binary.repository.version
-  }
 }
 
 const getLocalPython = async () => {
@@ -115,33 +109,86 @@ const ensureNames = config => {
   })
 }
 
-const getSharedVars = async ({ config: c }) => {
-  let repository_url = 'false'
-  let repository_version = 'false'
-
-  if (!(c.binary.repository === undefined)) {
-    repository_url = c.binary.repository.url
-    repository_version = await returnRepoVersion(c)
+const returnBinaryKeysBase = async c => {
+  if (c.binary.preset !== undefined) {
+    if (c.binary.preset in binary_presets) {
+      return binary_presets[c.binary.preset]
+    } else {
+      throwGantreeError(
+        'BAD_CONFIG',
+        Error('Binary preset specified in config not found')
+      )
+    }
+  } else {
+    return c.binary
   }
+}
 
-  return {
+const returnRepoVersion = async binaryKeysBase => {
+  if (binaryKeysBase.repository.version === undefined) {
+    console.warn('No version specified, using repository HEAD')
+    return 'HEAD'
+  } else {
+    return binaryKeysBase.repository.version
+  }
+}
+
+const getSharedVars = async ({ config: c }) => {
+  const ansibleGantreeVars = {
     // ansible/gantree vars
     gantree_root: '../',
     gantree_control_working: getWorkspacePath('operation'),
     ansible_ssh_common_args:
-      '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s',
-
-    // shared vars
-    substrate_network_id: 'local_testnet',
-    substrate_repository: repository_url || 'false',
-    substrate_repository_version: repository_version,
-    substrate_binary_url: (c.binary.fetch && c.binary.fetch.url) || 'false',
-    substrate_local_compile: c.binary.localCompile || 'false',
-    substrate_bin_name: c.binary.filename,
-    substrate_use_default_spec: c.binary.useDefaultChainSpec || 'false',
-    substrate_chain_argument: c.binary.chain || 'false',
-    substrate_bootnode_argument: c.binary.bootnodes || []
+      '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
   }
+
+  const miscSharedVars = {
+    // shared vars
+    substrate_network_id: 'local_testnet' // TODO: this probably shouldn't be hardcoded
+  }
+
+  const binKeys = await returnBinaryKeysBase(c)
+
+  let repository_version = 'false'
+
+  if (binKeys.repository !== undefined) {
+    repository_version = await returnRepoVersion(binKeys)
+  }
+
+  const binaryVars = {
+    // required
+    substrate_bin_name: binKeys.filename,
+
+    // optional
+    substrate_binary_sha256: (binKeys.fetch && binKeys.fetch.sha256) || 'false', // TODO: not yet implemented
+
+    substrate_binary_url: (binKeys.fetch && binKeys.fetch.url) || 'false',
+    substrate_use_default_spec: binKeys.useBinChainSpec || 'false',
+    substrate_chain_argument: binKeys.chain || 'false',
+
+    substrate_binary_path: (binKeys.local && binKeys.local.path) || 'false', // TODO: not yet implemented
+
+    substrate_repository:
+      (binKeys.repository && binKeys.repository.url) || 'false',
+    substrate_local_compile:
+      (binKeys.repository && binKeys.repository.localCompile) || 'false',
+    substrate_repository_version: repository_version,
+
+    substrate_bootnode_argument: binKeys.bootnodes || []
+  }
+
+  // console.log("----BINARY VARS----")
+  // console.log(binaryVars)
+  // console.log("EXITING EARLY")
+  // process.exit(-1)
+
+  const sharedVars = {
+    ...ansibleGantreeVars,
+    ...miscSharedVars,
+    ...binaryVars
+  }
+
+  return sharedVars
 }
 
 const getNodeVars = ({ item, infra }) => {

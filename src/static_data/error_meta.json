@@ -54,6 +54,10 @@
         "code": 16,
         "message": "expected or specified directory not found"
     },
+    "INVALID_NAMESPACE": {
+        "code": 17,
+        "message": "invalid project namespace specified"
+    },
     "COMMAND_NOT_FOUND": {
         "code": 127,
         "message": "command not found"

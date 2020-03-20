@@ -12,7 +12,7 @@ const parseInfra = ({ item }) => {
     instance_name: item.name,
     infra_name: 'gantree-infra-' + item.name,
     group_name: item.name,
-    droplet_size: item.instance.size || 's-1vcpu-1gb',
+    droplet_size: item.instance.dropletSize || 's-1vcpu-1gb',
     droplet_image: item.instance.image || 53893572, //ubuntu-18-04-x64
     droplet_region: item.instance.region || 'nyc3',
     ssh_user: item.instance.sshUser || 'root',

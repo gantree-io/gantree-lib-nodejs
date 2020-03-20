@@ -37,6 +37,7 @@
             "properties": {
                 "version": {
                     "type": "string",
+                    "pattern": "^2.0$",
                     "description": "gantree config version"
                 },
                 "project": {
@@ -47,23 +48,28 @@
         },
         "binary": {
             "type": "object",
-            "required": [
-                "filename"
-            ],
             "oneOf": [
                 {
                     "required": [
-                        "repository"
+                        "repository",
+                        "filename"
                     ]
                 },
                 {
                     "required": [
-                        "fetch"
+                        "fetch",
+                        "filename"
                     ]
                 },
                 {
                     "required": [
-                        "local"
+                        "local",
+                        "filename"
+                    ]
+                },
+                {
+                    "required": [
+                        "preset"
                     ]
                 }
             ],
@@ -85,6 +91,7 @@
         },
         "repository": {
             "type": "object",
+            "description": "acquire a binary by downloading source code and compiling it",
             "required": [
                 "url"
             ],
@@ -105,6 +112,7 @@
         },
         "fetch": {
             "type": "object",
+            "description": "acquire a binary by downloading it",
             "required": [
                 "url"
             ],
@@ -121,6 +129,7 @@
         },
         "localBinary": {
             "type": "object",
+            "description": "path to binary stored on the local machine",
             "required": [
                 "path"
             ],
@@ -152,8 +161,9 @@
                     "type": "string",
                     "description": "TODO: this"
                 },
-                "useDefaultChainSpec": {
-                    "type": "boolean"
+                "useBinChainSpec": {
+                    "type": "boolean",
+                    "description": "specify if binaries internal chainspec should be used or an external one"
                 },
                 "validator": {
                     "type": "boolean",
