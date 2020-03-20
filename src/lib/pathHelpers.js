@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const config = require('./config')
+const { throwGantreeError } = require('./error')
 
 const getControlPath = () => {
   let controlPath = ''
@@ -20,7 +21,12 @@ const getNamespace = () => {
   const projectName = c.metadata && c.metadata.project
   const namespace = process.env.GANTREE_OVERRIDE_NAMESPACE || projectName
   if (!namespace) {
-    throw `[Gantree] Error: invalid namespace "${namespace}"`
+    throwGantreeError(
+      'INVALID_NAMESPACE',
+      Error(
+        `No project name or GANTREE_OVERRIDE_NAMESPACE environment variable specified: ${namespace}`
+      )
+    )
   }
   return namespace
 }
