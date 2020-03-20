@@ -1,12 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 
-async function createNamespace(baseInventoryPath, projectName) {
+async function createNamespace(projectPath) {
   console.log('...creating namespace')
 
-  const namespacePath = path.join(baseInventoryPath, projectName)
-  const gantreeInventoryPath = path.join(namespacePath, 'gantree')
-  const activeInventoryPath = path.join(namespacePath, 'active')
+  const gantreeInventoryPath = path.join(projectPath, 'gantree')
+  const activeInventoryPath = path.join(projectPath, 'active')
 
   // create paths recursively
   fs.mkdirSync(gantreeInventoryPath, { recursive: true })
