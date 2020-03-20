@@ -1,4 +1,4 @@
-const { Gantree } = require('./src')
+const { Gantree } = require('../src')
 
 let PATH_TO_CONFIG = 'samples/config/fetch/fetch_aws.sample.json'
 
