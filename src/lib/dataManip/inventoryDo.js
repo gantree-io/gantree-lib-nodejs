@@ -2,7 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const writeDoFile = (c, invPath, invDeactivePath) => {
+const managePlugin = (c, invPath, invDeactivePath) => {
   const active = getDoActive(c)
 
   const doPyName = 'digital_ocean.py'
@@ -40,5 +40,5 @@ const getDoActive = c => {
 }
 
 module.exports = {
-  writeFile: writeDoFile
+  managePlugin
 }
