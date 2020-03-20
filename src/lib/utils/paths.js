@@ -10,6 +10,10 @@ class Paths {
   getGantreePath(...extra) {
     return path.join(__dirname, '../', '../', '../', ...extra)
   }
+
+  getProjectPath(projectName) {
+    return path.join(this.getGantreePath('inventory'), projectName)
+  }
 }
 
 module.exports = {
