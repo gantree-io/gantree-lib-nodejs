@@ -1,15 +1,22 @@
 const cmd = require('../cmd')
 
-async function runPlaybook(inventoryPathArray, playbookPath) {
+async function runPlaybook(inventoryPathArray, playbookFilePath) {
+  console.log(`...running playbook (${playbookFilePath})`)
+
   let inventoryString = ''
 
   for (const inventoryPath of inventoryPathArray) {
-    inventoryString.concat(`-i ${inventoryPath}`)
+    inventoryString = inventoryString.concat(`-i ${inventoryPath} `)
   }
 
-  console.log(inventoryString)
+  const playbookCommandString = `ansible-playbook ${inventoryString}${playbookFilePath}`
+  // console.log(playbookCommandString) // TODO: for debugging only
 
-  cmd.exec(`ansible-playbook ${inventoryString} ${playbookPath}`)
+  const execOutput = await cmd.exec(playbookCommandString, { verbose: true })
+
+  console.log(`...finished running playbook! (${playbookFilePath})`)
+
+  return execOutput
 }
 
 async function returnInventory() {
