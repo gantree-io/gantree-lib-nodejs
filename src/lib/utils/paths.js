@@ -11,8 +11,16 @@ class Paths {
     return path.join(__dirname, '../', '../', '../', ...extra)
   }
 
+  getInventoryPath(...extra) {
+    return this.getGantreePath('inventory', ...extra)
+  }
+
   getProjectPath(projectName) {
-    return path.join(this.getGantreePath('inventory'), projectName)
+    return this.getGantreePath('inventory', projectName)
+  }
+
+  getPlaybookFilePath(playbookFilename) {
+    return this.getGantreePath('ansible', playbookFilename)
   }
 }
 
