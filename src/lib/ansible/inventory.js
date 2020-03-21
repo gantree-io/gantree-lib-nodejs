@@ -25,11 +25,15 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
   console.log('...creating gantree inventory')
 
   const gantreeInventoryPath = await path.join(projectPath, 'gantree')
+  const inventorySegmentsPath = await paths.getInventorySegmentsPath()
   const gantreeInventoryFilePath = await path.join(
     projectPath,
     'gantreeInventory.json'
   )
-  const gantreeShFilePathSrc = await paths.getInventoryPath('gantree.sh')
+  const gantreeShFilePathSrc = await path.join(
+    inventorySegmentsPath,
+    'gantree.sh'
+  )
   const gantreeShFilePathTarget = await path.join(
     gantreeInventoryPath,
     'gantree.sh'
@@ -40,7 +44,11 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
   )
 
   // turn config object into a gantree inventory
-  const gantreeInventoryObj = await inventory(gantreeConfigObj, projectPath)
+  const gantreeInventoryObj = await inventory(
+    gantreeConfigObj,
+    projectPath,
+    inventorySegmentsPath
+  )
 
   // write the gantree inventory to inventory/{NAMESPACE}/gantreeInventory.json
   await fs.writeFileSync(

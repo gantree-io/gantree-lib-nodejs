@@ -15,6 +15,10 @@ class Paths {
     return this.getGantreePath('inventory', ...extra)
   }
 
+  getInventorySegmentsPath(...extra) {
+    return this.getGantreePath('inventorySegments', ...extra)
+  }
+
   getProjectPath(projectName) {
     return this.getGantreePath('inventory', projectName)
   }
