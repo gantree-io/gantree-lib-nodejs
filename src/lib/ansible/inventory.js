@@ -64,15 +64,3 @@ module.exports = {
   createNamespace,
   createGantreeInventory
 }
-
-// const projectName = gantreeConfigObj.metadata.project
-// const namespace = process.env.GANTREE_OVERRIDE_NAMESPACE || projectName
-// if (!namespace) {
-//     throwGantreeError(
-//         'INVALID_NAMESPACE',
-//         Error(
-//             `No project name or GANTREE_OVERRIDE_NAMESPACE environment variable specified: ${namespace}`
-//         )
-//     )
-// }
-// return namespace
