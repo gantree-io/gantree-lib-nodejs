@@ -1,7 +1,9 @@
 const path = require('path')
 const fs = require('fs')
-const config = require('./config')
+const { Config } = require('./config')
 const { throwGantreeError } = require('./error')
+
+const config = new Config()
 
 const getControlPath = () => {
   let controlPath = ''
@@ -41,14 +43,14 @@ const getGantreePath = (...extra) => {
   return path.join(__dirname, '../', '../', ...extra)
 }
 
-const getActiveInventoryPath = () => getWorkspacePath('active')
-const getInactiveInventoryPath = () => getGantreePath('inventory', 'inactive')
-const getGantreeInventoryPath = () => getGantreePath('inventory', 'gantree')
+// const getActiveInventoryPath = () => getWorkspacePath('active')
+// const getInactiveInventoryPath = () => getGantreePath('inventory', 'inactive')
+// const getGantreeInventoryPath = () => getGantreePath('inventory', 'gantree')
 
 module.exports = {
   getWorkspacePath,
-  getGantreePath,
-  getActiveInventoryPath,
-  getGantreeInventoryPath,
-  getInactiveInventoryPath
+  getGantreePath
+  // getActiveInventoryPath,
+  // getGantreeInventoryPath,
+  // getInactiveInventoryPath
 }
