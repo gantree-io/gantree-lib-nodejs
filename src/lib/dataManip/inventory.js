@@ -16,8 +16,12 @@ const configDo = require('./configDo')
 const binary_presets = require('../../static_data/binary_presets')
 const { throwGantreeError } = require('../error')
 
-const inventory = async (gantreeConfigObj, projectPath) => {
-  const inactivePath = path.join(projectPath, '../', 'inactive')
+const inventory = async (
+  gantreeConfigObj,
+  projectPath,
+  inventorySegmentsPath
+) => {
+  const inactivePath = path.join(inventorySegmentsPath, 'inactive')
   const activePath = path.join(projectPath, 'active')
 
   inventoryGcp.managePlugin(gantreeConfigObj, activePath)
