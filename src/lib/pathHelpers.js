@@ -1,9 +1,5 @@
 const path = require('path')
 const fs = require('fs')
-const { Config } = require('./config')
-const { throwGantreeError } = require('./error')
-
-const config = new Config()
 
 const getControlPath = () => {
   let controlPath = ''
@@ -18,23 +14,8 @@ const getControlPath = () => {
   return controlPath
 }
 
-const getNamespace = () => {
-  const c = config.read(process.env.GANTREE_CONFIG_PATH)
-  const projectName = c.metadata && c.metadata.project
-  const namespace = process.env.GANTREE_OVERRIDE_NAMESPACE || projectName
-  if (!namespace) {
-    throwGantreeError(
-      'INVALID_NAMESPACE',
-      Error(
-        `No project name or GANTREE_OVERRIDE_NAMESPACE environment variable specified: ${namespace}`
-      )
-    )
-  }
-  return namespace
-}
-
-const getWorkspacePath = (...extra) => {
-  const result = path.join(getControlPath(), getNamespace(), ...extra)
+const getWorkspacePath = (projectName, ...extra) => {
+  const result = path.join(getControlPath(), projectName, ...extra)
   fs.mkdirSync(result, { recursive: true })
   return result
 }

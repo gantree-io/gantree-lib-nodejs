@@ -134,7 +134,7 @@ const getSharedVars = async ({ config: c }) => {
   const ansibleGantreeVars = {
     // ansible/gantree vars
     gantree_root: '../',
-    gantree_control_working: getWorkspacePath('operation'),
+    gantree_control_working: getWorkspacePath(c.metadata.project, 'operation'),
     ansible_ssh_common_args:
       '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
   }
