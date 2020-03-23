@@ -1,0 +1,5 @@
+---
+- name: push-bin
+  import_tasks: push.yml
+  vars:
+    binary_name: "{{ binary_config.binary_name | default(default_binary_name) }}"

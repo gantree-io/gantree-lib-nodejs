@@ -1,0 +1,18 @@
+---
+# tasks file for substrate-builder
+- name: select operation
+  include_tasks: 0_select.yml
+  vars:
+    apt_requirements: "{{ binary_config.apt_requirements | default(default_apt_requirements) }}"
+    toolchain: "{{ binary_config.toolchain | default(default_toolchain) }}"
+    repository: "{{ binary_config.repository | default(default_repository) }}"
+    repository_version: "{{ binary_config.repository_version | default(default_repository_version) }}"
+    build_arguments: "{{ binary_config.build_arguments | default(default_build_arguments) }}"
+    build_path: "{{ gantree_build | default(default_build_path) }}"
+    compile_path: "{{ binary_config.compile_path | default(default_compile_path) }}"
+    store_path: "{{ gantree_control_working }}"
+    install_cargo: "{{ binary_config.install_cargo | default(default_install_cargo) }}"
+    binary_name: "{{ binary_config.binary_name | default(default_binary_name) }}"
+    src_folder: "{{ binary_config.src_folder | default(default_src_folder) }}"
+    src_subfolder: "{{ binary_config.src_subfolder | default(default_src_subfolder) }}"
+    operation: "{{ binary_config.operation | default(default_operation) }}"

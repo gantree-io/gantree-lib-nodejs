@@ -1,0 +1,51 @@
+---
+- name: install git
+  apt:
+    update_cache: yes
+    pkg:
+      - git
+
+- name: download node source
+  git:
+    repo: '{{ repository }}'
+    version: '{{ repository_version }}'
+    dest: '{{ build_path }}/{{ src_folder }}'
+
+- name: install build requirements for ubuntu
+  apt:
+    update_cache: no
+    pkg: "{{ apt_requirements }}"
+
+- name: setup cargo and rustup
+  include_role:
+    name: ansible-role-cargo
+  when: 'install_cargo != "false"'
+
+- name: configure toolchain
+  shell: "{{ toolchain }}"
+
+- debug:
+    msg: "[Gantree] Courtesy note: Depending on your machine's specifications, the following step may take quite some time..."
+
+- name: compile {{ binary_name }}
+  shell: |
+    cargo build {{ build_arguments }}
+  args:
+    chdir: '{{ build_path }}/{{ src_folder }}/{{ src_subfolder }}/'
+  changed_when: false
+
+- name: create host bin directory
+  file:
+    path: '{{ gantree_control_working }}/bin'
+    state: directory
+
+- name: delete any existing binary
+  file:
+    path: '{{ gantree_control_working }}/bin/{{ binary_name }}'
+    state: absent
+
+- name: copy node bin to working dir
+  fetch:
+    src: '{{ build_path }}/{{ src_folder }}/{{ src_subfolder }}/{{ compile_path }}/{{ binary_name }}'
+    dest: '{{ gantree_control_working }}/bin/{{ binary_name }}'
+    flat: true

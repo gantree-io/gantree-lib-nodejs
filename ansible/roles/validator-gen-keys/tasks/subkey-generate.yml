@@ -67,8 +67,11 @@
 
 - name: get bootnode public ip
   ipify_facts:
-  register: bootnode_ip
   when: (not is_docker is defined) or (not is_docker == true)
+  register: bootnode_ip
+  retries: 5
+  delay: 5
+  until: bootnode_ip is success
 
 - name: write session info to disk on remote host
   become: yes

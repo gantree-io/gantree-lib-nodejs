@@ -1,0 +1,6 @@
+---
+- name: copy binary to validator
+  copy:
+    src: "{{ gantree_control_working }}/bin/{{ binary_name }}"
+    dest: /usr/local/bin/{{ binary_name }}
+    mode: '0755'

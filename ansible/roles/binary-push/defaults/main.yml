@@ -1,0 +1,4 @@
+---
+# defaults file for z-test-gcp
+
+default_binary_name: unnamed_binary
