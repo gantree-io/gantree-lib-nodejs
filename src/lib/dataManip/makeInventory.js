@@ -190,7 +190,8 @@ const getSharedVars = async ({ config: c }) => {
       src_folder: 'telemetry_src',
       src_subfolder: 'backend',
       operation: 'remote'
-    }
+    },
+    substrate_telemetry_argument: c.telemetry || 'ws://127.0.0.1:8000/submit'
   }
 
   // console.log("----BINARY VARS----")
@@ -221,8 +222,6 @@ const getNodeVars = ({ item, infra }) => {
     substrate_user,
     substrate_group: 'subgroup',
     substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
-    substrate_telemetry_argument:
-      item.binaryOptions.telemetry || 'ws://127.0.0.1:8000/submit',
     substrate_options: item.binaryOptions.substrateOptions || [],
     substrate_rpc_port: item.binaryOptions.rpcPort || 9933,
     substrate_node_name: item.name || 'false'
