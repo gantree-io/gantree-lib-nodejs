@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const { inventory } = require('../dataManip/inventory')
+const { makeInventory } = require('../dataManip/makeInventory')
 const { Paths } = require('../utils/paths')
 
 const paths = new Paths()
@@ -44,7 +44,7 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
   )
 
   // turn config object into a gantree inventory
-  const gantreeInventoryObj = await inventory(
+  const gantreeInventoryObj = await makeInventory(
     gantreeConfigObj,
     projectPath,
     inventorySegmentsPath
