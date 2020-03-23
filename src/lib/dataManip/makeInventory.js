@@ -16,7 +16,7 @@ const configDo = require('./configDo')
 const binary_presets = require('../../static_data/binary_presets')
 const { throwGantreeError } = require('../error')
 
-const inventory = async (
+const makeInventory = async (
   gantreeConfigObj,
   projectPath,
   inventorySegmentsPath
@@ -230,5 +230,5 @@ const parseNode = ({ item, config }) => {
 }
 
 module.exports = {
-  inventory
+  makeInventory
 }
