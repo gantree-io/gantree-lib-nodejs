@@ -13,17 +13,14 @@ if (!(process.argv[2] === undefined)) {
 }
 
 async function main() {
-  // instansiate a new Gantree object
+  // instantiate a new Gantree object
   const gantree = new Gantree()
 
   // load config into function and validate
   let my_config = await gantree.returnConfig(PATH_TO_CONFIG)
 
   // sync infrastructure with config
-  let infraObj = await gantree.syncPlatform(my_config)
-
-  // convert instances into respective nodes/validators
-  await gantree.syncApplication(my_config, infraObj)
+  await gantree.cleanAnsiblePlatform(my_config)
 
   // finished
   console.log('DONE.')
