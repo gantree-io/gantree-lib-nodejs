@@ -1,20 +1,24 @@
+// this file outlines a class containing all functions exposed by the library to users via methods
+// method inputs/output should stay as consistent as possible
+
 const { Paths } = require('./utils/paths')
 const { Config } = require('./config')
 const { Ansible } = require('./ansible')
+const _stdout = require('./utils/stdout')
 
 class Gantree {
   constructor() {
     this.paths = new Paths()
     this.config = new Config()
     this.ansible = new Ansible()
+    this.stdout = _stdout
 
     this.returnConfig = this.returnConfig.bind(this)
     this.syncAll = this.syncAll.bind(this)
   }
 
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
-    const verbose = _options.verbose || 'false'
-    verbose // FIXNOW so eslint doesn't yell, needed later
+    const verbose = _options.verbose || false
 
     const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
     const projectPath = await this.paths.getProjectPath(projectName) // get project path based on projectName
@@ -39,27 +43,34 @@ class Gantree {
     const inventoryPathArray = [gantreeInventoryPath, activeInventoryPath]
 
     // create infra using inventories
-    const playbookFilePath = this.paths.getPlaybookFilePath('infra.yml')
+    const infraPlaybookFilePath = this.paths.getPlaybookFilePath('infra.yml')
     await this.ansible.commands.runPlaybook(
       inventoryPathArray,
-      playbookFilePath
+      infraPlaybookFilePath
     )
 
-    console.log('EARLY EXITTING')
-    process.exit(-1)
-    return false
-
-    // cmd.exec(`ansible-playbook -i ${gantreeInventoryPath} -i ${activeInventoryPath} ${getPlaybookPath("infra")}`)
-
     // // get instance IPs using inventories
-    // const NodeIpAddresses = await extractIps(
-    //   gantreeInventoryPath,
-    //   activeInventoryPath,
-    //   verbose // can this be refactored into an object? If so, should it be.
-    // )
+    const combinedInventoryObj = await this.ansible.commands.returnCombinedInventory(
+      inventoryPathArray
+    )
+    const nodeIpAddresses = await this.ansible.extract.IPs(
+      combinedInventoryObj,
+      { verbose: verbose }
+    )
 
-    // // convert instances into substrate nodes
-    // cmd.exec(`ansible-playbook -i ${gantreeInventoryPath} -i ${activeInventoryPath} ${getPlaybookPath("infra")}`)
+    await this.stdout.writeForParsing(
+      'NODE_IP_ADDRESSES',
+      JSON.stringify(nodeIpAddresses)
+    )
+
+    // convert instances into substrate nodes
+    const operationPlaybookFilePath = this.paths.getPlaybookFilePath(
+      'operation.yml'
+    )
+    await this.ansible.commands.runPlaybook(
+      inventoryPathArray,
+      operationPlaybookFilePath
+    )
   }
 
   async returnConfig(gantreeConfigPath) {
@@ -88,11 +99,6 @@ class Gantree {
   //     getGantreeInventoryPath(),
   //     getActiveInventoryPath(),
   //     verbose
-  //   )
-
-  //   cmd.writeParsableStdout(
-  //     'NODE_IP_ADDRESSES',
-  //     JSON.stringify(NodeIpAddresses)
   //   )
 
   //   console.log('setting up nodes (ansible only)')
