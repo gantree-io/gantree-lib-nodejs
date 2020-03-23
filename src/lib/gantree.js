@@ -80,10 +80,37 @@ class Gantree {
     )
   }
 
-  async cleanAll() {
-    console.log('WIP, please use the following command for now:')
-    console.log(
-      "'ansible-playbook -i {projectPath}/gantree -i {projectPath}/active ansible/clean_infra.yml'"
+  async cleanAll(gantreeConfigObj, credentialObj, _options = {}) {
+    // TODO: FIX: must be refactored to not reuse so much code from sync, this is a temp fix
+    // const verbose = _options.verbose || false // TODO: add this back when functions have verbose options
+    const projectPathOverride = _options.projectPathOverride
+
+    const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
+    const projectPath =
+      projectPathOverride || (await this.paths.getProjectPath(projectName)) // get project path based on projectName
+    await this.ansible.inventory.createNamespace(projectPath) // create project path recursively
+
+    // create inventory for inventory/{NAMESPACE}/gantree
+    const gantreeInventoryPath = await this.ansible.inventory.createGantreeInventory(
+      gantreeConfigObj,
+      projectPath
+    )
+
+    // TODO: TEMPorary, should be output of this.ansible.inventory.createActiveInventory
+    const activeInventoryPath = await path.join(projectPath, 'active')
+
+    // create inventories for inventory/{NAMESPACE}/active
+    // const activeInventoryPath = inventory.createActiveInventories(gantreeConfigObj, projectPath)
+
+    const inventoryPathArray = [gantreeInventoryPath, activeInventoryPath]
+
+    // create infra using inventories
+    const infraPlaybookFilePath = this.paths.getPlaybookFilePath(
+      'clean_infra.yml'
+    )
+    await this.ansible.commands.runPlaybook(
+      inventoryPathArray,
+      infraPlaybookFilePath
     )
   }
 }
