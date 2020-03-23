@@ -82,9 +82,13 @@ const buildDynamicInventory = async config => {
 
     if (idx == 0) {
       o.builder_bin = {}
-      o.builder_spec = {}
       o.builder_bin.children = [group]
+
+      o.builder_spec = {}
       o.builder_spec.children = [group]
+
+      o.builder_telemetry = {}
+      o.builder_telemetry.children = [group]
     }
 
     validator_list.push(group)
@@ -177,6 +181,16 @@ const getSharedVars = async ({ config: c }) => {
     substrate_bootnode_argument: binKeys.bootnodes || []
   }
 
+  const telemetryVars = {
+    telemetry: {
+      repository: 'https://github.com/flex-dapps/substrate-telemetry.git',
+      binary_name: 'telemetry',
+      src_folder: 'telemetry_src',
+      src_subfolder: 'backend',
+      operation: 'remote'
+    }
+  }
+
   // console.log("----BINARY VARS----")
   // console.log(binaryVars)
   // console.log("EXITING EARLY")
@@ -185,7 +199,8 @@ const getSharedVars = async ({ config: c }) => {
   const sharedVars = {
     ...ansibleGantreeVars,
     ...miscSharedVars,
-    ...binaryVars
+    ...binaryVars,
+    ...telemetryVars
   }
 
   return sharedVars
@@ -204,7 +219,8 @@ const getNodeVars = ({ item, infra }) => {
     substrate_user,
     substrate_group: 'subgroup',
     substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
-    substrate_telemetry_argument: item.binaryOptions.telemetry || 'false',
+    substrate_telemetry_argument:
+      item.binaryOptions.telemetry || 'ws://127.0.0.1:8000/submit',
     substrate_options: item.binaryOptions.substrateOptions || [],
     substrate_rpc_port: item.binaryOptions.rpcPort || 9933,
     substrate_node_name: item.name || 'false'

@@ -9,10 +9,34 @@
         sleep: 2
       retries: 3
 
+- hosts: localhost
+  roles:
+    - control-prepare
+
 - hosts: validator
   roles:
     - role: validator-env-gantree
   become: yes
+
+- hosts: builder_telemetry
+  roles:
+    - binary-rust-compile
+  vars:
+    binary_config: "{{ telemetry }}"
+
+- hosts: validator
+  gather_facts: no
+  roles:
+    - binary-push
+  vars:
+    binary_config: "{{ telemetry }}"
+
+- hosts: validator
+  gather_facts: no
+  roles:
+    - binary-service
+  vars:
+    binary_config: "{{ telemetry }}"
 
 - hosts: builder_bin
   roles:
@@ -25,10 +49,6 @@
   roles:
     - validator-push-bin
   become: yes
-
-- hosts: localhost
-  roles:
-    - control-prepare
 
 - hosts: validator
   gather_facts: no

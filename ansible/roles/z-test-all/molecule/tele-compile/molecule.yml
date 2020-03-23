@@ -53,11 +53,12 @@ provisioner:
         substrate_chain_argument: 'false'
         substrate_use_default_spec: 'true'
         substrate_node_name: gantree-yeetbox
+        substrate_telemetry_argument: ws://127.0.0.1:8000/submit
         substrate_user: subuser
         substrate_group: subgroup
         gantree_build: /home/subuser/build
         substrate_rpc_port: 9933
-        substrate_options: ['--telemetry-url=ws://127.0.0.1:8000/submit']
+        substrate_options: []
         substrate_bootnode_argument: []
         gantree_control_working: /tmp/gantree-control
         gantree_root: ../../../../../
