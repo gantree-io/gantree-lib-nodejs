@@ -1,4 +1,7 @@
 {
+    "metadata": {
+        "version": "0.1"
+    },
     "project": "gantree",
     "binary": {
         "fetch": "https://github.com/paritytech/polkadot/releases/download/v0.7.20/polkadot",

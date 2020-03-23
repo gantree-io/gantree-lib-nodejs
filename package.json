@@ -29,6 +29,7 @@
   "files": [
     "/ansible",
     "/inventory",
+    "/inventorySegments",
     "/src",
     "python_requirements.txt"
   ],

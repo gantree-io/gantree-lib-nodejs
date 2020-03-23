@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 const check = require('../lib/check')
-const config = require('../lib/config')
+const { Paths } = require('../lib/utils/paths')
+const { Config } = require('../lib/config')
 const { inventory } = require('../lib/dataManip/inventory')
 const { throwGantreeError } = require('../lib/error')
+
+const config = new Config()
+const paths = new Paths()
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason)
@@ -29,7 +33,10 @@ async function main() {
   // TODO: consider moving this into gantree.returnConfig func
   await check.envVars(gantreeConfigObj, { verbose: false })
 
-  const inventoryObj = await inventory(gantreeConfigObj)
+  const inventoryObj = await inventory(
+    gantreeConfigObj,
+    paths.getGantreePath('inventory', 'gan-preset-sample-polkadot')
+  )
 
   process.stdout.write(JSON.stringify(inventoryObj, null, 2))
 }
