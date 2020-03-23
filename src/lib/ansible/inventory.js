@@ -42,6 +42,10 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
     gantreeInventoryPath,
     'project_path.txt'
   )
+  const gantreePathTxtFilePath = await path.join(
+    gantreeInventoryPath,
+    'gantree_path.txt'
+  )
 
   // turn config object into a gantree inventory
   const gantreeInventoryObj = await makeInventory(
@@ -62,6 +66,13 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
 
   // write project's path to project_path.txt (used as CLI argument)
   await fs.writeFileSync(projectPathTxtFilePath, `${projectPath}`, 'utf8')
+
+  // write path to gantree to gantree_path.txt (used as CLI argument)
+  await fs.writeFileSync(
+    gantreePathTxtFilePath,
+    `${paths.getGantreePath()}`,
+    'utf8'
+  )
 
   console.log('...created gantree inventory!')
 

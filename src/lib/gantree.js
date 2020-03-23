@@ -5,6 +5,7 @@ const { Paths } = require('./utils/paths')
 const { Config } = require('./config')
 const { Ansible } = require('./ansible')
 const _stdout = require('./utils/stdout')
+const path = require('path') // TODO: remove import once active path fixed
 
 class Gantree {
   constructor() {
@@ -27,9 +28,12 @@ class Gantree {
 
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
     const verbose = _options.verbose || false
+    const projectPathOverride = _options.projectPathOverride
+    console.log(projectPathOverride)
 
     const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
-    const projectPath = await this.paths.getProjectPath(projectName) // get project path based on projectName
+    const projectPath =
+      projectPathOverride || (await this.paths.getProjectPath(projectName)) // get project path based on projectName
     await this.ansible.inventory.createNamespace(projectPath) // create project path recursively
 
     // create inventory for inventory/{NAMESPACE}/gantree
@@ -38,12 +42,8 @@ class Gantree {
       projectPath
     )
 
-    // TEMPorary, should be output of this.ansible.inventory.createActiveInventory
-    const activeInventoryPath = await this.paths.getGantreePath(
-      'inventory',
-      projectName,
-      'active'
-    )
+    // TODO: TEMPorary, should be output of this.ansible.inventory.createActiveInventory
+    const activeInventoryPath = await path.join(projectPath, 'active')
 
     // create inventories for inventory/{NAMESPACE}/active
     // const activeInventoryPath = inventory.createActiveInventories(gantreeConfigObj, projectPath)
@@ -84,7 +84,7 @@ class Gantree {
   async cleanAll() {
     console.log('WIP, please use the following command for now:')
     console.log(
-      "'ansible-playbook -i inventory/{projectName}/gantree -i inventory/{projectName}/active ansible/clean_infra.yml'"
+      "'ansible-playbook -i {projectPath}/gantree -i {projectPath}/active ansible/clean_infra.yml'"
     )
   }
 }
