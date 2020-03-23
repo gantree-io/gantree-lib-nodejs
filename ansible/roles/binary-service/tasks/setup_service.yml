@@ -1,0 +1,29 @@
+---
+# tasks file for validator service
+- name: install systemd
+  become: yes
+  apt:
+    name: systemd
+
+- name: create {{ service_name }} service file
+  become: yes
+  template:
+    src: template.service.j2
+    dest: /etc/systemd/system/{{ service_name }}.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: configure and stop {{ service_name }} service in systemd
+  become: yes
+  systemd:
+    name: "{{ service_name }}"
+    enabled: yes
+    daemon_reload: yes
+    state: stopped
+
+- name: start {{ service_name }} service
+  become: yes
+  systemd:
+    name: "{{ service_name }}"
+    state: started
