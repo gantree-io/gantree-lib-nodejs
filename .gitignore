@@ -17,7 +17,7 @@ setup_env_vars.sh
 /error.log
 
 # gantree-inventory
-inventory/active
+/inventory/*/*
 
 # unknown
 build/*

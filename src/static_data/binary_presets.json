@@ -8,6 +8,15 @@
         "filename": "polkadot",
         "useBinChainSpec": "true"
     },
+    "polkadot-HEAD": {
+        "chain": false,
+        "repository": {
+            "url": "https://github.com/paritytech/polkadot",
+            "version": "HEAD"
+        },
+        "filename": "polkadot",
+        "useBinChainSpec": "true"
+    },
     "edgeware-3.0.1": {
         "chain": "berlin",
         "fetch": {

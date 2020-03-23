@@ -1,121 +1,91 @@
-const configUtils = require('./config')
-const { Platform } = require('./platform')
-const { Application } = require('./application')
-const cmd = require('./cmd')
-// TODO: (future) refactor into a method of a single "get data from inventory" object
-const { extractIps } = require('./extractIps')
-const {
-  getGantreePath,
-  getGantreeInventoryPath,
-  getActiveInventoryPath
-} = require('./pathHelpers')
+// this file outlines a class containing all functions exposed by the library to users via methods
+// method inputs/output should stay as consistent as possible
 
-const getPlaybookCommand = playbook =>
-  `ansible-playbook -i ${getGantreeInventoryPath()} -i ${getActiveInventoryPath()} ${getGantreePath(
-    'ansible',
-    playbook
-  )}`
+const { Paths } = require('./utils/paths')
+const { Config } = require('./config')
+const { Ansible } = require('./ansible')
+const _stdout = require('./utils/stdout')
+const path = require('path') // TODO: remove import once active path fixed
 
 class Gantree {
   constructor() {
+    this.paths = new Paths()
+    this.config = new Config()
+    this.ansible = new Ansible()
+    this.stdout = _stdout
+
     this.returnConfig = this.returnConfig.bind(this)
     this.syncAll = this.syncAll.bind(this)
-    this.syncPlatform = this.syncPlatform.bind(this)
-    this.syncApplication = this.syncApplication.bind(this)
-    // temporary
-    this.ansibleSyncAll = this.ansibleSyncAll.bind(this)
-    // temporary
-    this.ansibleCleanAll = this.ansibleCleanAll.bind(this)
   }
 
   async returnConfig(gantreeConfigPath) {
-    const gantreeConfigObj = configUtils.read(gantreeConfigPath)
-    configUtils.validate(gantreeConfigObj)
+    console.log('...loading Gantree config')
+    const gantreeConfigObj = this.config.read(gantreeConfigPath)
+    console.log('...validating Gantree config')
+    this.config.validate(gantreeConfigObj)
     return Promise.resolve(gantreeConfigObj)
   }
 
-  async syncAll(gantreeConfigObj) {
-    console.log('[START] sync platform')
+  async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
+    const verbose = _options.verbose || false
+    const projectPathOverride = _options.projectPathOverride
+    console.log(projectPathOverride)
 
-    const infraObj = await this.syncPlatform(gantreeConfigObj)
+    const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
+    const projectPath =
+      projectPathOverride || (await this.paths.getProjectPath(projectName)) // get project path based on projectName
+    await this.ansible.inventory.createNamespace(projectPath) // create project path recursively
 
-    console.log('[DONE ] sync platform')
-
-    const { validatorIpAddresses } = infraObj
-
-    console.log(
-      `Validator ip addresses: ${JSON.stringify(validatorIpAddresses)}`
+    // create inventory for inventory/{NAMESPACE}/gantree
+    const gantreeInventoryPath = await this.ansible.inventory.createGantreeInventory(
+      gantreeConfigObj,
+      projectPath
     )
 
-    console.log('[START] sync application')
+    // TODO: TEMPorary, should be output of this.ansible.inventory.createActiveInventory
+    const activeInventoryPath = await path.join(projectPath, 'active')
 
-    await this.syncApplication(gantreeConfigObj, infraObj)
+    // create inventories for inventory/{NAMESPACE}/active
+    // const activeInventoryPath = inventory.createActiveInventories(gantreeConfigObj, projectPath)
 
-    console.log('[DONE ] sync application')
-  }
+    const inventoryPathArray = [gantreeInventoryPath, activeInventoryPath]
 
-  async ansibleSyncAll(syncOptions = {}) {
-    const verbose = syncOptions.verbose || false
-    const cmdOptions = { verbose: true }
-    console.log(
-      'Syncing platform + application with temp function (ansible only)'
-    )
-    await cmd.exec('pwd', cmdOptions)
-
-    // build infra
-    console.log('Syncing infrastructure (ansible only)')
-    await cmd.exec(getPlaybookCommand('infra.yml'), cmdOptions)
-
-    // get IP address and print to stdout for backend usage
-    console.log('Getting IPs... (ansible only)')
-    const NodeIpAddresses = await extractIps(
-      getGantreeInventoryPath(),
-      getActiveInventoryPath(),
-      verbose
+    // create infra using inventories
+    const infraPlaybookFilePath = this.paths.getPlaybookFilePath('infra.yml')
+    await this.ansible.commands.runPlaybook(
+      inventoryPathArray,
+      infraPlaybookFilePath
     )
 
-    cmd.writeParsableStdout(
+    // // get instance IPs using inventories
+    const combinedInventoryObj = await this.ansible.commands.returnCombinedInventory(
+      inventoryPathArray
+    )
+    const nodeIpAddresses = await this.ansible.extract.IPs(
+      combinedInventoryObj,
+      { verbose: verbose }
+    )
+
+    await this.stdout.writeForParsing(
       'NODE_IP_ADDRESSES',
-      JSON.stringify(NodeIpAddresses)
+      JSON.stringify(nodeIpAddresses)
     )
 
-    console.log('setting up nodes (ansible only)')
-    // create nodes on infra
-    await cmd.exec(getPlaybookCommand('operation.yml'), cmdOptions)
+    // convert instances into substrate nodes
+    const operationPlaybookFilePath = this.paths.getPlaybookFilePath(
+      'operation.yml'
+    )
+    await this.ansible.commands.runPlaybook(
+      inventoryPathArray,
+      operationPlaybookFilePath
+    )
+  }
 
+  async cleanAll() {
+    console.log('WIP, please use the following command for now:')
     console.log(
-      'Done syncing platform + application! (temp ansible-only function)'
+      "'ansible-playbook -i {projectPath}/gantree -i {projectPath}/active ansible/clean_infra.yml'"
     )
-  }
-
-  async ansibleCleanAll() {
-    const cmdOptions = { verbose: true }
-    console.log(
-      'Cleaning platform + application with temp function (ansible only)'
-    )
-    await cmd.exec('pwd', cmdOptions)
-    await cmd.exec(getPlaybookCommand('clean_infra.yml'), cmdOptions)
-    console.log(
-      'Done cleaning platform + application! (temp ansible-only function)'
-    )
-  }
-
-  async syncPlatform(gantreeConfigObj) {
-    const platform = new Platform(gantreeConfigObj)
-    const platformSyncResult = await platform.sync()
-    return Promise.resolve(platformSyncResult)
-  }
-
-  async cleanPlatform(gantreeConfigObj) {
-    const platform = new Platform(gantreeConfigObj)
-    const platformCleanResult = await platform.clean()
-    return Promise.resolve(platformCleanResult)
-  }
-
-  async syncApplication(gantreeConfigObj, infraObj) {
-    const app = new Application(gantreeConfigObj, infraObj)
-    const applicationSyncResult = await app.sync()
-    return Promise.resolve(applicationSyncResult)
   }
 }
 

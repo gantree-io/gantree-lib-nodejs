@@ -1,12 +1,9 @@
 //todo: cleanup for lib-centric approach
 const util = require('util')
+const path = require('path')
 const exec = util.promisify(require('child_process').exec)
 
-const {
-  getWorkspacePath,
-  getActiveInventoryPath,
-  getInactiveInventoryPath
-} = require('../pathHelpers')
+const { getWorkspacePath } = require('../pathHelpers')
 
 const inventoryGcp = require('./inventoryGcp')
 const inventoryAws = require('./inventoryAws')
@@ -19,9 +16,13 @@ const configDo = require('./configDo')
 const binary_presets = require('../../static_data/binary_presets')
 const { throwGantreeError } = require('../error')
 
-const inventory = async gantreeConfigObj => {
-  const inactivePath = getInactiveInventoryPath()
-  const activePath = getActiveInventoryPath()
+const makeInventory = async (
+  gantreeConfigObj,
+  projectPath,
+  inventorySegmentsPath
+) => {
+  const inactivePath = path.join(inventorySegmentsPath, 'inactive')
+  const activePath = path.join(projectPath, 'active')
 
   inventoryGcp.managePlugin(gantreeConfigObj, activePath)
   inventoryAws.managePlugin(gantreeConfigObj, activePath)
@@ -141,14 +142,15 @@ const getSharedVars = async ({ config: c }) => {
   const ansibleGantreeVars = {
     // ansible/gantree vars
     gantree_root: '../',
-    gantree_control_working: getWorkspacePath('operation'),
+    gantree_control_working: getWorkspacePath(c.metadata.project, 'operation'),
     ansible_ssh_common_args:
       '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
   }
 
   const miscSharedVars = {
     // shared vars
-    substrate_network_id: 'local_testnet' // TODO: this probably shouldn't be hardcoded
+    substrate_network_id: 'local_testnet', // TODO: this probably shouldn't be hard-coded
+    project_name: c.metadata.project
   }
 
   const binKeys = await returnBinaryKeysBase(c)
@@ -244,5 +246,5 @@ const parseNode = ({ item, config }) => {
 }
 
 module.exports = {
-  inventory
+  makeInventory
 }

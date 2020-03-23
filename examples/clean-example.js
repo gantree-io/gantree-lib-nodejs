@@ -1,7 +1,8 @@
-const { Gantree } = require('./src')
+const { Gantree } = require('../src')
 
-let PATH_TO_CONFIG = 'samples/config/fetch/fetch_aws.sample.json'
+let PATH_TO_CONFIG = 'samples/config/fetch/polkadot_do.sample.json'
 
+// give more verbose output on promise rejection
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
   // application specific logging, throwing an error, or other logic here
@@ -13,17 +14,10 @@ if (!(process.argv[2] === undefined)) {
 }
 
 async function main() {
-  // instantiate a new Gantree object
-  const gantree = new Gantree()
-
-  // load config into function and validate
-  let my_config = await gantree.returnConfig(PATH_TO_CONFIG)
-
-  // sync infrastructure with config
-  await gantree.cleanAnsiblePlatform(my_config)
-
-  // finished
-  console.log('DONE.')
+  const gantree = await new Gantree() // instantiate a new Gantree object
+  let my_config = await gantree.returnConfig(PATH_TO_CONFIG) // load config into function and validate
+  await gantree.cleanAll(my_config) // clean infrastructure
+  console.log('DONE.') // finished
 }
 
 main()

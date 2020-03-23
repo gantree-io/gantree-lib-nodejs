@@ -1,10 +1,10 @@
 const path = require('path')
 const fs = require('fs')
-const config = require('./config')
-const { throwGantreeError } = require('./error')
 
 const getControlPath = () => {
   let controlPath = ''
+  // FIX: no env vars in lib
+  // TODO: this must not be from an environment variable
   if (process.env.GANTREE_CONTROL_PATH) {
     controlPath = path.resolve(process.env.GANTREE_CONTROL_PATH)
   } else {
@@ -16,23 +16,8 @@ const getControlPath = () => {
   return controlPath
 }
 
-const getNamespace = () => {
-  const c = config.read(process.env.GANTREE_CONFIG_PATH)
-  const projectName = c.metadata && c.metadata.project
-  const namespace = process.env.GANTREE_OVERRIDE_NAMESPACE || projectName
-  if (!namespace) {
-    throwGantreeError(
-      'INVALID_NAMESPACE',
-      Error(
-        `No project name or GANTREE_OVERRIDE_NAMESPACE environment variable specified: ${namespace}`
-      )
-    )
-  }
-  return namespace
-}
-
-const getWorkspacePath = (...extra) => {
-  const result = path.join(getControlPath(), getNamespace(), ...extra)
+const getWorkspacePath = (projectName, ...extra) => {
+  const result = path.join(getControlPath(), projectName, ...extra)
   fs.mkdirSync(result, { recursive: true })
   return result
 }
@@ -41,14 +26,14 @@ const getGantreePath = (...extra) => {
   return path.join(__dirname, '../', '../', ...extra)
 }
 
-const getActiveInventoryPath = () => getWorkspacePath('active')
-const getInactiveInventoryPath = () => getGantreePath('inventory', 'inactive')
-const getGantreeInventoryPath = () => getGantreePath('inventory', 'gantree')
+// const getActiveInventoryPath = () => getWorkspacePath('active')
+// const getInactiveInventoryPath = () => getGantreePath('inventory', 'inactive')
+// const getGantreeInventoryPath = () => getGantreePath('inventory', 'gantree')
 
 module.exports = {
   getWorkspacePath,
-  getGantreePath,
-  getActiveInventoryPath,
-  getGantreeInventoryPath,
-  getInactiveInventoryPath
+  getGantreePath
+  // getActiveInventoryPath,
+  // getGantreeInventoryPath,
+  // getInactiveInventoryPath
 }
