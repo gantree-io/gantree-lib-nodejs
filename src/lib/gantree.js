@@ -81,35 +81,6 @@ class Gantree {
     return Promise.resolve(gantreeConfigObj)
   }
 
-  // async ansibleOLDSyncAll(configObj, credentialObj, syncOptions = {}) {
-  //   const verbose = syncOptions.verbose || false
-  //   const cmdOptions = { verbose: true }
-  //   console.log(
-  //     'Syncing platform + application with temp function (ansible only)'
-  //   )
-  //   await cmd.exec('pwd', cmdOptions)
-
-  //   // build infra
-  //   console.log('Syncing infrastructure (ansible only)')
-  //   await cmd.exec(getPlaybookCommand('infra.yml'), cmdOptions)
-
-  //   // get IP address and print to stdout for backend usage
-  //   console.log('Getting IPs... (ansible only)')
-  //   const NodeIpAddresses = await extractIps(
-  //     getGantreeInventoryPath(),
-  //     getActiveInventoryPath(),
-  //     verbose
-  //   )
-
-  //   console.log('setting up nodes (ansible only)')
-  //   // create nodes on infra
-  //   await cmd.exec(getPlaybookCommand('operation.yml'), cmdOptions)
-
-  //   console.log(
-  //     'Done syncing platform + application! (temp ansible-only function)'
-  //   )
-  // }
-
   // async ansibleCleanAll() {
   //   const cmdOptions = { verbose: true }
   //   console.log(
@@ -120,24 +91,6 @@ class Gantree {
   //   console.log(
   //     'Done cleaning platform + application! (temp ansible-only function)'
   //   )
-  // }
-
-  // async syncPlatform(gantreeConfigObj) {
-  //   const platform = new Platform(gantreeConfigObj)
-  //   const platformSyncResult = await platform.sync()
-  //   return Promise.resolve(platformSyncResult)
-  // }
-
-  // async cleanPlatform(gantreeConfigObj) {
-  //   const platform = new Platform(gantreeConfigObj)
-  //   const platformCleanResult = await platform.clean()
-  //   return Promise.resolve(platformCleanResult)
-  // }
-
-  // async syncApplication(gantreeConfigObj, infraObj) {
-  //   const app = new Application(gantreeConfigObj, infraObj)
-  //   const applicationSyncResult = await app.sync()
-  //   return Promise.resolve(applicationSyncResult)
   // }
 }
 
