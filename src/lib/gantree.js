@@ -17,6 +17,14 @@ class Gantree {
     this.syncAll = this.syncAll.bind(this)
   }
 
+  async returnConfig(gantreeConfigPath) {
+    console.log('...loading Gantree config')
+    const gantreeConfigObj = this.config.read(gantreeConfigPath)
+    console.log('...validating Gantree config')
+    this.config.validate(gantreeConfigObj)
+    return Promise.resolve(gantreeConfigObj)
+  }
+
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
     const verbose = _options.verbose || false
 
@@ -73,25 +81,12 @@ class Gantree {
     )
   }
 
-  async returnConfig(gantreeConfigPath) {
-    console.log('...loading Gantree config')
-    const gantreeConfigObj = this.config.read(gantreeConfigPath)
-    console.log('...validating Gantree config')
-    this.config.validate(gantreeConfigObj)
-    return Promise.resolve(gantreeConfigObj)
+  async cleanAll() {
+    console.log('WIP, please use the following command for now:')
+    console.log(
+      "'ansible-playbook -i inventory/{projectName}/gantree -i inventory/{projectName}/active ansible/clean_infra.yml'"
+    )
   }
-
-  // async ansibleCleanAll() {
-  //   const cmdOptions = { verbose: true }
-  //   console.log(
-  //     'Cleaning platform + application with temp function (ansible only)'
-  //   )
-  //   await cmd.exec('pwd', cmdOptions)
-  //   await cmd.exec(getPlaybookCommand('clean_infra.yml'), cmdOptions)
-  //   console.log(
-  //     'Done cleaning platform + application! (temp ansible-only function)'
-  //   )
-  // }
 }
 
 module.exports = {
