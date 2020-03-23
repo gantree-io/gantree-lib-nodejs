@@ -1,5 +1,5 @@
 ---
-- hosts: validator:builder_bin:builder_spec
+- hosts: all
   gather_facts: false
   strategy: free
   tasks:
@@ -13,10 +13,19 @@
   roles:
     - control-prepare
 
-- hosts: validator
+- hosts: all
   roles:
     - role: validator-env-gantree
   become: yes
+
+- hosts: builder_bin
+  roles:
+    - mock-build-bin
+
+- hosts: validator:builder_spec
+  strategy: free
+  roles:
+    - validator-push-bin
 
 - hosts: builder_telemetry
   roles:
@@ -25,41 +34,21 @@
     binary_config: "{{ telemetry }}"
 
 - hosts: validator
-  gather_facts: no
   roles:
     - binary-push
   vars:
     binary_config: "{{ telemetry }}"
 
 - hosts: validator
-  gather_facts: no
   roles:
-    - binary-service
+      - binary-service
   vars:
     binary_config: "{{ telemetry }}"
 
-- hosts: builder_bin
-  roles:
-    - builder-build-bin
-  become: yes
-
-- hosts: validator:builder_spec
-  gather_facts: no
-  strategy: free
-  roles:
-    - validator-push-bin
-  become: yes
-
 - hosts: validator
-  gather_facts: no
-  roles:
-    - validator-gen-keys
-
-- hosts: validator
-  gather_facts: no
   serial: 1 # NOTE(ryan): to avoid weird collision on pulling the keys to host
   roles:
-    - validator-gen-keys-retreive
+    - validator-gen-keys
 
 - hosts: builder_spec
   roles:
@@ -67,22 +56,19 @@
       when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
 
 - hosts: validator
-  gather_facts: no
   roles:
     - role: validator-push-spec
       when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
 
+
 - hosts: validator
-  gather_facts: no
   roles:
     - validator-service
 
 - hosts: validator
-  gather_facts: no
   roles:
     - validator-key-insert
 
 - hosts: validator
-  gather_facts: no
   roles:
     - validator-service-restart

@@ -1,0 +1,12 @@
+[Unit]
+Description=Substrate Node
+
+[Service]
+User={{ substrate_user }}
+Group={{ substrate_group }}
+ExecStart=/usr/local/bin/{{ binary_name }} {{ binary_arguments }}
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+---
+# tasks file for substrate-builder
+- name: build binary remote
+  include_tasks: 1_build_binary.yml
+  when: 'operation == "remote"'
+
+- name: build binary local
+  include_tasks: 1_build_binary.yml
+  #delegate_to: localhost
+  when: 'operation == "local"'
+
+- name: fetch binary
+  include_tasks: 1_fetch_binary.yml
+  when: 'operation == "fetch"'

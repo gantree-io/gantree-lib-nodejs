@@ -32,8 +32,12 @@ ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
            {{ option }} \
            {% endfor %}
          {% endif %}
-         {% if substrate_telemetry_argument is defined and substrate_telemetry_argument == 'false' %}
-         --no-telemetry
+         {% if substrate_telemetry_argument is defined %}
+           {% if substrate_telemetry_argument == 'false' %}
+           --no-telemetry
+           {% else %}
+           --telemetry-url={{ substrate_telemetry_argument }}
+           {% endif %}
          {% endif %}
 
 Restart=always

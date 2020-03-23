@@ -1,0 +1,5 @@
+---
+# vars file for validator-service
+default_binary_name: NOT_SET
+default_binary_arguments: ''
+default_service_name: unnamed_service

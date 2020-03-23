@@ -1,0 +1,8 @@
+---
+# tasks file for validator service
+- name: service for binary
+  import_tasks: setup_service.yml
+  vars:
+    binary_name: "{{ binary_config.binary_name }}"
+    service_name: "{{ binary_config.service_name | default(binary_config.binary_name) }}"
+    binary_arguments: "{{ binary_config.binary_arguments | default(default_binary_arguments) }}"
