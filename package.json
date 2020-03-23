@@ -1,6 +1,6 @@
 {
   "name": "gantree-lib",
-  "version": "0.3.5-b2",
+  "version": "0.4.0-b1",
   "main": "src/index.js",
   "repository": "https://github.com/flex-dapps/gantree-lib-nodejs",
   "author": "Flex Dapps",
