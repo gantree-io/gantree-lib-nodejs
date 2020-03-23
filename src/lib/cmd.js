@@ -72,8 +72,5 @@ module.exports = {
         counter.stop_counting()
       })
     })
-  },
-  writeParsableStdout: async (distinguishing_keyword, data_as_string) => {
-    console.log(`!!!${distinguishing_keyword} ==> ${data_as_string}`) // used for stdout reading, do not change to logger
   }
 }
