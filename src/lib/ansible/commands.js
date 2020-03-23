@@ -16,7 +16,7 @@ async function runPlaybook(inventoryPathArray, playbookFilePath) {
   const inventoryString = await _genInventoryString(inventoryPathArray)
 
   const playbookCommandString = `ansible-playbook ${inventoryString}${playbookFilePath}`
-  // console.log(playbookCommandString) // TODO: for debugging only
+  // console.log(playbookCommandString)
 
   const execOutput = await cmd.exec(playbookCommandString, { verbose: true })
 

@@ -145,7 +145,7 @@ const getSharedVars = async ({ config: c }) => {
 
   const miscSharedVars = {
     // shared vars
-    substrate_network_id: 'local_testnet', // TODO: this probably shouldn't be hardcoded
+    substrate_network_id: 'local_testnet', // TODO: this probably shouldn't be hard-coded
     project_name: c.metadata.project
   }
 
