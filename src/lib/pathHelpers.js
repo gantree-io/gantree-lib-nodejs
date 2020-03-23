@@ -3,6 +3,8 @@ const fs = require('fs')
 
 const getControlPath = () => {
   let controlPath = ''
+  // FIX: no env vars in lib
+  // TODO: this must not be from an environment variable
   if (process.env.GANTREE_CONTROL_PATH) {
     controlPath = path.resolve(process.env.GANTREE_CONTROL_PATH)
   } else {
