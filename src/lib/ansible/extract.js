@@ -25,7 +25,10 @@ async function IPs(combinedInventoryObj, _options = {}) {
       console.log(hostNameIps)
     }
     hostNameIps.forEach(ip_n => {
-      allNodeIps.push(ip_n)
+      allNodeIps.push({
+        IP: ip_n,
+        hostName: hostName
+      })
     })
   }
   if (verbose === true) {
