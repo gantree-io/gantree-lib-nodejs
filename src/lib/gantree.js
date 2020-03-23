@@ -29,7 +29,6 @@ class Gantree {
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
     const verbose = _options.verbose || false
     const projectPathOverride = _options.projectPathOverride
-    console.log(projectPathOverride)
 
     const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
     const projectPath =
