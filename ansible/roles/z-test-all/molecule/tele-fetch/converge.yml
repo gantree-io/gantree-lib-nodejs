@@ -1,0 +1,74 @@
+---
+- hosts: all
+  gather_facts: false
+  strategy: free
+  tasks:
+    - name: wait for machine and ssh
+      wait_for_connection:
+        timeout: 120
+        sleep: 2
+      retries: 3
+
+- hosts: localhost
+  roles:
+    - control-prepare
+
+- hosts: all
+  roles:
+    - role: validator-env-gantree
+  become: yes
+
+- hosts: builder_bin
+  roles:
+    - mock-build-bin
+
+- hosts: validator:builder_spec
+  strategy: free
+  roles:
+    - validator-push-bin
+
+- hosts: builder_telemetry
+  roles:
+    - binary-rust-compile
+  vars:
+    binary_config: "{{ telemetry }}"
+
+- hosts: validator
+  roles:
+    - binary-push
+  vars:
+    binary_config: "{{ telemetry }}"
+
+- hosts: validator
+  roles:
+      - binary-service
+  vars:
+    binary_config: "{{ telemetry }}"
+
+- hosts: validator
+  serial: 1 # NOTE(ryan): to avoid weird collision on pulling the keys to host
+  roles:
+    - validator-gen-keys
+
+- hosts: builder_spec
+  roles:
+    - role: builder-build-spec
+      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
+
+- hosts: validator
+  roles:
+    - role: validator-push-spec
+      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
+
+
+- hosts: validator
+  roles:
+    - validator-service
+
+- hosts: validator
+  roles:
+    - validator-key-insert
+
+- hosts: validator
+  roles:
+    - validator-service-restart
