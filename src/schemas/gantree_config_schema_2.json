@@ -226,9 +226,9 @@
         "instance": {
             "type": "object",
             "properties": {
-                "sshPublicKey": {
+                "sshPrivateKeyPath": {
                     "type": "string",
-                    "description": "public ssh key used to access this node"
+                    "description": "path to the private ssh key used to access this node"
                 },
                 "sshUser": {
                     "type": "string",
