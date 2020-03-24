@@ -6,6 +6,7 @@ const files = require('./files')
 const gantree_config_schema = require('../schemas/gantree_config_schema_2')
 const provider_specific_keys = require('../static_data/provider_specific_keys')
 const { throwGantreeError } = require('./error')
+const checks = require('./checks')
 const { returnLogger } = require('./logging')
 
 const logger = returnLogger('config')
@@ -103,7 +104,8 @@ async function validateConfig(gantreeConfigObj, options = {}) {
       }
       throwGantreeError('BAD_CONFIG', Error('invalid gantree config'))
     }
-    validate_provider_specific_keys(gantreeConfigObj, options)
+    await validate_provider_specific_keys(gantreeConfigObj, options)
+    await checks.config.nodeNameCharLimit(gantreeConfigObj)
   }
 }
 
