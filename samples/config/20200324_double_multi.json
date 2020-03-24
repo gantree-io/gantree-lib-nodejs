@@ -1,0 +1,80 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "double-multi"
+    },
+    "binary": {
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.20/polkadot"
+        },
+        "filename": "polkadot"
+    },
+    "network": "my-network",
+    "nodes": [
+        {
+            "name": "gcp-n-1",
+            "validator": false,
+            "instance": {
+                "provider": "gcp",
+                "type": "n1-standard-2",
+                "deletionProtection": "false",
+                "sizeGb": 100,
+                "zone": "us-east1-b",
+                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "projectId": "gantree-dev-00"
+            }
+        },
+        {
+            "validator": false,
+            "instance": {
+                "provider": "gcp",
+                "type": "n1-standard-2",
+                "deletionProtection": "false",
+                "sizeGb": 150,
+                "zone": "us-east1-b",
+                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "projectId": "gantree-dev-00"
+            }
+        },
+        {
+            "name": "aws-n-3",
+            "validator": false,
+            "instance": {
+                "provider": "aws",
+                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "type": "t3.small",
+                "volumeSize": 200,
+                "region": "eu-central-1"
+            }
+        },
+        {
+            "validator": false,
+            "instance": {
+                "provider": "aws",
+                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "type": "t3.small",
+                "volumeSize": 150,
+                "region": "eu-central-1"
+            }
+        },
+        {
+            "name": "do-n-5",
+            "validator": false,
+            "instance": {
+                "provider": "do",
+                "size": "s-1vcpu-1gb",
+                "region": "nyc1",
+                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key"
+            }
+        },
+        {
+            "validator": false,
+            "instance": {
+                "provider": "do",
+                "size": "s-2vcpu-2gb",
+                "region": "nyc3",
+                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key"
+            }
+        }
+    ]
+}

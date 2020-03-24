@@ -219,6 +219,7 @@ const getNodeVars = ({ item, infra }) => {
   return {
     force_valid_group_names: 'silently',
     ansible_user: infra.ssh_user,
+    ansible_ssh_private_key_file: item.instance.sshPrivateKeyPath,
     gantree_working: `/home/${substrate_user}/tmp/gantree-validator`,
 
     substrate_user,

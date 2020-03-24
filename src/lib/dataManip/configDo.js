@@ -1,3 +1,5 @@
+const ssh = require('../ssh')
+
 const calcDoSshKeyName = ssh_key => {
   const h = require('crypto')
     .createHash('md5')
@@ -16,7 +18,7 @@ const parseInfra = ({ item }) => {
     droplet_image: item.instance.image || 53893572, //ubuntu-18-04-x64
     droplet_region: item.instance.region || 'nyc3',
     ssh_user: item.instance.sshUser || 'root',
-    ssh_key: item.instance.sshPublicKey,
+    ssh_key: ssh.publicKeyFromPrivateKeyPath(item.instance.sshPrivateKeyPath),
     gantree_tags: {}
   }
 

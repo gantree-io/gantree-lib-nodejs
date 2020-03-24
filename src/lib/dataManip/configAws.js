@@ -1,3 +1,5 @@
+const ssh = require('../ssh')
+
 const parseInfra = ({ item, config }) => {
   const infraConfig = {
     instance_name: item.name,
@@ -8,7 +10,7 @@ const parseInfra = ({ item, config }) => {
     volume_size: item.instance.volumeSize || 50,
     region: item.instance.region || 'eu-central-1',
     ssh_user: item.instance.sshUser || 'ubuntu',
-    ssh_key: item.instance.sshPublicKey,
+    ssh_key: ssh.publicKeyFromPrivateKeyPath(item.instance.sshPrivateKeyPath),
     ssh_key_name: 'key-' + config.metadata.project + '-' + item.name
   }
 
