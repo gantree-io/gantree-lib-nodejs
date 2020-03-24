@@ -2,30 +2,32 @@
 
 Library at the core of Gantree
 
-***[!] Please note - This readme is outdated and requires updating***
-
 ## About
 
-
-Substrate is built on the core belief that the future will be multichain.
+Substrate is built on the core belief that the future will be multi-chain.
 
 In the past, setting up and managing blockchain networks required an understanding of a multitude of concepts which may have inhibited end users from experimenting with them.
 
 With the assistance of funding from the [Web3 Foundation](https://web3.foundation/), Flex Dapps is building a suite of technologies which will enable both power users and those less versed to create and manage substrate-powered parachain networks via rapid spin-up and tear-down of self-managed or cloud-hosted machines.
 
-## Software Requirements
+## Docker Image
 
-If you would like to avoid having to install dependencies, use the [Docker image](https://github.com/flex-dapps/gantree-cli-docker).
+If you would rather install dependencies automatically in a container, a Docker image is available here:
+- [Docker image](https://github.com/flex-dapps/gantree-cli-docker).
 
-Otherwise, in order to use gantree-cli, the following dependencies are required:
+## Requirements
+
+### 1 - Application Requirements
+
+When installed locally, Gantree-lib requires the following application dependencies:
 
 | REQUIREMENT                                                                                   | VERSION   | NOTES                                                            |
 | --------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------- |
 | NodeJS                                                                                        | >=10.15.2 | Recommended install method: [nvm](https://github.com/nvm-sh/nvm) |
 | [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) | >=2.9.4   | Recommended install method: pip                                  |
-| Git                                                                                           | >=2.0     | Required by ansible-galaxy for installing role                   |
+| Git                                                                                           | >=2.0     | Required by ansible-galaxy for installing roles                  |
 
-### Ansible Requirements
+### 2 - Ansible Requirements
 
 Install required ansible roles
 
@@ -34,13 +36,17 @@ curl https://raw.githubusercontent.com/flex-dapps/gantree-requirements/master/an
 ansible-galaxy install -r ansible_requirements.yml
 ```
 
-Install required python packages (it is highly recommended to use a virtual environment)
+### 3 - Python Requirements
+
+***Please note:*** *It is highly recommended to use a virtual environment such as _pipenv_ or _venv_*
+
+Install required python packages
 
 ```bash
 pip install ansible boto boto3 botocore requests google-auth
 ```
 
-### Package Installation
+### 4 - Package Installation
 
 Install gantree-lib
 
@@ -57,32 +63,56 @@ For security reasons, credentials for infrastructure providers must be exported 
 | PROVIDER     | EXPORTS REQUIRED                                | NOTES                                                                                                                                                       |
 | ------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AWS          | `AWS_ACCESS_KEY_ID`</br>`AWS_SECRET_ACCESS_KEY` | IAM account with EC2 and VPC write access.                                                                                                                  |
-| GCP          | `GOOGLE_APPLICATION_CREDENTIALS`                | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
+| GCP          | `GCP_SERVICE_ACCOUNT_FILE`                      | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
 | DigitalOcean | `DO_API_TOKEN`                                  | A DigitalOcean access token with read + write access                                                                                                        |
 
 **note:** You only need credentials for providers you wish to use
 
 ### SSH Credentials
 
-You must generate this keypair yourself and add it to your ssh-agent.
+You must generate this key pair yourself and add it to your ssh-agent.
 
 **note:** Don't forget to add the private key to you ssh-agent otherwise you will get **_Permission denied (publickey)_** during ansible tasks
 
+
 ## Configuration
 
-Gantree-cli requires a configuration file (main.json) in order to guide creation, provisioning, modification and deletion of instances.
+Gantree-cli requires a configuration file (Gantree configuration) in order to guide creation, provisioning, modification and deletion of instances.
 
 Using one of the examples below, create a configuration file to represent your desired infrastructure.
 
-### Configuration File Samples
+**note:** All boolean values should be entered as lower-case strings (i.e. "true"/"false"). This is due to differences in boolean parsing between JSON/JavaScript/Python/Ansible. We intend for this to change in a future release of Gantree.
 
-**note:** Due to issues between json/js/python/ansible boolean parsing, all boolean values should be supplied as lowercase strings, eg. "true" or "false". We hope to improve this in a future version of gantree-cli
+### Gantree Configuration Samples
 
-Examples of provider definitions
+Gantree supports multiple methods of deploying nodes among providers.
 
-- [AWS Sample](samples/config/only_aws.sample.json)
-- [DigitalOcean Sample](samples/config/only_do.sample.json)
-- [GCP Sample](samples/config/only_gcp.sample.json)
+These methods are:
+
+| METHOD NAME/KEY | DESCRIPTION                                                                                                                            |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Repository      | Download and compile a substrate node from the specified repository, optionally specifying a specific version as a commit hash or tag. |
+| Fetch           | Download a binary from the specified url.                                                                                              |
+| Local           | Specify the path to a local binary (not yet supported).                                                                                |
+| Preset          | Specify a preset with repository/fetch fields already defined.                                                                         |
+
+Supported presets can be found [here](src/static_data/binary_presets.json).
+
+***[!] Please note - Information below is likely outdated***
+
+#### Permutations
+
+| Provider/s   | Preset                                                             | Repository | Fetch                                                             | Local |
+| ------------ | ------------------------------------------------------------------ | ---------- | ----------------------------------------------------------------- | ----- |
+| AWS          |                                                                    |            |                                                                   | -     |
+| DigitalOcean | [Polkadot (Kusama)](samples/config/preset/polkadot_do.sample.json) |            | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
+| GCP          |                                                                    |            |                                                                   | -     |
+
+#### Single Provider Samples
+
+- [AWS - single instance](samples/config/only_aws.sample.json)
+- [DigitalOcean - single instance](samples/config/only_do.sample.json)
+- [GCP - single instance](samples/config/only_gcp.sample.json)
 
 ### Configuration File Structure: Top Level
 
