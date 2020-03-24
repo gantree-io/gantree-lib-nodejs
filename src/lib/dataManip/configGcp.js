@@ -1,3 +1,5 @@
+const ssh = require('../ssh')
+
 const gcpSourceImageDefault =
   'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
 
@@ -17,7 +19,7 @@ const parseInfra = ({ item }) => {
     zone,
     region,
     ssh_user: item.instance.sshUser || 'root',
-    ssh_key: item.instance.sshPublicKey,
+    ssh_key: ssh.publicKeyFromPrivateKeyPath(item.instance.sshPrivateKeyPath),
     gcp_project: item.instance.projectId
   }
 
