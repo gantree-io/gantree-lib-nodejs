@@ -9,6 +9,7 @@
     repository_version: "{{ binary_config.repository_version | default(default_repository_version) }}"
     build_arguments: "{{ binary_config.build_arguments | default(default_build_arguments) }}"
     build_path: "{{ gantree_build | default(default_build_path) }}"
+    binary_url: "{{ binary_config.binary_url | default(default_binary_url) }}"
     compile_path: "{{ binary_config.compile_path | default(default_compile_path) }}"
     store_path: "{{ gantree_control_working }}"
     install_cargo: "{{ binary_config.install_cargo | default(default_install_cargo) }}"

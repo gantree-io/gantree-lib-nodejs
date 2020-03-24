@@ -15,6 +15,7 @@ default_toolchain: |
     rustup target add wasm32-unknown-unknown --toolchain nightly
 default_repository: NOT_SET
 default_repository_version: HEAD
+default_binary_url: NOT_SET
 default_build_path: /tmp/gantree-build
 default_build_arguments: --release
 default_compile_path: target/release
