@@ -1,4 +1,4 @@
-const ssh = require('../ssh')
+const ssh = require('../utils/ssh')
 
 const parseInfra = ({ item, config }) => {
   const infraConfig = {

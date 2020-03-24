@@ -1,4 +1,4 @@
-const ssh = require('../ssh')
+const ssh = require('../utils/ssh')
 
 const gcpSourceImageDefault =
   'projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts'
