@@ -72,6 +72,8 @@ For security reasons, credentials for infrastructure providers must be exported 
 
 You must generate this key pair yourself and add it to your ssh-agent.
 
+**Important: Key pairs must be PEM.**
+
 **note:** Don't forget to add the private key to you ssh-agent otherwise you will get **_Permission denied (publickey)_** during ansible tasks
 
 
@@ -100,19 +102,75 @@ Supported presets can be found [here](src/static_data/binary_presets.json).
 
 ***[!] Please note - Information below is likely outdated***
 
+**Todo: info on special ssh-keygen steps**
+
 #### Permutations
 
-| Provider/s   | Preset                                                             | Repository | Fetch                                                             | Local |
-| ------------ | ------------------------------------------------------------------ | ---------- | ----------------------------------------------------------------- | ----- |
-| AWS          |                                                                    |            |                                                                   | -     |
-| DigitalOcean | [Polkadot (Kusama)](samples/config/preset/polkadot_do.sample.json) |            | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
-| GCP          |                                                                    |            |                                                                   | -     |
+| Provider/s   | Preset                                                                     | Repository | Fetch                                                             | Local |
+| ------------ | -------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- | ----- |
+| AWS          |                                                                            |            |                                                                   | -     |
+| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json) |            | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
+| GCP          |                                                                            |            |                                                                   | -     |
 
 #### Single Provider Samples
 
 - [AWS - single instance](samples/config/only_aws.sample.json)
 - [DigitalOcean - single instance](samples/config/only_do.sample.json)
 - [GCP - single instance](samples/config/only_gcp.sample.json)
+
+<!-- #### Gantree configuration example
+
+```json
+{
+  "metadata": {
+    "project": "node-template", // project name
+    "version": "0.0.1" // project version (not used right now)
+  },
+  "binary": {
+    // "fetch" grabs a pre-compiled binary from a given URL
+    "fetch": {
+      "url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/node-template"
+    },
+    // we can also specify a repository if we want the nodes to compile the binary,
+    // but note we can only have one of 'fetch' or 'repository'
+    "repository": {
+      "url": "https://github.com/substrate-developer-hub/substrate-node-template.git",
+      "version": "HEAD" // or a commit hash
+    },
+    "filename": "node-template" // the name of the (compiled) binary
+  },
+  "nodes": [
+    {
+      "validator": true, // whether we should start this node with --validator
+      "name": "gantree-nt-1", // node name for telemetry page
+      "loggingFilter": "sync=trace,afg=trace,babe=debug", // OPTIONAL
+      "telemetry": true, // OPTIONAL
+      "chain": "dev", // OPTIONAL an argument to pass to --chain, leave
+      "substrateOptions": [
+        // OPTIONAL an array of extra options to pass to the substrate binary
+      ],
+      "rpcPort": 9933, // OPTIONAL specify a port for the RPC endpoint to bind to
+      "instance": {
+        "provider": "do", // or "aws" or "gcp"
+        // machine slug for provider, check these out for
+        // aws - https://aws.amazon.com/ec2/instance-types/
+        // digitalocean - https://slugs.do-api.dev
+        // gcp - https://cloud.google.com/compute/docs/machine-types
+        "machineType": "s-1vcpu-1gb",
+        // zone for provider
+        // aws - https://docs.aws.amazon.com/general/latest/gr/rande.html
+        // digitalocean - https://developers.digitalocean.com/documentation/v2/#list-all-regions
+        // gcp - https://cloud.google.com/compute/docs/regions-zones#locations
+        "zone": "nyc3",
+        "sshUser": "root",
+        "sshPublicKey": "ssh-rsa ..."
+      }
+    },
+    // repeat as necessary for n nodes (you won't finalise blocks unless you have 2+)
+    ...,
+  ]
+}
+``` -->
 
 ### Configuration File Structure: Top Level
 
