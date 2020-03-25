@@ -1,7 +1,7 @@
 {
     "metadata": {
         "version": "2.0",
-        "project": "s-p-polkadot-kus"
+        "project": "s-p-do-pol-kus"
     },
     "binary": {
         "preset": "polkadot-0.7.22"
@@ -13,7 +13,7 @@
                 "provider": "do",
                 "dropletSize": "s-1vcpu-1gb",
                 "region": "nyc3",
-                "sshPrivateKeyPath": "/home/denver/gantree/id_rsa"
+                "sshPrivateKeyPath": "/home/denver/gantree/id_rsa_pem"
             }
         }
     ]
