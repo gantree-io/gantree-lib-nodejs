@@ -2,6 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const { makeInventory } = require('../dataManip/makeInventory')
 const { Paths } = require('../utils/paths')
+const { hash } = require('../utils/hash')
 
 const paths = new Paths()
 
@@ -46,6 +47,10 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
     gantreeInventoryPath,
     'gantree_path.txt'
   )
+  const gantreeConfigHashTxtFilePath = await path.join(
+    gantreeInventoryPath,
+    'gantree_config_hash.txt'
+  )
 
   // turn config object into a gantree inventory
   const gantreeInventoryObj = await makeInventory(
@@ -73,6 +78,32 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
     `${paths.getGantreePath()}`,
     'utf8'
   )
+
+  // write path to gantree to gantree_path.txt (used as CLI argument)
+  // Important note: This may differ from gantree config supplied by user as a path due to injection of defaults
+  console.log('...checking config hash state')
+  const gantreeConfigStringified = await JSON.stringify(gantreeConfigObj)
+  const hashExists = fs.existsSync(gantreeConfigHashTxtFilePath, 'utf-8')
+
+  if (hashExists === true) {
+    console.log('...existing hash found')
+    const expectedHash = fs.readFileSync(gantreeConfigHashTxtFilePath, 'utf-8')
+    // const valid = hash.validateChecksum(gantreeConfigStringified, expectedHash, undefined, undefined, { verbose: true })
+    const valid = hash.validateChecksum(gantreeConfigStringified, expectedHash)
+    console.log(`...hash valid: ${valid}`)
+  } else if (hashExists === false) {
+    console.log('...no existing hash found')
+    const gantreeConfigObjHash = hash.getChecksum(gantreeConfigStringified)
+
+    await fs.writeFileSync(
+      gantreeConfigHashTxtFilePath,
+      `${gantreeConfigObjHash}`,
+      'utf8'
+    )
+    console.log(`...config hash written: ${gantreeConfigObjHash}`)
+  } else {
+    console.log('error')
+  }
 
   console.log('...created gantree inventory!')
 
