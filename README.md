@@ -112,6 +112,8 @@ Supported presets can be found [here](src/static_data/binary_presets.json).
 | DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json)  | -          | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
 | GCP          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_gcp.sample.json) | -          | -                                                                 | -     |
 
+**note:** 'Local' method is not yet supported
+
 #### Single Provider Samples
 
 - [AWS - single instance](samples/config/only_aws.sample.json)
