@@ -1,0 +1,21 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "s-p-aws-pol-kus"
+    },
+    "binary": {
+        "preset": "polkadot-0.7.22"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "aws",
+                "type": "t3.small",
+                "volumeSize": 200,
+                "region": "ap-southeast-2",
+                "sshPrivateKeyPath": "/home/denver/gantree/id_rsa_pem"
+            }
+        }
+    ]
+}
