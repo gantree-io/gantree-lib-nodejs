@@ -228,7 +228,7 @@
             "properties": {
                 "sshPrivateKeyPath": {
                     "type": "string",
-                    "description": "path to the private ssh key used to access this node"
+                    "description": "path to the ssh private key (PEM) used to access this node"
                 },
                 "sshUser": {
                     "type": "string",
