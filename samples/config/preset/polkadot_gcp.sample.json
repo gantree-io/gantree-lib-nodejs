@@ -1,0 +1,23 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "s-p-gcp-pol-kus"
+    },
+    "binary": {
+        "preset": "polkadot-0.7.22"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "gcp",
+                "type": "n1-standard-2",
+                "deletionProtection": "false",
+                "sizeGb": 100,
+                "zone": "us-east1-b",
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
+                "projectId": "$env:GCP_PROJECT_NAME"
+            }
+        }
+    ]
+}
