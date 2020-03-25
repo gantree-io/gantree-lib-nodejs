@@ -16,19 +16,34 @@ const configDo = require('./configDo')
 const binary_presets = require('../../static_data/binary_presets')
 const { throwGantreeError } = require('../error')
 
+const { createTransformPipeline } = require('./preprocess')
+const boolToString = require('./preprocessors/boolToString')
+const dynamicEnvVar = require('./preprocessors/dynamicEnvVar')
+
+const transformConfig = config => {
+  const pipeline = createTransformPipeline(
+    boolToString.processor,
+    dynamicEnvVar.processor
+  )
+
+  return pipeline(config)
+}
+
 const makeInventory = async (
   gantreeConfigObj,
   projectPath,
   inventorySegmentsPath
 ) => {
+  const transformedConfig = transformConfig(gantreeConfigObj)
+
   const inactivePath = path.join(inventorySegmentsPath, 'inactive')
   const activePath = path.join(projectPath, 'active')
 
-  inventoryGcp.managePlugin(gantreeConfigObj, activePath)
-  inventoryAws.managePlugin(gantreeConfigObj, activePath)
-  inventoryDo.managePlugin(gantreeConfigObj, activePath, inactivePath)
+  inventoryGcp.managePlugin(transformedConfig, activePath)
+  inventoryAws.managePlugin(transformedConfig, activePath)
+  inventoryDo.managePlugin(transformedConfig, activePath, inactivePath)
 
-  const di = await buildDynamicInventory(gantreeConfigObj)
+  const di = await buildDynamicInventory(transformedConfig)
 
   return di
 }
