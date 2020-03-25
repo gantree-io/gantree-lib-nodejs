@@ -106,11 +106,11 @@ Supported presets can be found [here](src/static_data/binary_presets.json).
 
 #### Permutations
 
-| Provider/s   | Preset                                                                     | Repository | Fetch                                                             | Local |
-| ------------ | -------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- | ----- |
-| AWS          |                                                                            |            |                                                                   | -     |
-| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json) |            | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
-| GCP          |                                                                            |            |                                                                   | -     |
+| Provider/s   | Preset                                                                      | Repository | Fetch                                                             | Local |
+| ------------ | --------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- | ----- |
+| AWS          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_aws.sample.json) | -          | -                                                                 | -     |
+| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json)  | -          | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
+| GCP          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_gcp.sample.json) | -          | -                                                                 | -     |
 
 #### Single Provider Samples
 
