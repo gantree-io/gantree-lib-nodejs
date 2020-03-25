@@ -20,7 +20,7 @@
                 "deletionProtection": "false",
                 "sizeGb": 100,
                 "zone": "us-east1-b",
-                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "sshPrivateKeyPath": "$env:MY_VALIDATOR_KEY_PATH",
                 "projectId": "gantree-dev-00"
             }
         },
@@ -32,7 +32,7 @@
                 "deletionProtection": "false",
                 "sizeGb": 150,
                 "zone": "us-east1-b",
-                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "sshPrivateKeyPath": "$env:MY_VALIDATOR_KEY_PATH",
                 "projectId": "gantree-dev-00"
             }
         },
@@ -41,7 +41,7 @@
             "validator": false,
             "instance": {
                 "provider": "aws",
-                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "sshPrivateKeyPath": "$env:MY_VALIDATOR_KEY_PATH",
                 "type": "t3.small",
                 "volumeSize": 200,
                 "region": "eu-central-1"
@@ -51,7 +51,7 @@
             "validator": false,
             "instance": {
                 "provider": "aws",
-                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key",
+                "sshPrivateKeyPath": "$env:MY_VALIDATOR_KEY_PATH",
                 "type": "t3.small",
                 "volumeSize": 150,
                 "region": "eu-central-1"
@@ -64,7 +64,7 @@
                 "provider": "do",
                 "size": "s-1vcpu-1gb",
                 "region": "nyc1",
-                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key"
+                "sshPrivateKeyPath": "$env:MY_VALIDATOR_KEY_PATH"
             }
         },
         {
@@ -73,7 +73,7 @@
                 "provider": "do",
                 "size": "s-2vcpu-2gb",
                 "region": "nyc3",
-                "sshPrivateKeyPath": "/home/rozifus/Work/creds/ssh/validator_key"
+                "sshPrivateKeyPath": "$env:MY_VALIDATOR_KEY_PATH"
             }
         }
     ]

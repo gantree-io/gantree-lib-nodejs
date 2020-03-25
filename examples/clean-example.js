@@ -1,6 +1,8 @@
 const { Gantree } = require('../src')
 
-let PATH_TO_CONFIG = 'samples/config/fetch/polkadot_do.sample.json'
+let PATH_TO_CONFIG =
+  process.env.GANTREE_CONFIG_PATH ||
+  'samples/config/fetch/polkadot_do.sample.json'
 
 // give more verbose output on promise rejection
 process.on('unhandledRejection', (reason, p) => {
