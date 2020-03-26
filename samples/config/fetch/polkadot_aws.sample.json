@@ -1,0 +1,27 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "s-f-aws-pol-kus"
+    },
+    "binary": {
+        "chain": false,
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.22/polkadot",
+            "sha256": "1526168270c33b9fd2d650887e85599a6b111c6fde9d90cc10c9f1077bb415ff"
+        },
+        "filename": "polkadot",
+        "useBinChainSpec": "true"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "aws",
+                "type": "t3.small",
+                "volumeSize": 200,
+                "region": "ap-southeast-2",
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+            }
+        }
+    ]
+}

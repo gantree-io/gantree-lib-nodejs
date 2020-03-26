@@ -1,7 +1,7 @@
 {
     "metadata": {
         "version": "2.0",
-        "project": "s-f-polkadot-kus"
+        "project": "s-f-do-pol-kus"
     },
     "binary": {
         "chain": false,
