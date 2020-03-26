@@ -100,25 +100,20 @@ These methods are:
 
 Supported presets can be found [here](src/static_data/binary_presets.json).
 
-***[!] Please note - Information below is likely outdated***
+***[!!!] Please note - Information below is likely outdated***
+---
 
 **Todo: info on special ssh-keygen steps**
 
 #### Permutations
 
-| Provider/s   | Preset                                                                      | Repository | Fetch                                                             | Local |
-| ------------ | --------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- | ----- |
-| AWS          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_aws.sample.json) | -          | -                                                                 | -     |
-| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json)  | -          | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json) | -     |
-| GCP          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_gcp.sample.json) | -          | -                                                                 | -     |
+| Provider/s   | Preset                                                                      | Repository                                                            | Fetch                                                              | Local |
+| ------------ | --------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ | ----- |
+| AWS          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_aws.sample.json) | [Polkadot - HEAD](samples/config/repository/polkadot_aws.sample.json) | [Polkadot (Kusama)](samples/config/fetch/polkadot_aws.sample.json) | -     |
+| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json)  | [Polkadot - HEAD](samples/config/repository/polkadot_do.sample.json)  | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json)  | -     |
+| GCP          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_gcp.sample.json) | [Polkadot - HEAD](samples/config/repository/polkadot_gcp.sample.json) | [Polkadot (Kusama)](samples/config/fetch/polkadot_gcp.sample.json) | -     |
 
 **note:** 'Local' method is not yet supported
-
-#### Single Provider Samples
-
-- [AWS - single instance](samples/config/only_aws.sample.json)
-- [DigitalOcean - single instance](samples/config/only_do.sample.json)
-- [GCP - single instance](samples/config/only_gcp.sample.json)
 
 <!-- #### Gantree configuration example
 
