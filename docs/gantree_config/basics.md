@@ -72,3 +72,17 @@ When using the repository format, a specified repository will be downloaded and 
     "filename": "string" // Filename of compiled binary
 }
 ```
+
+#### Fetch Format
+
+When using the fetch format, binaries will be downloaded.
+
+```jsonc
+{
+    "fetch": {
+        "url": "string", // URL to download binary from
+        "sha256": "string" // [null] Sha256 checksum of binary
+    },
+    "filename": "string" // Filename of compiled binary
+}
+```
