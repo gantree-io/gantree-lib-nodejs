@@ -126,8 +126,6 @@ As this file is used for configuration validation, it will often be the most acc
 In the scenario samples/documentation are outdated/incompatible, the schema is invaluable reference for debugging.
 
 
-
-
 <!-- #### Gantree configuration example
 
 ```json
