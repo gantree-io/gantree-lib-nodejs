@@ -1,4 +1,6 @@
 const defaults = require('../../static_data/gantree_config_defaults')
+const binPresets = require('../../static_data/binary_presets')
+const { throwGantreeError } = require('../error')
 
 // function resolveMissingKey(realObject, defaultObject, key) {
 //     // if the default object value is null
@@ -169,14 +171,45 @@ function defaultReducer(realObject, defaultObject, key, name) {
 function injectDefaults(gantreeConfigObj) {
   console.log('--DEFAULT INJECTION PLACEHOLDER--')
   for (const key of Object.keys(defaults)) {
-    const result = defaultReducer(gantreeConfigObj, defaults, key, 'config')
-    console.log(result)
-    gantreeConfigObj[key] = result
+    gantreeConfigObj = defaultReducer(gantreeConfigObj, defaults, key, 'config')
   }
   console.log(gantreeConfigObj)
   return gantreeConfigObj
 }
 
+function expandPreset(gantreeConfigObj) {
+  const presetKey = gantreeConfigObj['binary'].preset
+  // if the preset key isn't in binary_presets file
+  if (binPresets.hasOwnProperty(presetKey) === false) {
+    // throw bad_config error
+    throwGantreeError(
+      'BAD_CONFIG',
+      Error('Binary preset specified in config not found')
+    )
+  }
+  // get value of the preset (i.e. an object)
+  const presetValue = binPresets[presetKey]
+  // set value of binary key to the preset key's resolved value
+  gantreeConfigObj['binary'] = presetValue
+
+  // const returnBinaryKeysBase = async c => {
+  //     if (c.binary.preset !== undefined) {
+  //         if (c.binary.preset in binary_presets) {
+  //             return binary_presets[c.binary.preset]
+  //         } else {
+  //             throwGantreeError(
+  //                 'BAD_CONFIG',
+  //                 Error('Binary preset specified in config not found')
+  //             )
+  //         }
+  //     } else {
+  //         return c.binary
+  //     }
+  // }
+  return gantreeConfigObj
+}
+
 module.exports = {
-  defaults: injectDefaults
+  defaults: injectDefaults,
+  expandPreset
 }
