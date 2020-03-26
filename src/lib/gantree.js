@@ -6,6 +6,9 @@ const { Config } = require('./config')
 const { Ansible } = require('./ansible')
 const _stdout = require('./utils/stdout')
 const path = require('path') // TODO: remove import once active path fixed
+const { returnLogger } = require('./logging')
+
+const logger = returnLogger('lib/gantree')
 
 class Gantree {
   constructor() {
@@ -19,11 +22,9 @@ class Gantree {
   }
 
   async returnConfig(gantreeConfigPath) {
-    console.log('...loading Gantree config')
-    const gantreeConfigObj = this.config.read(gantreeConfigPath)
-    console.log('...validating Gantree config')
-    this.config.validate(gantreeConfigObj)
-    return Promise.resolve(gantreeConfigObj)
+    logger.info('reading gantree configuration')
+    const gantreeConfigObj = await this.config.read(gantreeConfigPath)
+    return gantreeConfigObj
   }
 
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
