@@ -13,37 +13,33 @@ const configGcp = require('./configGcp')
 const configAws = require('./configAws')
 const configDo = require('./configDo')
 
-const binary_presets = require('../../static_data/binary_presets')
-const { throwGantreeError } = require('../error')
+// const boolToString = require('./preprocessors/boolToString')
+// const dynamicEnvVar = require('./preprocessors/dynamicEnvVar')
 
-const { createTransformPipeline } = require('./preprocess')
-const boolToString = require('./preprocessors/boolToString')
-const dynamicEnvVar = require('./preprocessors/dynamicEnvVar')
+// const transformConfig = config => {
+//   const pipeline = createTransformPipeline(
+//     boolToString.processor,
+//     dynamicEnvVar.processor
+//   )
 
-const transformConfig = config => {
-  const pipeline = createTransformPipeline(
-    boolToString.processor,
-    dynamicEnvVar.processor
-  )
-
-  return pipeline(config)
-}
+//   return pipeline(config)
+// }
 
 const makeInventory = async (
   gantreeConfigObj,
   projectPath,
   inventorySegmentsPath
 ) => {
-  const transformedConfig = transformConfig(gantreeConfigObj)
+  // const transformedConfig = transformConfig(gantreeConfigObj)
 
   const inactivePath = path.join(inventorySegmentsPath, 'inactive')
   const activePath = path.join(projectPath, 'active')
 
-  inventoryGcp.managePlugin(transformedConfig, activePath)
-  inventoryAws.managePlugin(transformedConfig, activePath)
-  inventoryDo.managePlugin(transformedConfig, activePath, inactivePath)
+  inventoryGcp.managePlugin(gantreeConfigObj, activePath)
+  inventoryAws.managePlugin(gantreeConfigObj, activePath)
+  inventoryDo.managePlugin(gantreeConfigObj, activePath, inactivePath)
 
-  const di = await buildDynamicInventory(transformedConfig)
+  const di = await buildDynamicInventory(gantreeConfigObj)
 
   return di
 }
@@ -129,21 +125,6 @@ const ensureNames = config => {
   })
 }
 
-const returnBinaryKeysBase = async c => {
-  if (c.binary.preset !== undefined) {
-    if (c.binary.preset in binary_presets) {
-      return binary_presets[c.binary.preset]
-    } else {
-      throwGantreeError(
-        'BAD_CONFIG',
-        Error('Binary preset specified in config not found')
-      )
-    }
-  } else {
-    return c.binary
-  }
-}
-
 const returnRepoVersion = async binaryKeysBase => {
   if (binaryKeysBase.repository.version === undefined) {
     console.warn('No version specified, using repository HEAD')
@@ -168,7 +149,7 @@ const getSharedVars = async ({ config: c }) => {
     project_name: c.metadata.project
   }
 
-  const binKeys = await returnBinaryKeysBase(c)
+  const binKeys = c.binary
 
   let repository_version = 'false'
 
