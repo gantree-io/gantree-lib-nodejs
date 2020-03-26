@@ -6,5 +6,6 @@
         "data",
         "manip",
         "precommit"
-    ]
+    ],
+    "python.pythonPath": "/home/denver/.local/share/virtualenvs/gantree-lib-nodejs-KmeEZP_K/bin/python"
 }
