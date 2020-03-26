@@ -17,7 +17,11 @@ const defaults = require('../../static_data/gantree_config_defaults')
 
 function defaultReducer(realObject, defaultObject, key, name) {
   console.log(`----REDUCING: ${name}`)
-  console.log(`${realObject[key]} | VS | ${defaultObject[key]}`)
+  try {
+    console.log(`${realObject[key]} | VS | ${defaultObject[key]}`)
+  } catch (e) {
+    console.log("couldn't print key value, likely reduced already")
+  }
 
   // if real object is an object
   if (typeof realObject === 'object') {
@@ -67,8 +71,11 @@ function defaultReducer(realObject, defaultObject, key, name) {
   // real object is undefined
   else if (realObject === undefined) {
     // special handling
-    console.log('realObject is undefined!')
-    process.exit(-1)
+    // set realObject to defaultObject
+    console.log(`${realObject} -> ${defaultObject}`)
+    return defaultObject
+    // console.log('realObject is undefined!')
+    // process.exit(-1)
   }
   // real object is something else
   else {
