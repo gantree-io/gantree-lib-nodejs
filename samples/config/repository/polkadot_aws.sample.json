@@ -1,0 +1,27 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "s-r-aws-pol-kus"
+    },
+    "binary": {
+        "chain": false,
+        "repository": {
+            "url": "https://github.com/paritytech/polkadot",
+            "version": "HEAD"
+        },
+        "filename": "polkadot",
+        "useBinChainSpec": "true"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "aws",
+                "type": "m4.large",
+                "volumeSize": 200,
+                "region": "ap-southeast-2",
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+            }
+        }
+    ]
+}

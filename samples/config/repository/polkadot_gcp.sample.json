@@ -1,0 +1,29 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "s-r-gcp-pol-kus"
+    },
+    "binary": {
+        "chain": false,
+        "repository": {
+            "url": "https://github.com/paritytech/polkadot",
+            "version": "HEAD"
+        },
+        "filename": "polkadot",
+        "useBinChainSpec": "true"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "gcp",
+                "type": "c2-standard-4",
+                "deletionProtection": "false",
+                "sizeGb": 100,
+                "zone": "us-east1-b",
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
+                "projectId": "$env:GCP_PROJECT_NAME"
+            }
+        }
+    ]
+}
