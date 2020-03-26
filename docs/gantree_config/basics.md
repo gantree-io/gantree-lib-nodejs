@@ -12,23 +12,22 @@ Gantree configurations should be in JSON format.
 
 ## Structure
 
+The following subheadings outline portions of the Gantree configurations structure
 
+Optional keys are indicated by the comments matching the format `// [value] description`.
+
+Default values for keys are indicated inside square brackets.
 
 ### Root Object
 
-```json
+```jsonc
 {
-    "metadata": {},
-    "binary": {},
-    "nodes": [],
-    "defaults": {}
+    "metadata": {}, // see Metadata
+    "binary": {}, // see Binary
+    "nodes": [], // see Nodes
+    "defaults": {} // [{}] see Defaults (not yet implemented)
 }
-- metadata **\***
-- binary **\***
-- nodes **\***
-- defaults _(not yet implemented)_
-
-**\*** required keys
+```
 
 ### Metadata
 
