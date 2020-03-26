@@ -3,7 +3,7 @@ const process = require('process')
 const Ajv = require('ajv')
 
 const files = require('./files')
-const gantree_config_schema = require('../schemas/gantree_config_schema_2')
+const gantree_config_schema = require('../schemas/gantree_config_schema')
 const provider_specific_keys = require('../static_data/provider_specific_keys')
 const { throwGantreeError } = require('./error')
 const checks = require('./checks')
