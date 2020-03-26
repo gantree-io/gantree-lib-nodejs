@@ -33,7 +33,7 @@ Default values for keys are indicated inside square brackets.
 
 Contains information pertaining to the configuration and project itself
 
-```json
+```jsonc
 {
     "version": "string", // Gantree configuration version
     "project": "string" // Name of Gantree project
@@ -52,7 +52,7 @@ When using the preset method, all other binary keys will be parsed from a preset
 
 Presets are defined in a file [here](src/../../../src/static_data/binary_presets.json).
 
-```json
+```jsonc
 {
     "preset": "string" // Name of preset to use
 }
@@ -62,7 +62,7 @@ Presets are defined in a file [here](src/../../../src/static_data/binary_presets
 
 When using the repository format, a specified repository will be downloaded and a node will be compiled.
 
-```json
+```jsonc
 {
     "repository": {
         "url": "string", // URL of node repository
