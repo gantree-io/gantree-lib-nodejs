@@ -4,7 +4,7 @@
 
 | GANTREE CONFIG VERSION | LAST UPDATED |
 | ---------------------- | ------------ |
-| 2.0                    | 2020/03/26   |
+| 2.0                    | 2020/03/27   |
 
 ## Format
 
@@ -169,3 +169,10 @@ Required keys for each providers are outlined below:
 Define default values for required/optional keys for all nodes
 
 These values are injected at runtime unless already defined on nodes themselves.
+
+```jsonc
+{
+    // Not yet implemented
+    // Structure still in flux
+}
+```
