@@ -1,4 +1,4 @@
-# Gantree Configuration Samples
+# Gantree Configuration - Samples
 
 Gantree supports multiple methods of deploying nodes among providers.
 

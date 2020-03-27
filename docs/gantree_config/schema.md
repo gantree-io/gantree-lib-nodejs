@@ -1,4 +1,4 @@
-# Gantree Configuration Schema
+# Gantree Configuration - Schema
 
 Gantree configurations must conform to the structure outlined in the schema found here:
 
