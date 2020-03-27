@@ -10,12 +10,12 @@
         {
             "validator": false,
             "instance": {
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
                 "provider": "gcp",
                 "type": "n1-standard-2",
                 "deletionProtection": "false",
                 "sizeGb": 100,
                 "zone": "us-east1-b",
-                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
                 "projectId": "$env:GCP_PROJECT_NAME"
             }
         }
