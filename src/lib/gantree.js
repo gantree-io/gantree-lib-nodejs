@@ -115,7 +115,7 @@ class Gantree {
       // strict set to false
       else {
         // log warning
-        logger.warn('no inventory exists to clean')
+        logger.warn('nothing to clean')
         // exit normally
         process.exit(0)
       }
