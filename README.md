@@ -66,17 +66,15 @@ For security reasons, credentials for infrastructure providers must be exported 
 | GCP          | `GCP_SERVICE_ACCOUNT_FILE`                      | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
 | DigitalOcean | `DO_API_TOKEN`                                  | A DigitalOcean access token with read + write access                                                                                                        |
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Not yet implemented tag" width="100">
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
 You only need credentials for providers you wish to use
 
 ### SSH Credentials
 
-You must generate this key pair yourself and add it to your ssh-agent.
+SSH private key can be defined using environment variable references in your Gantree configuration.
 
-**Important: Key pairs must be PEM.**
-
-**note:** Don't forget to add the private key to you ssh-agent otherwise you will get **_Permission denied (publickey)_** during ansible tasks
-
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
+Important: Key pairs must be PEM.
 
 ## Configuration
 
