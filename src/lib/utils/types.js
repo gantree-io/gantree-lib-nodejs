@@ -31,6 +31,15 @@ function ensureBool(supposed_boolean) {
   }
 }
 
+function isNull(supposed_null) {
+  if (supposed_null === null) {
+    return true
+  } else {
+    false
+  }
+}
+
 module.exports = {
-  ensureBool
+  ensureBool,
+  isNull
 }
