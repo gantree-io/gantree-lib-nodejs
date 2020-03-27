@@ -3,11 +3,15 @@ const fs = require('fs')
 const { makeInventory } = require('../dataManip/makeInventory')
 const { Paths } = require('../utils/paths')
 const { hash } = require('../utils/hash')
+const { throwGantreeError } = require('../error')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('lib/ansible/inventory')
 
 const paths = new Paths()
 
 async function createNamespace(projectPath) {
-  console.log('...creating namespace')
+  logger.info('creating namespace')
 
   const gantreeInventoryPath = path.join(projectPath, 'gantree')
   const activeInventoryPath = path.join(projectPath, 'active')
@@ -19,11 +23,11 @@ async function createNamespace(projectPath) {
   // do stuff
   // create gantree folder
   // create active folder
-  console.log('...created namespace!')
+  logger.info('namespace created')
 }
 
 async function createGantreeInventory(gantreeConfigObj, projectPath) {
-  console.log('...creating gantree inventory')
+  logger.info('creating Gantree inventory')
 
   const gantreeInventoryPath = await path.join(projectPath, 'gantree')
   const inventorySegmentsPath = await paths.getInventorySegmentsPath()
@@ -81,18 +85,25 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
 
   // write path to gantree to gantree_path.txt (used as CLI argument)
   // Important note: This may differ from gantree config supplied by user as a path due to injection of defaults
-  console.log('...checking config hash state')
+  // logger.info('checking for Gantree config hash')
   const gantreeConfigStringified = await JSON.stringify(gantreeConfigObj)
+  const realHash = hash.getChecksum(gantreeConfigStringified)
   const hashExists = fs.existsSync(gantreeConfigHashTxtFilePath, 'utf-8')
 
   if (hashExists === true) {
-    console.log('...existing hash found')
-    const expectedHash = fs.readFileSync(gantreeConfigHashTxtFilePath, 'utf-8')
+    // logger.info('Gantree config hash found')
     // const valid = hash.validateChecksum(gantreeConfigStringified, expectedHash, undefined, undefined, { verbose: true })
-    const valid = hash.validateChecksum(gantreeConfigStringified, expectedHash)
-    console.log(`...hash valid: ${valid}`)
+    const expectedHash = fs.readFileSync(gantreeConfigHashTxtFilePath, 'utf-8')
+    const valid = hash.validateChecksum(realHash, expectedHash)
+    if (valid === true) {
+      logger.info('Gantree config hash valid')
+    } else {
+      logger.warn(
+        `Gantree config hash has changed since creation\nexpected: ${expectedHash}\n     got: ${realHash}`
+      )
+    }
   } else if (hashExists === false) {
-    console.log('...no existing hash found')
+    // logger.info('No Gantree config hash found')
     const gantreeConfigObjHash = hash.getChecksum(gantreeConfigStringified)
 
     await fs.writeFileSync(
@@ -100,17 +111,48 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
       `${gantreeConfigObjHash}`,
       'utf8'
     )
-    console.log(`...config hash written: ${gantreeConfigObjHash}`)
+    logger.info(`Gantree config hash written (${gantreeConfigObjHash})`)
   } else {
-    console.log('error')
+    throwGantreeError(
+      'INTERNAL_ERROR',
+      Error('hashExists should resolve to a boolean')
+    )
   }
 
-  console.log('...created gantree inventory!')
+  logger.info('Gantree inventory created')
 
   return gantreeInventoryPath
 }
 
+async function deleteGantreeInventory(gantreeConfigObj, projectPath) {
+  // TODO: add extra functionality other than hash delete
+  const gantreeInventoryPath = await path.join(projectPath, 'gantree')
+  const gantreeConfigHashTxtFilePath = await path.join(
+    gantreeInventoryPath,
+    'gantree_config_hash.txt'
+  )
+  fs.unlinkSync(gantreeConfigHashTxtFilePath)
+  logger.info('cleared Gantree config hash')
+}
+
+async function gantreeInventoryExists(gantreeConfigObj, projectPath) {
+  const gantreeInventoryPath = await path.join(projectPath, 'gantree')
+  const gantreeConfigHashTxtFilePath = await path.join(
+    gantreeInventoryPath,
+    'gantree_config_hash.txt'
+  )
+  // if project hash exists
+  if (fs.existsSync(gantreeConfigHashTxtFilePath)) {
+    // return true
+    return true
+  } else {
+    return false
+  }
+}
+
 module.exports = {
   createNamespace,
-  createGantreeInventory
+  createGantreeInventory,
+  deleteGantreeInventory,
+  gantreeInventoryExists
 }
