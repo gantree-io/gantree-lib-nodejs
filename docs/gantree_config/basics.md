@@ -10,6 +10,30 @@
 
 Gantree configurations must be in JSON format.
 
+## Features
+
+### Environment Variable References
+
+Gantree supports references to environment variables in the form of strings with special formatting
+
+To use environment variables references in your Gantree configuration, define a key value as a string with the following structure:
+
+```jsonc
+"<key>": "$env:<env_variable_name>"
+```
+
+- `<key>` being any key, anywhere in the Gantree configuration
+- `<env_variable_name>` being the environment variable you wish to reference
+
+For example:
+
+```jsonc
+"sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+```
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_best_practice_tag.png" alt="Best practice tag" width="100">
+Using too many environment variable references in a configuration is discouraged as it can lead to inconsistencies across environments, especially for those working in large teams. The significance of this however varies from project to project.
+
 ## Structure
 
 The following subheadings outline portions of the Gantree configurations structure
@@ -105,12 +129,13 @@ When using the local format, binaries will be grabbed from a local source
 
 An array defining the nodes in your infrastructure
 
-**note:** "validator" key is not yet implemented
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+Validator key is not yet supported
 
 ```jsonc
 [
     {
-        "validator": "boolean", // [false] Should this node be a validator
+        "validator": "boolean", // [true] Should this node be a validator
         "instance": {} // See Instance 
     },
     ... // etc.
@@ -127,6 +152,8 @@ Required keys for each providers are outlined below:
 
 ##### Amazon Web Services (AWS)
 
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_example_tag.png" alt="Example tag" width="100">
+
 ```jsonc
 {
     "sshPrivateKeyPath": "string", // Path to private key for SSH
@@ -139,6 +166,8 @@ Required keys for each providers are outlined below:
 
 ##### DigitalOcean (DO)
 
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_example_tag.png" alt="Example tag" width="100">
+
 ```jsonc
 {
     "sshPrivateKeyPath": "string", // Path to private key for SSH
@@ -149,6 +178,8 @@ Required keys for each providers are outlined below:
 ```
 
 ##### Google Cloud Platform (GCP)
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_example_tag.png" alt="Example tag" width="100">
 
 ```jsonc
 {
