@@ -36,6 +36,7 @@ class Gantree {
       projectPathOverride || (await this.paths.getProjectPath(projectName)) // get project path based on projectName
     await this.ansible.inventory.createNamespace(projectPath) // create project path recursively
 
+    // TODO: must be refactored, also creates active inventory
     // create inventory for inventory/{NAMESPACE}/gantree
     const gantreeInventoryPath = await this.ansible.inventory.createGantreeInventory(
       gantreeConfigObj,
