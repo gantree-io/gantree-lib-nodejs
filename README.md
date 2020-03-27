@@ -79,11 +79,13 @@ You must generate this key pair yourself and add it to your ssh-agent.
 
 ## Configuration
 
-Gantree-cli requires a configuration file (Gantree configuration) in order to guide creation, provisioning, modification and deletion of instances.
+Gantree requires a configuration file (Gantree configuration) in order to guide creation, provisioning, modification and deletion of instances.
 
-Using one of the examples below, create a configuration file to represent your desired infrastructure.
+In essence, your Gantree configuration represents your desired infrastructure.
 
-**note:** All boolean values should be entered as lower-case strings (i.e. "true"/"false"). This is due to differences in boolean parsing between JSON/JavaScript/Python/Ansible. We intend for this to change in a future release of Gantree.
+When creating your own Gantree configuration, it's recommended to create it based on one of the samples provided.
+
+If your configuration is invalid, Gantree will try it's best to help you identify where misconfiguration has occurred.
 
 ### Gantree Configuration Documentation
 
