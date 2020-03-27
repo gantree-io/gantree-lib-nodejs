@@ -67,7 +67,7 @@ When using the repository format, a specified repository will be downloaded and 
     "repository": {
         "url": "string", // URL of node repository
         "version": "string", // ["HEAD"] Version of repository
-        "localCompile": "bool" // [false] Compile binary on host (advanced)
+        "localCompile": "boolean" // [false] Compile binary on host (advanced)
     },
     "filename": "string" // Filename of compiled binary
 }
@@ -89,7 +89,7 @@ When using the fetch format, binaries will be downloaded.
 
 #### Local Format
 
-**note:** This method is not yet implemented
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
 
 When using the local format, binaries will be grabbed from a local source
 
@@ -103,16 +103,68 @@ When using the local format, binaries will be grabbed from a local source
 
 ### Nodes
 
-// TODO
+An array defining the nodes in your infrastructure
 
+**note:** "validator" key is not yet implemented
+
+```jsonc
+[
+    {
+        "validator": "boolean", // [false] Should this node be a validator
+        "instance": {} // See Instance 
+    },
+    ... // etc.
+]
+```
+
+#### Instance
+
+Definition of the instance this node will be hosted on. 
+
+The composition of instance is dependant on the provider specified. There are currently 3 providers supported.
+
+Required keys for each providers are outlined below:
+
+##### Amazon Web Services (AWS)
+
+```jsonc
+{
+    "sshPrivateKeyPath": "string", // Path to private key for SSH
+    "provider": "aws", // Provider to use
+    "type": "t3.small", // AWS machine type
+    "volumeSize": 200, // AWS volume size
+    "region": "ap-southeast-2" // AWS region
+}
+```
+
+##### DigitalOcean (DO)
+
+```jsonc
+{
+    "sshPrivateKeyPath": "string", // Path to private key for SSH
+    "provider": "do", // Provider to use
+    "dropletSize": "s-1vcpu-1gb", // DO Droplet size
+    "region": "nyc3", // DO region
+}
+```
+
+##### Google Cloud Platform (GCP)
+
+```jsonc
+{
+    "sshPrivateKeyPath": "string", // Path to private key for SSH
+    "provider": "gcp", // Provider to use
+    "type": "n1-standard-2", // GCP machine type
+    "deletionProtection": "false", // GCP deletion protection
+    "sizeGb": 100, // GCP volume size
+    "zone": "us-east1-b", // GCP zone
+    "projectId": "$env:GCP_PROJECT_NAME"
+}
+```
 
 ### Defaults
 
-<!-- ![Not yet implemented tag](/docs/img/Github_not_yet_implemented_tag.png) -->
-
-<img src="https://github.com/flex-dapps/gantree-lib-nodejs/blob/dev/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="48">
-
-**note:** Defaults key is not yet implemented
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
 
 Define default values for required/optional keys for all nodes
 
