@@ -81,8 +81,39 @@ When using the fetch format, binaries will be downloaded.
 {
     "fetch": {
         "url": "string", // URL to download binary from
-        "sha256": "string" // [null] Sha256 checksum of binary
+        "sha256": "string" // [false] Sha256 checksum of binary
     },
     "filename": "string" // Filename of compiled binary
 }
 ```
+
+#### Local Format
+
+**note:** This method is not yet implemented
+
+When using the local format, binaries will be grabbed from a local source
+
+```jsonc
+{
+    "path": "string", // Path to binary file,
+    "sha256": "string" // [false] Sha256 checksum of binary
+}
+```
+
+
+### Nodes
+
+// TODO
+
+
+### Defaults
+
+<!-- ![Not yet implemented tag](/docs/img/Github_not_yet_implemented_tag.png) -->
+
+<img src="https://github.com/flex-dapps/gantree-lib-nodejs/blob/dev/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="48">
+
+**note:** Defaults key is not yet implemented
+
+Define default values for required/optional keys for all nodes
+
+These values are injected at runtime unless already defined on nodes themselves.
