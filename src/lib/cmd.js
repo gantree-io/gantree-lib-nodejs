@@ -1,7 +1,7 @@
 const { Buffer } = require('buffer')
-const { exec } = require('child_process')
-
+const child_process = require('child_process')
 const { Counter } = require('./counter')
+const opt = require('./utils/options')
 const { returnLogger } = require('./logging')
 
 const logger = returnLogger('cmd')
@@ -12,65 +12,135 @@ async function each_count(count, action_trigger_count) {
   }
 }
 
-module.exports = {
-  exec: async (command, options = {}) => {
-    const verbose = options.verbose || false
-    const returnStdoutOnly = options.returnStdoutOnly || false
-    const returnCleanStdout = options.returnCleanStdout || false
-    const counter = new Counter(each_count, 5)
-    return new Promise((resolve, reject) => {
-      if (returnCleanStdout !== true) {
-        logger.info(`Executing: ${command}, ${JSON.stringify(options)}`)
-      }
-      const child = exec(command, options)
-      if (options.detached) {
-        child.unref()
-        resolve(child.pid)
-        return
-      }
-      let match = false
-      let output = new Buffer.from('')
-      let stdoutOnly = new Buffer.from('')
+function execPromiseCallback(resolve, reject, command, counter, _options = {}) {
+  const verbose = opt.default(_options.verbose, true)
+  const returnStdoutOnly = opt.default(_options.returnStdoutOnly, false)
 
-      child.stdout.on('data', data => {
-        counter.stop_counting()
-        if (options.matcher && options.matcher.test(data)) {
-          match = true
-          child.kill('SIGTERM')
-          resolve()
-          return
-        }
-        output = Buffer.concat([output, Buffer.from(data)])
-        stdoutOnly = Buffer.concat([stdoutOnly, Buffer.from(data)])
-        if (verbose) {
-          counter.count_until_false()
-          // logger.info(`'${command}':`)
-          process.stdout.write(data.toString())
-        }
-      })
+  const child = child_process.exec(command, _options)
 
-      child.stderr.on('data', data => {
-        output = Buffer.concat([output, Buffer.from(data)])
-        if (verbose) {
-          logger.error(
-            `Error occured during command execution '${command}': \n${data.toString()}`
-          )
-        }
-      })
+  // TODO: evaluate if this is worth re-implementing
+  // if (options.detached) {
+  //   child.unref()
+  //   resolve(child.pid)
+  //   return
+  // }
+  // let match = false
 
-      child.on('close', code => {
-        if (code !== 0 && !match) {
-          logger.error(`Execution failed with code ${code}: ${command}`)
-          reject(new Error(code))
-        } else {
-          if (returnStdoutOnly === true) {
-            resolve(stdoutOnly)
-          } else {
-            resolve(output)
-          }
-        }
-        counter.stop_counting()
-      })
-    })
+  let outputBuffer = new Buffer.from('')
+  let stdoutOnly = new Buffer.from('')
+
+  function addToOutputBuffer(data) {
+    outputBuffer = Buffer.concat([outputBuffer, Buffer.from(data)])
   }
+
+  function addToStdoutOnlyBuffer(data) {
+    stdoutOnly = Buffer.concat([stdoutOnly, Buffer.from(data)])
+  }
+
+  child.stdout.on('data', data => {
+    stdoutCallback(
+      data,
+      addToOutputBuffer,
+      addToStdoutOnlyBuffer,
+      counter,
+      verbose
+    )
+  })
+
+  child.stderr.on('data', data => {
+    stderrCallback(data, addToOutputBuffer, command, verbose)
+  })
+
+  child.on('close', code => {
+    childCloseCallback(
+      code,
+      resolve,
+      reject,
+      outputBuffer,
+      stdoutOnly,
+      command,
+      counter,
+      returnStdoutOnly
+    )
+  })
+}
+
+function stdoutCallback(
+  data,
+  addToOutputBuffer,
+  addToStdoutOnlyBuffer,
+  counter,
+  verbose
+) {
+  counter.stop_counting()
+  // TODO: evaluate if this is worth re-implementing (needs documentation for developers possibly)
+  // if (options.matcher && options.matcher.test(data)) {
+  //   match = true
+  //   child.kill('SIGTERM')
+  //   resolve()
+  //   return
+  // }
+  addToOutputBuffer(data)
+  addToStdoutOnlyBuffer(data)
+  if (verbose) {
+    // logger.info(`'${command}':`)
+    counter.count_until_false()
+    process.stdout.write(data.toString())
+  }
+}
+
+function stderrCallback(data, addToOutputBuffer, command, verbose) {
+  addToOutputBuffer(data)
+  if (verbose) {
+    logger.error(
+      `Error occured during command execution '${command}': \n${data.toString()}`
+    )
+  }
+}
+
+async function childCloseCallback(
+  code,
+  resolve,
+  reject,
+  outputBuffer,
+  stdoutOnly,
+  command,
+  counter,
+  returnStdoutOnly
+) {
+  // old conditional with match support
+  // if (code !== 0 && !match) {
+
+  // if non-zero exit code
+  if (code !== 0) {
+    logger.error(`Execution failed with code ${code}: ${command}`)
+    await reject(new Error(code))
+  }
+  // if exit code is zero
+  else {
+    if (returnStdoutOnly === true) {
+      resolve(stdoutOnly)
+    } else {
+      resolve(outputBuffer)
+    }
+  }
+  await counter.stop_counting()
+}
+
+async function execCommand(command, _options = {}) {
+  const returnCleanStdout = await opt.default(_options.returnCleanStdout, false)
+
+  if (returnCleanStdout !== true) {
+    logger.info(`Executing: ${command}, ${JSON.stringify(_options)}`)
+  }
+
+  const counter = new Counter(each_count, 5)
+
+  return new Promise(async (resolve, reject) => {
+    execPromiseCallback(resolve, reject, command, counter, _options)
+  })
+}
+
+module.exports = {
+  exec: execCommand
 }
