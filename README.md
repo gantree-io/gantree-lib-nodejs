@@ -85,46 +85,17 @@ Using one of the examples below, create a configuration file to represent your d
 
 **note:** All boolean values should be entered as lower-case strings (i.e. "true"/"false"). This is due to differences in boolean parsing between JSON/JavaScript/Python/Ansible. We intend for this to change in a future release of Gantree.
 
-### Gantree Configuration Samples
+### Gantree Configuration Documentation
 
-Gantree supports multiple methods of deploying nodes among providers.
-
-These methods are:
-
-| METHOD NAME/KEY | DESCRIPTION                                                                                                                            |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Repository      | Download and compile a substrate node from the specified repository, optionally specifying a specific version as a commit hash or tag. |
-| Fetch           | Download a binary from the specified url.                                                                                              |
-| Local           | Specify the path to a local binary (not yet supported).                                                                                |
-| Preset          | Specify a preset with repository/fetch fields already defined.                                                                         |
-
-Supported presets can be found [here](src/static_data/binary_presets.json).
+- [Basics](docs/gantree_config/basics.md)
+- [Tutorial](docs/tutorials/gantree_config_basic.md)
+- [Samples](docs/gantree_config/samples.md)
+- [Schema](docs/gantree_config/schema.md)
 
 ***[!!!] Please note - Information below is likely outdated***
 ---
 
 **Todo: info on special ssh-keygen steps**
-
-#### Permutations
-
-| Provider/s   | Preset                                                                      | Repository                                                            | Fetch                                                              | Local |
-| ------------ | --------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ | ----- |
-| AWS          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_aws.sample.json) | [Polkadot - HEAD](samples/config/repository/polkadot_aws.sample.json) | [Polkadot (Kusama)](samples/config/fetch/polkadot_aws.sample.json) | -     |
-| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json)  | [Polkadot - HEAD](samples/config/repository/polkadot_do.sample.json)  | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json)  | -     |
-| GCP          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_gcp.sample.json) | [Polkadot - HEAD](samples/config/repository/polkadot_gcp.sample.json) | [Polkadot (Kusama)](samples/config/fetch/polkadot_gcp.sample.json) | -     |
-
-**note:** 'Local' method is not yet supported
-
-### Gantree Configuration Schema
-
-Gantree configurations must conform to the structure outlined in the schema found here:
-
-- [Gantree config schema](src/schemas/gantree_config_schema.json)
-
-As this file is used for configuration validation, it will often be the most accurate representation of the required structure for a given commit/release.
-
-In the scenario samples/documentation are outdated/incompatible, the schema is invaluable reference for debugging.
-
 
 <!-- #### Gantree configuration example
 
