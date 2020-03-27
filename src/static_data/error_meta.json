@@ -58,6 +58,14 @@
         "code": 17,
         "message": "invalid project namespace specified"
     },
+    "INTERNAL_ERROR": {
+        "code": 18,
+        "message": "an internal error occurred"
+    },
+    "MISSING_NAMESPACE_ITEM": {
+        "code": 19,
+        "message": "item expected in namespace is missing"
+    },
     "COMMAND_NOT_FOUND": {
         "code": 127,
         "message": "command not found"
