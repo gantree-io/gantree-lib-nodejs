@@ -28,9 +28,10 @@
   ],
   "files": [
     "/ansible",
-    "/inventory",
     "/inventorySegments",
     "/src",
+    "Pipfile",
+    "Pipfile.lock",
     "python_requirements.txt"
   ],
   "dependencies": {
