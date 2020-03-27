@@ -6,7 +6,9 @@ async function processAll(gantreeConfigObj) {
   gantreeConfigObj = preprocessors.boolToString.processor(gantreeConfigObj)
   gantreeConfigObj = preprocessors.injectEnvVars.processor(gantreeConfigObj)
   gantreeConfigObj = await inject.expandPreset(gantreeConfigObj) // defaults depends on this
-  gantreeConfigObj = await inject.defaults(gantreeConfigObj, { verbose: true }) // must be run last, especially after expandPreset
+  gantreeConfigObj = await inject.defaults(gantreeConfigObj, {
+    logChanges: false
+  }) // must be run last, especially after expandPreset
   return gantreeConfigObj
 }
 
