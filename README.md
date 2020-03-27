@@ -66,7 +66,8 @@ For security reasons, credentials for infrastructure providers must be exported 
 | GCP          | `GCP_SERVICE_ACCOUNT_FILE`                      | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
 | DigitalOcean | `DO_API_TOKEN`                                  | A DigitalOcean access token with read + write access                                                                                                        |
 
-**note:** You only need credentials for providers you wish to use
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Not yet implemented tag" width="100">
+You only need credentials for providers you wish to use
 
 ### SSH Credentials
 
@@ -93,6 +94,14 @@ If your configuration is invalid, Gantree will try it's best to help you identif
 - [Tutorial](docs/gantree_config/tutorial.md)
 - [Samples](docs/gantree_config/samples.md)
 - [Schema](docs/gantree_config/schema.md)
+- [Limitations](docs/gantree_config/limitations.md)
+
+## Library Usage
+
+### Library Usage Documentation
+
+- [Quick Start](docs/library/quick_start.md)
+- [Limitations](docs/library/limitations.md)
 
 ***[!!!] Please note - Information below is likely outdated***
 ---
@@ -153,13 +162,7 @@ If your configuration is invalid, Gantree will try it's best to help you identif
 }
 ``` -->
 
-### Configuration File Structure: Top Level
-
-- "project": [string] the gantree project name
-- "binary": [object] options relating to the substrate binary to be deployed
-- "nodes": [array(object)] a list of node configurations which will become deployed instances
-
-### Configuration File Strucutre: /binary
+<!-- ### Configuration File Strucutre: /binary
 
 - "repository: [object] defines a git repository from which to compile the binary and deploy
     - "url": [string] a url to the git repository
@@ -202,34 +205,4 @@ If your configuration is invalid, Gantree will try it's best to help you identif
 - "provider": [string] must = 'do'
 - "size" [string:s-1vcpu-1gb] the size of the droplet
 - "region" [string:nyc3] the location of the droplet
-- "sshPublicKey": [string] the ssh public key to provide to the droplet
-
-## Usage
-
-### Synchronisation
-
-Before attempting to run sync, ensure all tasks outlined in [requirements](#requirements) have been completed.
-
-- You've installed all requirements
-- All relevant environment variables are exported
-- You've nagivated to the root of the cloned repo
-
-To synchronise your configuration with digital infrastructure, run the following:
-
-```bash
-gantree-cli sync
-```
-
-### Cleaning up
-
-You can remove all the created infrastructure with:
-
-```bash
-gantree-cli clean
-```
-
-## Known Limitations
-
-### Ssh Keys
-
-Currently gantree-cli uses ssh-agent which iterates over aviailable ssh keys to connect to machines for provisioning. Machines will often reject connections after a few incorrect keys and so there's a practical limit to this approach of around 5 keys in the agent at a time. We're expecting to have a more robust approach to this that allows unlimited keys in a near release.
+- "sshPublicKey": [string] the ssh public key to provide to the droplet -->
