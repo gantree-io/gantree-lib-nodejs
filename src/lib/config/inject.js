@@ -1,6 +1,8 @@
 const defaults = require('../../static_data/gantree_config_defaults')
 const binPresets = require('../../static_data/binary_presets')
 const { throwGantreeError } = require('../error')
+const opt = require('../utils/options')
+const types = require('../utils/types')
 const { returnLogger } = require('../logging')
 
 const logger = returnLogger('lib/config/inject')
@@ -21,7 +23,8 @@ const logger = returnLogger('lib/config/inject')
 // }
 
 function defaultReducer(realObject, defaultObject, key, name, _options = {}) {
-  const verbose = _options.verbose || false
+  const verbose = opt.default(_options.verbose, false) // bool
+  const logChanges = opt.default(_options.logChanges, true) // bool
 
   if (verbose === true) {
     console.log(`----REDUCING: ${name}`)
@@ -35,7 +38,7 @@ function defaultReducer(realObject, defaultObject, key, name, _options = {}) {
   // if real object is an object
   if (typeof realObject === 'object') {
     // if real object is a null object
-    if (realObject === null) {
+    if (types.isNull(realObject)) {
       // error: real object should never be a null
       // TODO: // FIX: use throwGantreeError here
       console.log("realObject shouldn't be null, ever!!!")
@@ -57,15 +60,23 @@ function defaultReducer(realObject, defaultObject, key, name, _options = {}) {
         } // another object to evaluate
         // if default object's key's value is a null object - real object's key's value must be defined
         if (defaultObject[entry_key] === null) {
-          console.log('default value for this key is null')
+          if (verbose === true) {
+            console.log('default value for this key is null')
+          }
           // if real object's key's value is undefined
           if (realObject[entry_key] === undefined) {
             // error - this key is required
-            console.log(`❌missing required key!!! '${name}.${entry_key}'`)
-            process.exit(-1)
+            throwGantreeError(
+              'BAD_CONFIG',
+              Error(
+                `❌ missing required key: '${name}.${entry_key}' (during default injection)`
+              )
+            )
           } else {
             // do nothing - key is defined
-            console.log(`✅satisfied required key (${name}.${entry_key})`)
+            if (verbose === true) {
+              console.log(`✅ satisfied required key (${name}.${entry_key})`)
+            }
           }
         }
         // if the default object's key's value IS NOT a null object
@@ -88,7 +99,11 @@ function defaultReducer(realObject, defaultObject, key, name, _options = {}) {
   else if (realObject === undefined) {
     // special handling
     // set realObject to defaultObject
-    console.log(`${realObject} -> ${JSON.stringify(defaultObject)}`)
+    if (logChanges === true) {
+      console.log(
+        `defaulting ${name}: ${realObject} -> ${JSON.stringify(defaultObject)}`
+      )
+    }
     return defaultObject
     // console.log('realObject is undefined!')
     // process.exit(-1)
@@ -96,7 +111,9 @@ function defaultReducer(realObject, defaultObject, key, name, _options = {}) {
   // real object is something else
   else {
     // likely a value from recursion
-    console.log(`returning ${realObject}`)
+    if (verbose === true) {
+      console.log(`returning ${realObject}`)
+    }
     return realObject
     // console.log("realObject must be of type object!")
     // process.exit(-1)
@@ -115,7 +132,6 @@ function injectDefaults(gantreeConfigObj, _options = {}) {
       _options
     )
   }
-  console.log(gantreeConfigObj)
   return gantreeConfigObj
 }
 
