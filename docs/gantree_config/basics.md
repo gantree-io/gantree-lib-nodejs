@@ -8,7 +8,7 @@
 
 ## Format
 
-Gantree configurations should be in JSON format.
+Gantree configurations must be in JSON format.
 
 ## Structure
 
@@ -46,7 +46,7 @@ Defines how the binary which will be distributed to nodes will be acquired
 
 The composition of binary can be in one of, _and only one of_, the following 4 formats:
 
-#### Preset Format
+#### Binary Structure - Preset
 
 When using the preset method, all other binary keys will be parsed from a preset defined in Gantree itself.
 
@@ -58,7 +58,7 @@ Presets are defined in a file [here](src/../../../src/static_data/binary_presets
 }
 ```
 
-#### Repository Format
+#### Binary Structure - Repository
 
 When using the repository format, a specified repository will be downloaded and a node will be compiled.
 
@@ -73,7 +73,7 @@ When using the repository format, a specified repository will be downloaded and 
 }
 ```
 
-#### Fetch Format
+#### Binary Structure - Fetch
 
 When using the fetch format, binaries will be downloaded.
 
@@ -87,7 +87,7 @@ When using the fetch format, binaries will be downloaded.
 }
 ```
 
-#### Local Format
+#### Binary Structure - Local
 
 <img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
 
