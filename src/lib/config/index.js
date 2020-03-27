@@ -23,14 +23,10 @@ class Config {
   async read(rawFilePath) {
     // read JSON file
     let gantreeConfigObj = await this._rawRead(rawFilePath)
-    // preprocess gantree config
-    console.log(JSON.stringify(gantreeConfigObj))
-    gantreeConfigObj = await this._preprocess.processAll(gantreeConfigObj)
-    console.log(JSON.stringify(gantreeConfigObj))
-    console.log('exiting early...')
-    process.exit(-1)
     // validate object
     await this.validate.config(gantreeConfigObj)
+    // preprocess gantree config
+    gantreeConfigObj = await this._preprocess.processAll(gantreeConfigObj)
     // return gantree config obj
     return gantreeConfigObj
   }
