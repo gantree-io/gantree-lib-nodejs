@@ -90,7 +90,7 @@ If your configuration is invalid, Gantree will try it's best to help you identif
 ### Gantree Configuration Documentation
 
 - [Basics](docs/gantree_config/basics.md)
-- [Tutorial](docs/tutorials/gantree_config_basic.md)
+- [Tutorial](docs/gantree_config/tutorial.md)
 - [Samples](docs/gantree_config/samples.md)
 - [Schema](docs/gantree_config/schema.md)
 
