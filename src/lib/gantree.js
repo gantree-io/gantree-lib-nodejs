@@ -88,6 +88,7 @@ class Gantree {
 
   async cleanAll(gantreeConfigObj, credentialObj, _options = {}) {
     // TODO: FIX: must be refactored to not reuse so much code from sync, this is a temp fix
+    // TODO: implement strict flag in CLI and also document for lib and CLI
     // const verbose = _options.verbose || false // TODO: add this back when functions have verbose options
     const strict = opt.default(_options.strict, false)
     const projectPathOverride = _options.projectPathOverride
