@@ -74,7 +74,7 @@ The composition of binary can be in one of, _and only one of_, the following 4 f
 
 When using the preset method, all other binary keys will be parsed from a preset defined in Gantree itself.
 
-Presets are defined in a file [here](src/../../../src/static_data/binary_presets.json).
+Presets are defined in a file [here](../../src/static_data/binary_presets.json).
 
 ```jsonc
 {
