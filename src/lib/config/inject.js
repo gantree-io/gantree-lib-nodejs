@@ -7,21 +7,7 @@ const { returnLogger } = require('../logging')
 
 const logger = returnLogger('lib/config/inject')
 
-// function resolveMissingKey(realObject, defaultObject, key) {
-//     // if the default object value is null
-//     if (defaultObject[key] === null) {
-//         // error
-//         console.log("ERROR!")
-//     }
-//     // default object value IS NOT null
-//     else {
-//         // set real object value to default object value
-//         realObject[key] = defaultObject[key]
-//         // return real object
-//         return realObject
-//     }
-// }
-
+// NOTE: might not be the most accurately named
 function defaultReducer(realObject, defaultObject, key, name, _options = {}) {
   const verbose = opt.default(_options.verbose, false) // bool
   const logChanges = opt.default(_options.logChanges, true) // bool
