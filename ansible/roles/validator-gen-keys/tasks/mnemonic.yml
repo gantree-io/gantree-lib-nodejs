@@ -1,0 +1,52 @@
+---
+- name: ensure home dir
+  file:
+    path: '/home/{{ substrate_user }}'
+    state: directory
+
+- name: create mnemonic from config
+  copy:
+    content: "{{ substrate_mnemonic }}"
+    dest: /home/{{ substrate_user }}/mnemonic
+  when: substrate_mnemonic is defined
+  # TODO(ryan): remove 'become: yes' for all file writes
+  become: yes
+  #no_log: true
+
+- name: check for mnemonic
+  stat:
+    path: /home/{{ substrate_user }}/mnemonic
+  register: mnemonic_check
+
+- name: download subkey binary
+  become: yes
+  get_url:
+    url: '{{ subkey_binary_url | quote }}'
+    checksum: '{{ subkey_binary_checksum | quote }}'
+    dest: /usr/local/bin/subkey
+    mode: '0777'
+    owner: 'root'
+    group: 'root'
+  when: mnemonic_check.stat.exists == False
+
+# note: I deleted xargs from a couple of these commands because the AWS machine was upset
+- name: generate mnemonic
+  shell: |
+    set -o pipefail
+
+    inspect_result=$(/usr/local/bin/subkey --ed25519 generate)
+
+    mnemonic=$(echo -n "${inspect_result}" | grep "Secret phrase" | cut -d'`' -f2)
+
+    echo ${mnemonic}
+  args:
+    executable: /bin/bash
+  register: mnemonic
+  when: mnemonic_check.stat.exists == False
+
+- name: write mnemonic to disk on remote host
+  copy:
+    content: '{{ mnemonic.stdout }}'
+    dest: /home/{{ substrate_user }}/mnemonic
+  become: yes
+  when: mnemonic_check.stat.exists == False

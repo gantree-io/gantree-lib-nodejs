@@ -223,7 +223,8 @@ const getNodeVars = ({ item, infra }) => {
     substrate_chain: `/home/${substrate_user}/tmp/gantree-validator/spec/chainSpecRaw.raw`,
     substrate_options: item.binaryOptions.substrateOptions || [],
     substrate_rpc_port: item.binaryOptions.rpcPort || 9933,
-    substrate_node_name: item.name || 'false'
+    substrate_node_name: item.name || 'false',
+    ...(item.mnemonic && { substrate_mnemonic: item.mnemonic })
   }
 }
 
