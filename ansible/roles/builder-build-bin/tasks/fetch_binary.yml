@@ -12,4 +12,8 @@
     url: '{{ substrate_binary_url | quote }}'
     dest: '{{ gantree_control_working }}/bin/{{ substrate_bin_name }}'
     validate_certs: no #todo figure out why this is needed and fix
+  register: download_binary_result
   become: no
+  retries: 3
+  delay: 5
+  until: download_binary_result is success
