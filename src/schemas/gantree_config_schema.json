@@ -169,6 +169,10 @@
                     "type": "boolean",
                     "description": "specify if the node is a validator or not"
                 },
+                "mnemonic": {
+                    "type": "string",
+                    "description": "mnemonic used to generate substrate keys"
+                },
                 "instance": {
                     "$ref": "#/definitions/instance"
                 }
