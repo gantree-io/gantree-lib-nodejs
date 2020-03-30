@@ -140,7 +140,8 @@ Validator key is not yet supported
 [
     {
         "validator": "boolean", // [true] Should this node be a validator
-        "instance": {} // See Instance 
+        "mnemonic": "string", // [undefined] Mnemonic used to generate substrate keys
+        "instance": {} // See Instance
     },
     ... // etc.
 ]
