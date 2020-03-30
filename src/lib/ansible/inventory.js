@@ -4,6 +4,7 @@ const { makeInventory } = require('../dataManip/makeInventory')
 const { Paths } = require('../utils/paths')
 const { hash } = require('../utils/hash')
 const { throwGantreeError } = require('../error')
+const opt = require('../utils/options')
 const { returnLogger } = require('../logging')
 
 const logger = returnLogger('lib/ansible/inventory')
@@ -26,7 +27,13 @@ async function createNamespace(projectPath) {
   logger.info('namespace created')
 }
 
-async function createGantreeInventory(gantreeConfigObj, projectPath) {
+async function createGantreeInventory(
+  gantreeConfigObj,
+  projectPath,
+  _options = {}
+) {
+  const strict = opt.default(_options.strict, false)
+
   logger.info('creating Gantree inventory')
 
   const gantreeInventoryPath = await path.join(projectPath, 'gantree')
@@ -98,9 +105,18 @@ async function createGantreeInventory(gantreeConfigObj, projectPath) {
     if (valid === true) {
       logger.info('Gantree config hash valid')
     } else {
-      logger.warn(
-        `Gantree config hash has changed since creation\nexpected: ${expectedHash}\n     got: ${realHash}`
-      )
+      if (strict === true) {
+        throwGantreeError(
+          'BAD_CHECKSUM',
+          Error(
+            `Gantree config hash has changed since creation\nexpected: ${expectedHash}\n     got: ${realHash}\nerror thrown as strict option specified.`
+          )
+        )
+      } else {
+        logger.warn(
+          `Gantree config hash has changed since creation\nexpected: ${expectedHash}\n     got: ${realHash}`
+        )
+      }
     }
   } else if (hashExists === false) {
     // logger.info('No Gantree config hash found')

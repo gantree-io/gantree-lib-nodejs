@@ -30,7 +30,8 @@ class Gantree {
   }
 
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
-    const verbose = _options.verbose || false
+    const verbose = opt.default(_options.verbose, false)
+    const strict = opt.default(_options.strict, false)
     const projectPathOverride = _options.projectPathOverride
 
     const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
@@ -42,7 +43,8 @@ class Gantree {
     // create inventory for inventory/{NAMESPACE}/gantree
     const gantreeInventoryPath = await this.ansible.inventory.createGantreeInventory(
       gantreeConfigObj,
-      projectPath
+      projectPath,
+      { strict: strict }
     )
 
     // TODO: TEMPorary, should be output of this.ansible.inventory.createActiveInventory

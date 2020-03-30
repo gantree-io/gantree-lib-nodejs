@@ -66,6 +66,10 @@
         "code": 19,
         "message": "item expected in namespace is missing"
     },
+    "BAD_CHECKSUM": {
+        "code": 20,
+        "message": "a checksum failed to validate"
+    },
     "COMMAND_NOT_FOUND": {
         "code": 127,
         "message": "command not found"
