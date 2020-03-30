@@ -4,11 +4,35 @@
 
 | GANTREE CONFIG VERSION | LAST UPDATED |
 | ---------------------- | ------------ |
-| 2.0                    | 2020/03/26   |
+| 2.0                    | 2020/03/27   |
 
 ## Format
 
-Gantree configurations should be in JSON format.
+Gantree configurations must be in JSON format.
+
+## Features
+
+### Environment Variable References
+
+Gantree supports references to environment variables in the form of strings with special formatting
+
+To use environment variables references in your Gantree configuration, define a key value as a string with the following structure:
+
+```jsonc
+"<key>": "$env:<env_variable_name>"
+```
+
+- `<key>` being any key, anywhere in the Gantree configuration
+- `<env_variable_name>` being the environment variable you wish to reference
+
+For example:
+
+```jsonc
+"sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+```
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_best_practice_tag.png" alt="Best practice tag" width="100">
+Using too many environment variable references in a configuration is discouraged as it can lead to inconsistencies across environments, especially for those working in large teams. The significance of this however varies from project to project.
 
 ## Structure
 
@@ -46,11 +70,11 @@ Defines how the binary which will be distributed to nodes will be acquired
 
 The composition of binary can be in one of, _and only one of_, the following 4 formats:
 
-#### Preset Format
+#### Binary Structure - Preset
 
 When using the preset method, all other binary keys will be parsed from a preset defined in Gantree itself.
 
-Presets are defined in a file [here](src/../../../src/static_data/binary_presets.json).
+Presets are defined in a file [here](../../src/static_data/binary_presets.json).
 
 ```jsonc
 {
@@ -58,7 +82,7 @@ Presets are defined in a file [here](src/../../../src/static_data/binary_presets
 }
 ```
 
-#### Repository Format
+#### Binary Structure - Repository
 
 When using the repository format, a specified repository will be downloaded and a node will be compiled.
 
@@ -67,8 +91,119 @@ When using the repository format, a specified repository will be downloaded and 
     "repository": {
         "url": "string", // URL of node repository
         "version": "string", // ["HEAD"] Version of repository
-        "localCompile": "bool" // [false] Compile binary on host (advanced)
+        "localCompile": "boolean" // [false] Compile binary on host (advanced)
     },
     "filename": "string" // Filename of compiled binary
+}
+```
+
+#### Binary Structure - Fetch
+
+When using the fetch format, binaries will be downloaded.
+
+```jsonc
+{
+    "fetch": {
+        "url": "string", // URL to download binary from
+        "sha256": "string" // [false] Sha256 checksum of binary
+    },
+    "filename": "string" // Filename of compiled binary
+}
+```
+
+#### Binary Structure - Local
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+
+When using the local format, binaries will be grabbed from a local source
+
+```jsonc
+{
+    "path": "string", // Path to binary file,
+    "sha256": "string" // [false] Sha256 checksum of binary
+}
+```
+
+
+### Nodes
+
+An array defining the nodes in your infrastructure
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+Validator key is not yet supported
+
+```jsonc
+[
+    {
+        "validator": "boolean", // [true] Should this node be a validator
+        "instance": {} // See Instance 
+    },
+    ... // etc.
+]
+```
+
+#### Instance
+
+Definition of the instance this node will be hosted on. 
+
+The composition of instance is dependant on the provider specified. There are currently 3 providers supported.
+
+Required keys for each providers are outlined below:
+
+##### Amazon Web Services (AWS)
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_example_tag.png" alt="Example tag" width="100">
+
+```jsonc
+{
+    "sshPrivateKeyPath": "string", // Path to private key for SSH
+    "provider": "aws", // Provider to use
+    "type": "t3.small", // AWS machine type
+    "volumeSize": 200, // AWS volume size
+    "region": "ap-southeast-2" // AWS region
+}
+```
+
+##### DigitalOcean (DO)
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_example_tag.png" alt="Example tag" width="100">
+
+```jsonc
+{
+    "sshPrivateKeyPath": "string", // Path to private key for SSH
+    "provider": "do", // Provider to use
+    "dropletSize": "s-1vcpu-1gb", // DO Droplet size
+    "region": "nyc3", // DO region
+}
+```
+
+##### Google Cloud Platform (GCP)
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_example_tag.png" alt="Example tag" width="100">
+
+```jsonc
+{
+    "sshPrivateKeyPath": "string", // Path to private key for SSH
+    "provider": "gcp", // Provider to use
+    "type": "n1-standard-2", // GCP machine type
+    "deletionProtection": "false", // GCP deletion protection
+    "sizeGb": 100, // GCP volume size
+    "zone": "us-east1-b", // GCP zone
+    "projectId": "$env:GCP_PROJECT_NAME"
+}
+```
+
+### Defaults
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+
+Define default values for required/optional keys for all nodes
+
+These values are injected at runtime unless already defined on nodes themselves.
+
+```jsonc
+{
+    // Not yet implemented
+    // Structure still in flux
 }
 ```

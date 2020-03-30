@@ -66,65 +66,45 @@ For security reasons, credentials for infrastructure providers must be exported 
 | GCP          | `GCP_SERVICE_ACCOUNT_FILE`                      | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
 | DigitalOcean | `DO_API_TOKEN`                                  | A DigitalOcean access token with read + write access                                                                                                        |
 
-**note:** You only need credentials for providers you wish to use
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
+You only need credentials for providers you wish to use
 
 ### SSH Credentials
 
-You must generate this key pair yourself and add it to your ssh-agent.
+SSH private key can be defined using environment variable references in your Gantree configuration.
 
-**Important: Key pairs must be PEM.**
-
-**note:** Don't forget to add the private key to you ssh-agent otherwise you will get **_Permission denied (publickey)_** during ansible tasks
-
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
+Important: Key pairs must be PEM.
 
 ## Configuration
 
-Gantree-cli requires a configuration file (Gantree configuration) in order to guide creation, provisioning, modification and deletion of instances.
+Gantree requires a configuration file (Gantree configuration) in order to guide creation, provisioning, modification and deletion of instances.
 
-Using one of the examples below, create a configuration file to represent your desired infrastructure.
+In essence, your Gantree configuration represents your desired infrastructure.
 
-**note:** All boolean values should be entered as lower-case strings (i.e. "true"/"false"). This is due to differences in boolean parsing between JSON/JavaScript/Python/Ansible. We intend for this to change in a future release of Gantree.
+When creating your own Gantree configuration, it's recommended to create it based on one of the samples provided.
 
-### Gantree Configuration Samples
+If your configuration is invalid, Gantree will try it's best to help you identify where misconfiguration has occurred.
 
-Gantree supports multiple methods of deploying nodes among providers.
+### Gantree Configuration Documentation
 
-These methods are:
+- [Basics](docs/gantree_config/basics.md)
+- [Tutorial](docs/gantree_config/tutorial.md)
+- [Samples](docs/gantree_config/samples.md)
+- [Schema](docs/gantree_config/schema.md)
+- [Limitations](docs/gantree_config/limitations.md)
 
-| METHOD NAME/KEY | DESCRIPTION                                                                                                                            |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Repository      | Download and compile a substrate node from the specified repository, optionally specifying a specific version as a commit hash or tag. |
-| Fetch           | Download a binary from the specified url.                                                                                              |
-| Local           | Specify the path to a local binary (not yet supported).                                                                                |
-| Preset          | Specify a preset with repository/fetch fields already defined.                                                                         |
+## Library Usage
 
-Supported presets can be found [here](src/static_data/binary_presets.json).
+### Library Usage Documentation
+
+- [Quick Start](docs/library/quick_start.md)
+- [Limitations](docs/library/limitations.md)
 
 ***[!!!] Please note - Information below is likely outdated***
 ---
 
 **Todo: info on special ssh-keygen steps**
-
-#### Permutations
-
-| Provider/s   | Preset                                                                      | Repository                                                            | Fetch                                                              | Local |
-| ------------ | --------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ | ----- |
-| AWS          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_aws.sample.json) | [Polkadot - HEAD](samples/config/repository/polkadot_aws.sample.json) | [Polkadot (Kusama)](samples/config/fetch/polkadot_aws.sample.json) | -     |
-| DigitalOcean | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_do.sample.json)  | [Polkadot - HEAD](samples/config/repository/polkadot_do.sample.json)  | [Polkadot (Kusama)](samples/config/fetch/polkadot_do.sample.json)  | -     |
-| GCP          | [Polkadot (Kusama) - Fetch](samples/config/preset/polkadot_gcp.sample.json) | [Polkadot - HEAD](samples/config/repository/polkadot_gcp.sample.json) | [Polkadot (Kusama)](samples/config/fetch/polkadot_gcp.sample.json) | -     |
-
-**note:** 'Local' method is not yet supported
-
-### Gantree Configuration Schema
-
-Gantree configurations must conform to the structure outlined in the schema found here:
-
-- [Gantree config schema](src/schemas/gantree_config_schema.json)
-
-As this file is used for configuration validation, it will often be the most accurate representation of the required structure for a given commit/release.
-
-In the scenario samples/documentation are outdated/incompatible, the schema is invaluable reference for debugging.
-
 
 <!-- #### Gantree configuration example
 
@@ -180,13 +160,7 @@ In the scenario samples/documentation are outdated/incompatible, the schema is i
 }
 ``` -->
 
-### Configuration File Structure: Top Level
-
-- "project": [string] the gantree project name
-- "binary": [object] options relating to the substrate binary to be deployed
-- "nodes": [array(object)] a list of node configurations which will become deployed instances
-
-### Configuration File Strucutre: /binary
+<!-- ### Configuration File Strucutre: /binary
 
 - "repository: [object] defines a git repository from which to compile the binary and deploy
     - "url": [string] a url to the git repository
@@ -229,34 +203,4 @@ In the scenario samples/documentation are outdated/incompatible, the schema is i
 - "provider": [string] must = 'do'
 - "size" [string:s-1vcpu-1gb] the size of the droplet
 - "region" [string:nyc3] the location of the droplet
-- "sshPublicKey": [string] the ssh public key to provide to the droplet
-
-## Usage
-
-### Synchronisation
-
-Before attempting to run sync, ensure all tasks outlined in [requirements](#requirements) have been completed.
-
-- You've installed all requirements
-- All relevant environment variables are exported
-- You've nagivated to the root of the cloned repo
-
-To synchronise your configuration with digital infrastructure, run the following:
-
-```bash
-gantree-cli sync
-```
-
-### Cleaning up
-
-You can remove all the created infrastructure with:
-
-```bash
-gantree-cli clean
-```
-
-## Known Limitations
-
-### Ssh Keys
-
-Currently gantree-cli uses ssh-agent which iterates over aviailable ssh keys to connect to machines for provisioning. Machines will often reject connections after a few incorrect keys and so there's a practical limit to this approach of around 5 keys in the agent at a time. We're expecting to have a more robust approach to this that allows unlimited keys in a near release.
+- "sshPublicKey": [string] the ssh public key to provide to the droplet -->

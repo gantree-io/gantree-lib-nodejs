@@ -1,15 +1,11 @@
-const path = require('path')
-const process = require('process')
 const Ajv = require('ajv')
+const checks = require('../checks')
+const { throwGantreeError } = require('../error')
+const gantree_config_schema = require('../../schemas/gantree_config_schema')
+const provider_specific_keys = require('../../static_data/provider_specific_keys')
+const { returnLogger } = require('../logging')
 
-const files = require('./files')
-const gantree_config_schema = require('../schemas/gantree_config_schema')
-const provider_specific_keys = require('../static_data/provider_specific_keys')
-const { throwGantreeError } = require('./error')
-const checks = require('./checks')
-const { returnLogger } = require('./logging')
-
-const logger = returnLogger('config')
+const logger = returnLogger('lib/config/validate')
 
 // TODO: change language to 'nodes' instead of 'validators'
 function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
@@ -66,25 +62,14 @@ function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
   }
 }
 
-function getConfigFromPath(rawCfgPath) {
-  const cfgPath = path.resolve(process.cwd(), rawCfgPath)
-  let cfgObject = {}
-  try {
-    cfgObject = files.readJSON(cfgPath)
-  } catch (e) {
-    logger.error(`Failed to import config: ${e}`)
-    throwGantreeError('BAD_CONFIG', Error(`Failed to import config: ${e}`))
-  }
-  return cfgObject
-}
-
 async function validateConfig(gantreeConfigObj, options = {}) {
-  const verbose = options.verbose | true
+  const verbose = options.verbose || true
+
   if (gantreeConfigObj === undefined) {
-    console.error('Validate must recieve a config object as input')
+    console.error('Validate must receive a config object as input')
     throwGantreeError(
       'BAD_CONFIG',
-      Error('Validate must recieve a config object as input')
+      Error('Validate must receive a config object as input')
     )
   } else {
     const ajv = new Ajv({ allErrors: true })
@@ -92,7 +77,7 @@ async function validateConfig(gantreeConfigObj, options = {}) {
     const gantree_config_valid = validate(gantreeConfigObj)
     if (gantree_config_valid) {
       if (verbose === true) {
-        logger.info('Gantree config validated successfully!')
+        logger.info('Gantree configuration validated successfully')
       }
     } else {
       console.error('Invalid Gantree config detected')
@@ -109,24 +94,6 @@ async function validateConfig(gantreeConfigObj, options = {}) {
   }
 }
 
-class Config {
-  constructor() {
-    //stuff
-  }
-
-  getProjectName(gantreeConfigObj) {
-    return gantreeConfigObj.metadata.project
-  }
-
-  read(rawCfgPath) {
-    return getConfigFromPath(rawCfgPath)
-  }
-
-  validate(gantreeConfigObj, options = {}) {
-    validateConfig(gantreeConfigObj, options)
-  }
-}
-
 module.exports = {
-  Config
+  config: validateConfig
 }

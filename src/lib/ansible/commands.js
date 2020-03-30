@@ -1,4 +1,7 @@
 const cmd = require('../cmd')
+const { returnLogger } = require('../logging')
+
+const logger = returnLogger('lib/ansible/commands')
 
 async function _genInventoryString(inventoryPathArray) {
   let inventoryString = ''
@@ -11,7 +14,7 @@ async function _genInventoryString(inventoryPathArray) {
 }
 
 async function runPlaybook(inventoryPathArray, playbookFilePath) {
-  console.log(`...running playbook (${playbookFilePath})`)
+  logger.info(`running playbook: ${playbookFilePath}`)
 
   const inventoryString = await _genInventoryString(inventoryPathArray)
 
@@ -20,7 +23,7 @@ async function runPlaybook(inventoryPathArray, playbookFilePath) {
 
   const execOutput = await cmd.exec(playbookCommandString, { verbose: true })
 
-  console.log(`...finished running playbook! (${playbookFilePath})`)
+  logger.info(`playbook finished: ${playbookFilePath}`)
 
   return execOutput
 }
