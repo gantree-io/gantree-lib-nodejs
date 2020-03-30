@@ -1,6 +1,6 @@
 {
   "name": "gantree-lib",
-  "version": "0.4.4-beta.0",
+  "version": "0.5.2",
   "main": "src/index.js",
   "repository": "https://github.com/flex-dapps/gantree-lib-nodejs",
   "author": "Flex Dapps",
@@ -28,9 +28,10 @@
   ],
   "files": [
     "/ansible",
-    "/inventory",
     "/inventorySegments",
     "/src",
+    "Pipfile",
+    "Pipfile.lock",
     "python_requirements.txt"
   ],
   "dependencies": {

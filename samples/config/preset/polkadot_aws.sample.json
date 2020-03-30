@@ -10,11 +10,11 @@
         {
             "validator": false,
             "instance": {
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
                 "provider": "aws",
                 "type": "t3.small",
                 "volumeSize": 200,
-                "region": "ap-southeast-2",
-                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+                "region": "ap-southeast-2"
             }
         }
     ]

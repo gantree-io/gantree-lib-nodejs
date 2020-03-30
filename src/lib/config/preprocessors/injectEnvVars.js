@@ -1,5 +1,8 @@
 const cloneDeepWith = require('lodash.clonedeepwith')
 const { throwGantreeError } = require('../../error')
+const { returnLogger } = require('../../logging')
+
+const logger = returnLogger('lib/config/preprocessors/injectEnvVars')
 
 const envRegex = /(?<=^\$(env|ENV):)[A-Za-z_]+(?=$)/
 
@@ -20,7 +23,10 @@ function dynamicEnvVarCustomizer(value) {
   }
 }
 
-const processor = config => cloneDeepWith(config, dynamicEnvVarCustomizer)
+function processor(config) {
+  logger.info('injecting environment variables into config')
+  return cloneDeepWith(config, dynamicEnvVarCustomizer)
+}
 
 module.exports = {
   processor

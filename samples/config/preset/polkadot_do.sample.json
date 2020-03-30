@@ -10,10 +10,10 @@
         {
             "validator": false,
             "instance": {
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
                 "provider": "do",
                 "dropletSize": "s-1vcpu-1gb",
-                "region": "nyc3",
-                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+                "region": "nyc3"
             }
         }
     ]

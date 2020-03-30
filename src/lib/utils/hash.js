@@ -8,7 +8,8 @@ function getChecksum(dataStr, algorithm, encoding) {
 }
 
 function validateChecksum(
-  dataStr,
+  // dataStr,
+  realChecksum,
   expectedChecksum,
   algorithm,
   encoding,
@@ -17,7 +18,8 @@ function validateChecksum(
   // note: newlines and whitespace considered in checksum
   const verbose = _options.verbose || false
 
-  const hashA = getChecksum(dataStr, algorithm, encoding)
+  const hashA = realChecksum
+  // const hashA = getChecksum(dataStr, algorithm, encoding)
   const hashB = expectedChecksum
   if (verbose === true) {
     console.log(`A: ${hashA}`)
