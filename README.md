@@ -66,15 +66,17 @@ For security reasons, credentials for infrastructure providers must be exported 
 | GCP          | `GCP_SERVICE_ACCOUNT_FILE`                      | path to json file with credentials of the service account you want to use; this service account needs to have write access to compute and network resources |
 | DigitalOcean | `DO_API_TOKEN`                                  | A DigitalOcean access token with read + write access                                                                                                        |
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
+<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
 You only need credentials for providers you wish to use
+</p>
 
 ### SSH Credentials
 
 SSH private key can be defined using environment variable references in your Gantree configuration.
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
+<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
 Important: Key pairs must be PEM.
+</p>
 
 ## Configuration
 

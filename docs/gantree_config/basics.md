@@ -31,8 +31,9 @@ For example:
 "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
 ```
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_best_practice_tag.png" alt="Best practice tag" width="100">
+<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_best_practice_tag.png" alt="Best practice tag" width="100">
 Using too many environment variable references in a configuration is discouraged as it can lead to inconsistencies across environments, especially for those working in large teams. The significance of this however varies from project to project.
+</p>
 
 ## Structure
 
@@ -113,7 +114,9 @@ When using the fetch format, binaries will be downloaded.
 
 #### Binary Structure - Local
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+Local method is not yet supported
+</p>
 
 When using the local format, binaries will be grabbed from a local source
 
@@ -129,8 +132,9 @@ When using the local format, binaries will be grabbed from a local source
 
 An array defining the nodes in your infrastructure
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
 Validator key is not yet supported
+</p>
 
 ```jsonc
 [

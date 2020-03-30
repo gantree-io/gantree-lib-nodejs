@@ -21,5 +21,6 @@ Supported presets can be found [here](../../src/static_data/binary_presets.json)
 | DigitalOcean | [Polkadot (Kusama) - Fetch](../../samples/config/preset/polkadot_do.sample.json)  | [Polkadot - HEAD](../../samples/config/repository/polkadot_do.sample.json)  | [Polkadot (Kusama)](../../samples/config/fetch/polkadot_do.sample.json)  | -     |
 | GCP          | [Polkadot (Kusama) - Fetch](../../samples/config/preset/polkadot_gcp.sample.json) | [Polkadot - HEAD](../../samples/config/repository/polkadot_gcp.sample.json) | [Polkadot (Kusama)](../../samples/config/fetch/polkadot_gcp.sample.json) | -     |
 
-<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
 Local method is not yet supported
+</p>
