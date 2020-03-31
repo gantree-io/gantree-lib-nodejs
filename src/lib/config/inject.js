@@ -121,8 +121,13 @@ function injectDefaults(gantreeConfigObj, _options = {}) {
   return gantreeConfigObj
 }
 
-function expandPreset(gantreeConfigObj) {
-  if (!gantreeConfigObj.binary.hasOwnProperty('preset')) {
+function expandPreset(gantreeConfigObj, _options = {}) {
+  const verbose = opt.default(_options.verbose, false)
+  // if preset key not used
+  if (gantreeConfigObj['binary'].hasOwnProperty('preset') === false) {
+    if (verbose === true) {
+      logger.warn('skipping preset expansion (no preset key present)')
+    }
     return gantreeConfigObj
   }
 
