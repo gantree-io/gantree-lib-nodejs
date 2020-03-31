@@ -35,13 +35,11 @@
     "python_requirements.txt"
   ],
   "dependencies": {
-    "ajv": "^6.11.0",
+    "ajv": "^6.12.0",
     "bignumber.js": "^9.0.0",
-    "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "dotenv": "^8.2.0",
     "fs-extra": "^8.1.0",
-    "handlebars": "^4.3.0",
     "js-yaml": "^3.13.1",
     "json-bigint": "^0.3.0",
     "lodash.clonedeepwith": "^4.5.0",
@@ -52,11 +50,15 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "5.16.0",
-    "lint-staged": "^10.0.7",
-    "mocha": "^6.2.0",
+    "eslint": "^6.8.0",
+    "lint-staged": "^10.1.1",
+    "minimist": "^1.2.5",
+    "mocha": "^6.2.3",
     "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
     "tmp": "^0.1.0"
+  },
+  "resolutions": {
+    "minimist": "^1.2.5"
   }
 }
