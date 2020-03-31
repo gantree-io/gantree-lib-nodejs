@@ -1,5 +1,8 @@
 const error_meta = require('../static_data/error_meta')
 
+const RED = '\x1b[31m'
+const STYLE_RESET = '\x1b[0m'
+
 function throwGantreeError(error_alias, e) {
   const error_data = error_meta[error_alias]
 
@@ -26,6 +29,7 @@ function throwGantreeError(error_alias, e) {
     e = Error('no error passed')
   }
 
+  console.log(`${RED}FAIL:[${code}] ${message}: ${e.message}${STYLE_RESET}`)
   console.error(`FAIL:[${code}] ${message}: ${e.message}`)
   process.exit(code)
 }
