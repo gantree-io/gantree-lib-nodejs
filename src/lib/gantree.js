@@ -21,6 +21,7 @@ class Gantree {
 
     this.returnConfig = this.returnConfig.bind(this)
     this.syncAll = this.syncAll.bind(this)
+    this.cleanAll = this.cleanAll.bind(this)
   }
 
   async returnConfig(gantreeConfigPath) {
