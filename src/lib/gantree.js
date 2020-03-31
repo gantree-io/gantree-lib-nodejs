@@ -32,11 +32,25 @@ class Gantree {
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
     const verbose = opt.default(_options.verbose, false)
     const strict = opt.default(_options.strict, false)
-    const projectPathOverride = _options.projectPathOverride
+    const inventoryPathOverride = opt.default(
+      _options.inventoryPathOverride,
+      undefined
+    )
+    const projectPathOverride = opt.default(
+      _options.projectPathOverride,
+      undefined
+    )
+
+    if (verbose === true) {
+      logger.info('verbose output enabled')
+    }
 
     const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
     const projectPath =
-      projectPathOverride || (await this.paths.getProjectPath(projectName)) // get project path based on projectName
+      projectPathOverride ||
+      (await this.paths.getProjectPath(projectName, {
+        inventoryPathOverride: inventoryPathOverride
+      })) // get project path based on projectName
     await this.ansible.inventory.createNamespace(projectPath) // create project path recursively
 
     // TODO: must be refactored, also creates active inventory
@@ -91,13 +105,27 @@ class Gantree {
   async cleanAll(gantreeConfigObj, credentialObj, _options = {}) {
     // TODO: FIX: must be refactored to not reuse so much code from sync, this is a temp fix
     // TODO: implement strict flag in CLI and also document for lib and CLI
-    // const verbose = _options.verbose || false // TODO: add this back when functions have verbose options
+    const verbose = opt.default(_options.verbose, false)
     const strict = opt.default(_options.strict, false)
-    const projectPathOverride = _options.projectPathOverride
+    const inventoryPathOverride = opt.default(
+      _options.inventoryPathOverride,
+      undefined
+    )
+    const projectPathOverride = opt.default(
+      _options.projectPathOverride,
+      undefined
+    )
+
+    if (verbose === true) {
+      logger.info('verbose output enabled')
+    }
 
     const projectName = await this.config.getProjectName(gantreeConfigObj) // get project name from config
     const projectPath =
-      projectPathOverride || (await this.paths.getProjectPath(projectName)) // get project path based on projectName
+      projectPathOverride ||
+      (await this.paths.getProjectPath(projectName, {
+        inventoryPathOverride: inventoryPathOverride
+      })) // get project path based on projectName
     await this.ansible.inventory.createNamespace(projectPath) // create project path recursively
 
     const gantreeInventoryExists = await this.ansible.inventory.gantreeInventoryExists(
