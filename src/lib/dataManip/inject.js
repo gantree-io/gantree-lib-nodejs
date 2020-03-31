@@ -1,4 +1,3 @@
-const chalk = require('chalk')
 const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
@@ -160,17 +159,11 @@ function checkChainspecValid(chainSpecObj, allowRaw) {
         )
       } else {
         if (allowRaw === true) {
-          console.warn(chalk.yellow('[Gantree] ----------------'))
-          console.warn(
-            chalk.yellow('[Gantree] WARNING: raw chainspec used as input')
-          )
-          console.warn(chalk.yellow('[Gantree] This is discouraged'))
-          console.warn(
-            chalk.yellow(
-              '[Gantree] Function output will be raw instead of non-raw'
-            )
-          )
-          console.warn(chalk.yellow('[Gantree] ----------------'))
+          logger.warn('----------------')
+          logger.warn('raw chainspec used as input')
+          logger.warn('this is highly discouraged')
+          logger.warn('Function output will be raw instead of non-raw')
+          logger.warn('----------------')
           const chainspec_str = JSONbig.stringify(chainSpecObj, null, '    ')
           process.stdout.write(chainspec_str)
           return false
