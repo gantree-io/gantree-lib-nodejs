@@ -160,6 +160,9 @@ Validator key is not yet supported
     {
         "validator": "boolean", // [true] Should this node be a validator
         "mnemonic": "string", // [undefined] Mnemonic used to generate substrate keys
+        "binaryOptions": { // [{}] Binary options for specific node
+            "substrateOptions": ["string"] // [[]] Arguments passed to substrate binary
+        },
         "instance": {} // See Instance
     },
     ... // etc.
