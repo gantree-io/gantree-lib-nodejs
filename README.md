@@ -1,6 +1,21 @@
-# Gantree Lib
-
 Library at the core of Gantree
+
+# Gantree Library
+
+- [Gantree Library](#gantree-library)
+  - [About](#about)
+  - [Docker Image](#docker-image)
+  - [Requirements](#requirements)
+    - [1 - Application Requirements](#1---application-requirements)
+    - [2 - Ansible Requirements](#2---ansible-requirements)
+    - [3 - Python Requirements](#3---python-requirements)
+    - [4 - Package Installation](#4---package-installation)
+    - [5 - Environment Requirements](#5---environment-requirements)
+      - [Provider Credentials](#provider-credentials)
+      - [SSH Credentials](#ssh-credentials)
+  - [Gantree Configuration](#gantree-configuration)
+  - [Library Usage](#library-usage)
+  - [CLI Usage](#cli-usage)
 
 ## About
 
@@ -54,9 +69,9 @@ Install gantree-lib
 npm install gantree-lib -g
 ```
 
-## Environment Requirements
+### 5 - Environment Requirements
 
-### Provider Credentials
+#### Provider Credentials
 
 For security reasons, credentials for infrastructure providers must be exported as environment variables.
 
@@ -70,7 +85,7 @@ For security reasons, credentials for infrastructure providers must be exported 
 You only need credentials for providers you wish to use
 </p>
 
-### SSH Credentials
+#### SSH Credentials
 
 SSH private key can be defined using environment variable references in your Gantree configuration.
 
@@ -78,7 +93,7 @@ SSH private key can be defined using environment variable references in your Gan
 Important: Key pairs must be PEM.
 </p>
 
-## Configuration
+## Gantree Configuration
 
 Gantree requires a configuration file (Gantree configuration) in order to guide creation, provisioning, modification and deletion of instances.
 
@@ -88,7 +103,7 @@ When creating your own Gantree configuration, it's recommended to create it base
 
 If your configuration is invalid, Gantree will try it's best to help you identify where misconfiguration has occurred.
 
-### Gantree Configuration Documentation
+Once you're ready to create your own Gantree configuration, please consult the links below.
 
 - [Basics](docs/gantree_config/basics.md)
 - [Tutorial](docs/gantree_config/tutorial.md)
@@ -98,12 +113,12 @@ If your configuration is invalid, Gantree will try it's best to help you identif
 
 ## Library Usage
 
-### Library Usage Documentation
-
 - [Gantree](docs/_generated/gantree.md) - _generated_
 - [Quick Start](docs/library/quick_start.md)
 - [Limitations](docs/library/limitations.md)
 
-## NodeJS CLI Usage
+## CLI Usage
+
+A CLI is available for gantree-lib as a separate package.
 
 Please see [gantree-cli](https://github.com/flex-dapps/gantree-cli) for information
