@@ -1,3 +1,8 @@
+/**
+ * gantree module
+ * @module gantree
+ */
+
 // this file outlines a class containing all functions exposed by the library to users via methods
 // method inputs/output should stay as consistent as possible
 
@@ -12,6 +17,10 @@ const { returnLogger } = require('./logging')
 
 const logger = returnLogger('lib/gantree')
 
+/**
+ * Primary class used for library interaction.
+ * @class Gantree
+ */
 class Gantree {
   constructor() {
     this.paths = new Paths()
@@ -24,6 +33,11 @@ class Gantree {
     this.cleanAll = this.cleanAll.bind(this)
   }
 
+  /**
+   * Validate, preprocess and return a Gantree configuration from a JSON file.
+   * @param {string} path - Path to a Gantree configuration, file must be JSON.
+   * @return {object} gantreeConfig - validated and preprocessed
+   */
   async returnConfig(gantreeConfigPath) {
     logger.info('reading gantree configuration')
     const gantreeConfigObj = await this.config.read(gantreeConfigPath)
