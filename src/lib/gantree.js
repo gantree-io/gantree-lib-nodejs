@@ -18,8 +18,9 @@ const { returnLogger } = require('./logging')
 const logger = returnLogger('lib/gantree')
 
 /**
- * Primary class used for library interaction.
+ * Abstracted class used for library interaction.
  * @class Gantree
+ * @classdesc Abstracted class used for library interaction.
  */
 class Gantree {
   constructor() {
@@ -36,7 +37,7 @@ class Gantree {
   /**
    * Validate, preprocess and return a Gantree configuration from a JSON file.
    * @param {string} path - Path to a Gantree configuration, file must be JSON.
-   * @return {object} gantreeConfig - validated and preprocessed
+   * @return {object} gantreeConfigObj
    */
   async returnConfig(gantreeConfigPath) {
     logger.info('reading gantree configuration')
@@ -44,6 +45,10 @@ class Gantree {
     return gantreeConfigObj
   }
 
+  /**
+   * Create/update infrastructure in Gantree configuration.
+   * @param {object} gantreeConfigObj - Gantree configuration, must come from returnConfig.
+   */
   async syncAll(gantreeConfigObj, credentialObj, _options = {}) {
     const verbose = opt.default(_options.verbose, false)
     const strict = opt.default(_options.strict, false)
@@ -117,6 +122,10 @@ class Gantree {
     logger.info('sync finished')
   }
 
+  /**
+   * Destroy infrastructure in Gantree configuration.
+   * @param {object} gantreeConfigObj - Gantree configuration, must come from returnConfig.
+   */
   async cleanAll(gantreeConfigObj, credentialObj, _options = {}) {
     // TODO: FIX: must be refactored to not reuse so much code from sync, this is a temp fix
     // TODO: implement strict flag in CLI and also document for lib and CLI
