@@ -17,7 +17,7 @@
         "filename": "polkadot",
         "useBinChainSpec": "true"
     },
-    "edgeware-3.0.1": {
+    "wip-edgeware-3.0.1": {
         "chain": "berlin",
         "fetch": {
             "url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/edgeware-3.0.1-CompiledByFlex",
@@ -28,7 +28,7 @@
         "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json",
         "COMMENT chain spec url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/berlin.chainspec-3.0.1.json"
     },
-    "edgeware-3.0.1-compile": {
+    "wip-edgeware-3.0.1-compile": {
         "chain": "berlin",
         "repository": {
             "url": "https://github.com/hicommonwealth/edgeware-node",
