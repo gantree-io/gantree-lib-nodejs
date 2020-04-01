@@ -1,8 +1,3 @@
-/**
- * gantree module
- * @module gantree
- */
-
 // this file outlines a class containing all functions exposed by the library to users via methods
 // method inputs/output should stay as consistent as possible
 
