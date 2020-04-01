@@ -35,6 +35,23 @@
     "Pipfile.lock",
     "python_requirements.txt"
   ],
+  "maintainers": [
+    {
+      "name": "Denver Flexdapps",
+      "email": "denver@flexdapps.com",
+      "web": "http://www.flexdapps.com"
+    },
+    {
+      "name": "Ryan Flexdapps",
+      "email": "ryan@flexdapps.com",
+      "web": "http://www.flexdapps.com"
+    },
+    {
+      "name": "Tom Nash",
+      "email": "contacttomnash@gmail.com",
+      "web": "http://www.flexdapps.com"
+    }
+  ],
   "dependencies": {
     "ajv": "^6.12.0",
     "bignumber.js": "^9.0.0",
