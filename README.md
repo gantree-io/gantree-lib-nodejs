@@ -87,7 +87,7 @@ You only need credentials for providers you wish to use
 
 #### SSH Credentials
 
-SSH private key can be defined using environment variable references in your Gantree configuration.
+SSH private key path can be defined using environment variable references in your Gantree configuration.
 
 <p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_related_note_tag.png" alt="Related note tag" width="100">
 Important: Key pairs must be PEM.
