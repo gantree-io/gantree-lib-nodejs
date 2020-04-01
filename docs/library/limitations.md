@@ -2,6 +2,10 @@
 
 ***Documentation still in development***
 
+- [Library - Limitations](#library---limitations)
+  - [General](#general)
+    - [Connection Issues](#connection-issues)
+
 ## General
 
 ### Connection Issues

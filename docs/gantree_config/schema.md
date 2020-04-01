@@ -1,5 +1,10 @@
 # Gantree Configuration - Schema
 
+- [Gantree Configuration - Schema](#gantree-configuration---schema)
+  - [Schema](#schema)
+
+## Schema
+
 Gantree configurations must conform to the structure outlined in the schema found here:
 
 - [Gantree config schema](../../src/schemas/gantree_config_schema.json)

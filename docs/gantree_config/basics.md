@@ -6,6 +6,25 @@
 | ---------------------- | ------------ |
 | 2.0                    | 2020/03/30   |
 
+- [Gantree Configuration - Basics](#gantree-configuration---basics)
+  - [Format](#format)
+  - [Features](#features)
+    - [Environment Variable References](#environment-variable-references)
+  - [Structure](#structure)
+    - [Root Object](#root-object)
+    - [Metadata](#metadata)
+    - [Binary](#binary)
+      - [Binary Structure - Preset](#binary-structure---preset)
+      - [Binary Structure - Repository](#binary-structure---repository)
+      - [Binary Structure - Fetch](#binary-structure---fetch)
+      - [Binary Structure - Local](#binary-structure---local)
+    - [Nodes](#nodes)
+      - [Instance](#instance)
+        - [Amazon Web Services (AWS)](#amazon-web-services-aws)
+        - [DigitalOcean (DO)](#digitalocean-do)
+        - [Google Cloud Platform (GCP)](#google-cloud-platform-gcp)
+    - [Defaults](#defaults)
+
 ## Format
 
 Gantree configurations must be in JSON format.

@@ -6,6 +6,10 @@
 | ---------------------- | ------------ |
 | 2.0                    | 2020/03/30   |
 
+- [Library - Quick Start](#library---quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Tutorial](#tutorial)
+
 ## Prerequisites
 
 This tutorial assumes you have the following files/knowledge/etc.

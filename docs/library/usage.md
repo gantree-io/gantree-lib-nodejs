@@ -1,10 +1,16 @@
 # Library - Usage
 
+***Documentation still in development***
+
 **Document information**
 
 | GANTREE CONFIG VERSION | LAST UPDATED |
 | ---------------------- | ------------ |
 | 2.0                    | 2020/04/01   |
+
+- [Library - Usage](#library---usage)
+  - [Usage](#usage)
+  - [Generated Documentation](#generated-documentation)
 
 ## Usage
 
@@ -15,11 +21,6 @@ const { Gantree } = require('gantree-lib')
 const gantree = new Gantree()
 ```
 
-## Methods
+## Generated Documentation
 
-`gantree.returnConfig(*gantreeConfigPath*)`
-
-## Syncing
-
-```js
-gantree.syncAll()
+- **class:** [Gantree](../_generated/gantree.md)

@@ -1,5 +1,11 @@
 # Gantree Configuration - Samples
 
+- [Gantree Configuration - Samples](#gantree-configuration---samples)
+  - [Binary Methods](#binary-methods)
+  - [Permutations](#permutations)
+
+## Binary Methods
+
 Gantree supports multiple methods of deploying nodes among providers.
 
 These methods are:
