@@ -1,5 +1,7 @@
 # Library - Limitations
 
+***Documentation still in development***
+
 ## General
 
 ### Connection Issues
