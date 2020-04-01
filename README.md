@@ -100,6 +100,7 @@ If your configuration is invalid, Gantree will try it's best to help you identif
 
 ### Library Usage Documentation
 
+- [Gantree](docs/_generated/gantree.md) - _generated_
 - [Quick Start](docs/library/quick_start.md)
 - [Limitations](docs/library/limitations.md)
 
