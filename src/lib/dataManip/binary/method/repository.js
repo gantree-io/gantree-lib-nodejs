@@ -11,6 +11,7 @@ function warnHeadDefault() {
  */
 function resolveRepository(binKeys) {
   if (binKeys.repository !== undefined) {
+    // if version undefined, default to 'HEAD' warn of default
     binKeys.repository.version = opt.default(
       binKeys.repository.version,
       'HEAD',
