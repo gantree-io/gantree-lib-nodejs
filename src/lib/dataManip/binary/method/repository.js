@@ -4,6 +4,11 @@ function warnHeadDefault() {
   console.warn('No version specified, using repository HEAD')
 }
 
+/**
+ *
+ * @param {object} binKeys - value of binary key in Gantree configuration
+ * @returns {object} inventory keys and values for binary method
+ */
 function resolveRepository(binKeys) {
   if (binKeys.repository !== undefined) {
     binKeys.repository.version = opt.default(
@@ -11,7 +16,8 @@ function resolveRepository(binKeys) {
       'HEAD',
       warnHeadDefault
     )
-    return binKeys.repository
+    const invKeys = {}
+    return invKeys
   }
 }
 
