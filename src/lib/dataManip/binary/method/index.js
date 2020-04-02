@@ -9,19 +9,20 @@ function resolvePreset() {}
  * @param {object} binaryObject - value of the binary key in Gantree configuration
  * @returns {object} ansible inventory binary keys
  */
-function resolveInvKeys(binKeys) {
+function resolveInvKeys(gantreeConfigObj) {
+  const c = gantreeConfigObj
   const resolverLookup = {
     repository: resolveRepository,
     fetch: resolveFetch,
     local: resolveLocal,
     preset: resolvePreset
   }
-  for (const { k, v } of Object.entries(resolverLookup)) {
-    if (Object.prototype.hasOwnProperty.call(binKeys, k)) {
-      v()
+  for (const [k, v] of Object.entries(resolverLookup)) {
+    if (Object.prototype.hasOwnProperty.call(c.binary, k)) {
+      console.log('has')
+      return v(c.binary[k])
     }
   }
-  return binKeys
 }
 
 module.exports = {
