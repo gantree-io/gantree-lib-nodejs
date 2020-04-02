@@ -13,6 +13,8 @@ const configGcp = require('./configGcp')
 const configAws = require('./configAws')
 const configDo = require('./configDo')
 
+const binary = require('./binary')
+
 // const boolToString = require('./preprocessors/boolToString')
 // const dynamicEnvVar = require('./preprocessors/dynamicEnvVar')
 
@@ -125,15 +127,6 @@ const ensureNames = config => {
   })
 }
 
-const returnRepoVersion = async binaryKeysBase => {
-  if (binaryKeysBase.repository.version === undefined) {
-    console.warn('No version specified, using repository HEAD')
-    return 'HEAD'
-  } else {
-    return binaryKeysBase.repository.version
-  }
-}
-
 const getSharedVars = async ({ config: c }) => {
   const ansibleGantreeVars = {
     // ansible/gantree vars
@@ -149,17 +142,18 @@ const getSharedVars = async ({ config: c }) => {
     project_name: c.metadata.project
   }
 
-  const binKeys = c.binary
+  let binKeys = c.binary
+
+  const binaryInvKeys = binary.method.resolveInvKeys(c)
 
   let repository_version = 'false'
-
-  if (binKeys.repository !== undefined) {
-    repository_version = await returnRepoVersion(binKeys)
-  }
 
   const binaryVars = {
     // required
     substrate_bin_name: binKeys.filename,
+
+    // keys from binary method
+    ...binaryInvKeys,
 
     // optional
     substrate_binary_sha256: (binKeys.fetch && binKeys.fetch.sha256) || 'false', // TODO: not yet implemented
