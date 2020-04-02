@@ -43,7 +43,7 @@ provisioner:
           src_folder: telemetry_src
           src_subfolder: backend
           operation: remote
-        substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template.git'
+        substrate_repository_url: 'https://github.com/substrate-developer-hub/substrate-node-template.git'
         substrate_binary_url: 'false'
         substrate_local_compile: 'false'
         substrate_repository_version: 'HEAD'

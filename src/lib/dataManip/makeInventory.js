@@ -170,7 +170,7 @@ const getSharedVars = async ({ config: c }) => {
 
     substrate_binary_path: (binKeys.local && binKeys.local.path) || 'false', // TODO: not yet implemented
 
-    substrate_repository:
+    substrate_repository_url:
       (binKeys.repository && binKeys.repository.url) || 'false',
     substrate_local_compile:
       (binKeys.repository && binKeys.repository.localCompile) || 'false',
