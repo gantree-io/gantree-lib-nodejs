@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const namespace = require('./namespace')
 const { makeInventory } = require('../../dataManip/makeInventory')
 const { Paths } = require('../../utils/paths')
 const { hash } = require('../../utils/hash')
@@ -10,22 +11,6 @@ const { returnLogger } = require('../../logging')
 const logger = returnLogger('lib/ansible/inventory')
 
 const paths = new Paths()
-
-async function createNamespace(projectPath) {
-  logger.info('creating namespace')
-
-  const gantreeInventoryPath = path.join(projectPath, 'gantree')
-  const activeInventoryPath = path.join(projectPath, 'active')
-
-  // create paths recursively
-  fs.mkdirSync(gantreeInventoryPath, { recursive: true })
-  fs.mkdirSync(activeInventoryPath, { recursive: true })
-
-  // do stuff
-  // create gantree folder
-  // create active folder
-  logger.info('namespace created')
-}
 
 async function createGantreeInventory(
   gantreeConfigObj,
@@ -167,7 +152,7 @@ async function gantreeInventoryExists(gantreeConfigObj, projectPath) {
 }
 
 module.exports = {
-  createNamespace,
+  namespace,
   createGantreeInventory,
   deleteGantreeInventory,
   gantreeInventoryExists
