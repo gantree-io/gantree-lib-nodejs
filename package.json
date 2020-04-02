@@ -7,7 +7,6 @@
   "license": "Apache-2.0",
   "scripts": {
     "lint": "eslint .",
-    "preinstall": "npx npm-force-resolutions",
     "sync": "node . sync",
     "clean": "node . clean",
     "inject": "node . inject",
@@ -76,8 +75,5 @@
     "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
     "tmp": "^0.1.0"
-  },
-  "resolutions": {
-    "minimist": "^1.2.5"
   }
 }
