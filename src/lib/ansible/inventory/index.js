@@ -1,11 +1,11 @@
 const path = require('path')
 const fs = require('fs')
-const { makeInventory } = require('../dataManip/makeInventory')
-const { Paths } = require('../utils/paths')
-const { hash } = require('../utils/hash')
-const { throwGantreeError } = require('../error')
-const opt = require('../utils/options')
-const { returnLogger } = require('../logging')
+const { makeInventory } = require('../../dataManip/makeInventory')
+const { Paths } = require('../../utils/paths')
+const { hash } = require('../../utils/hash')
+const { throwGantreeError } = require('../../error')
+const opt = require('../../utils/options')
+const { returnLogger } = require('../../logging')
 
 const logger = returnLogger('lib/ansible/inventory')
 
