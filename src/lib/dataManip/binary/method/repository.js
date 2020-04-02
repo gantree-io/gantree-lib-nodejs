@@ -18,6 +18,7 @@ function resolveRepository(binKeys) {
       warnHeadDefault
     )
     const invKeys = {}
+    console.log(`invKeys: ${invKeys}`)
     return invKeys
   }
 }
