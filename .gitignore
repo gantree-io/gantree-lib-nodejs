@@ -1,6 +1,9 @@
 # nodejs
 node_modules
 
+# eslint
+.eslintcache
+
 # yarn
 yarn-error.log
 
