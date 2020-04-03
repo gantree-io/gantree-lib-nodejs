@@ -15,10 +15,8 @@
     "docs": "jsdoc2md ./src/lib/gantree.js > docs/_generated/gantree.md"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "eslint --fix"
-    ]
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   },
   "engines": {
     "node": ">=10.15.2"
@@ -68,12 +66,21 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
+    "husky": "^4.2.3",
     "jsdoc-to-markdown": "^5.0.3",
-    "lint-staged": "^9.5.0",
+    "lint-staged": "10.0.7",
     "minimist": "^1.2.5",
     "mocha": "^6.2.3",
     "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
     "tmp": "^0.1.0"
+  },
+  "resolutions": {
+    "lint-staged": "10.0.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
