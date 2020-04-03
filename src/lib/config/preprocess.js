@@ -3,9 +3,9 @@ const inject = require('./inject')
 
 // TODO: modularise preprocess steps, then run in series in processAll
 async function processAll(gantreeConfigObj) {
+  gantreeConfigObj = await inject.expandPreset(gantreeConfigObj) // defaults depends on this, run first
   gantreeConfigObj = preprocessors.boolToString.processor(gantreeConfigObj)
   gantreeConfigObj = preprocessors.injectEnvVars.processor(gantreeConfigObj)
-  gantreeConfigObj = await inject.expandPreset(gantreeConfigObj) // defaults depends on this
   gantreeConfigObj = await inject.defaults(gantreeConfigObj, {
     logChanges: false
   }) // must be run last, especially after expandPreset
