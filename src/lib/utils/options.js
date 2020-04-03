@@ -31,8 +31,10 @@ function getRequired(real_value, execIfMissing) {
     console.trace()
     // throw backup error
     throwGantreeError(
-      "INTERNAL_ERROR",
-      Error("unhandled required fail, see trace above (callback function used should return non-zero exit-code)")
+      'INTERNAL_ERROR',
+      Error(
+        'unhandled required fail, see trace above (callback function used should return non-zero exit-code)'
+      )
     )
   } else {
     return real_value
