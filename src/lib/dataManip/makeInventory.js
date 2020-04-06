@@ -1,7 +1,5 @@
 //todo: cleanup for lib-centric approach
-const util = require('util')
 const path = require('path')
-const exec = util.promisify(require('child_process').exec)
 
 const { getWorkspacePath } = require('../pathHelpers')
 
@@ -14,6 +12,7 @@ const configAws = require('./configAws')
 const configDo = require('./configDo')
 
 const binary = require('./binary')
+const envPython = require('./envPython')
 
 // const boolToString = require('./preprocessors/boolToString')
 // const dynamicEnvVar = require('./preprocessors/dynamicEnvVar')
@@ -46,25 +45,6 @@ const makeInventory = async (
   return di
 }
 
-const getLocalPython = async () => {
-  // get the python for current environment so we can pass it around ansible if needed
-  let pythonLocalPython
-
-  try {
-    pythonLocalPython = await exec(
-      'python -c "import sys; print(sys.executable)"'
-    )
-  } catch (e) {
-    // console.warn('python 2 is a no-go')
-  }
-
-  pythonLocalPython = await exec(
-    'python3 -c "import sys; print(sys.executable)"'
-  )
-
-  return pythonLocalPython.stdout.trim()
-}
-
 const buildDynamicInventory = async config => {
   ensureNames(config)
 
@@ -79,7 +59,7 @@ const buildDynamicInventory = async config => {
     local: {
       hosts: ['localhost'],
       vars: {
-        ansible_python_interpreter: await getLocalPython(),
+        ansible_python_interpreter: await envPython.getInterpreterPath(),
         ansible_connection: 'local'
       }
     },
