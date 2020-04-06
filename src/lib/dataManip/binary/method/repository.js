@@ -6,18 +6,21 @@ function warnHeadDefault() {
 
 /**
  *
- * @param {object} binKeys - value of binary key in Gantree configuration
+ * @param {object} binaryObj - value of binary key in Gantree configuration
  * @returns {object} inventory keys and values for binary method
  */
-function resolveRepository(binKeys) {
-  if (binKeys.repository !== undefined) {
+function resolveRepository(binaryObj) {
+  if (binaryObj.repository !== undefined) {
     // if version undefined, default to 'HEAD' warn of default
-    binKeys.repository.version = opt.default(
-      binKeys.repository.version,
+    binaryObj.repository.version = opt.default(
+      binaryObj.repository.version,
       'HEAD',
       warnHeadDefault
     )
-    const invKeys = {}
+    const invKeys = {
+      substrate_repository_url: binaryObj.repository.url,
+      substrate_repository_version: binaryObj.repository.version
+    }
     return invKeys
   }
 }

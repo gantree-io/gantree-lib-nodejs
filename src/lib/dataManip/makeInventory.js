@@ -142,35 +142,34 @@ const getSharedVars = async ({ config: c }) => {
     project_name: c.metadata.project
   }
 
-  let binKeys = c.binary
+  const binaryInvKeys = binary.resolveInvKeys(c.binary)
 
-  const binaryInvKeys = binary.method.resolveInvKeys(c)
-
-  let repository_version = 'false'
+  // console.log(binaryInvKeys)
+  // console.log("exit early")
+  // process.exit(1)
 
   const binaryVars = {
     // required
-    substrate_bin_name: binKeys.filename,
+    // substrate_bin_name: binKeys.filename,
 
     // keys from binary method
-    ...binaryInvKeys,
+    ...binaryInvKeys
 
     // optional
-    substrate_binary_sha256: (binKeys.fetch && binKeys.fetch.sha256) || 'false', // TODO: not yet implemented
+    // substrate_binary_sha256: (binKeys.fetch && binKeys.fetch.sha256) || 'false', // TODO: not yet implemented
 
-    substrate_binary_url: (binKeys.fetch && binKeys.fetch.url) || 'false',
-    substrate_use_default_spec: binKeys.useBinChainSpec || 'false',
-    substrate_chain_argument: binKeys.chain || 'false',
+    // substrate_binary_url: (binKeys.fetch && binKeys.fetch.url) || 'false',
+    // substrate_use_default_spec: binKeys.useBinChainSpec || 'false',
+    // substrate_chain_argument: binKeys.chain || 'false',
 
-    substrate_binary_path: (binKeys.local && binKeys.local.path) || 'false', // TODO: not yet implemented
+    // substrate_binary_path: (binKeys.local && binKeys.local.path) || 'false', // TODO: not yet implemented
 
-    substrate_repository_url:
-      (binKeys.repository && binKeys.repository.url) || 'false',
-    substrate_local_compile:
-      (binKeys.repository && binKeys.repository.localCompile) || 'false',
-    substrate_repository_version: repository_version,
+    // substrate_repository_url:
+    //   (binKeys.repository && binKeys.repository.url) || 'false',
+    // substrate_local_compile:
+    //   (binKeys.repository && binKeys.repository.localCompile) || 'false',
 
-    substrate_bootnode_argument: binKeys.bootnodes || []
+    // substrate_bootnode_argument: binKeys.bootnodes || []
   }
 
   const telemetryVars = {
