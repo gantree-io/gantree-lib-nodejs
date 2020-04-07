@@ -26,6 +26,13 @@ const envPython = require('./envPython')
 //   return pipeline(config)
 // }
 
+/**
+ *
+ * @param {object} gantreeConfigObj - preprocessed Gantree config
+ * @param {string} projectPath - path to the project
+ * @param {string} inventorySegmentsPath - path to pre-defined inventory segments
+ * @returns {object} gantree inventory object
+ */
 const makeInventory = async (
   gantreeConfigObj,
   projectPath,
@@ -48,6 +55,7 @@ const makeInventory = async (
 const buildDynamicInventory = async config => {
   ensureNames(config)
 
+  // object to return from function
   const o = {
     _meta: {
       hostvars: {
