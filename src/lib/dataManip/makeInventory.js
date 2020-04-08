@@ -31,7 +31,7 @@ const envPython = require('./envPython')
  * @param {object} gantreeConfigObj - preprocessed Gantree config
  * @param {string} projectPath - path to the project
  * @param {string} inventorySegmentsPath - path to pre-defined inventory segments
- * @returns {object} gantree inventory object
+ * @returns {object} gantree inventory obj
  */
 const makeInventory = async (
   gantreeConfigObj,
@@ -47,13 +47,14 @@ const makeInventory = async (
   inventoryAws.managePlugin(gantreeConfigObj, activePath)
   inventoryDo.managePlugin(gantreeConfigObj, activePath, inactivePath)
 
-  const di = await buildDynamicInventory(gantreeConfigObj)
+  const gantreeInventoryObj = await buildDynamicInventory(gantreeConfigObj)
 
-  return di
+  return gantreeInventoryObj
 }
 
-const buildDynamicInventory = async config => {
-  ensureNames(config)
+const buildDynamicInventory = async gantreeConfigObj => {
+  // if node names undefined, resolve with project name as base
+  resolveNodeNames(gantreeConfigObj)
 
   // object to return from function
   const o = {
@@ -72,14 +73,14 @@ const buildDynamicInventory = async config => {
       }
     },
     all: {
-      vars: await getSharedVars({ config })
+      vars: await getSharedVars({ gantreeConfigObj })
     }
   }
 
   const validator_list = []
 
-  config.nodes.forEach((item, idx) => {
-    const infra = parseNode({ item, config })
+  gantreeConfigObj.nodes.forEach((item, idx) => {
+    const infra = parseNode({ item, gantreeConfigObj })
     const group = infra.group_name
 
     if (idx == 0) {
@@ -108,14 +109,16 @@ const buildDynamicInventory = async config => {
   return o
 }
 
-const ensureNames = config => {
-  config.nodes.forEach((item, idx) => {
-    item.name = item.name || config.metadata.project + '-' + idx
+const resolveNodeNames = gantreeConfigObj => {
+  gantreeConfigObj.nodes.forEach((item, idx) => {
+    // if node name unspecified, use project name suffixed by index
+    item.name = item.name || gantreeConfigObj.metadata.project + '-' + idx
+    // TODO: FIXME: believe this is unused and thus obsolete
     item.infra_name = 'gantree-infra-' + item.name
   })
 }
 
-const getSharedVars = async ({ config: c }) => {
+const getSharedVars = async ({ gantreeConfigObj: c }) => {
   const ansibleGantreeVars = {
     // ansible/gantree vars
     gantree_root: '../',
@@ -206,17 +209,17 @@ const getNodeVars = ({ item, infra }) => {
   }
 }
 
-const parseNode = ({ item, config }) => {
+const parseNode = ({ item, gantreeConfigObj }) => {
   if (item.instance.provider == 'gcp') {
-    return configGcp.parseInfra({ item, config })
+    return configGcp.parseInfra({ item, gantreeConfigObj })
   }
 
   if (item.instance.provider == 'do') {
-    return configDo.parseInfra({ item, config })
+    return configDo.parseInfra({ item, gantreeConfigObj })
   }
 
   if (item.instance.provider == 'aws') {
-    return configAws.parseInfra({ item, config })
+    return configAws.parseInfra({ item, gantreeConfigObj })
   }
 
   throw Error(`Unknown provider: ${item.instance.provider}`)
