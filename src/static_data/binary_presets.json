@@ -18,13 +18,14 @@
         "useBinChainSpec": "true"
     },
     "edgeware-3.0.1": {
-        "chain": "berlin",
+        "chain": false,
         "fetch": {
             "url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/edgeware-3.0.1-CompiledByFlex",
             "sha256": "5036704a04f7cfc583f710929c7648e8a69d35616733965d10609d8d5c57cf4d"
         },
+        "edgeware": "true",
         "filename": "edgeware-3.0.1-CompiledByFlex",
-        "useBinChainSpec": "true",
+        "useBinChainSpec": "false",
         "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json",
         "COMMENT chain spec url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/berlin.chainspec-3.0.1.json"
     },
