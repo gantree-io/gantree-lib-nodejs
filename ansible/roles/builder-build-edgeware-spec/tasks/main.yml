@@ -1,9 +1,4 @@
 ---
-
-- name: debug edgeware
-  debug:
-    msg: "edgeware: {{ edgeware }}"
-
 - name: create host spec directory
   delegate_to: localhost
   file:
