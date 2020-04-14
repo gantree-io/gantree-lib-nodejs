@@ -39,7 +39,8 @@ For the sake of simplicity, we're going to make this variable static.
 Note that our variable name is only upper-case as this is considered best practice for static variables. In most other instances, you would likely use a `camelCase` naming scheme.
 
 ```js
-const GANTREE_CONFIG_PATH = "/home/<username>/<path>/<to>/<my>/<config>/<config_filename>.json"
+const GANTREE_CONFIG_PATH =
+  '/home/<username>/<path>/<to>/<my>/<config>/<config_filename>.json'
 ```
 
 Now let's begin writing a new async function. For this tutorial, we'll name it `run`.
@@ -48,7 +49,7 @@ We're also going to execute it right after it's definition.
 
 ```js
 async function run() {
-    // our async code
+  // our async code
 }
 
 run()
@@ -64,7 +65,7 @@ gantree = new Gantree() // instantiate a new Gantree object
 
 Now we want to load our Gantree configuration as an object.
 
-For this we use the `returnConfig` method of our `gantree` variable. *Do not load the file in by another method*.
+For this we use the `returnConfig` method of our `gantree` variable. _Do not load the file in by another method_.
 
 ```js
 const gantreeConfigObj = await gantree.returnConfig(GANTREE_CONFIG_PATH) // load and process Gantree configuration
@@ -84,13 +85,16 @@ Our final `useGantree.js` script should look like this
 
 ```js
 const { Gantree } = require('gantree-lib') // make Gantree available
-const GANTREE_CONFIG_PATH = "/home/<username>/<path>/<to>/<my>/<config>/<config_filename>.json"
+const GANTREE_CONFIG_PATH =
+  '/home/<username>/<path>/<to>/<my>/<config>/<config_filename>.json'
 
 async function run() {
-    gantree = new Gantree() // instantiate a new Gantree object
-    const gantreeConfigObj = await gantree.returnConfig(GANTREE_CONFIG_PATH) // load and process Gantree configuration
-    await gantree.syncAll(gantreeConfigObj) // sync our infrastructure and nodes
+  gantree = new Gantree() // instantiate a new Gantree object
+  const gantreeConfigObj = await gantree.returnConfig(GANTREE_CONFIG_PATH) // load and process Gantree configuration
+  await gantree.syncAll(gantreeConfigObj) // sync our infrastructure and nodes
 }
+
+run()
 ```
 
 In the event you've forgotten to export any required environment variables, Gantree will stop execution early and inform you as to what you're missing.
