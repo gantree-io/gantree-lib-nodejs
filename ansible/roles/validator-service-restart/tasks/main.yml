@@ -6,6 +6,7 @@
 
 - name: clean substrate db
   become: yes
+  when: substrate_purge_chain|default(false)|bool == true
   shell: |
     if [ "{{ edgeware|default('false') }}" != "false" ]; then
       chain=" --chain=/home/{{ substrate_user }}/tmp/gantree-validator/spec/chainSpecRaw.raw"
