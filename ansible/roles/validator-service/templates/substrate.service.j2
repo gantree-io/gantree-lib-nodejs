@@ -36,7 +36,7 @@ ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
            {% if substrate_telemetry_argument == 'false' %}
            --no-telemetry
            {% else %}
-           --telemetry-url={{ substrate_telemetry_argument }}
+           --telemetry-url="{{ substrate_telemetry_argument }} 0"
            {% endif %}
          {% endif %}
 

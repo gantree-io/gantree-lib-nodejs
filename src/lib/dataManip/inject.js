@@ -159,11 +159,11 @@ function checkChainspecValid(chainSpecObj, allowRaw) {
         )
       } else {
         if (allowRaw === true) {
-          logger.warn('----------------')
-          logger.warn('raw chainspec used as input')
-          logger.warn('this is highly discouraged')
-          logger.warn('Function output will be raw instead of non-raw')
-          logger.warn('----------------')
+          //logger.warn('----------------')
+          //logger.warn('raw chainspec used as input')
+          //logger.warn('this is highly discouraged')
+          //logger.warn('Function output will be raw instead of non-raw')
+          //logger.warn('----------------')
           const chainspec_str = JSONbig.stringify(chainSpecObj, null, '    ')
           process.stdout.write(chainspec_str)
           return false

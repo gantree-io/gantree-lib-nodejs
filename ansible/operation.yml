@@ -9,6 +9,10 @@
         sleep: 2
       retries: 3
 
+- hosts: validator:builder_bin:builder_spec
+  roles:
+    - gantree-debug
+
 - hosts: localhost
   roles:
     - control-prepare
