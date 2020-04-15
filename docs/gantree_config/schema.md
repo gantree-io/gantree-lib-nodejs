@@ -11,6 +11,4 @@ Gantree configurations must conform to the structure outlined in the schema foun
 
 As this file is used for configuration validation, it will often be the most accurate representation of the required structure for a given commit/release.
 
-In the scenario samples/documentation are outdated/incompatible, the schema is invaluable reference for debugging.
-
-Please note however, some options may not yet be implemented.
+In the event that the samples/documentation are outdated/incompatible, the schema is invaluable reference for debugging.

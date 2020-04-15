@@ -17,14 +17,15 @@
         "filename": "polkadot",
         "useBinChainSpec": "true"
     },
-    "wip-edgeware-3.0.1": {
-        "chain": "berlin",
+    "edgeware-3.0.1": {
+        "chain": false,
         "fetch": {
             "url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/edgeware-3.0.1-CompiledByFlex",
             "sha256": "5036704a04f7cfc583f710929c7648e8a69d35616733965d10609d8d5c57cf4d"
         },
+        "edgeware": "true",
         "filename": "edgeware-3.0.1-CompiledByFlex",
-        "useBinChainSpec": "true",
+        "useBinChainSpec": "false",
         "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json",
         "COMMENT chain spec url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/berlin.chainspec-3.0.1.json"
     },
@@ -38,5 +39,23 @@
         "useBinChainSpec": "true",
         "chainFileBackup": "https://github.com/hicommonwealth/edgeware-node/raw/3.0.1/chains/berlin.chainspec.json",
         "COMMENT chain spec url": "https://substrate-node-bins.sgp1.digitaloceanspaces.com/berlin.chainspec-3.0.1.json"
+    },
+    "westend-0.7.28": {
+        "fetch": {
+            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.28/polkadot",
+            "sha256": "3aeefa0551137fb721c61a27c60610b5dbb554028f84118408d52fae078c8068"
+        },
+        "filename": "polkadot",
+        "useBinChainSpec": "true",
+        "chain": "westend"
+    },
+    "westend-master": {
+        "repository": {
+            "url": "https://github.com/paritytech/polkadot",
+            "version": "master"
+        },
+        "filename": "polkadot",
+        "useBinChainSpec": "true",
+        "chain": "westend"
     }
 }

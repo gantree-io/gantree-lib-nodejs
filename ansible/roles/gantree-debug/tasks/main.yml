@@ -1,0 +1,31 @@
+---
+- name: gantree debug
+  debug:
+    msg: "{{ inner_msg.split('\n') }}"
+  vars:
+    inner_msg: |
+      Gantree Debug:
+        gantree_root: {{ gantree_root|default(NO_KEY) }}
+        gantree_control_working: {{ gantree_control_working|default(NO_KEY) }}
+        ansible_ssh_common_args: {{ ansible_ssh_common_args|default(NO_KEY) }}
+
+        substrate_network_id: {{ substrate_network_id|default(NO_KEY) }}
+        project_name: {{ project_name|default(NO_KEY) }}
+
+        repository_version: {{ repository_version|default(NO_KEY) }}
+        substrate_bin_name: {{ substrate_bin_name|default(NO_KEY) }}
+        substrate_binary_sha256: {{ substrate_binary_sha256|default(NO_KEY) }}
+        substrate_binary_url: {{ substrate_binary_url|default(NO_KEY) }}
+        substrate_use_default_spec: {{ substrate_use_default_spec|default(NO_KEY) }}
+        substrate_chain_argument: {{ substrate_chain_argument|default(NO_KEY) }}
+        substrate_binary_path: {{ substrate_binary_path|default(NO_KEY) }}
+        substrate_repository: {{ substrate_repository|default(NO_KEY) }}
+        substrate_local_compile: {{ substrate_local_compile|default(NO_KEY) }}
+        substrate_repository_version: {{ substrate_repository_version|default(NO_KEY) }}
+        substrate_bootnode_argument: {{ substrate_bootnode_argument|default(NO_KEY) }}
+        substrate_purge_chain: {{ substrate_purge_chain|default(NO_KEY) }}
+
+        telemetry: {{ telemetry|default(NO_KEY) }}
+        substrate_telemetry_argument: {{ substrate_telemetry_argument|default(NO_KEY) }}
+
+#TODO(ryan): inventory node specific vars

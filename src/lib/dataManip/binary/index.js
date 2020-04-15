@@ -6,6 +6,13 @@ function missingFilename() {
   throwGantreeError('BAD_CONFIG', Error('you must specify a binary filename'))
 }
 
+function resolveWorkaroundInvKeys(binaryObj) {
+  const workaroundInvKeys = {
+    edgeware: binaryObj.edgeware // TODO(ryan): remove this special case once edgeware spec is fixed
+  }
+  return workaroundInvKeys
+}
+
 /**
  *
  * @param {object} binaryObj - value of binary key in Gantree config
@@ -21,6 +28,7 @@ function resolveBinaryInvKeys(binaryObj) {
 
   // get keys for method used
   const methodInvKeys = method.resolveInvKeys(binaryObj)
+  const workaroundInvKeys = resolveWorkaroundInvKeys(binaryObj)
 
   const invKeys = {
     substrate_bin_name: binaryObj.filename,
@@ -28,7 +36,8 @@ function resolveBinaryInvKeys(binaryObj) {
     substrate_use_default_spec: binaryObj.useBinChainSpec,
     substrate_local_compile: binaryObj.localCompile,
     substrate_bootnode_argument: binaryObj.bootnodes,
-    ...methodInvKeys
+    ...methodInvKeys,
+    ...workaroundInvKeys
   }
 
   return invKeys

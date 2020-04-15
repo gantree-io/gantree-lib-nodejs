@@ -1,0 +1,18 @@
+---
+- name: create host spec directory
+  delegate_to: localhost
+  file:
+    path: '{{ gantree_control_working }}/spec'
+    state: directory
+
+- name: download edgeware raw spec
+  delegate_to: localhost
+  get_url:
+    force: yes # redownload the spec every time and replace if changed
+    url: '{{ edgeware_spec_url | quote }}'
+    dest: '{{ gantree_control_working }}/spec/chainSpecRaw.raw'
+    validate_certs: no #todo figure out why this is needed and fix
+  register: download_edgeware_spec_result
+  retries: 3
+  delay: 5
+  until: download_edgeware_spec_result is success

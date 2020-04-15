@@ -9,6 +9,10 @@
         sleep: 2
       retries: 3
 
+- hosts: validator:builder_bin:builder_spec
+  roles:
+    - gantree-debug
+
 - hosts: localhost
   roles:
     - control-prepare
@@ -64,7 +68,12 @@
 - hosts: builder_spec
   roles:
     - role: builder-build-spec
-      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false'
+      when: 'substrate_use_default_spec|default(false)|bool == false and substrate_chain_argument|default(false)|bool == false and edgeware|default(false)|bool == false'
+
+- hosts: builder_spec
+  roles:
+    - role: builder-build-edgeware-spec
+      when: 'edgeware|default(false)|bool != false'
 
 - hosts: validator
   gather_facts: no

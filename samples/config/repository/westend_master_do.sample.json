@@ -1,23 +1,23 @@
 {
     "metadata": {
         "version": "2.0",
-        "project": "s-f-do-pol-kus"
+        "project": "s-r-do-pol-wes"
     },
     "binary": {
-        "chain": false,
-        "fetch": {
-            "url": "https://github.com/paritytech/polkadot/releases/download/v0.7.22/polkadot",
-            "sha256": "1526168270c33b9fd2d650887e85599a6b111c6fde9d90cc10c9f1077bb415ff"
+        "repository": {
+            "url": "https://github.com/paritytech/polkadot",
+            "version": "master"
         },
         "filename": "polkadot",
-        "useBinChainSpec": "true"
+        "useBinChainSpec": "true",
+        "chain": "westend"
     },
     "nodes": [
         {
             "validator": false,
             "instance": {
                 "provider": "do",
-                "dropletSize": "s-1vcpu-1gb",
+                "dropletSize": "s-6vcpu-16gb",
                 "region": "nyc3",
                 "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
             }

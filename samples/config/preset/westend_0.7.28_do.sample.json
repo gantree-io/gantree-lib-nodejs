@@ -1,0 +1,20 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "sp-do-wes0-7-28"
+    },
+    "binary": {
+        "preset": "westend-0.7.28"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH",
+                "provider": "do",
+                "dropletSize": "s-1vcpu-1gb",
+                "region": "nyc3"
+            }
+        }
+    ]
+}

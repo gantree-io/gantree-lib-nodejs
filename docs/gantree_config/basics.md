@@ -17,13 +17,11 @@
       - [Binary Structure - Preset](#binary-structure---preset)
       - [Binary Structure - Repository](#binary-structure---repository)
       - [Binary Structure - Fetch](#binary-structure---fetch)
-      - [Binary Structure - Local](#binary-structure---local)
     - [Nodes](#nodes)
       - [Instance](#instance)
         - [Amazon Web Services (AWS)](#amazon-web-services-aws)
         - [DigitalOcean (DO)](#digitalocean-do)
         - [Google Cloud Platform (GCP)](#google-cloud-platform-gcp)
-    - [Defaults](#defaults)
 
 ## Format
 
@@ -58,18 +56,17 @@ Using too many environment variable references in a configuration is discouraged
 
 The following subheadings outline portions of the Gantree configurations structure
 
-Optional keys are indicated by the comments matching the format `// [value] description`.
+**Optional** keys are indicated by the comments matching the format `// [default value] description`.
 
-Default values for keys are indicated inside square brackets.
+**Default values** for optional keys are indicated inside square brackets.
 
 ### Root Object
 
 ```jsonc
 {
-    "metadata": {}, // see Metadata
-    "binary": {}, // see Binary
-    "nodes": [], // see Nodes
-    "defaults": {} // [{}] see Defaults (not yet implemented)
+  "metadata": {}, // see Metadata
+  "binary": {}, // see Binary
+  "nodes": [] // see Nodes
 }
 ```
 
@@ -79,8 +76,8 @@ Contains information pertaining to the configuration and project itself
 
 ```jsonc
 {
-    "version": "string", // Gantree configuration version
-    "project": "string" // Name of Gantree project
+  "version": "string", // Gantree configuration version
+  "project": "string" // Name of Gantree project
 }
 ```
 
@@ -98,7 +95,7 @@ Presets are defined in a file [here](../../src/static_data/binary_presets.json).
 
 ```jsonc
 {
-    "preset": "string" // Name of preset to use
+  "preset": "string" // Name of preset to use
 }
 ```
 
@@ -108,12 +105,12 @@ When using the repository format, a specified repository will be downloaded and 
 
 ```jsonc
 {
-    "repository": {
-        "url": "string", // URL of node repository
-        "version": "string", // ["HEAD"] Version of repository
-        "localCompile": "boolean" // [false] Compile binary on host (advanced)
-    },
-    "filename": "string" // Filename of compiled binary
+  "repository": {
+    "url": "string", // URL of node repository
+    "version": "string", // ["HEAD"] Version of repository
+    "localCompile": "boolean" // [false] Compile binary on host (advanced)
+  },
+  "filename": "string" // Filename of compiled binary (e.g. `polkadot`)
 }
 ```
 
@@ -123,37 +120,17 @@ When using the fetch format, binaries will be downloaded.
 
 ```jsonc
 {
-    "fetch": {
-        "url": "string", // URL to download binary from
-        "sha256": "string" // [false] Sha256 checksum of binary
-    },
-    "filename": "string" // Filename of compiled binary
-}
-```
-
-#### Binary Structure - Local
-
-<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
-Local method is not yet supported
-</p>
-
-When using the local format, binaries will be grabbed from a local source
-
-```jsonc
-{
-    "path": "string", // Path to binary file,
+  "fetch": {
+    "url": "string", // URL to download binary from
     "sha256": "string" // [false] Sha256 checksum of binary
+  },
+  "filename": "string" // Filename of compiled binary (e.g. `polkadot`)
 }
 ```
-
 
 ### Nodes
 
 An array defining the nodes in your infrastructure
-
-<p><img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
-Validator key is not yet supported
-</p>
 
 ```jsonc
 [
@@ -171,7 +148,7 @@ Validator key is not yet supported
 
 #### Instance
 
-Definition of the instance this node will be hosted on. 
+Definition of the instance this node will be hosted on.
 
 The composition of instance is dependant on the provider specified. There are currently 3 providers supported.
 
@@ -183,11 +160,11 @@ Required keys for each providers are outlined below:
 
 ```jsonc
 {
-    "sshPrivateKeyPath": "string", // Path to private key for SSH
-    "provider": "aws", // Provider to use
-    "type": "t3.small", // AWS machine type
-    "volumeSize": 200, // AWS volume size
-    "region": "ap-southeast-2" // AWS region
+  "sshPrivateKeyPath": "string", // Path to private key for SSH
+  "provider": "aws", // Provider to use
+  "type": "t3.small", // AWS machine type
+  "volumeSize": 200, // AWS volume size
+  "region": "ap-southeast-2" // AWS region
 }
 ```
 
@@ -197,10 +174,10 @@ Required keys for each providers are outlined below:
 
 ```jsonc
 {
-    "sshPrivateKeyPath": "string", // Path to private key for SSH
-    "provider": "do", // Provider to use
-    "dropletSize": "s-1vcpu-1gb", // DO Droplet size
-    "region": "nyc3", // DO region
+  "sshPrivateKeyPath": "string", // Path to private key for SSH
+  "provider": "do", // Provider to use
+  "dropletSize": "s-1vcpu-1gb", // DO Droplet size
+  "region": "nyc3" // DO region
 }
 ```
 
@@ -210,17 +187,17 @@ Required keys for each providers are outlined below:
 
 ```jsonc
 {
-    "sshPrivateKeyPath": "string", // Path to private key for SSH
-    "provider": "gcp", // Provider to use
-    "type": "n1-standard-2", // GCP machine type
-    "deletionProtection": "false", // GCP deletion protection
-    "sizeGb": 100, // GCP volume size
-    "zone": "us-east1-b", // GCP zone
-    "projectId": "$env:GCP_PROJECT_NAME"
+  "sshPrivateKeyPath": "string", // Path to private key for SSH
+  "provider": "gcp", // Provider to use
+  "type": "n1-standard-2", // GCP machine type
+  "deletionProtection": "false", // GCP deletion protection
+  "sizeGb": 100, // GCP volume size
+  "zone": "us-east1-b", // GCP zone
+  "projectId": "$env:GCP_PROJECT_NAME"
 }
 ```
 
-### Defaults
+<!-- ### Defaults
 
 <img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
 
@@ -233,4 +210,4 @@ These values are injected at runtime unless already defined on nodes themselves.
     // Not yet implemented
     // Structure still in flux
 }
-```
+``` -->
