@@ -185,4 +185,4 @@ If you have any critical questions that were not addressed here, or in any other
 
 Issue title: ***`DOCS (question): [context here]`***
 
-Substitute `[context here]` with your own terse description of what's missing, and in the issue's description please be as explicit as you feasibly can.
+Substitute `[context here]` with your own terse description of what's missing, and in the issue's description please provide as much detail as you feasibly can.
