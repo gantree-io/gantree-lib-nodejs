@@ -99,7 +99,7 @@ Gantree requires a configuration file (Gantree configuration) in order to guide 
 
 In essence, your Gantree configuration represents your desired infrastructure.
 
-When creating your own Gantree configuration, it's recommended to create it based on one of the samples provided.
+When creating your own Gantree configuration, it's **recommended to create it based on one of the samples provided**.
 
 If your configuration is invalid, Gantree will try it's best to help you identify where misconfiguration has occurred.
 
