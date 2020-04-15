@@ -177,7 +177,8 @@ const getSharedVars = async ({ config: c }) => {
     substrate_repository_version: repository_version,
 
     substrate_bootnode_argument: binKeys.bootnodes || [],
-    ...(binKeys.edgeware && { edgeware: binKeys.edgeware }) // TODO(ryan): remove this special case once edgeware spec is fixed
+    ...(binKeys.edgeware && { edgeware: binKeys.edgeware }), // TODO(ryan): remove this special case once edgeware spec is fixed
+    substrate_purge_chain: 'true' // TODO(ryan): add more complex purge mechanics
   }
 
   const telemetryVars = {
