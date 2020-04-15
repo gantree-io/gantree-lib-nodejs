@@ -1,6 +1,6 @@
 # Gantree Configuration - Limitations
 
-***Documentation still in development***
+**_Documentation still in development_**
 
 **Document information**
 
@@ -9,13 +9,11 @@
 | 2.0                    | 2020/04/02   |
 
 - [Gantree Configuration - Limitations](#gantree-configuration---limitations)
-  - [Limitations](#limitations)
-    - [Scope of Binary Options](#scope-of-binary-options)
+  - [Nodes](#nodes)
+    - [Key Repetition](#key-repetition)
 
-## Limitations
+## Nodes
 
-### Scope of Binary Options
+### Key Repetition
 
-Binary options, which allow for parameters such as additional binary flags, must be defined per node.
-
-Config-wide binary options are planned for a future release.
+Objects in the node array suffer from repetition for some keys (e.g. sshPrivateKeyPath is a required key for all nodes, but it's value is unlikely to differ between nodes). A method of defaulting the value of these keys will be supported in a future release.

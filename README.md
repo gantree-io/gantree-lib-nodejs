@@ -28,6 +28,7 @@ With the assistance of funding from the [Web3 Foundation](https://web3.foundatio
 ## Docker Image
 
 If you would rather install dependencies automatically in a container, a Docker image is available here:
+
 - [Docker image](https://github.com/flex-dapps/gantree-cli-docker).
 
 ## Requirements
@@ -53,7 +54,7 @@ ansible-galaxy install -r ansible_requirements.yml
 
 ### 3 - Python Requirements
 
-***Please note:*** *It is highly recommended to use a virtual environment such as _pipenv_ or _venv_*
+**_Please note:_** _It is highly recommended to use a virtual environment such as *pipenv* or *venv*_
 
 Install required python packages
 
@@ -99,7 +100,7 @@ Gantree requires a configuration file (Gantree configuration) in order to guide 
 
 In essence, your Gantree configuration represents your desired infrastructure.
 
-When creating your own Gantree configuration, it's recommended to create it based on one of the samples provided.
+When creating your own Gantree configuration, it's **recommended to create it based on one of the samples provided**.
 
 If your configuration is invalid, Gantree will try it's best to help you identify where misconfiguration has occurred.
 

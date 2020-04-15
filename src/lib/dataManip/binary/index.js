@@ -8,7 +8,8 @@ function missingFilename() {
 
 function resolveWorkaroundInvKeys(binaryObj) {
   const workaroundInvKeys = {
-    edgeware: binaryObj.edgeware // TODO(ryan): remove this special case once edgeware spec is fixed
+    edgeware: binaryObj.edgeware, // TODO(ryan): remove this special case once edgeware spec is fixed
+    substrate_purge_chain: 'true' // TODO(ryan): add more complex purge mechanics
   }
   return workaroundInvKeys
 }
