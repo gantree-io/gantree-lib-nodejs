@@ -42,6 +42,8 @@ We're going to specify whether this this binary should use a specific value for 
 
 We also need to specify the method which Gantree should use to get the binary. We're going to be compiling from a repository, so we add the key `"repository": {}`.
 
+**Note:** If you would rather use a different method, such as downloading an already compiled binary (fetch method), please consult the [basics](./basics.md) documentation.
+
 Inside the `repository` object, we specify a the url of the repository we want to use (`url`), and the version of the repository to use (`version`).
 
 In our case, we'll use the url `https://github.com/paritytech/polkadot` for the polkadot repository, and the version `head` so we're compiling the latest commit from the default branch.
