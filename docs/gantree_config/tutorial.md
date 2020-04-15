@@ -15,7 +15,7 @@ For the average user, everything you need should be covered by [basics](./basics
 
 We're going to create a Gantree config, so we need to create a new `.json` file. In this tutorial, we're going to call it `polkadot_tutorial.json`.
 
-Inside our file, we're going first going to want to specify which schema version our Gantree config will be under the `metadata` root-level key.
+Inside our file, we're first going to want to specify which schema version our Gantree config will be under the `metadata` root-level key.
 
 ```jsonc
 {
@@ -38,13 +38,13 @@ We also want to add the name of our project here. This will be used as a unique 
 
 Next we want to specify everything regarding the binary we'll be running on our nodes. This will all be under a root-level key, `"binary": {}`.
 
-We're going to specify whether this this binary should use a specific value for it's `--chain` argument, or whether it should not use a `--chain` argument. We're going to use the default chain, so we specify `"chain": false`.
+We're going to specify whether this binary should use a specific value for it's `--chain` argument, or whether it should not use a `--chain` argument. We're going to use the default chain, so we specify `"chain": false`.
 
 We also need to specify the method which Gantree should use to get the binary. We're going to be compiling from a repository, so we add the key `"repository": {}`.
 
 **Note:** If you would rather use a different method, such as downloading an already compiled binary (fetch method), please consult the [basics](./basics.md) documentation.
 
-Inside the `repository` object, we specify a the url of the repository we want to use (`url`), and the version of the repository to use (`version`).
+Inside the `repository` object, we specify the url of the repository we want to use (`url`), and the version of the repository to use (`version`).
 
 In our case, we'll use the url `https://github.com/paritytech/polkadot` for the polkadot repository, and the version `head` so we're compiling the latest commit from the default branch.
 
@@ -64,7 +64,7 @@ In our case, we'll use the url `https://github.com/paritytech/polkadot` for the 
 }
 ```
 
-Now we need to specify what the name of the binary will be once it's compiled, and whether we should use the binaries default chainspec, or our own.
+Now we need to specify what the name of the binary will be once it's compiled, and whether we should use the binary's default chainspec, or our own.
 
 We'll set our `filename` to `polkadot`, and `useBinChainSpec` to `true`.
 
@@ -142,7 +142,7 @@ In our case, we're going to use the provider Digital Ocean, so we'll add a `"pro
 }
 ```
 
-The rest of the keys in `"instance": {}"` are dependant on the provider specified, so if you wanted to use a different provider you would need to specify it's specific keys. Consult [basics](./basics.md) for more information.
+The rest of the keys in `"instance": {}"` are dependent on the provider specified, so if you wanted to use a different provider you would need to specify its specific keys. Consult [basics](./basics.md) for more information.
 
 Next, we'll specify the size and region of the droplet we're creating, in addition to the path to the private key that will be used to access the instance during operations or debugging.
 
