@@ -1,6 +1,10 @@
 # Gantree Configuration - Tutorial
 
-**_Documentation still in development_**
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/04/15   |
 
 - [Gantree Configuration - Tutorial](#gantree-configuration---tutorial)
   - [Important Note](#important-note)

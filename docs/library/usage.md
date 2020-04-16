@@ -1,7 +1,5 @@
 # Library - Usage
 
-***Documentation still in development***
-
 **Document information**
 
 | GANTREE CONFIG VERSION | LAST UPDATED |

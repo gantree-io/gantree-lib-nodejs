@@ -1,5 +1,11 @@
 # Gantree Configuration - Samples
 
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/04/14   |
+
 - [Gantree Configuration - Samples](#gantree-configuration---samples)
   - [Binary Methods](#binary-methods)
   - [Permutations](#permutations)
