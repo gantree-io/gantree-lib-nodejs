@@ -70,6 +70,10 @@
         "code": 20,
         "message": "a checksum failed to validate"
     },
+    "UNSUPPORTED_OPERATION": {
+        "code": 21,
+        "message": "unsupported operation"
+    },
     "COMMAND_NOT_FOUND": {
         "code": 127,
         "message": "command not found"
