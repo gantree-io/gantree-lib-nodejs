@@ -2,7 +2,12 @@ const opt = require('../../../utils/options')
 const { throwGantreeError } = require('../../../error')
 
 function missingUrl() {
-  throwGantreeError('BAD_CONFIG', Error('fetch method requires a url'))
+  throwGantreeError(
+    'INTERNAL_ERROR',
+    Error(
+      'fetch method requires a url, this should have been detected during config validation. Please open a Github issue if you see this.'
+    )
+  )
 }
 
 /**
@@ -11,7 +16,7 @@ function missingUrl() {
  * @returns {object} return inventory keys for fetch method
  */
 function resolveFetch(fetchObj) {
-  fetchObj.url = opt.required(fetchObj.url, missingUrl)
+  fetchObj.url = opt.required(fetchObj.url, missingUrl, false)
   fetchObj.sha256 = opt.default(fetchObj.sha256, 'false')
 
   const invKeys = {
