@@ -1,9 +1,19 @@
-const error_meta = require('../static_data/error_meta')
+const _error_meta = require('../static_data/error_meta')
 
 const RED = '\x1b[31m'
 const STYLE_RESET = '\x1b[0m'
 
-function throwGantreeError(error_alias, e) {
+function getErrorMeta(override) {
+  if (override === undefined) {
+    return _error_meta
+  } else {
+    return override
+  }
+}
+
+function throwGantreeError(error_alias, e, _options = {}) {
+  const error_meta = getErrorMeta(_options.overrideErrorMeta)
+
   const error_data = error_meta.errors[error_alias]
 
   if (error_data === undefined) {
