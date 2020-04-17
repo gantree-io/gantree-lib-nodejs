@@ -4,7 +4,7 @@ const RED = '\x1b[31m'
 const STYLE_RESET = '\x1b[0m'
 
 function throwGantreeError(error_alias, e) {
-  const error_data = error_meta[error_alias]
+  const error_data = error_meta.errors[error_alias]
 
   if (error_data === undefined) {
     console.error(
@@ -13,8 +13,8 @@ function throwGantreeError(error_alias, e) {
     throw e
   }
 
-  let message = error_meta[error_alias].message
-  let code = error_meta[error_alias].code
+  let message = error_meta.errors[error_alias].message
+  let code = error_meta.errors[error_alias].code
 
   if (message === undefined) {
     console.error('no message meta defined for error!')
