@@ -73,6 +73,9 @@ const buildDynamicInventory = async gantreeConfigObj => {
   //     vars: await getSharedVars({ gantreeConfigObj })
   //   }
   // }
+
+  // this is partly the Gantree inventory, partly the environment inventory, partly some other stuff
+  // TODO(Denver): requires better modularisation of function itself
   const o = await structure.skeleton.generate(gantreeConfigObj)
 
   const validator_list = []
