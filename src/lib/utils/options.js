@@ -21,21 +21,24 @@ function getDefault(real_value, default_value, execIfDefaulted) {
  * Return value if defined, otherwise throw error
  * @param {*} real_value - actual value of option (could be undefined)
  * @param {function} [execIfMissing] - optional function to run if value is undefined
+ * @param {boolean} [backupThrow] - should internal error get thrown if callback doesn't exit
  */
-function getRequired(real_value, execIfMissing) {
+function getRequired(real_value, execIfMissing, backupThrow = true) {
   if (real_value === undefined) {
     // exec callback
     execIfMissing()
-    // if callback didn't return non-zero exit-code
-    // print trace
-    console.trace()
-    // throw backup error
-    throwGantreeError(
-      'INTERNAL_ERROR',
-      Error(
-        'unhandled required fail, see trace above (callback function used should return non-zero exit-code)'
+    if (backupThrow === true) {
+      // if callback didn't return non-zero exit-code
+      // print trace
+      console.trace()
+      // throw backup error
+      throwGantreeError(
+        'INTERNAL_ERROR',
+        Error(
+          'unhandled required fail, see trace above (callback function used should return non-zero exit-code)'
+        )
       )
-    )
+    }
   } else {
     return real_value
   }
