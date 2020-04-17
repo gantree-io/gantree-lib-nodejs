@@ -13,8 +13,10 @@ test('error meta is version 1.0', () => {
 
 test('exit codes + output match error_meta entries', () => {
   const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
-  const mockStdout = jest.spyOn(console, 'log').mockImplementation(() => {})
-  const mockStderr = jest.spyOn(console, 'error').mockImplementation(() => {})
+  const mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {})
+  const mockConsoleError = jest
+    .spyOn(console, 'error')
+    .mockImplementation(() => {})
 
   // keep track of exit codes used, no duplicates allowed
   let exitCodesUsed = []
@@ -23,10 +25,10 @@ test('exit codes + output match error_meta entries', () => {
     const testError = Error('generic message')
     throwGantreeError(errName, testError)
     expect(mockExit).toHaveBeenCalledWith(errAttribs.code)
-    expect(mockStdout).toHaveBeenCalledWith(
+    expect(mockConsoleLog).toHaveBeenCalledWith(
       `${RED}FAIL:[${errAttribs.code}] ${errAttribs.message}: ${testError.message}${STYLE_RESET}`
     )
-    expect(mockStderr).toHaveBeenCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       `FAIL:[${errAttribs.code}] ${errAttribs.message}: ${testError.message}`
     )
 
@@ -35,6 +37,6 @@ test('exit codes + output match error_meta entries', () => {
     exitCodesUsed.push(errAttribs.code)
   }
   mockExit.mockRestore()
-  mockStdout.mockRestore()
-  mockStderr.mockRestore()
+  mockConsoleLog.mockRestore()
+  mockConsoleError.mockRestore()
 })
