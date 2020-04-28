@@ -24,6 +24,7 @@
         substrate_repository_version: {{ substrate_repository_version|default(NO_KEY) }}
         substrate_bootnode_argument: {{ substrate_bootnode_argument|default(NO_KEY) }}
         substrate_purge_chain: {{ substrate_purge_chain|default(NO_KEY) }}
+        substrate_options: {{ substrate_options|default(NO_KEY) }}
 
         telemetry: {{ telemetry|default(NO_KEY) }}
         substrate_telemetry_argument: {{ substrate_telemetry_argument|default(NO_KEY) }}
