@@ -12,16 +12,16 @@ function missingUrl() {
 
 /**
  * resolve defaults for fetch key in Gantree config
- * @param {object} fetchObj - value of fetch key in Gantree config
+ * @param {object} binaryObj - value of binary key in Gantree configuration
  * @returns {object} return inventory keys for fetch method
  */
-function resolveFetch(fetchObj) {
-  fetchObj.url = opt.required(fetchObj.url, missingUrl, false)
-  fetchObj.sha256 = opt.default(fetchObj.sha256, 'false')
+function resolveFetch(binaryObj) {
+  binaryObj.fetch.url = opt.required(binaryObj.fetch.url, missingUrl, false)
+  binaryObj.fetch.sha256 = opt.default(binaryObj.fetch.sha256, 'false')
 
   const invKeys = {
-    substrate_binary_url: fetchObj.url,
-    substrate_binary_sha256: fetchObj.sha256
+    substrate_binary_url: binaryObj.fetch.url,
+    substrate_binary_sha256: binaryObj.fetch.sha256
   }
   return invKeys
 }
