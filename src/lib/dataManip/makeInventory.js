@@ -53,27 +53,6 @@ const buildDynamicInventory = async gantreeConfigObj => {
   // if node names undefined, resolve with project name as base
   resolveNodeNames(gantreeConfigObj)
 
-  // object to return from function
-  // const o = {
-  //   _meta: {
-  //     hostvars: {
-  //       localhost: {
-  //         infra: []
-  //       }
-  //     }
-  //   },
-  //   local: {
-  //     hosts: ['localhost'],
-  //     vars: {
-  //       ansible_python_interpreter: await envPython.getInterpreterPath(),
-  //       ansible_connection: 'local'
-  //     }
-  //   },
-  //   all: {
-  //     vars: await getSharedVars({ gantreeConfigObj })
-  //   }
-  // }
-
   // this is partly the Gantree inventory, partly the environment inventory, partly some other stuff
   // TODO(Denver): requires better modularisation of function itself
   const o = await structure.skeleton.generate(gantreeConfigObj)
