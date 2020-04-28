@@ -1,12 +1,14 @@
 const path = require('path')
 const fs = require('fs')
 const namespace = require('./namespace')
-const { makeInventory } = require('../../dataManip/makeInventory')
+//const { makeInventory } = require('../../dataManip/makeInventory')
+const { inventory: full_inventory } = require('../../reconfig/inventories/full')
 const { Paths } = require('../../utils/paths')
 const { hash } = require('../../utils/hash')
 const { throwGantreeError } = require('../../error')
 const opt = require('../../utils/options')
 const { returnLogger } = require('../../logging')
+const envPython = require('../../utils/env-python')
 
 const logger = returnLogger('lib/ansible/inventory')
 
@@ -49,16 +51,16 @@ async function createGantreeInventory(
   )
 
   // turn config object into a gantree inventory
-  const gantreeInventoryObj = await makeInventory(
-    gantreeConfigObj,
-    projectPath,
-    inventorySegmentsPath
-  )
+  const gantreeInventoryObj = full_inventory({
+    gco: gantreeConfigObj,
+    project_path: projectPath,
+    python_interpreter: await envPython.getInterpreterPath()
+  })
 
   // write the gantree inventory to inventory/{NAMESPACE}/gantreeInventory.json
   await fs.writeFileSync(
     gantreeInventoryFilePath,
-    JSON.stringify(gantreeInventoryObj),
+    JSON.stringify(gantreeInventoryObj, null, 2),
     'utf8'
   )
 

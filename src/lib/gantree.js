@@ -2,7 +2,7 @@
 // method inputs/output should stay as consistent as possible
 
 const { Paths } = require('./utils/paths')
-const { Config } = require('./config')
+const { Config } = require('./reconfig')
 const { Ansible } = require('./ansible')
 const _stdout = require('./utils/stdout')
 const path = require('path') // TODO: remove import once active path fixed
@@ -83,6 +83,8 @@ class Gantree {
     // const activeInventoryPath = inventory.createActiveInventories(gantreeConfigObj, projectPath)
 
     const inventoryPathArray = [gantreeInventoryPath, activeInventoryPath]
+
+    console.log(this.paths.getPlaybookFilePath('infra.yml'))
 
     // create infra using inventories
     const infraPlaybookFilePath = this.paths.getPlaybookFilePath('infra.yml')

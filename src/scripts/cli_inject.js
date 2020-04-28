@@ -2,7 +2,7 @@
 
 const program = require('commander')
 const { throwGantreeError } = require('../lib/error')
-const { inject } = require('../lib/dataManip/inject')
+const { inject } = require('../tools/inject')
 
 program
   .description('Injects keys into chainspec (non-raw).')

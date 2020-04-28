@@ -1,5 +1,7 @@
-// NOTE: Be very, very careful moving this file!
+// NOTE: If you move this file, ensure this path remains correct
+const gantreeLibRoot = () => path.join(__dirname, '../', '../', '../')
 
+const fs = require('fs')
 const path = require('path')
 const opt = require('./options')
 
@@ -9,7 +11,7 @@ class Paths {
   }
 
   getGantreePath(...extra) {
-    return path.join(__dirname, '../', '../', '../', ...extra)
+    return path.join(gantreeLibRoot(), ...extra)
   }
 
   // note: does not consider overrides, handled in getProjectPath
@@ -34,6 +36,27 @@ class Paths {
       // use override inventory path as base
       return path.join(inventoryPathOverride, projectName)
     }
+  }
+
+  getControlPath() {
+    let controlPath = ''
+    // FIX: no env vars in lib
+    // TODO: this must not be from an environment variable
+    if (process.env.GANTREE_CONTROL_PATH) {
+      controlPath = path.resolve(process.env.GANTREE_CONTROL_PATH)
+    } else {
+      controlPath = '/tmp/gantree-control'
+    }
+
+    fs.mkdirSync(controlPath, { recursive: true })
+
+    return controlPath
+  }
+
+  getWorkspacePath(projectName, ...extra) {
+    const result = path.join(this.getControlPath(), projectName, ...extra)
+    fs.mkdirSync(result, { recursive: true })
+    return result
   }
 
   getPlaybookFilePath(playbookFilename) {

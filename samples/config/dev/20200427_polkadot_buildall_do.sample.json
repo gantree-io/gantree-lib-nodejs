@@ -1,0 +1,33 @@
+{
+    "metadata": {
+        "version": "2.0",
+        "project": "p-r-do-ba"
+    },
+    "binary": {
+        "repository": {
+            "url": "https://github.com/paritytech/polkadot",
+            "version": "HEAD"
+        },
+        "filename": "polkadot"
+    },
+    "nodes": [
+        {
+            "validator": false,
+            "instance": {
+                "provider": "do",
+                "dropletSize": "s-6vcpu-16gb",
+                "region": "nyc3",
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+            }
+        },
+        {
+            "validator": false,
+            "instance": {
+                "provider": "do",
+                "dropletSize": "s-1vcpu-1gb",
+                "region": "nyc3",
+                "sshPrivateKeyPath": "$env:GANTREE_INSTANCE_PRIVATE_KEY_PATH"
+            }
+        }
+    ]
+}

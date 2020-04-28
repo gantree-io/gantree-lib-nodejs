@@ -2,7 +2,7 @@
 
 const program = require('commander')
 const { throwGantreeError } = require('../lib/error')
-const { keyCombine } = require('../lib/dataManip/key-combine')
+const { keyCombine } = require('../lib/tools/key-combine')
 
 program
   .description(
