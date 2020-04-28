@@ -10,6 +10,7 @@ ExecStart=/usr/local/bin/{{ substrate_bin_name }} \
          {% else %}
           --name {{ project|default('project') }}-sv-{{ groups['validator'].index(inventory_hostname) }} \
          {% endif %}
+         --node-key-file /home/{{ substrate_user }}/.local/share/{{ substrate_bin_name }}/chains/{{ substrate_network_id }}/network/secret_ed25519 \
          --validator \
          {% if hostvars[inventory_hostname].loggingFilter is defined and hostvars[inventory_hostname].loggingFilter|length %}
          -l{{ hostvars[inventory_hostname].loggingFilter }} \
