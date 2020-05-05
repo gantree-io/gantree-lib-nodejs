@@ -19,7 +19,7 @@
         substrate_use_default_spec: {{ substrate_use_default_spec|default(NO_KEY) }}
         substrate_chain_argument: {{ substrate_chain_argument|default(NO_KEY) }}
         substrate_binary_path: {{ substrate_binary_path|default(NO_KEY) }}
-        substrate_repository: {{ substrate_repository|default(NO_KEY) }}
+        substrate_repository_url: {{ substrate_repository_url|default(NO_KEY) }}
         substrate_local_compile: {{ substrate_local_compile|default(NO_KEY) }}
         substrate_repository_version: {{ substrate_repository_version|default(NO_KEY) }}
         substrate_bootnode_argument: {{ substrate_bootnode_argument|default(NO_KEY) }}

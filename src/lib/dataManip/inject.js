@@ -2,15 +2,13 @@ const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
 const { throwGantreeError } = require('../error')
+const opt = require('../utils/options')
 const { returnLogger } = require('../logging')
 
 const logger = returnLogger('inject')
 
 function inject(chainSpecPath, validatorSpecPath, _allowRaw) {
-  let allowRaw = false
-  if (!(_allowRaw === undefined)) {
-    allowRaw = _allowRaw
-  }
+  const allowRaw = opt.default(_allowRaw, false)
 
   if (!fs.existsSync(chainSpecPath)) {
     console.error(`No chainSpec file found at path: ${chainSpecPath}`)

@@ -124,7 +124,11 @@ function injectDefaults(gantreeConfigObj, _options = {}) {
 function expandPreset(gantreeConfigObj, _options = {}) {
   const verbose = opt.default(_options.verbose, false)
   // if preset key not used
-  if (gantreeConfigObj['binary'].hasOwnProperty('preset') === false) {
+  const hasPresetProperty = Object.prototype.hasOwnProperty.call(
+    gantreeConfigObj['binary'],
+    'preset'
+  )
+  if (hasPresetProperty === false) {
     if (verbose === true) {
       logger.warn('skipping preset expansion (no preset key present)')
     }
@@ -134,7 +138,11 @@ function expandPreset(gantreeConfigObj, _options = {}) {
   logger.info('expanding preset')
   const presetKey = gantreeConfigObj['binary'].preset
   // if the preset key isn't in binary_presets file
-  if (binPresets.hasOwnProperty(presetKey) === false) {
+  const hasPresetKey = Object.prototype.hasOwnProperty.call(
+    binPresets,
+    presetKey
+  )
+  if (hasPresetKey === false) {
     // throw bad_config error
     throwGantreeError(
       'BAD_CONFIG',

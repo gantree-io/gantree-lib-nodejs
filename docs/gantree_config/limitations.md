@@ -1,5 +1,11 @@
 # Gantree Configuration - Limitations
 
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/04/15   |
+
 - [Gantree Configuration - Limitations](#gantree-configuration---limitations)
   - [Nodes](#nodes)
     - [Key Repetition](#key-repetition)

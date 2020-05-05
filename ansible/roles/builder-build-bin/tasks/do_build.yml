@@ -1,7 +1,7 @@
 ---
 - name: download node source
   git:
-    repo: '{{ substrate_repository }}'
+    repo: '{{ substrate_repository_url }}'
     version: '{{ substrate_repository_version }}'
     dest: '{{ gantree_working }}/node-src'
 

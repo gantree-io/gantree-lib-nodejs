@@ -1,9 +1,5 @@
 //todo: cleanup for lib-centric approach
-const util = require('util')
 const path = require('path')
-const exec = util.promisify(require('child_process').exec)
-
-const { getWorkspacePath } = require('../pathHelpers')
 
 const inventoryGcp = require('./inventoryGcp')
 const inventoryAws = require('./inventoryAws')
@@ -12,6 +8,8 @@ const inventoryDo = require('./inventoryDo')
 const configGcp = require('./configGcp')
 const configAws = require('./configAws')
 const configDo = require('./configDo')
+
+const structure = require('./structure')
 
 // const boolToString = require('./preprocessors/boolToString')
 // const dynamicEnvVar = require('./preprocessors/dynamicEnvVar')
@@ -25,6 +23,13 @@ const configDo = require('./configDo')
 //   return pipeline(config)
 // }
 
+/**
+ *
+ * @param {object} gantreeConfigObj - preprocessed Gantree config
+ * @param {string} projectPath - path to the project
+ * @param {string} inventorySegmentsPath - path to pre-defined inventory segments
+ * @returns {object} gantree inventory obj
+ */
 const makeInventory = async (
   gantreeConfigObj,
   projectPath,
@@ -39,57 +44,23 @@ const makeInventory = async (
   inventoryAws.managePlugin(gantreeConfigObj, activePath)
   inventoryDo.managePlugin(gantreeConfigObj, activePath, inactivePath)
 
-  const di = await buildDynamicInventory(gantreeConfigObj)
+  const gantreeInventoryObj = await buildDynamicInventory(gantreeConfigObj)
 
-  return di
+  return gantreeInventoryObj
 }
 
-const getLocalPython = async () => {
-  // get the python for current environment so we can pass it around ansible if needed
-  let pythonLocalPython
+const buildDynamicInventory = async gantreeConfigObj => {
+  // if node names undefined, resolve with project name as base
+  resolveNodeNames(gantreeConfigObj)
 
-  try {
-    pythonLocalPython = await exec(
-      'python -c "import sys; print(sys.executable)"'
-    )
-  } catch (e) {
-    // console.warn('python 2 is a no-go')
-  }
-
-  pythonLocalPython = await exec(
-    'python3 -c "import sys; print(sys.executable)"'
-  )
-
-  return pythonLocalPython.stdout.trim()
-}
-
-const buildDynamicInventory = async config => {
-  ensureNames(config)
-
-  const o = {
-    _meta: {
-      hostvars: {
-        localhost: {
-          infra: []
-        }
-      }
-    },
-    local: {
-      hosts: ['localhost'],
-      vars: {
-        ansible_python_interpreter: await getLocalPython(),
-        ansible_connection: 'local'
-      }
-    },
-    all: {
-      vars: await getSharedVars({ config })
-    }
-  }
+  // this is partly the Gantree inventory, partly the environment inventory, partly some other stuff
+  // TODO(Denver): requires better modularisation of function itself
+  const o = await structure.skeleton.generate(gantreeConfigObj)
 
   const validator_list = []
 
-  config.nodes.forEach((item, idx) => {
-    const infra = parseNode({ item, config })
+  gantreeConfigObj.nodes.forEach((item, idx) => {
+    const infra = parseNode({ item, gantreeConfigObj })
     const group = infra.group_name
 
     if (idx == 0) {
@@ -118,95 +89,13 @@ const buildDynamicInventory = async config => {
   return o
 }
 
-const ensureNames = config => {
-  config.nodes.forEach((item, idx) => {
-    item.name = item.name || config.metadata.project + '-' + idx
+const resolveNodeNames = gantreeConfigObj => {
+  gantreeConfigObj.nodes.forEach((item, idx) => {
+    // if node name unspecified, use project name suffixed by index
+    item.name = item.name || gantreeConfigObj.metadata.project + '-' + idx
+    // TODO: FIXME: believe this is unused and thus obsolete
     item.infra_name = 'gantree-infra-' + item.name
   })
-}
-
-const returnRepoVersion = async binaryKeysBase => {
-  if (binaryKeysBase.repository.version === undefined) {
-    console.warn('No version specified, using repository HEAD')
-    return 'HEAD'
-  } else {
-    return binaryKeysBase.repository.version
-  }
-}
-
-const getSharedVars = async ({ config: c }) => {
-  const ansibleGantreeVars = {
-    // ansible/gantree vars
-    gantree_root: '../',
-    gantree_control_working: getWorkspacePath(c.metadata.project, 'operation'),
-    ansible_ssh_common_args:
-      '-o StrictHostKeyChecking=no -o ControlMaster=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ControlPersist=60s'
-  }
-
-  const miscSharedVars = {
-    // shared vars
-    substrate_network_id: 'local_testnet', // TODO: this probably shouldn't be hard-coded
-    project_name: c.metadata.project
-  }
-
-  const binKeys = c.binary
-
-  let repository_version = 'false'
-
-  if (binKeys.repository !== undefined) {
-    repository_version = await returnRepoVersion(binKeys)
-  }
-
-  const binaryVars = {
-    // required
-    substrate_bin_name: binKeys.filename,
-
-    // optional
-    substrate_binary_sha256: (binKeys.fetch && binKeys.fetch.sha256) || 'false', // TODO: not yet implemented
-
-    substrate_binary_url: (binKeys.fetch && binKeys.fetch.url) || 'false',
-    substrate_use_default_spec: binKeys.useBinChainSpec || 'false',
-    substrate_chain_argument: binKeys.chain || 'false',
-
-    substrate_binary_path: (binKeys.local && binKeys.local.path) || 'false', // TODO: not yet implemented
-
-    substrate_repository:
-      (binKeys.repository && binKeys.repository.url) || 'false',
-    substrate_local_compile:
-      (binKeys.repository && binKeys.repository.localCompile) || 'false',
-    substrate_repository_version: repository_version,
-
-    substrate_bootnode_argument: binKeys.bootnodes || [],
-    ...(binKeys.edgeware && { edgeware: binKeys.edgeware }), // TODO(ryan): remove this special case once edgeware spec is fixed
-    substrate_purge_chain: 'true' // TODO(ryan): add more complex purge mechanics
-  }
-
-  const telemetryVars = {
-    telemetry: {
-      repository: 'https://github.com/flex-dapps/substrate-telemetry.git',
-      binary_url:
-        'https://nyc3.digitaloceanspaces.com/gantree-rozifus-00/flexdapps-telemetry-0.1.0',
-      binary_name: 'telemetry',
-      src_folder: 'telemetry_src',
-      src_subfolder: 'backend',
-      operation: 'fetch'
-    },
-    substrate_telemetry_argument: c.telemetry || 'ws://127.0.0.1:8000/submit'
-  }
-
-  // console.log("----BINARY VARS----")
-  // console.log(binaryVars)
-  // console.log("EXITING EARLY")
-  // process.exit(-1)
-
-  const sharedVars = {
-    ...ansibleGantreeVars,
-    ...miscSharedVars,
-    ...binaryVars,
-    ...telemetryVars
-  }
-
-  return sharedVars
 }
 
 const getNodeVars = ({ item, infra }) => {
@@ -230,17 +119,17 @@ const getNodeVars = ({ item, infra }) => {
   }
 }
 
-const parseNode = ({ item, config }) => {
+const parseNode = ({ item, gantreeConfigObj }) => {
   if (item.instance.provider == 'gcp') {
-    return configGcp.parseInfra({ item, config })
+    return configGcp.parseInfra({ item, gantreeConfigObj })
   }
 
   if (item.instance.provider == 'do') {
-    return configDo.parseInfra({ item, config })
+    return configDo.parseInfra({ item, gantreeConfigObj })
   }
 
   if (item.instance.provider == 'aws') {
-    return configAws.parseInfra({ item, config })
+    return configAws.parseInfra({ item, gantreeConfigObj })
   }
 
   throw Error(`Unknown provider: ${item.instance.provider}`)

@@ -44,7 +44,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        substrate_repository: 'https://github.com/substrate-developer-hub/substrate-node-template'
+        substrate_repository_url: 'https://github.com/substrate-developer-hub/substrate-node-template'
         substrate_binary_url: 'false'
         substrate_repository_version: ''
         substrate_bin_name: node-template

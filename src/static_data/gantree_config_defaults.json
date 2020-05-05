@@ -3,21 +3,5 @@
         "version": null,
         "project": null
     },
-    "binary": {
-        "preset": false,
-        "repository": {
-            "url": null,
-            "version": "HEAD",
-            "localCompile": false
-        },
-        "fetch": {
-            "url": null,
-            "sha256": false
-        },
-        "local": {
-            "path": null,
-            "sha256": false
-        },
-        "filename": null
-    }
+    "binary": {}
 }

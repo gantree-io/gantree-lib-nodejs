@@ -44,7 +44,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        substrate_repository: false
+        substrate_repository_url: false
         substrate_binary_url: 'https://github.com/paritytech/polkadot/releases/download/v0.7.20/polkadot'
         substrate_repository_version: ''
         substrate_network_id: local_testnet

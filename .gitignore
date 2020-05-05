@@ -1,8 +1,11 @@
-# logs/artifacts/caches/etc.
-.eslintcache
-
 # nodejs
 node_modules
+
+# jest
+coverage/*
+
+# eslint
+.eslintcache
 
 # yarn
 yarn-error.log

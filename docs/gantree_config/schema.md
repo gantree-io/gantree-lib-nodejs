@@ -1,5 +1,11 @@
 # Gantree Configuration - Schema
 
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/04/14   |
+
 - [Gantree Configuration - Schema](#gantree-configuration---schema)
   - [Schema](#schema)
 

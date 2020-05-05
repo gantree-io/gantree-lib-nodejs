@@ -17,13 +17,11 @@
       - [Binary Structure - Preset](#binary-structure---preset)
       - [Binary Structure - Repository](#binary-structure---repository)
       - [Binary Structure - Fetch](#binary-structure---fetch)
-      - [Binary Structure - Local](#binary-structure---local)
     - [Nodes](#nodes)
       - [Instance](#instance)
         - [Amazon Web Services (AWS)](#amazon-web-services-aws)
         - [DigitalOcean (DO)](#digitalocean-do)
         - [Google Cloud Platform (GCP)](#google-cloud-platform-gcp)
-    - [Defaults](#defaults)
 
 ## Format
 
@@ -139,6 +137,9 @@ An array defining the nodes in your infrastructure
     {
         "validator": "boolean", // [true] Should this node be a validator
         "mnemonic": "string", // [undefined] Mnemonic used to generate substrate keys
+        "binaryOptions": { // [{}] Binary options for specific node
+            "substrateOptions": ["string"] // [[]] Arguments passed to substrate binary
+        },
         "instance": {} // See Instance
     },
     ... // etc.
@@ -195,3 +196,18 @@ Required keys for each providers are outlined below:
   "projectId": "$env:GCP_PROJECT_NAME"
 }
 ```
+
+<!-- ### Defaults
+
+<img src="https://raw.githubusercontent.com/flex-dapps/gantree-misc/master/docs/img/Github_not_yet_implemented_tag.png" alt="Not yet implemented tag" width="100">
+
+Define default values for required/optional keys for all nodes
+
+These values are injected at runtime unless already defined on nodes themselves.
+
+```jsonc
+{
+    // Not yet implemented
+    // Structure still in flux
+}
+``` -->

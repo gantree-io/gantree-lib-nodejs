@@ -1,6 +1,10 @@
 # Library - Limitations
 
-***Documentation still in development***
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/03/30   |
 
 - [Library - Limitations](#library---limitations)
   - [General](#general)

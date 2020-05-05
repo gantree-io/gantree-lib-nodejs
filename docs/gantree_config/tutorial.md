@@ -1,5 +1,11 @@
 # Gantree Configuration - Tutorial
 
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/04/15   |
+
 - [Gantree Configuration - Tutorial](#gantree-configuration---tutorial)
   - [Important Note](#important-note)
   - [Polkadot Example](#polkadot-example)
@@ -103,8 +109,7 @@ Lastly, we need to specify a `"nodes": []` root-level key in the form of an arra
     "filename": "polkadot",
     "useBinChainSpec": "true"
   },
-  "nodes": [
-  ]
+  "nodes": []
 }
 ```
 
@@ -135,7 +140,7 @@ In our case, we're going to use the provider Digital Ocean, so we'll add a `"pro
     {
       "validator": false,
       "instance": {
-        "provider": "do",
+        "provider": "do"
       }
     }
   ]
@@ -183,6 +188,6 @@ You should now have a working Gantree configuration for a polkadot node!
 
 If you have any critical questions that were not addressed here, or in any other documentation, please don't hesitate to open a GitHub issue titled in this format.
 
-Issue title: ***`DOCS (question): [context here]`***
+Issue title: **_`DOCS (question): [context here]`_**
 
 Substitute `[context here]` with your own terse description of what's missing, and in the issue's description please provide as much detail as you feasibly can.

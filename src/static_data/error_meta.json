@@ -1,77 +1,83 @@
 {
-    "data": {
+    "metadata": {
         "version": "1.0"
     },
-    "GENERIC_ERROR": {
-        "code": 1,
-        "messsage": "generic error"
-    },
-    "ENVIRONMENT_VARIABLE_MISSING": {
-        "code": 5,
-        "message": "missing required environment variable"
-    },
-    "PLATFORM_SYNC_FAILED": {
-        "code": 6,
-        "message": "platform sync failed"
-    },
-    "APPLICATION_SYNC_FAILED": {
-        "code": 7,
-        "message": "application sync failed"
-    },
-    "BAD_CONFIG": {
-        "code": 8,
-        "message": "bad config"
-    },
-    "NO_IMPLICIT_RAW_CHAINSPEC": {
-        "code": 9,
-        "message": "rawspec provided without --allow-raw explicitly specified"
-    },
-    "INVALID_CHAINSPEC": {
-        "code": 10,
-        "message": "chainspec provided is not valid"
-    },
-    "PLATFORM_CLEAN_FAILED": {
-        "code": 11,
-        "message": "platform clean failed"
-    },
-    "MISSING_ARGUMENTS": {
-        "code": 12,
-        "message": "required arguments are missing"
-    },
-    "FILE_NOT_FOUND": {
-        "code": 13,
-        "message": "expected or specified file not found"
-    },
-    "PLATFORM_INIT_FAILED": {
-        "code": 14,
-        "message": "platform init failed"
-    },
-    "SCRIPT_ERROR": {
-        "code": 15,
-        "message": "execution of a stand-alone gantree script failed"
-    },
-    "DIR_NOT_FOUND": {
-        "code": 16,
-        "message": "expected or specified directory not found"
-    },
-    "INVALID_NAMESPACE": {
-        "code": 17,
-        "message": "invalid project namespace specified"
-    },
-    "INTERNAL_ERROR": {
-        "code": 18,
-        "message": "an internal error occurred"
-    },
-    "MISSING_NAMESPACE_ITEM": {
-        "code": 19,
-        "message": "item expected in namespace is missing"
-    },
-    "BAD_CHECKSUM": {
-        "code": 20,
-        "message": "a checksum failed to validate"
-    },
-    "COMMAND_NOT_FOUND": {
-        "code": 127,
-        "message": "command not found"
+    "errors": {
+        "GENERIC_ERROR": {
+            "code": 1,
+            "message": "generic error"
+        },
+        "ENVIRONMENT_VARIABLE_MISSING": {
+            "code": 5,
+            "message": "missing required environment variable"
+        },
+        "PLATFORM_SYNC_FAILED": {
+            "code": 6,
+            "message": "platform sync failed"
+        },
+        "APPLICATION_SYNC_FAILED": {
+            "code": 7,
+            "message": "application sync failed"
+        },
+        "BAD_CONFIG": {
+            "code": 8,
+            "message": "bad config"
+        },
+        "NO_IMPLICIT_RAW_CHAINSPEC": {
+            "code": 9,
+            "message": "rawspec provided without --allow-raw explicitly specified"
+        },
+        "INVALID_CHAINSPEC": {
+            "code": 10,
+            "message": "chainspec provided is not valid"
+        },
+        "PLATFORM_CLEAN_FAILED": {
+            "code": 11,
+            "message": "platform clean failed"
+        },
+        "MISSING_ARGUMENTS": {
+            "code": 12,
+            "message": "required arguments are missing"
+        },
+        "FILE_NOT_FOUND": {
+            "code": 13,
+            "message": "expected or specified file not found"
+        },
+        "PLATFORM_INIT_FAILED": {
+            "code": 14,
+            "message": "platform init failed"
+        },
+        "SCRIPT_ERROR": {
+            "code": 15,
+            "message": "execution of a stand-alone gantree script failed"
+        },
+        "DIR_NOT_FOUND": {
+            "code": 16,
+            "message": "expected or specified directory not found"
+        },
+        "INVALID_NAMESPACE": {
+            "code": 17,
+            "message": "invalid project namespace specified"
+        },
+        "INTERNAL_ERROR": {
+            "code": 18,
+            "message": "an internal error occurred"
+        },
+        "MISSING_NAMESPACE_ITEM": {
+            "code": 19,
+            "message": "item expected in namespace is missing"
+        },
+        "BAD_CHECKSUM": {
+            "code": 20,
+            "message": "a checksum failed to validate"
+        },
+        "UNSUPPORTED_OPERATION": {
+            "code": 21,
+            "message": "unsupported operation"
+        },
+        "COMMAND_NOT_FOUND": {
+            "code": 127,
+            "message": "command not found"
+        }
     }
 }

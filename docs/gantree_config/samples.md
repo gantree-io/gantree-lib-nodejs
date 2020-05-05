@@ -1,5 +1,11 @@
 # Gantree Configuration - Samples
 
+**Document information**
+
+| GANTREE CONFIG VERSION | LAST UPDATED |
+| ---------------------- | ------------ |
+| 2.0                    | 2020/04/14   |
+
 - [Gantree Configuration - Samples](#gantree-configuration---samples)
   - [Binary Methods](#binary-methods)
   - [Permutations](#permutations)
@@ -13,7 +19,7 @@ These methods are:
 | METHOD NAME/KEY | DESCRIPTION                                                                                                                            |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Repository      | Download and compile a substrate node from the specified repository, optionally specifying a specific version as a commit hash or tag. |
-| Fetch           | Download a binary from the specified url.                                                                                              
+| Fetch           | Download a binary from the specified url.                                                                                              |
 | Preset          | Specify a preset with repository/fetch fields already defined.                                                                         |
 
 Supported presets can be found [here](../../src/static_data/binary_presets.json).
