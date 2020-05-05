@@ -27,3 +27,9 @@
   systemd:
     name: substrate
     state: started
+
+- name: wait for substrate rpc to start
+  wait_for:
+    port: "{{ substrate_rpc_port }}"
+    delay: 0
+    timeout: 60
