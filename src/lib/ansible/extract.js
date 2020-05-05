@@ -1,16 +1,10 @@
 async function IPs(combinedInventoryObj, _options = {}) {
-  const verbose = _options.verbose || false
-
-  if (verbose === true) {
-    console.log('...extracting IPs')
-  }
+  logger.info('...extracting IPs')
 
   // TODO: ansible code must be changed from "validator" to "node" group
   const nodeHostNames = combinedInventoryObj.validator.children
 
-  if (verbose === true) {
-    console.log(nodeHostNames)
-  }
+  logger.info(nodeHostNames)
 
   let allNodeIps = []
 
@@ -18,12 +12,12 @@ async function IPs(combinedInventoryObj, _options = {}) {
     // use names to pull out hostname objects
     const hostNamesProperties = combinedInventoryObj[hostName]
     const hostNameIps = hostNamesProperties.hosts
-    if (verbose === true) {
-      console.log(`----properties of hostname '${hostName}':----`)
-      console.log(hostNamesProperties)
-      console.log('--IPs--')
-      console.log(hostNameIps)
-    }
+
+    logger.info(`----properties of hostname '${hostName}':----`)
+    logger.info(hostNamesProperties)
+    logger.info('--IPs--')
+    logger.info(hostNameIps)
+
     hostNameIps.forEach(ip_n => {
       allNodeIps.push({
         IP: ip_n,
@@ -31,16 +25,12 @@ async function IPs(combinedInventoryObj, _options = {}) {
       })
     })
   }
-  if (verbose === true) {
-    console.log('ALL IPs:')
-    console.log(allNodeIps)
-  }
+  logger.info('ALL IPs:')
+  logger.info(allNodeIps)
 
   //convert inventoryOutput into NodeIpAddresses
 
-  if (verbose === true) {
-    console.log('...extracted IPs!')
-  }
+  logger.info('...extracted IPs!')
 
   return allNodeIps
 }

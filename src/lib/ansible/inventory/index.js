@@ -5,126 +5,85 @@ const namespace = require('./namespace')
 const { inventory: full_inventory } = require('../../reconfig/inventories/full')
 const { Paths } = require('../../utils/paths')
 const { hash } = require('../../utils/hash')
-const { throwGantreeError } = require('../../error')
 const opt = require('../../utils/options')
 const { returnLogger } = require('../../logging')
 const envPython = require('../../utils/env-python')
+
+const { GantreeError } = require('../../gantree-error')
+const StdJson = require('../../utils/std-json')
 
 const logger = returnLogger('lib/ansible/inventory')
 
 const paths = new Paths()
 
-async function createGantreeInventory(
-  gantreeConfigObj,
+async function createInventory(
+  inv,
   projectPath,
   _options = {}
 ) {
-  const strict = opt.default(_options.strict, false)
-
   logger.info('creating Gantree inventory')
 
-  const gantreeInventoryPath = await path.join(projectPath, 'gantree')
-  const inventorySegmentsPath = await paths.getInventorySegmentsPath()
-  const gantreeInventoryFilePath = await path.join(
-    projectPath,
-    'gantreeInventory.json'
-  )
-  const gantreeShFilePathSrc = await path.join(
-    inventorySegmentsPath,
-    'gantree.sh'
-  )
-  const gantreeShFilePathTarget = await path.join(
-    gantreeInventoryPath,
-    'gantree.sh'
-  )
-  const projectPathTxtFilePath = await path.join(
-    gantreeInventoryPath,
-    'project_path.txt'
-  )
-  const gantreePathTxtFilePath = await path.join(
-    gantreeInventoryPath,
-    'gantree_path.txt'
-  )
-  const gantreeConfigHashTxtFilePath = await path.join(
-    gantreeInventoryPath,
-    'gantree_config_hash.txt'
-  )
+  const python_interpreter = await envPython.getInterpreterPath()
 
-  // turn config object into a gantree inventory
-  const gantreeInventoryObj = full_inventory({
-    gco: gantreeConfigObj,
+  const inv = full_inventory({
+    gco,
     project_path: projectPath,
-    python_interpreter: await envPython.getInterpreterPath()
+    python_interpreter
   })
 
-  // write the gantree inventory to inventory/{NAMESPACE}/gantreeInventory.json
-  await fs.writeFileSync(
-    gantreeInventoryFilePath,
-    JSON.stringify(gantreeInventoryObj, null, 2),
-    'utf8'
-  )
+  writeGantreeInventory(projectPath, inv)
 
-  // copy gantree.sh into inventory/{NAMESPACE}/gantree/
-  fs.copyFileSync(gantreeShFilePathSrc, gantreeShFilePathTarget)
-
-  // write project's path to project_path.txt (used as CLI argument)
-  await fs.writeFileSync(projectPathTxtFilePath, `${projectPath}`, 'utf8')
-
-  // write path to gantree to gantree_path.txt (used as CLI argument)
-  await fs.writeFileSync(
-    gantreePathTxtFilePath,
-    `${paths.getGantreePath()}`,
-    'utf8'
-  )
-
-  // write path to gantree to gantree_path.txt (used as CLI argument)
-  // Important note: This may differ from gantree config supplied by user as a path due to injection of defaults
-  // logger.info('checking for Gantree config hash')
-  const gantreeConfigStringified = await JSON.stringify(gantreeConfigObj)
-  const realHash = hash.getChecksum(gantreeConfigStringified)
-  const hashExists = fs.existsSync(gantreeConfigHashTxtFilePath, 'utf-8')
-
-  if (hashExists === true) {
-    // logger.info('Gantree config hash found')
-    // const valid = hash.validateChecksum(gantreeConfigStringified, expectedHash, undefined, undefined, { verbose: true })
-    const expectedHash = fs.readFileSync(gantreeConfigHashTxtFilePath, 'utf-8')
-    const valid = hash.validateChecksum(realHash, expectedHash)
-    if (valid === true) {
-      logger.info('Gantree config hash valid')
-    } else {
-      if (strict === true) {
-        throwGantreeError(
-          'BAD_CHECKSUM',
-          Error(
-            `Gantree config hash has changed since creation\nexpected: ${expectedHash}\n     got: ${realHash}\nerror thrown as strict option specified.`
-          )
-        )
-      } else {
-        logger.warn(
-          `Gantree config hash has changed since creation\nexpected: ${expectedHash}\n     got: ${realHash}`
-        )
-      }
-    }
-  } else if (hashExists === false) {
-    // logger.info('No Gantree config hash found')
-    const gantreeConfigObjHash = hash.getChecksum(gantreeConfigStringified)
-
-    await fs.writeFileSync(
-      gantreeConfigHashTxtFilePath,
-      `${gantreeConfigObjHash}`,
-      'utf8'
-    )
-    logger.info(`Gantree config hash written (${gantreeConfigObjHash})`)
-  } else {
-    throwGantreeError(
-      'INTERNAL_ERROR',
-      Error('hashExists should resolve to a boolean')
-    )
-  }
+  const strict = opt.default(_options.strict, false)
+  checkHash(gco, hashFilePath, strict)
 
   logger.info('Gantree inventory created')
-
   return gantreeInventoryPath
+}
+
+const writeGantreeInventory = (projectPath, inv) => {
+  const gantree_path = paths.getGantreePath()
+
+  const inventory_file_path = path.join(projectPath, 'gantreeInventory.json')
+
+  const inventory_path = path.join(projectPath, 'gantree')
+  fs.writeFileSync(inventory_file_path, StdJson.stringify(inv), 'utf8')
+
+  const sh_file_content = `#!/bin/bash\n\nnode ${gantree_path}/src/scripts/cli_repeat_inventory.js ${project_path}`
+  const sh_file_path = path.join(inventory_path, 'gantree.sh')
+
+  fs.writeFileSync(sh_file_path, sh_file_content, 'utf8')
+  fs.chmodSync(sh_file_path, 0775)
+}
+
+const checkHash = (projectPath, gco) => {
+  const inventory_path = path.join(projectPath, 'gantree')
+  const hash_path = path.join(inventory_path, 'gantree_config_hash.txt')
+
+  const gcoString = StdJson.stringify(gco)
+  const gcoHash = hash.getChecksum(gcoString)
+  const prevHashExists = fs.existsSync(hash_path, 'utf-8')
+
+  if (prevHashExists === true) {
+    // logger.info('Gantree config hash found')
+    const expectedHash = fs.readFileSync(hash_path, 'utf-8')
+    const valid = hash.validateChecksum(gcoHash, expectedHash)
+    if (valid === true) {
+      logger.info('Gantree config hash valid')
+      return
+    }
+
+    if (strict === true) {
+      throw new GantreeError('BAD_CHECKSUM', `Config hash changed in strict mode, old '${expectedHash}', new '${gcoHash}'`)
+    } else {
+      logger.warn(`Config hash changed, old '${expectedHash}', new: '${gcoHash}'`)
+    }
+  }
+
+  // logger.info('No Gantree config hash found')
+  const gantreeConfigObjHash = hash.getChecksum(gcoString)
+
+  fs.writeFileSync(gantreeConfigHashTxtFilePath, `${gantreeConfigObjHash} `, 'utf8')
+  logger.info(`Gantree config hash written(${gantreeConfigObjHash})`)
 }
 
 async function deleteGantreeInventory(gantreeConfigObj, projectPath) {
@@ -155,7 +114,7 @@ async function gantreeInventoryExists(gantreeConfigObj, projectPath) {
 
 module.exports = {
   namespace,
-  createGantreeInventory,
+  createInventory,
   deleteGantreeInventory,
   gantreeInventoryExists
 }

@@ -33,11 +33,6 @@ class Config {
   }
 }
 
-const getProjectName = gco => {
-  const { project_name } = extractMetadata({ gco })
-  return project_name
-}
-
 module.exports = {
-  getProjectName
+  Config
 }

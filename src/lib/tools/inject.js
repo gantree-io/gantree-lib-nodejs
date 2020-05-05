@@ -2,6 +2,7 @@ const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
 const { throwGantreeError } = require('../error')
+const { GantreeError } = require('../gantree-error')
 const opt = require('../utils/options')
 const { returnLogger } = require('../logging')
 
@@ -12,10 +13,7 @@ function inject(chainSpecPath, validatorSpecPath, _allowRaw) {
 
   if (!fs.existsSync(chainSpecPath)) {
     console.error(`No chainSpec file found at path: ${chainSpecPath}`)
-    throwGantreeError(
-      'FILE_NOT_FOUND',
-      Error("couldn't find chainSpec file for inject")
-    )
+    throw new GantreeError('FILE_NOT_FOUND', "couldn't find chainSpec file for inject")
   }
   if (!fs.existsSync(validatorSpecPath)) {
     console.error(`No validatorSpec file found at path: ${validatorSpecPath}`)
