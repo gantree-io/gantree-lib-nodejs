@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 const program = require('commander')
-const { throwGantreeError } = require('../lib/error')
-const { inject } = require('../tools/inject')
+const {
+  GantreeError,
+  ErrorTypes: { MISSING_ARGUMENTS }
+} = require('../lib/gantree-error')
+const { inject } = require('../lib/tools/inject')
 
 program
   .description('Injects keys into chainspec (non-raw).')
@@ -23,10 +26,10 @@ program.parse(process.argv)
 function inject_CLI(cmd) {
   let allowRaw = false
   if (cmd.chainSpecPath === undefined) {
-    throwGantreeError('MISSING_ARGUMENTS', Error('chainSpecPath missing'))
+    throw new GantreeError(MISSING_ARGUMENTS, 'chainSpecPath missing')
   }
   if (cmd.validatorSpecPath === undefined) {
-    throwGantreeError('MISSING_ARGUMENTS', Error('validatorSpecPath missing'))
+    throw new GantreeError(MISSING_ARGUMENTS, 'validatorSpecPath missing')
   }
   if (!(cmd.allowRaw === undefined)) {
     allowRaw = cmd.allowRaw

@@ -1,12 +1,16 @@
 const _error_meta = require('../static_data/error_meta')
 
-const { BaseError } = require('make-error')
+const { BaseError } = require('make-error-cause')
 
 const generic_error = _error_meta.errors.generic_error
 
 class GantreeError extends BaseError {
-  constructor(code = generic_error.code, message = generic_error.message) {
-    super(message)
+  constructor(
+    code = generic_error.code,
+    message = generic_error.message,
+    cause = undefined
+  ) {
+    super(message, cause)
 
     this.code = code
   }

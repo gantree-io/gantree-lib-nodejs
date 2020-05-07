@@ -1,36 +1,17 @@
-const { rawRead } = require('../utils/raw-read')
 const validate = require('./validators/validate')
 const { extract: extractMetadata } = require('./extractors/metadata')
 const { processor: full_preprocess } = require('./preprocessors/full')
+const StdJson = require('../utils/std-json')
 
 // const { returnLogger } = require('../logging')
 
 // const logger = returnLogger('config')
 
-class Config {
-  constructor() {
-    // assign private imported stuff
-    this._rawRead = rawRead
-    //this._preprocess = preprocess
-    // assign public imported stuff
-    this.validate = validate
-    //this.extract = extract
-    // bind own methods
-    this.getProjectName = this.getProjectName.bind(this)
-    this.read = this.read.bind(this)
-  }
-
-  async read(rawFilePath) {
-    let gco = await this._rawRead(rawFilePath)
-    await this.validate.config(gco)
-    gco = full_preprocess({ gco })
-    return gco
-  }
-
-  getProjectName(gco) {
-    const { project_name } = extractMetadata({ gco })
-    return project_name
-  }
+const getConfig = async config_path => {
+  const gco = StdJson.read(config_path)
+  await validate.config(gco)
+  const pp_gco = full_preprocess({ gco })
+  return pp_gco
 }
 
 const getProjectName = gco => {
@@ -39,5 +20,6 @@ const getProjectName = gco => {
 }
 
 module.exports = {
-  getProjectName
+  getProjectName,
+  getConfig
 }

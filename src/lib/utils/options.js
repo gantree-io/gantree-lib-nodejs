@@ -1,5 +1,7 @@
-const { throwGantreeError } = require('../error')
-const { INTERNAL_ERROR } = require('../gantree-error').ErrorTypes
+const {
+  GantreeError,
+  ErrorTypes: { INTERNAL_ERROR }
+} = require('../gantree-error')
 
 /**
  * Return a default value if the real one is undefined
@@ -33,7 +35,10 @@ function getRequired(real_value, execIfMissing, backupThrow = true) {
       // print trace
       console.trace()
       // throw backup error
-      throw new GantreeError(INTERNAL_ERROR, 'unhandled required fail, see trace above (callback function used should return non-zero exit-code)')
+      throw new GantreeError(
+        INTERNAL_ERROR,
+        'unhandled required fail, see trace above (callback function used should return non-zero exit-code)'
+      )
     }
   } else {
     return real_value

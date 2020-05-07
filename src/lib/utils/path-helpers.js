@@ -22,7 +22,7 @@ const getProjectPath = (projectName, _options = {}) => {
 
   if (inventoryPathOverride === undefined) {
     // use gantree inventory path as base
-    return this.getInventoryPath(projectName)
+    return getInventoryPath(projectName)
   } else {
     // use override inventory path as base
     return path.join(inventoryPathOverride, projectName)
@@ -51,7 +51,7 @@ const getWorkspacePath = (projectName, ...extra) => {
 }
 
 const getPlaybookFilePath = playbookFilename => {
-  return this.getGantreePath('ansible', playbookFilename)
+  return getGantreePath('ansible', playbookFilename)
 }
 
 module.exports = {

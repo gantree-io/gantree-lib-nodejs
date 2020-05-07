@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 const program = require('commander')
-const { throwGantreeError } = require('../lib/error')
+const {
+  GantreeError,
+  ErrorTypes: { MISSING_ARGUMENTS }
+} = require('../lib/gantree-error')
 const { keyCombine } = require('../lib/tools/key-combine')
 
 program
@@ -22,9 +25,9 @@ program.parse(process.argv)
 
 async function keyCombine_CLI(cmd) {
   if (cmd.directory === undefined) {
-    throwGantreeError(
-      'MISSING_ARGUMENTS',
-      Error('Path to the session directory missing')
+    throw new GantreeError(
+      MISSING_ARGUMENTS,
+      'Path to the session directory missing'
     )
   }
   keyCombine(cmd.directory)

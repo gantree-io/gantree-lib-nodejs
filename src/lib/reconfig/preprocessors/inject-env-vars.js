@@ -1,5 +1,8 @@
 const cloneDeepWith = require('lodash.clonedeepwith')
-const { throwGantreeError } = require('../../error')
+const {
+  GantreeError,
+  ErrorTypes: { ENVIRONMENT_VARIABLE_MISSING }
+} = require('../../gantree-error')
 const { returnLogger } = require('../../logging')
 const { hasOwnProp } = require('../../utils/has-own-prop')
 
@@ -22,9 +25,9 @@ function dynamicEnvVarCustomizer(value) {
     return process.env[match[0]]
   }
 
-  throwGantreeError(
-    'ENVIRONMENT_VARIABLE_MISSING',
-    Error(`Failed to resolve reference in Gantree config: '${value}'`)
+  throw new GantreeError(
+    ENVIRONMENT_VARIABLE_MISSING,
+    `Failed to resolve reference in Gantree config: '${value}'`
   )
 }
 

@@ -1,21 +1,22 @@
 // this file outlines a class containing all functions exposed by the library to users via methods
 // method inputs/output should stay as consistent as possible
 
-const { Paths } = require('./utils/paths')
-const { Config } = require('./reconfig')
 const { Ansible } = require('./ansible')
-const _stdout = require('./utils/stdout')
+const stdout = require('./utils/stdout')
 const path = require('path') // TODO: remove import once active path fixed
-const opt = require('./utils/options')
-const { throwGantreeError } = require('./error')
+const { GantreeError } = require('./gantree-error')
+const {
+  ErrorTypes: { MISSING_NAMESPACE_ITEM }
+} = require('./gantree-error')
 const { returnLogger } = require('./logging')
 const { getProjectName } = require('./reconfig')
 const { getProjectPath } = require('./utils/path-helpers')
+const pathHelpers = require('./utils/path-helpers')
 
 const logger = returnLogger('lib/gantree')
 
-const get_inventory_path = options => {
-  const inventoryPathOverride = options.inventoryPathOverride || undefined
+const get_inventory_path = (project_path, options) => {
+  return options.inventoryPathOverride || path.join(project_path, 'gantree')
 }
 
 const get_project_path = (gco, options) => {
@@ -27,8 +28,12 @@ const get_project_path = (gco, options) => {
   return projectPath
 }
 
+const defaultOptions = () => ({
+  strict: false,
+  verbose: false
+})
 
-const sync = async (gco, options) => {
+const sync = async (gco, options = defaultOptions()) => {
   const ansible = new Ansible()
 
   const projectPath = get_project_path(gco, options)
@@ -37,7 +42,8 @@ const sync = async (gco, options) => {
 
   // TODO: must be refactored, also creates active inventory
   // create inventory for inventory/{NAMESPACE}/gantree
-  const gantreeInventoryPath = await ansible.inventory.createGantreeInventory(gco, projectPath, { strict: strict })
+  await ansible.inventory.createInventory(gco, projectPath, options)
+  const gantreeInventoryPath = get_inventory_path(projectPath, options)
 
   // TODO: TEMPorary, should be output of this.ansible.inventory.createActiveInventory
   const activeInventoryPath = await path.join(projectPath, 'active')
@@ -48,21 +54,87 @@ const sync = async (gco, options) => {
   const inventoryPathArray = [gantreeInventoryPath, activeInventoryPath]
 
   // create infra using inventories
-  const infraPlaybookFilePath = this.paths.getPlaybookFilePath('infra.yml')
+  const infraPlaybookFilePath = pathHelpers.getPlaybookFilePath('infra.yml')
   await ansible.commands.runPlaybook(inventoryPathArray, infraPlaybookFilePath)
 
   // // get instance IPs using inventories
-  const combinedInventoryObj = await ansible.commands.returnCombinedInventory(inventoryPathArray)
-  const nodeIpAddresses = await this.ansible.extract.IPs(combinedInventoryObj, { verbose: verbose })
+  const combinedInventoryObj = await ansible.commands.returnCombinedInventory(
+    inventoryPathArray
+  )
+  const nodeIpAddresses = await ansible.extract.IPs(
+    combinedInventoryObj,
+    options
+  )
 
-  await this.stdout.writeForParsing('NODE_IP_ADDRESSES', JSON.stringify(nodeIpAddresses))
+  await stdout.writeForParsing(
+    'NODE_IP_ADDRESSES',
+    JSON.stringify(nodeIpAddresses)
+  )
 
   // convert instances into substrate nodes
-  const operationPlaybookFilePath = this.paths.getPlaybookFilePath('operation.yml')
-  await ansible.commands.runPlaybook(inventoryPathArray, operationPlaybookFilePath)
+  const operationPlaybookFilePath = pathHelpers.getPlaybookFilePath(
+    'operation.yml'
+  )
+  await ansible.commands.runPlaybook(
+    inventoryPathArray,
+    operationPlaybookFilePath
+  )
 
   logger.info('sync finished')
 }
 
+const clean = async (gco, options = defaultOptions()) => {
+  const ansible = new Ansible()
+  // TODO: FIX: must be refactored to not reuse so much code from sync, this is a temp fix
+  // TODO: implement strict flag in CLI and also document for lib and CLI
+
+  const projectPath = get_project_path(gco, options)
+
+  await ansible.inventory.namespace.create(projectPath) // create project path recursively
+
+  const gantreeInventoryExists = await ansible.inventory.gantreeInventoryExists(
+    projectPath
+  )
+
+  if (gantreeInventoryExists === false) {
+    // NOTE(ryan): why can't we create the inventory and then clean it?
+    if (options.strict === true) {
+      throw new GantreeError(
+        MISSING_NAMESPACE_ITEM,
+        "Can not clean Gantree inventory that doesn't exist"
+      )
+    }
+
+    logger.warn('nothing to clean')
+    process.exit(0)
+  }
+
+  // create inventory for inventory/{NAMESPACE}/gantree
+  await ansible.inventory.createInventory(gco, projectPath, options)
+  const gantreeInventoryPath = get_inventory_path(projectPath, options)
+
+  // TODO: TEMPorary, should be output of this.ansible.inventory.createActiveInventory
+  const activeInventoryPath = path.join(projectPath, 'active')
+
+  // create inventories for inventory/{NAMESPACE}/active
+  // const activeInventoryPath = inventory.createActiveInventories(gantreeConfigObj, projectPath)
+
+  const inventoryPathArray = [gantreeInventoryPath, activeInventoryPath]
+
+  // create infra using inventories
+  const infraPlaybookFilePath = pathHelpers.getPlaybookFilePath(
+    'clean_infra.yml'
+  )
+
+  await ansible.commands.runPlaybook(inventoryPathArray, infraPlaybookFilePath)
+
+  // delete gantree inventory
+  ansible.inventory.deleteGantreeInventory(projectPath)
+
+  logger.info('clean finished')
+}
+
 module.exports = {
+  sync,
+  clean
 }

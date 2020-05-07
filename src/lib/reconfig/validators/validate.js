@@ -1,6 +1,9 @@
 const Ajv = require('ajv')
 const checks = require('../../checks')
-const { throwGantreeError } = require('../../error')
+const {
+  GantreeError,
+  ErrorTypes: { BAD_CONFIG }
+} = require('../../gantree-error')
 const gantree_config_schema = require('../../../schemas/gantree_config_schema')
 const provider_specific_keys = require('../../../static_data/provider_specific_keys')
 const { returnLogger } = require('../../logging')
@@ -56,9 +59,9 @@ function validate_provider_specific_keys(gantreeConfigObj, options = {}) {
     for (const missing_message of missing_messages) {
       logger.error(missing_message)
     }
-    throwGantreeError(
-      'BAD_CONFIG',
-      Error(`provider-specific key/s missing: ${missing_messages}`)
+    throw new GantreeError(
+      BAD_CONFIG,
+      `provider-specific key/s missing: ${missing_messages}`
     )
   }
 }
@@ -68,9 +71,9 @@ async function validateConfig(gantreeConfigObj, options = {}) {
 
   if (gantreeConfigObj === undefined) {
     console.error('Validate must receive a config object as input')
-    throwGantreeError(
-      'BAD_CONFIG',
-      Error('Validate must receive a config object as input')
+    throw new GantreeError(
+      BAD_CONFIG,
+      'Validate must receive a config object as input'
     )
   } else {
     const ajv = new Ajv({ allErrors: true })
@@ -88,7 +91,7 @@ async function validateConfig(gantreeConfigObj, options = {}) {
           `--ISSUE: ${error_n.dataPath} ${error_n.message} (SCHEMA:${error_n.schemaPath})`
         )
       }
-      throwGantreeError('BAD_CONFIG', Error('invalid gantree config'))
+      throw new GantreeError(BAD_CONFIG, 'invalid gantree config')
     }
     await validate_provider_specific_keys(gantreeConfigObj, options)
     await checks.config.nodeNameCharLimit(gantreeConfigObj)

@@ -1,4 +1,4 @@
-const { Gantree } = require('../src')
+const { Gantree, Config } = require('../src')
 
 let PATH_TO_CONFIG =
   process.argv[2] || 'samples/config/preset/polkadot_do.sample.json'
@@ -15,9 +15,8 @@ if (!(process.argv[2] === undefined)) {
 }
 
 async function main() {
-  const gantree = await new Gantree() // instantiate a new Gantree object
-  let my_config = await gantree.returnConfig(PATH_TO_CONFIG) // load config into function and validate
-  await gantree.cleanAll(my_config) // clean infrastructure
+  const gco = await Config.getConfig(PATH_TO_CONFIG)
+  await Gantree.clean(gco) // create infrastructure and turn into nodes
   console.log('DONE.') // finished
 }
 

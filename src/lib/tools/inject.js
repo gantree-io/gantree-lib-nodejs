@@ -1,7 +1,6 @@
 const fs = require('fs')
 const JSONbig = require('json-bigint')
 const BigNumber = require('bignumber.js')
-const { throwGantreeError } = require('../error')
 const { GantreeError } = require('../gantree-error')
 const opt = require('../utils/options')
 const { returnLogger } = require('../logging')
@@ -13,13 +12,16 @@ function inject(chainSpecPath, validatorSpecPath, _allowRaw) {
 
   if (!fs.existsSync(chainSpecPath)) {
     console.error(`No chainSpec file found at path: ${chainSpecPath}`)
-    throw new GantreeError('FILE_NOT_FOUND', "couldn't find chainSpec file for inject")
+    throw new GantreeError(
+      'FILE_NOT_FOUND',
+      "couldn't find chainSpec file for inject"
+    )
   }
   if (!fs.existsSync(validatorSpecPath)) {
     console.error(`No validatorSpec file found at path: ${validatorSpecPath}`)
-    throwGantreeError(
+    throw new GantreeError(
       'FILE_NOT_FOUND',
-      Error("couldn't find validatorSpec file for inject")
+      "couldn't find validatorSpec file for inject"
     )
   }
 
@@ -135,11 +137,9 @@ function checkChainspecValid(chainSpecObj, allowRaw) {
     logger.error(
       "Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
     )
-    throwGantreeError(
+    throw new GantreeError(
       'INVALID_CHAINSPEC',
-      Error(
-        "Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
-      )
+      "Invalid chainspec, no 'genesis' key found. Ensure you're passing the correct json file."
     )
   } else {
     if (chainSpecObj.genesis.runtime == undefined) {
@@ -147,11 +147,9 @@ function checkChainspecValid(chainSpecObj, allowRaw) {
         logger.error(
           "Cannot inject values into chainspec with no '.genesis.runtime' key"
         )
-        throwGantreeError(
+        throw new GantreeError(
           'INVALID_CHAINSPEC',
-          Error(
-            "Cannot inject values into chainspec with no '.genesis.runtime' key"
-          )
+          "Cannot inject values into chainspec with no '.genesis.runtime' key"
         )
       } else {
         if (allowRaw === true) {
@@ -167,11 +165,9 @@ function checkChainspecValid(chainSpecObj, allowRaw) {
           logger.error(
             'Inject function does not accept raw chainspecs unless --allow-raw specified'
           )
-          throwGantreeError(
+          throw new GantreeError(
             'NO_IMPLICIT_RAW_CHAINSPEC',
-            Error(
-              'Inject function does not accept raw chainspecs unless --allow-raw specified'
-            )
+            'Inject function does not accept raw chainspecs unless --allow-raw specified'
           )
         }
       }

@@ -1,5 +1,5 @@
 const path = require('path')
-const files = require('./files')
+const StdJson = require('./utils/std-json')
 
 function getVersion() {
   const targetPath = path.join(
@@ -8,7 +8,7 @@ function getVersion() {
     '..',
     'package.json'
   )
-  const pkg = files.readJSON(targetPath)
+  const pkg = StdJson.read(targetPath)
 
   return pkg.version
 }
@@ -20,7 +20,7 @@ function getName() {
     '..',
     'package.json'
   )
-  const pkg = files.readJSON(targetPath)
+  const pkg = StdJson.read(targetPath)
 
   return pkg.name
 }

@@ -1,6 +1,10 @@
 // Keep namespaced by importing 'checks'!
 
-const { throwGantreeError } = require('../error')
+const {
+  GantreeError,
+  ErrorTypes: { BAD_CONFIG }
+} = require('../gantree-error')
+const { hasOwnProp } = require('../utils/has-own-prop')
 
 async function nodeNameCharLimit(gantreeConfigObj, _options = {}) {
   const charLimit = _options.charLimit || 18
@@ -21,14 +25,12 @@ async function nodeNameCharLimit(gantreeConfigObj, _options = {}) {
 
   await c.nodes.forEach(node_n => {
     // if node has name
-    if (node_n.hasOwnProperty('name')) {
+    if (hasOwnProp(node_n, 'name')) {
       // check name isn't over max
       if (node_n.name > charLimit) {
-        throwGantreeError(
-          'BAD_CONFIG',
-          Error(
-            `Node name too long ('${node_n.name}'). Max node name length is ${charLimit}.`
-          )
+        throw new GantreeError(
+          BAD_CONFIG,
+          `Node name too long ('${node_n.name}'). Max node name length is ${charLimit}.`
         )
       } else {
         return true
@@ -39,11 +41,9 @@ async function nodeNameCharLimit(gantreeConfigObj, _options = {}) {
       if (resolvedNameLength > charLimit) {
         const projectNameMaxChars = charLimit - suffixChars
         const projectNameExcessChars = projectName.length - projectNameMaxChars
-        throwGantreeError(
-          'BAD_CONFIG',
-          Error(
-            `Project name is ${projectNameExcessChars} characters too long. For ${nodeCount} node/s, max project name length is ${projectNameMaxChars} characters.`
-          )
+        throw new GantreeError(
+          BAD_CONFIG,
+          `Project name is ${projectNameExcessChars} characters too long. For ${nodeCount} node/s, max project name length is ${projectNameMaxChars} characters.`
         )
       } else {
         return true

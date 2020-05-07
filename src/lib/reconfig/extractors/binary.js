@@ -1,23 +1,32 @@
-const { throwGantreeError } = require('../../error')
+const {
+  GantreeError,
+  ErrorTypes: { BAD_CONFIG }
+} = require('../../gantree-error')
 const { extract: system } = require('./system-account')
 
 const binaryGeneral = extProps => {
-  const { gco } = extProps
+  const {
+    gco: { binary }
+  } = extProps
 
-  const bg =
-    gco.binary || throwGantreeError('BAD_CONFIG', Error('need |.binary'))
+  if (!binary) {
+    throw new GantreeError(BAD_CONFIG, 'need |.binary')
+  }
+
   const repo = binaryRepository(extProps)
 
+  if (!binary.filename) {
+    throw new GantreeError(BAD_CONFIG, 'need |.binary.filename')
+  }
+
   return {
-    substrate_bin_name:
-      bg.filename ||
-      throwGantreeError('BAD_CONFIG', Error('need |.binary.filename')),
-    substrate_chain_argument: bg.chain || 'false',
+    substrate_bin_name: binary.filename,
+    substrate_chain_argument: binary.chain || 'false',
     substrate_use_default_spec:
-      bg.use_bin_chain_spec || bg.useBinChainSpec || 'false',
+      binary.use_bin_chain_spec || binary.useBinChainSpec || 'false',
     substrate_local_compile:
       (repo && (repo.local_compile || repo.local_compile)) || 'false',
-    substrate_bootnode_argument: bg.bootnodes || [],
+    substrate_bootnode_argument: binary.bootnodes || [],
     substrate_purge_chain: 'true'
   }
 }
@@ -69,8 +78,12 @@ const binaryRepository = ({ gco }) => {
     return null
   }
 
+  if (!repository.url) {
+    throw new GantreeError(BAD_CONFIG, '|.binary.repository must contain .url')
+  }
+
   return {
-    substrate_repository_url: repository.url || throwGantreeError(),
+    substrate_repository_url: repository.url,
     substrate_repository_version: repository.version || 'HEAD'
   }
 }

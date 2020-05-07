@@ -2,7 +2,10 @@ const cloneDeepWith = require('lodash.clonedeepwith')
 const hasProp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 
 const binPresets = require('../../../static_data/binary_presets')
-const { throwGantreeError } = require('../../error')
+const {
+  GantreeError,
+  ErrorTypes: { BAD_CONFIG }
+} = require('../../gantree-error')
 const { returnLogger } = require('../../logging')
 
 const logger = returnLogger('/lib/config/inject')
@@ -23,9 +26,9 @@ function processor(procProps) {
 
   const presetExists = hasProp(binPresets, preset)
   if (!presetExists) {
-    throwGantreeError(
-      'BAD_CONFIG',
-      Error(`Binary preset '${preset}' specified in config not found`)
+    throw GantreeError(
+      BAD_CONFIG,
+      `Binary preset '${preset}' specified in config not found`
     )
   }
 

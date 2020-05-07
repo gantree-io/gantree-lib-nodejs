@@ -1,4 +1,7 @@
-async function IPs(combinedInventoryObj, _options = {}) {
+async function IPs(combinedInventoryObj) {
+  // TODO(ryan): remove dummy logger
+  const logger = { info: () => null }
+
   logger.info('...extracting IPs')
 
   // TODO: ansible code must be changed from "validator" to "node" group
