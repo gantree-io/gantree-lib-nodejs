@@ -28,6 +28,7 @@ With the assistance of funding from the [Web3 Foundation](https://web3.foundatio
 ## Docker Image
 
 If you would rather install dependencies automatically in a container, a Docker image is available here:
+
 - [Docker image](https://github.com/flex-dapps/gantree-cli-docker).
 
 ## Requirements
@@ -47,13 +48,13 @@ When installed locally, Gantree-lib requires the following application dependenc
 Install required ansible roles
 
 ```bash
-curl https://raw.githubusercontent.com/flex-dapps/gantree-requirements/master/ansible-galaxy/requirements.yml > ansible_requirements.yml
+curl https://raw.githubusercontent.com/gantree-io/gantree-requirements/master/ansible-galaxy/requirements.yml > ansible_requirements.yml
 ansible-galaxy install -r ansible_requirements.yml
 ```
 
 ### 3 - Python Requirements
 
-***Please note:*** *It is highly recommended to use a virtual environment such as _pipenv_ or _venv_*
+**_Please note:_** _It is highly recommended to use a virtual environment such as *pipenv* or *venv*_
 
 Install required python packages
 
